@@ -55,5 +55,15 @@ namespace Testing
             };
             Assert.AreEqual("juana@gmail.com", newUser.email);
         }
+        
+        [TestMethod]
+        public void CreateRoleTester()
+        {
+            User newUser = new User
+            {
+                role = Role.Tester
+            };
+            Assert.AreEqual(Role.Tester, newUser.Tester);
+        }
     }
 }
