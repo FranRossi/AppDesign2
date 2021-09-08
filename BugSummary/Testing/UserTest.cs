@@ -45,5 +45,15 @@ namespace Testing
             };
             Assert.AreEqual("1234", newUser.password);
         }
+        
+        [TestMethod]
+        public void CreateEmail()
+        {
+            User newUser = new User
+            {
+                email = "juana@gmail.com"
+            };
+            Assert.AreEqual("juana@gmail.com", newUser.email);
+        }
     }
 }
