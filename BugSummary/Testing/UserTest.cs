@@ -1,5 +1,6 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities;
 
 namespace Testing
 {
@@ -61,9 +62,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                role = Role.Tester
+                role = RoleType.Tester
             };
-            Assert.AreEqual(Role.Tester, newUser.Tester);
+            Assert.AreEqual(RoleType.Tester, newUser.role);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using Utilities;
+
+namespace Domain
 {
     public class User
     {
@@ -7,5 +9,6 @@
         public string userName { get; set; }
         public string password { get; set; }
         public string email { get; set; }
+        public RoleType role { get; set; }
     }
 }
