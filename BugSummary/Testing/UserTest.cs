@@ -35,5 +35,15 @@ namespace Testing
             };
             Assert.AreEqual("jdArcos", newUser.userName);
         }
+        
+        [TestMethod]
+        public void CreatePassword()
+        {
+            User newUser = new User
+            {
+                password = "1234"
+            };
+            Assert.AreEqual("1234", newUser.password);
+        }
     }
 }
