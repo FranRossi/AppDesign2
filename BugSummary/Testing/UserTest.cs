@@ -16,5 +16,16 @@ namespace Testing
 
             Assert.AreEqual("Juana", newUser.firstName);
         }
+        
+        [TestMethod]
+        public void CreatelastName()
+        {
+            User newUser = new User
+            {
+                lastName = "DeArcos"
+            };
+        
+            Assert.AreEqual("DeArcos", newUser.lastName);
+        }
     }
 }
