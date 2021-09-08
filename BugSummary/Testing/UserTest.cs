@@ -66,5 +66,15 @@ namespace Testing
             };
             Assert.AreEqual(RoleType.Tester, newUser.role);
         }
+
+        [TestMethod]
+        public void CreateRoleDeveloper()
+        {
+            User newUser = new User
+            {
+                role = RoleType.Developer
+            };
+            Assert.AreEqual(RoleType.Developer, newUser.role);
+        }
     }
 }
