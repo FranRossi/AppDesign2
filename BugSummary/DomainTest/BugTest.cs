@@ -45,5 +45,15 @@ namespace Testing
             };
             Assert.AreEqual("1.0", newBug.version);
         }
+
+        [TestMethod]
+        public void CreateState()
+        {
+            Bug newBug = new Bug
+            {
+                state = BugState.Active
+            };
+            Assert.AreEqual(BugState.Active, newBug.version);
+        }
     }
 }
