@@ -4,6 +4,7 @@ namespace Utilities
 {
     public enum BugState
     {
-        Active = 0
+        Inactive = 0,
+        Active = 1
     }
 }
