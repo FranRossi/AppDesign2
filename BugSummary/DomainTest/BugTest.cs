@@ -15,5 +15,15 @@ namespace Testing
             };
             Assert.AreEqual(154, newBug.id);
         }
+
+        [TestMethod]
+        public void CreateName()
+        {
+            Bug newBug = new Bug
+            {
+                name = "Missing parenthesis"
+            };
+            Assert.AreEqual("Missing parenthesis", newBug.name);
+        }
     }
 }
