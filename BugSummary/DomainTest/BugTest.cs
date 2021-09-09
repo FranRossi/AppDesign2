@@ -1,5 +1,6 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities;
 
 namespace Testing
 {
@@ -53,7 +54,7 @@ namespace Testing
             {
                 state = BugState.Active
             };
-            Assert.AreEqual(BugState.Active, newBug.version);
+            Assert.AreEqual(BugState.Active, newBug.state);
         }
     }
 }
