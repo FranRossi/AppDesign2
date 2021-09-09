@@ -16,7 +16,7 @@ namespace Testing
             };
             Assert.AreEqual("Juana", newUser.firstName);
         }
-        
+
         [TestMethod]
         public void CreateLastName()
         {
@@ -26,7 +26,7 @@ namespace Testing
             };
             Assert.AreEqual("DeArcos", newUser.lastName);
         }
-        
+
         [TestMethod]
         public void CreateUserName()
         {
@@ -36,7 +36,7 @@ namespace Testing
             };
             Assert.AreEqual("jdArcos", newUser.userName);
         }
-        
+
         [TestMethod]
         public void CreatePassword()
         {
@@ -46,7 +46,7 @@ namespace Testing
             };
             Assert.AreEqual("1234", newUser.password);
         }
-        
+
         [TestMethod]
         public void CreateEmail()
         {
@@ -56,7 +56,7 @@ namespace Testing
             };
             Assert.AreEqual("juana@gmail.com", newUser.email);
         }
-        
+
         [TestMethod]
         public void CreateRoleTester()
         {
@@ -85,6 +85,16 @@ namespace Testing
                 role = RoleType.Admin
             };
             Assert.AreEqual(RoleType.Admin, newUser.role);
+        }
+
+        [TestMethod]
+        public void CreateId()
+        {
+            User newUser = new User
+            {
+                id = 1
+            };
+            Assert.AreEqual(1, newUser.id);
         }
     }
 }
