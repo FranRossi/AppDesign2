@@ -48,13 +48,23 @@ namespace Testing
         }
 
         [TestMethod]
-        public void CreateState()
+        public void CreateActiveState()
         {
             Bug newBug = new Bug
             {
                 state = BugState.Active
             };
             Assert.AreEqual(BugState.Active, newBug.state);
+        }
+
+        [TestMethod]
+        public void CreateInactiveState()
+        {
+            Bug newBug = new Bug
+            {
+                state = BugState.Inactive
+            };
+            Assert.AreEqual(BugState.Inactive, newBug.state);
         }
     }
 }
