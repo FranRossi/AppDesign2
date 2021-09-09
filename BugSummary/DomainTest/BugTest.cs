@@ -35,5 +35,15 @@ namespace Testing
             };
             Assert.AreEqual("On line 67, code won't compile because a parenthesis is missing", newBug.description);
         }
+
+        [TestMethod]
+        public void CreateVersion()
+        {
+            Bug newBug = new Bug
+            {
+                version = "1.0"
+            };
+            Assert.AreEqual("1.0", newBug.version);
+        }
     }
 }
