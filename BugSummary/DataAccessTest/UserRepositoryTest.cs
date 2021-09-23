@@ -3,6 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Domain;
+using Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccessTest
 {
@@ -36,8 +40,28 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void AddNewUserTest()
         {
+            User newUser = new User
+            {
+                id = 1,
+                firstName = "Pepe",
+                lastName = "Perez",
+                password = "pepe1234",
+                userName = "pp",
+                email = "pepe@gmail.com",
+                role = RoleType.Admin
+            };
+            List<User> bugsExpected = new List<User>();
+            bugsExpected.Add(newUser);
+
+            this._bugSummaryContext.Add(newUser);
+            this._bugSummaryContext.SaveChanges();
+            List<User> bugsDataBase = this._userRepository.GetAll().ToList();
+
+            Assert.AreEqual(1, bugsDataBase.Count());
+            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new UserComparer());
+
         }
     }
 }

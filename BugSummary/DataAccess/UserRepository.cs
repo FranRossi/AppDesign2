@@ -9,6 +9,7 @@ namespace DataAccess
         public UserRepository(DbContext context)
         {
             this._context = context;
+
         }
     }
 }
