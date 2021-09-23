@@ -1,4 +1,8 @@
+using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data.Common;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessTest
 {
@@ -14,7 +18,7 @@ namespace DataAccessTest
         {
             this._connection = new SqliteConnection("Filename=:memory:");
             this._contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(this._connection).Options;
-            this._userRepository = new BugSummaryContext(this._contextOptions);
+            this._bugSummaryContext = new BugSummaryContext(this._contextOptions);
             this._userRepository = new UserRepository(this._bugSummaryContext);
         }
 
