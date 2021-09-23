@@ -7,7 +7,7 @@ using Domain;
 using Utilities;
 using System.Collections.Generic;
 using System.Linq;
-
+using DataAccess.Comparers;
 namespace DataAccessTest
 {
     [TestClass]
