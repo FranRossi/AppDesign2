@@ -9,29 +9,17 @@ namespace DataAccess
     public class UserRepository
     {
         private readonly DbContext _context;
+        private readonly DbSet<User> _users;
 
         public UserRepository(DbContext context)
         {
             this._context = context;
-
+            this._users = context.Set<User>();
         }
 
-        public List<User> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            List<User> users = new List<User>
-            {
-                new User
-                {
-                    id = 1,
-                    firstName = "Pepe",
-                    lastName = "Perez",
-                    password = "pepe1234",
-                    userName = "pp",
-                    email = "pepe@gmail.com",
-                    role = RoleType.Admin
-                }
-            };
-            return users;
+            return this._users;
         }
     }
 }
