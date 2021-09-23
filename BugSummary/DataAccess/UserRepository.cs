@@ -21,5 +21,11 @@ namespace DataAccess
         {
             return this._users;
         }
+
+        public void Create(User newUser)
+        {
+            this._users.Add(newUser);
+            this._context.SaveChanges();
+        }
     }
 }

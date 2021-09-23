@@ -52,15 +52,14 @@ namespace DataAccessTest
                 email = "pepe@gmail.com",
                 role = RoleType.Admin
             };
-            List<User> bugsExpected = new List<User>();
-            bugsExpected.Add(newUser);
+            List<User> userExpected = new List<User>();
+            userExpected.Add(newUser);
 
-            this._bugSummaryContext.Add(newUser);
-            this._bugSummaryContext.SaveChanges();
-            List<User> bugsDataBase = this._userRepository.GetAll().ToList();
+            this._userRepository.Create(newUser);
+            List<User> usersDataBase = this._userRepository.GetAll().ToList();
 
-            Assert.AreEqual(1, bugsDataBase.Count());
-            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new UserComparer());
+            Assert.AreEqual(1, usersDataBase.Count());
+            CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
 
         }
     }
