@@ -79,6 +79,8 @@ namespace DataAccessTest
             };
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(newProject);
+            projectsExpected.Add(newProject2);
+
 
 
             this._projectRepository.Create(newProject);
