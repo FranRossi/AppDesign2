@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using Utilities;
 
 namespace DomainTest
@@ -26,6 +27,28 @@ namespace DomainTest
                 Name = "Semester2021"
             };
             Assert.AreEqual("Semester2021", newProject.Name);
+        }
+
+        [TestMethod]
+        public void CreateListofBugs()
+        {
+            Project newProject = new Project
+            {
+                BugId = new List<Bug>() 
+                {
+                    new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        ProjectId = new Project() { }
+                    }
+                }
+            };
+
+            Assert.AreEqual(1, Project.BugId.Count());
         }
     }
 
