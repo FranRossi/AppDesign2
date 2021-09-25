@@ -21,8 +21,8 @@ namespace DataAccess.Comparers
         }
         protected bool ConcreteCompare(User expected, User actual)
         {
-            bool equalsRestaurant = expected.email == actual.email;
-            equalsRestaurant &= expected.id == actual.id;
+            bool equalsRestaurant = expected.Email == actual.Email;
+            equalsRestaurant &= expected.Id == actual.Id;
 
             return equalsRestaurant;
         }

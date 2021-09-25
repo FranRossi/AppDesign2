@@ -12,9 +12,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                id = 154
+                Id = 154
             };
-            Assert.AreEqual(154, newBug.id);
+            Assert.AreEqual(154, newBug.Id);
         }
 
         [TestMethod]
@@ -22,9 +22,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                name = "Missing parenthesis"
+                Name = "Missing parenthesis"
             };
-            Assert.AreEqual("Missing parenthesis", newBug.name);
+            Assert.AreEqual("Missing parenthesis", newBug.Name);
         }
 
         [TestMethod]
@@ -32,9 +32,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                description = "On line 67, code won't compile because a parenthesis is missing"
+                Description = "On line 67, code won't compile because a parenthesis is missing"
             };
-            Assert.AreEqual("On line 67, code won't compile because a parenthesis is missing", newBug.description);
+            Assert.AreEqual("On line 67, code won't compile because a parenthesis is missing", newBug.Description);
         }
 
         [TestMethod]
@@ -42,9 +42,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                version = "1.0"
+                Version = "1.0"
             };
-            Assert.AreEqual("1.0", newBug.version);
+            Assert.AreEqual("1.0", newBug.Version);
         }
 
         [TestMethod]
@@ -52,9 +52,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                state = BugState.Active
+                State = BugState.Active
             };
-            Assert.AreEqual(BugState.Active, newBug.state);
+            Assert.AreEqual(BugState.Active, newBug.State);
         }
 
         [TestMethod]
@@ -62,9 +62,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                state = BugState.Inactive
+                State = BugState.Inactive
             };
-            Assert.AreEqual(BugState.Inactive, newBug.state);
+            Assert.AreEqual(BugState.Inactive, newBug.State);
         }
     }
 }

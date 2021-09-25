@@ -12,9 +12,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                firstName = "Juana"
+                FirstName = "Juana"
             };
-            Assert.AreEqual("Juana", newUser.firstName);
+            Assert.AreEqual("Juana", newUser.FirstName);
         }
 
         [TestMethod]
@@ -22,9 +22,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                lastName = "DeArcos"
+                LastName = "DeArcos"
             };
-            Assert.AreEqual("DeArcos", newUser.lastName);
+            Assert.AreEqual("DeArcos", newUser.LastName);
         }
 
         [TestMethod]
@@ -32,9 +32,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                userName = "jdArcos"
+                UserName = "jdArcos"
             };
-            Assert.AreEqual("jdArcos", newUser.userName);
+            Assert.AreEqual("jdArcos", newUser.UserName);
         }
 
         [TestMethod]
@@ -42,9 +42,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                password = "1234"
+                Password = "1234"
             };
-            Assert.AreEqual("1234", newUser.password);
+            Assert.AreEqual("1234", newUser.Password);
         }
 
         [TestMethod]
@@ -52,9 +52,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                email = "juana@gmail.com"
+                Email = "juana@gmail.com"
             };
-            Assert.AreEqual("juana@gmail.com", newUser.email);
+            Assert.AreEqual("juana@gmail.com", newUser.Email);
         }
 
         [TestMethod]
@@ -62,9 +62,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                role = RoleType.Tester
+                Role = RoleType.Tester
             };
-            Assert.AreEqual(RoleType.Tester, newUser.role);
+            Assert.AreEqual(RoleType.Tester, newUser.Role);
         }
 
         [TestMethod]
@@ -72,9 +72,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                role = RoleType.Developer
+                Role = RoleType.Developer
             };
-            Assert.AreEqual(RoleType.Developer, newUser.role);
+            Assert.AreEqual(RoleType.Developer, newUser.Role);
         }
 
         [TestMethod]
@@ -82,9 +82,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                role = RoleType.Admin
+                Role = RoleType.Admin
             };
-            Assert.AreEqual(RoleType.Admin, newUser.role);
+            Assert.AreEqual(RoleType.Admin, newUser.Role);
         }
 
         [TestMethod]
@@ -92,9 +92,9 @@ namespace Testing
         {
             User newUser = new User
             {
-                id = 1
+                Id = 1
             };
-            Assert.AreEqual(1, newUser.id);
+            Assert.AreEqual(1, newUser.Id);
         }
     }
 }

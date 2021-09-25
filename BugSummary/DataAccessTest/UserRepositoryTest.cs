@@ -44,13 +44,13 @@ namespace DataAccessTest
         {
             User newUser = new User
             {
-                id = 1,
-                firstName = "Pepe",
-                lastName = "Perez",
-                password = "pepe1234",
-                userName = "pp",
-                email = "pepe@gmail.com",
-                role = RoleType.Admin
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
             };
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
