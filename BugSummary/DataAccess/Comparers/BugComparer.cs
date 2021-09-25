@@ -8,18 +8,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Comparers
 {
-    public class BugComparer : IComparer
+    public class BugComparer : BaseComparer<Bug>
 
     {
-        public int Compare(object x, object y)
-        {
-            var expected = x as Bug;
-            var actual = y as Bug;
-            bool equals = this.ConcreteCompare(expected, actual);
-
-            return equals ? 0 : 1;
-        }
-        protected bool ConcreteCompare(Bug expected, Bug actual)
+        protected override bool ConcreteCompare(Bug expected, Bug actual)
         {
             bool equalsBug = expected.Name == actual.Name;
             equalsBug &= expected.Id == actual.Id;

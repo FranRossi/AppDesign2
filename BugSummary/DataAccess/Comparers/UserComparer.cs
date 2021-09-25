@@ -8,18 +8,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Comparers
 {
-    public class UserComparer : IComparer
+    public class UserComparer : BaseComparer<User>
 
     {
-        public int Compare(object x, object y)
-        {
-            var expected = x as User;
-            var actual = y as User;
-            bool equals = this.ConcreteCompare(expected, actual);
-
-            return equals ? 0 : 1;
-        }
-        protected bool ConcreteCompare(User expected, User actual)
+        protected override bool ConcreteCompare(User expected, User actual)
         {
             bool equalsUser = expected.Email == actual.Email;
             equalsUser &= expected.Id == actual.Id;
