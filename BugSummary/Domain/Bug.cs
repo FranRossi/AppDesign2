@@ -9,5 +9,7 @@ namespace Domain
         public string Description { get; set; }
         public string Version { get; set; }
         public BugState State { get; set; }
+        public Project ProjectId { get; set; }
+
     }
 }
