@@ -42,4 +42,25 @@ namespace DataAccessTest
             this._bugSummaryContext.Database.EnsureDeleted();
         }
 
+        [TestMethod]
+        public void AddNewProjectTest()
+        {
+            Project newProject = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                BugId = new List<Bug>() { },
+            };
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(newProject);
+
+            this._projectRepository.Create(newProject);
+            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
+
+            Assert.AreEqual(1, projectsDataBase.Count());
+            CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
+
+        }
+
     }
+}
