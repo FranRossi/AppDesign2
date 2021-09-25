@@ -28,6 +28,18 @@ namespace DataAccessTest
             this._bugRepository = new BugRepository(this._bugSummaryContext);
         }
 
+        [TestInitialize]
+        public void Setup()
+        {
+            this._connection.Open();
+            this._bugSummaryContext.Database.EnsureCreated();
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            this._bugSummaryContext.Database.EnsureDeleted();
+        }
 
     }
 }
