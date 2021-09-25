@@ -17,6 +17,16 @@ namespace DomainTest
             };
             Assert.AreEqual(154, newProject.Id);
         }
+
+        [TestMethod]
+        public void CreateName()
+        {
+            Project newProject = new Project
+            {
+                Name = "Semester2021"
+            };
+            Assert.AreEqual(154, newProject.Name);
+        }
     }
 
 
