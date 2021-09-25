@@ -64,5 +64,40 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
+        public void GetAllBugsFromRepositoryTest()
+        {
+            Bug newBug1 = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = new Project() { }
+            };
+            Bug newBug2 = new Bug
+            {
+                Id = 2,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = new Project() { }
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug1);
+            bugsExpected.Add(newBug2);
+
+
+            this._bugRepository.Create(newBug1);
+            this._bugRepository.Create(newBug2);
+            List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
+
+            Assert.AreEqual(2, bugsDataBase.Count());
+            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+
+        }
+
     }
 }
