@@ -1,4 +1,4 @@
-﻿using Utilities;
+﻿using Domain.DomainUtilities;
 
 namespace Domain
 {

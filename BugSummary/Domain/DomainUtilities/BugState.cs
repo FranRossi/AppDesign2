@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utilities
+namespace Domain.DomainUtilities
 {
     public enum BugState
     {

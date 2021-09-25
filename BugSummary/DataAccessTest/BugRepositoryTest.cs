@@ -4,10 +4,10 @@ using System.Data.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Domain;
-using Utilities;
+using Domain.DomainUtilities;
 using System.Collections.Generic;
 using System.Linq;
-using DataAccess.Comparers;
+using Utilities.Comparers;
 
 namespace DataAccessTest
 {

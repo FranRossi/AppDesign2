@@ -1,6 +1,7 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities;
+using Domain.DomainUtilities;
+
 
 namespace Testing
 {

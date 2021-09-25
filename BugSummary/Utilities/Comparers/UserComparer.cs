@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Comparers
+namespace Utilities.Comparers
 {
     public class UserComparer : BaseComparer<User>
 

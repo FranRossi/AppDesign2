@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Comparers
+namespace Utilities.Comparers
 {
     public abstract class BaseComparer<T> : IComparer where T : class
     {

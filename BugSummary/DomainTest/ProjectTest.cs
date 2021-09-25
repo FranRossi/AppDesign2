@@ -2,7 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using Utilities;
+using Domain.DomainUtilities;
+using Utilities.Comparers;
+
 
 namespace DomainTest
 {
@@ -100,9 +102,10 @@ namespace DomainTest
                     }
                 }
             };
-            CollectionAssert.AreEqual(bugsExpected, newProject.BugId, new ProjectComparer());
             Assert.AreEqual(2, newProject.BugId.Count());
+            CollectionAssert.AreEqual(bugsExpected, newProject.BugId, new BugComparer());
         }
+
     }
 
 
