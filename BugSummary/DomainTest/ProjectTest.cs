@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities;
 
 namespace DomainTest
 {
-    class ProjectTest
+
+    [TestClass]
+    public class ProjectTest
     {
+        [TestMethod]
+        public void CreateId()
+        {
+            Project newProject = new Project
+            {
+                Id = 154
+            };
+            Assert.AreEqual(154, newProject.Id);
+        }
     }
+
+
 }
