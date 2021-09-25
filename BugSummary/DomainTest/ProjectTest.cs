@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 using Utilities;
 
 namespace DomainTest
@@ -48,7 +49,7 @@ namespace DomainTest
                 }
             };
 
-            Assert.AreEqual(1, Project.BugId.Count());
+            Assert.AreEqual(1, newProject.BugId.Count());
         }
     }
 
