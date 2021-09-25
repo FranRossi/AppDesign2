@@ -25,7 +25,7 @@ namespace DomainTest
             {
                 Name = "Semester2021"
             };
-            Assert.AreEqual(154, newProject.Name);
+            Assert.AreEqual("Semester2021", newProject.Name);
         }
     }
 
