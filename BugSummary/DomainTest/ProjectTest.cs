@@ -51,6 +51,58 @@ namespace DomainTest
 
             Assert.AreEqual(1, newProject.BugId.Count());
         }
+
+        [TestMethod]
+        public void AddMultipleBugs()
+        {
+            List<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        ProjectId = new Project() { }
+                    },
+                    new Bug
+                    {
+                        Id = 2,
+                        Name = "Bug2",
+                        Description = "Bug en el cliente",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        ProjectId = new Project() { }
+                    }
+            };
+            Project newProject = new Project
+            {
+                BugId = new List<Bug>()
+                {
+                    new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        ProjectId = new Project() { }
+                    },
+                    new Bug
+                    {
+                        Id = 2,
+                        Name = "Bug2",
+                        Description = "Bug en el cliente",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        ProjectId = new Project() { }
+                    }
+                }
+            };
+            CollectionAssert.AreEqual(bugsExpected, newProject.BugId, new ProjectComparer());
+            Assert.AreEqual(2, newProject.BugId.Count());
+        }
     }
 
 
