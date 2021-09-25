@@ -25,7 +25,7 @@ namespace DataAccessTest
             this._connection = new SqliteConnection("Filename=:memory:");
             this._contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(this._connection).Options;
             this._bugSummaryContext = new BugSummaryContext(this._contextOptions);
-            this._bugRepository = new UserRepository(this._bugSummaryContext);
+            this._bugRepository = new BugRepository(this._bugSummaryContext);
         }
 
 
