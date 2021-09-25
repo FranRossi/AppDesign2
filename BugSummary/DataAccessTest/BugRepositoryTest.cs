@@ -79,8 +79,8 @@ namespace DataAccessTest
             Bug newBug2 = new Bug
             {
                 Id = 2,
-                Name = "Bug1",
-                Description = "Bug en el servidor",
+                Name = "Bug2",
+                Description = "Bug en el cliente",
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = new Project() { }
