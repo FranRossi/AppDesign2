@@ -1,4 +1,5 @@
 using Domain;
+using DomainTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities;
 
@@ -66,5 +67,17 @@ namespace Testing
             };
             Assert.AreEqual(BugState.Inactive, newBug.State);
         }
+
+        [TestMethod]
+        public void CreateProjectTest()
+        {
+            Bug newBug = new Bug
+            {
+                ProjectId = new Project() { }
+            };
+            Assert.IsNotNull(newBug.ProjectId);
+        }
+
+
     }
 }
