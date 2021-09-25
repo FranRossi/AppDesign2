@@ -62,5 +62,33 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
+        public void GetAllProjectsFromRepositoryTest()
+        {
+            Project newProject = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                BugId = new List<Bug>() { },
+            };
+            Project newProject2 = new Project
+            {
+                Name = "New Project 2023",
+                Id = 2,
+                BugId = new List<Bug>() { },
+            };
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(newProject);
+
+
+            this._projectRepository.Create(newProject);
+            this._projectRepository.Create(newProject2);
+            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
+
+            Assert.AreEqual(2, projectsDataBase.Count());
+            CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
+
+        }
+
     }
 }
