@@ -11,10 +11,11 @@ namespace DataAccess
         private readonly DbContext _context;
         private readonly DbSet<User> _users;
 
-        public UserRepository(DbContext context)
+        public UserRepository(BugSummaryContext context)
         {
             this._context = context;
-            this._users = context.Set<User>();
+            context.Set<User>();
+            this._users = context.Users;
         }
 
         public IEnumerable<User> GetAll()

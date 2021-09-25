@@ -59,8 +59,41 @@ namespace DataAccessTest
             List<User> usersDataBase = this._userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
-            CollectionAssert.AreEqual(userExpected, usersDataBase, new BugComparer());
+            CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
 
+        }
+
+        [TestMethod]
+        public void UserComparerrTest()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            User newUser2 = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            List<User> userExpected = new List<User>();
+            userExpected.Add(newUser);
+
+            this._userRepository.Create(newUser2);
+            List<User> usersDataBase = this._userRepository.GetAll().ToList();
+
+            Assert.AreEqual(1, usersDataBase.Count());
+            CollectionAssert.AreNotEqual(userExpected, usersDataBase, new UserComparer());
         }
     }
 }

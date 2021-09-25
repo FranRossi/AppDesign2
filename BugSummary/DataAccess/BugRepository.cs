@@ -11,10 +11,11 @@ namespace DataAccess
         private readonly DbContext _context;
         private readonly DbSet<Bug> _bugs;
 
-        public BugRepository(DbContext bugSummaryContext)
+        public BugRepository(BugSummaryContext bugSummaryContext)
         {
             this._context = bugSummaryContext;
-            this._bugs = bugSummaryContext.Set<Bug>();
+            bugSummaryContext.Set<Bug>();
+            this._bugs = bugSummaryContext.Bugs;
         }
 
         public void Create(Bug newBug)
