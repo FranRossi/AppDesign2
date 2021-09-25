@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Comparers
 {
-    public class UserComparer : IComparer
+    public class BugComparer : IComparer
 
     {
         public int Compare(object x, object y)
         {
-            var expected = x as User;
-            var actual = y as User;
+            var expected = x as Bug;
+            var actual = y as Bug;
             bool equals = this.ConcreteCompare(expected, actual);
 
             return equals ? 0 : 1;
         }
-        protected bool ConcreteCompare(User expected, User actual)
+        protected bool ConcreteCompare(Bug expected, Bug actual)
         {
-            bool equalsUser = expected.Email == actual.Email;
-            equalsUser &= expected.Id == actual.Id;
+            bool equalsBug = expected.Name == actual.Name;
+            equalsBug &= expected.Id == actual.Id;
 
-            return equalsUser;
+            return equalsBug;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace DataAccessTest
             List<User> usersDataBase = this._userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
-            CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
+            CollectionAssert.AreEqual(userExpected, usersDataBase, new BugComparer());
 
         }
     }
