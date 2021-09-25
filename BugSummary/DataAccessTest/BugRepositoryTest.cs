@@ -41,5 +41,28 @@ namespace DataAccessTest
             this._bugSummaryContext.Database.EnsureDeleted();
         }
 
+        [TestMethod]
+        public void AddNewBugTest()
+        {
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = new Project() { }
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug);
+
+            this._bugRepository.Create(newBug);
+            List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
+
+            Assert.AreEqual(1, bugsDataBase.Count());
+            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+
+        }
+
     }
 }
