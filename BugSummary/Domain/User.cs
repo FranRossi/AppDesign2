@@ -11,5 +11,7 @@ namespace Domain
         public string Password { get; set; }
         public string Email { get; set; }
         public RoleType Role { get; set; }
+        public Project Project { get; set; }
+        public int ProjectId { get; set; }
     }
 }
