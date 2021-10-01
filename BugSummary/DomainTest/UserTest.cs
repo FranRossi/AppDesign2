@@ -97,5 +97,25 @@ namespace Testing
             };
             Assert.AreEqual(1, newUser.Id);
         }
+
+        [TestMethod]
+        public void CreateProject()
+        {
+            User newUser = new User
+            {
+                Project = new Project() { }
+            };
+            Assert.IsNotNull(newUser.Project);
+        }
+
+        [TestMethod]
+        public void CreateProjectId()
+        {
+            User newUser = new User
+            {
+               ProjectId = 2
+            };
+            Assert.AreEqual(2, newUser.ProjectId);
+        }
     }
 }
