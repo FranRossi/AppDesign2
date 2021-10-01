@@ -70,5 +70,35 @@ namespace BusinessLogicTest
             _mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
         }
+
+        [DataTestMethod]
+        public void AddTester()
+        {
+            Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
+            User newUser = new User
+            {
+                Id = 24,
+                FirstName = "Mario",
+                LastName = "Fagundez",
+                Password = "holasoyMario",
+                UserName = "marito",
+                Email = "mario@gmail.com",
+                Role = RoleType.Tester
+            };
+            User receivedUser = null;
+            Mock<IRepository<User>> _mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
+            {
+                receivedUser = newUser;
+            });
+            _mockUserRepository.Setup(mr => mr.Save());
+
+
+            UserLogic userLogic = new UserLogic(_mockUserRepository.Object);
+            userLogic.Add(newUser);
+
+            _mockUserRepository.VerifyAll();
+            Assert.AreEqual(newUser, receivedUser);
+        }
     }
 }
