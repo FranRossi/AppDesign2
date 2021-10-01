@@ -17,7 +17,7 @@ namespace DataAccess
 
         public override IEnumerable<Project> GetAll()
         {
-            return Context.Set<Project>().ToList();
+            return Context.Projects.ToList();
         }
     }
 }

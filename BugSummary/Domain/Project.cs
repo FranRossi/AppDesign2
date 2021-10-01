@@ -6,6 +6,6 @@ namespace Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Bug> BugId { get; set; }
+        public List<Bug> Bugs { get; set; }
     }
 }

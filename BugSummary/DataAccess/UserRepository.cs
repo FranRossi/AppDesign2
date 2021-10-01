@@ -8,7 +8,6 @@ namespace DataAccess
 {
     public class UserRepository : BaseRepository<User>
     {
-
         public UserRepository(BugSummaryContext bugSummaryContext)
         {
             Context = bugSummaryContext;
@@ -16,7 +15,7 @@ namespace DataAccess
 
         public override IEnumerable<User> GetAll()
         {
-            return Context.Set<User>().ToList();
+            return Context.Users.ToList();
         }
 
     }

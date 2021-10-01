@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace Utilities.Comparers
 {
     public class UserComparer : BaseComparer<User>
-
     {
         protected override bool ConcreteCompare(User expected, User actual)
         {

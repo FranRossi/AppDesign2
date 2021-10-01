@@ -8,19 +8,15 @@ namespace DataAccess
 {
     public class BugRepository : BaseRepository<Bug>
     {
-       
         public BugRepository(BugSummaryContext bugSummaryContext)
         {
             Context = bugSummaryContext;
         }
 
-
-
         public override IEnumerable<Bug> GetAll()
         {
-            return Context.Set<Bug>().ToList();
+            return Context.Bugs.ToList();
         }
-
 
     }
 }
