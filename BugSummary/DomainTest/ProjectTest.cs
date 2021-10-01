@@ -106,5 +106,39 @@ namespace DomainTest
             CollectionAssert.AreEqual(bugsExpected, newProject.Bugs, new BugComparer());
         }
 
+        [TestMethod]
+        public void CreateListofTestersAndDevelopers()
+        {
+            Project newProject = new Project
+            {
+                Users = new List<User>()
+                {
+                    new User
+                    {
+                        Id = 1,
+                        FirstName = "Pepe",
+                        LastName = "Perez",
+                        Password = "pepe1234",
+                        UserName = "pp",
+                        Email = "pepe@gmail.com",
+                        Role = RoleType.Tester
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        FirstName = "Juan",
+                        LastName = "Perez",
+                        Password = "pepe1234",
+                        UserName = "pp",
+                        Email = "Juan@gmail.com",
+                        Role = RoleType.Developer
+                    }
+                }
+            };
+
+            Assert.AreEqual(2, newProject.Users.Count());
+        }
+
+
     }
 }
