@@ -2,30 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccess
 {
-    public class ProjectRepository
+    public class ProjectRepository : BaseRepository<Project>
     {
-        private readonly DbContext _context;
-        private readonly DbSet<Project> _projects;
 
         public ProjectRepository(BugSummaryContext bugSummaryContext)
         {
-            this._context = bugSummaryContext;
-            bugSummaryContext.Set<Project>();
-            this._projects = bugSummaryContext.Projects;
+            Context = bugSummaryContext;
         }
 
-        public void Create(Project newProject)
-        {
-            this._projects.Add(newProject);
-            this._context.SaveChanges();
-        }
 
-        public IEnumerable<Project> GetAll()
+        public override IEnumerable<Project> GetAll()
         {
-            return this._projects;
+            return Context.Set<Project>().ToList();
         }
     }
 }

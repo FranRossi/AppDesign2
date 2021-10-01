@@ -2,30 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccess
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        private readonly DbContext _context;
-        private readonly DbSet<User> _users;
 
-        public UserRepository(BugSummaryContext context)
+        public UserRepository(BugSummaryContext bugSummaryContext)
         {
-            this._context = context;
-            context.Set<User>();
-            this._users = context.Users;
+            Context = bugSummaryContext;
         }
 
-        public IEnumerable<User> GetAll()
+        public override IEnumerable<User> GetAll()
         {
-            return this._users;
+            return Context.Set<User>().ToList();
         }
 
-        public void Create(User newUser)
-        {
-            this._users.Add(newUser);
-            this._context.SaveChanges();
-        }
     }
 }

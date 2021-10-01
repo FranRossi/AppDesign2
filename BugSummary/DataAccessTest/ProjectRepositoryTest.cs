@@ -54,7 +54,8 @@ namespace DataAccessTest
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(newProject);
 
-            this._projectRepository.Create(newProject);
+            this._projectRepository.Add(newProject);
+            this._projectRepository.Save();
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
             Assert.AreEqual(1, projectsDataBase.Count());
@@ -83,8 +84,10 @@ namespace DataAccessTest
 
 
 
-            this._projectRepository.Create(newProject);
-            this._projectRepository.Create(newProject2);
+            this._projectRepository.Add(newProject);
+            this._projectRepository.Save();
+            this._projectRepository.Add(newProject2);
+            this._projectRepository.Save();
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
             Assert.AreEqual(2, projectsDataBase.Count());
