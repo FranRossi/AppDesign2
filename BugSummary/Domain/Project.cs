@@ -7,6 +7,9 @@ namespace Domain
 {
     public class Project
     {
+        public const int MaxProjectNameLength = 30;
+        
+        
         public int Id { get; set; }
         public string Name 
         {
@@ -21,12 +24,11 @@ namespace Domain
         public List<User> Users { get; set; }
 
         private string _name;
-        public const int MaxProjectNameLength = 30;
 
         private void ValidateName(string nameToValidate)
         {
             if (!Validator.MaxLengthOfString(nameToValidate, MaxProjectNameLength))
-                throw new NameLengthIncorrectException();
+                throw new ProjectNameLengthIncorrectException();
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Testing
             Assert.IsNotNull(newBug.ProjectId);
         }
 
-        [ExpectedException(typeof(NameLengthIncorrectException))]
+        [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsCorrect()
         {
@@ -97,6 +97,52 @@ namespace Testing
             {
                 Name = nameWithLengthOver60
             };
+        }
+
+
+        [ExpectedException(typeof(BugIdLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugIdLengthIsCorrect()
+        {
+            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
+            Bug newBug = new Bug
+            {
+                Id = 12345
+            };
+            newBug.ValidateIdLength();
+        }
+
+        [ExpectedException(typeof(BugDescriptionLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugDescriptionLengthIsCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                Description = GenerateRandomStringWithSpecifiedLength(160);
+            };
+            newBug.ValidateDescriptionLength();
+        }
+
+        [ExpectedException(typeof(BugVersionLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugVersionLengthIsCorrect()
+        {
+            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
+            Bug newBug = new Bug
+            {
+                Version = GenerateRandomStringWithSpecifiedLength(11)
+            };
+            newBug.ValidateVersionLength();
+        }
+
+        private string GenerateRandomStringWithSpecifiedLength(int stringLength)
+        {
+            string descriptionOver150Characters = "";
+            for (int i=0; i< stringLength; i++)
+            {
+                descriptionOver150Characters += i;
+            }
+            return descriptionOver150Characters;
         }
     }
 }

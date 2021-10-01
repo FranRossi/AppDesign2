@@ -6,6 +6,9 @@ namespace Domain
 {
     public class Bug
     {
+        public const int MaxBugNameLength = 60;
+        
+        
         public int Id { get; set; }
         public string Name
         { 
@@ -23,13 +26,12 @@ namespace Domain
         public int ProjectId { get; set; }
 
         private string _name;
-        public const int MaxBugNameLength = 60;
 
 
         private void ValidateName(string nameToValidate)
         {
             if (!Validator.MaxLengthOfString(nameToValidate, MaxBugNameLength))
-                throw new NameLengthIncorrectException();
+                throw new BugNameLengthIncorrectException();
         }
     }
 }
