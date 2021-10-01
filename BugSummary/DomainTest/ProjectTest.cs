@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.DomainUtilities;
 using Utilities.Comparers;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace DomainTest
 {

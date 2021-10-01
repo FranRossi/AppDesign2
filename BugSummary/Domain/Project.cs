@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Domain.DomainUtilities.CustomExceptions;
+using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -8,5 +10,10 @@ namespace Domain
         public string Name { get; set; }
         public List<Bug> Bugs { get; set; }
         public List<User> Users { get; set; }
+
+        public void ValidateName(string name)
+        {
+            throw new ProjectNameLengthIncorrectException();
+        }
     }
 }
