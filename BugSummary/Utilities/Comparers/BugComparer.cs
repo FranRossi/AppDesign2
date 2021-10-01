@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace Utilities.Comparers
 {
     public class BugComparer : BaseComparer<Bug>
-
     {
         protected override bool ConcreteCompare(Bug expected, Bug actual)
         {

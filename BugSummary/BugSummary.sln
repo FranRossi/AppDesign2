@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicInterface", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTest", "WebApiTest\WebApiTest.csproj", "{7573E814-58D6-46DA-A65B-FA84022F6E7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{DCA6D450-A05F-4D64-BEFF-BCAAFDC0509E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "TestUtils\TestUtils.csproj", "{9CF630E6-769B-4B64-92E5-FDE33A1C43D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{7573E814-58D6-46DA-A65B-FA84022F6E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7573E814-58D6-46DA-A65B-FA84022F6E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7573E814-58D6-46DA-A65B-FA84022F6E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCA6D450-A05F-4D64-BEFF-BCAAFDC0509E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCA6D450-A05F-4D64-BEFF-BCAAFDC0509E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCA6D450-A05F-4D64-BEFF-BCAAFDC0509E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCA6D450-A05F-4D64-BEFF-BCAAFDC0509E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF630E6-769B-4B64-92E5-FDE33A1C43D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF630E6-769B-4B64-92E5-FDE33A1C43D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF630E6-769B-4B64-92E5-FDE33A1C43D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF630E6-769B-4B64-92E5-FDE33A1C43D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
