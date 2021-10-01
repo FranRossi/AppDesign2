@@ -78,6 +78,14 @@ namespace Testing
             Assert.IsNotNull(newBug.Project);
         }
 
-
+        [TestMethod]
+        public void CreateProjectIdTest()
+        {
+            Bug newBug = new Bug
+            {
+                ProjectId = 2
+            };
+            Assert.IsNotNull(newBug.ProjectId);
+        }
     }
 }
