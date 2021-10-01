@@ -1,3 +1,4 @@
+using BusinessLogic;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
@@ -31,10 +32,11 @@ namespace BusinessLogicTest
             {
                 receivedUser = newUser;
             });
+            _mockUserRepository.Setup(mr => mr.Save());
 
 
             UserLogic userLogic = new UserLogic(_mockUserRepository.Object);
-            userLogic.Create(newUser);
+            userLogic.Add(newUser);
 
             _mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
