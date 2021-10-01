@@ -9,7 +9,6 @@ namespace WebApi.Models
 {
     public class UserModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
@@ -19,7 +18,6 @@ namespace WebApi.Models
 
         public User ToEntity() => new User()
         {
-            Id = this.Id,
             FirstName = this.FirstName,
             LastName = this.LastName,
             UserName = this.UserName,

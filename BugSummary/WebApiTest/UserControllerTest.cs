@@ -19,7 +19,6 @@ namespace WebApiTest
         {
             UserModel user = new UserModel
             {
-                Id = 1,
                 FirstName = "Pepe",
                 LastName = "Perez",
                 Password = "pepe1234",
@@ -29,7 +28,7 @@ namespace WebApiTest
             };
             User expectedUser = new User
             {
-                Id = 1,
+                Id = 0,
                 FirstName = "Pepe",
                 LastName = "Perez",
                 Password = "pepe1234",

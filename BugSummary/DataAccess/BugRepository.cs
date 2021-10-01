@@ -8,7 +8,6 @@ namespace DataAccess
 {
     public class BugRepository : BaseRepository<Bug>
     {
-
         public BugRepository(BugSummaryContext bugSummaryContext)
         {
             Context = bugSummaryContext;

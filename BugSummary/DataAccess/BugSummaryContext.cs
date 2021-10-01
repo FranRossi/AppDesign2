@@ -11,7 +11,6 @@ namespace DataAccess
         public DbSet<Bug> Bugs { get; set; }
         public DbSet<Project> Projects { get; set; }
 
-        public BugSummaryContext() { }
         public BugSummaryContext(DbContextOptions options) : base(options) { }
 
 

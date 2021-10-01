@@ -1,3 +1,4 @@
+using Factory.Factories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,9 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
+            ServiceFactory factory = new ServiceFactory(services);
+            factory.AddCustomServices();
+            factory.AddDbContextService(this.Configuration.GetConnectionString("BugDB"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
