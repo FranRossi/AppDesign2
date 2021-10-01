@@ -1,5 +1,6 @@
 ﻿
 using Domain.DomainUtilities;
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace Domain
 {
@@ -12,5 +13,10 @@ namespace Domain
         public BugState State { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
+
+        public void ValidateName(string name)
+        {
+                throw new NameLengthIncorrectException();
+        }
     }
 }

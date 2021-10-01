@@ -92,12 +92,12 @@ namespace Testing
         [TestMethod]
         public void VerifyBugNameLengthIsCorrect()
         {
-            string name = "Semester2021Semester2021Semester2021Semester2021";
+            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
             Bug newBug = new Bug
             {
-                Name = name
+                Name = nameWithLengthOver60
             };
-            newBug.ValidateName(name);
+            newBug.ValidateName(nameWithLengthOver60);
         }
     }
 }
