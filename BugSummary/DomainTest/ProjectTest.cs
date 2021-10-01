@@ -121,7 +121,9 @@ namespace DomainTest
                         Password = "pepe1234",
                         UserName = "pp",
                         Email = "pepe@gmail.com",
-                        Role = RoleType.Tester
+                        Role = RoleType.Tester,
+                        Project = new Project { },
+                        ProjectId = 1
                     },
                     new User
                     {
@@ -131,7 +133,9 @@ namespace DomainTest
                         Password = "pepe1234",
                         UserName = "pp",
                         Email = "Juan@gmail.com",
-                        Role = RoleType.Developer
+                        Role = RoleType.Developer,
+                        Project = new Project { },
+                        ProjectId = 1
                     }
                 }
             };
