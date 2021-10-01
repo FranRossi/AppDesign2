@@ -20,7 +20,7 @@ namespace DataAccess
 
         public bool Authenticate(string username, string password)
         {
-            return true;
+            return Context.Users.Any(u => u.UserName == username && u.Password == password);
         }
 
     }
