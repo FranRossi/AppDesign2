@@ -18,5 +18,10 @@ namespace DataAccess
             return Context.Users.ToList();
         }
 
+        public bool Authenticate(string username, string password)
+        {
+            return true;
+        }
+
     }
 }
