@@ -152,7 +152,6 @@ namespace DomainTest
             {
                 Name = name
             };
-            newProject.ValidateName(name);
         }
 
 
