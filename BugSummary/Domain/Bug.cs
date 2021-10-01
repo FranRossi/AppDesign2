@@ -11,6 +11,6 @@ namespace Domain
         public string Version { get; set; }
         public BugState State { get; set; }
         public Project Project { get; set; }
-
+        public int ProjectId { get; set; }
     }
 }
