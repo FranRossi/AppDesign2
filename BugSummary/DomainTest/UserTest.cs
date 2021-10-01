@@ -97,5 +97,16 @@ namespace Testing
             };
             Assert.AreEqual(1, newUser.Id);
         }
+
+        [TestMethod]
+        public void CreateToken()
+        {
+            string randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+            User newUser = new User
+            {
+                Token = randomToken
+            };
+            Assert.AreEqual(randomToken, newUser.Token);
+        }
     }
 }
