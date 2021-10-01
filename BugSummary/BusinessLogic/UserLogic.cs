@@ -1,10 +1,11 @@
-﻿using DataAccessInterface;
+﻿using BusinessLogicInterface;
+using DataAccessInterface;
 using Domain;
 using System;
 
 namespace BusinessLogic
 {
-    public class UserLogic
+    public class UserLogic : ILogic<User>
     {
         private IRepository<User> _userRepository;
         public UserLogic(IRepository<User> userRepository)
