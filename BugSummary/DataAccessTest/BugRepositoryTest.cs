@@ -56,7 +56,8 @@ namespace DataAccessTest
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug);
 
-            this._bugRepository.Create(newBug);
+            this._bugRepository.Add(newBug);
+            this._bugRepository.Save();
             List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
 
             Assert.AreEqual(1, bugsDataBase.Count());
@@ -90,8 +91,10 @@ namespace DataAccessTest
             bugsExpected.Add(newBug2);
 
 
-            this._bugRepository.Create(newBug1);
-            this._bugRepository.Create(newBug2);
+            this._bugRepository.Add(newBug1);
+            this._bugRepository.Save();
+            this._bugRepository.Add(newBug2);
+            this._bugRepository.Save();
             List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
 
             Assert.AreEqual(2, bugsDataBase.Count());

@@ -56,7 +56,8 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Create(newUser);
+            this._userRepository.Add(newUser);
+            this._userRepository.Save();
             List<User> usersDataBase = this._userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
@@ -65,7 +66,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void UserComparerrTest()
+        public void UserComparerTest()
         {
             User newUser = new User
             {
@@ -90,7 +91,8 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Create(newUser2);
+            this._userRepository.Add(newUser2);
+            this._userRepository.Save();
             List<User> usersDataBase = this._userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
