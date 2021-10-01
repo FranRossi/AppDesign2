@@ -97,7 +97,6 @@ namespace Testing
             {
                 Name = nameWithLengthOver60
             };
-            newBug.ValidateName(nameWithLengthOver60);
         }
     }
 }

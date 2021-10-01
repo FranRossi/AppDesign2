@@ -1,4 +1,5 @@
-﻿using Domain.DomainUtilities.CustomExceptions;
+﻿using Domain.DomainUtilities;
+using Domain.DomainUtilities.CustomExceptions;
 using System;
 using System.Collections.Generic;
 
@@ -20,12 +21,12 @@ namespace Domain
         public List<User> Users { get; set; }
 
         private string _name;
+        public const int MaxProjectNameLength = 30;
 
-
-        public void ValidateName(string name)
+        private void ValidateName(string nameToValidate)
         {
-            if(name.Length > 30)
-            throw new NameLengthIncorrectException();
+            if (!Validator.MaxLengthOfString(nameToValidate, MaxProjectNameLength))
+                throw new NameLengthIncorrectException();
         }
     }
 }
