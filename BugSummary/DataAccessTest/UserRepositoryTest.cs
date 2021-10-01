@@ -64,8 +64,17 @@ namespace DataAccessTest
             CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
         }
 
-        [TestMethod]
-        public void AuthenticateValidUser()
+        [DataRow("pp", "pepe1234", true)]
+        [DataRow("Pp", "pepe1234", false)]
+        [DataRow("pp", "Pepe1234", false)]
+        [DataRow(" pp", "Pepe1234", false)]
+        [DataRow("pp", " Pepe1234", false)]
+        [DataRow("pp", "Pepe 1234", false)]
+        [DataRow("", "pepe1234", false)]
+        [DataRow("pp", "", false)]
+        [DataRow("", "", false)]
+        [DataTestMethod]
+        public void AuthenticateValidUser(string username, string password, bool expectedResult)
         {
             User newUser = new User
             {
@@ -80,11 +89,9 @@ namespace DataAccessTest
             _userRepository.Add(newUser);
             _userRepository.Save();
 
-            string username = "pp";
-            string password = "pepe1234";
             bool result = _userRepository.Authenticate(username, password);
 
-            Assert.IsTrue(result);
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]
