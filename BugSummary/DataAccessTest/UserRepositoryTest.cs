@@ -21,23 +21,23 @@ namespace DataAccessTest
 
         public UserRepositoryTest()
         {
-            this._connection = new SqliteConnection("Filename=:memory:");
-            this._contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(this._connection).Options;
-            this._bugSummaryContext = new BugSummaryContext(this._contextOptions);
-            this._userRepository = new UserRepository(this._bugSummaryContext);
+            _connection = new SqliteConnection("Filename=:memory:");
+            _contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(_connection).Options;
+            _bugSummaryContext = new BugSummaryContext(_contextOptions);
+            _userRepository = new UserRepository(_bugSummaryContext);
         }
 
         [TestInitialize]
         public void Setup()
         {
-            this._connection.Open();
-            this._bugSummaryContext.Database.EnsureCreated();
+            _connection.Open();
+            _bugSummaryContext.Database.EnsureCreated();
         }
 
         [TestCleanup]
         public void CleanUp()
         {
-            this._bugSummaryContext.Database.EnsureDeleted();
+            _bugSummaryContext.Database.EnsureDeleted();
         }
 
         [TestMethod]
@@ -56,13 +56,35 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Add(newUser);
-            this._userRepository.Save();
-            List<User> usersDataBase = this._userRepository.GetAll().ToList();
+            _userRepository.Add(newUser);
+            _userRepository.Save();
+            List<User> usersDataBase = _userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
             CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
+        }
 
+        [TestMethod]
+        public void AuthenticateValidUser()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            _userRepository.Add(newUser);
+            _userRepository.Save();
+
+            string username = "pp";
+            string password = "pepe1234";
+            bool result = _userRepository.Authenticate(username, password);
+
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -91,9 +113,9 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Add(newUser2);
-            this._userRepository.Save();
-            List<User> usersDataBase = this._userRepository.GetAll().ToList();
+            _userRepository.Add(newUser2);
+            _userRepository.Save();
+            List<User> usersDataBase = _userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
             CollectionAssert.AreNotEqual(userExpected, usersDataBase, new UserComparer());
