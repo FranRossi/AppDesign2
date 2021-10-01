@@ -51,7 +51,7 @@ namespace DataAccessTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                ProjectId = new Project() { }
+                Project = new Project() { }
             };
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug);
@@ -75,7 +75,7 @@ namespace DataAccessTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                ProjectId = new Project() { }
+                Project = new Project() { }
             };
             Bug newBug2 = new Bug
             {
@@ -84,7 +84,7 @@ namespace DataAccessTest
                 Description = "Bug en el cliente",
                 Version = "1.4",
                 State = BugState.Active,
-                ProjectId = new Project() { }
+                Project = new Project() { }
             };
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug1);

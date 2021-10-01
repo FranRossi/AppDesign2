@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public abstract class BaseRepository<T>: IRepository<T> where T : class
+    public abstract class BaseRepository<T> : IRepository<T> where T : class
     {
         protected BugSummaryContext Context { get; set; }
 
 
         public void Add(T entity)
         {
-            Context.Set<T>().Add(entity);
+            DbSet<T> entities = Context.Set<T>();
+            entities.Add(entity);
         }
 
         public abstract IEnumerable<T> GetAll();

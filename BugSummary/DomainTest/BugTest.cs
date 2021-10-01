@@ -73,9 +73,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                ProjectId = new Project() { }
+                Project = new Project() { }
             };
-            Assert.IsNotNull(newBug.ProjectId);
+            Assert.IsNotNull(newBug.Project);
         }
 
 

@@ -37,7 +37,7 @@ namespace DomainTest
         {
             Project newProject = new Project
             {
-                BugId = new List<Bug>() 
+                Bugs = new List<Bug>() 
                 {
                     new Bug
                     {
@@ -46,12 +46,12 @@ namespace DomainTest
                         Description = "Bug en el servidor",
                         Version = "1.4",
                         State = BugState.Active,
-                        ProjectId = new Project() { }
+                        Project = new Project() { }
                     }
                 }
             };
 
-            Assert.AreEqual(1, newProject.BugId.Count());
+            Assert.AreEqual(1, newProject.Bugs.Count());
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace DomainTest
                         Description = "Bug en el servidor",
                         Version = "1.4",
                         State = BugState.Active,
-                        ProjectId = new Project() { }
+                        Project = new Project() { }
                     },
                     new Bug
                     {
@@ -75,12 +75,12 @@ namespace DomainTest
                         Description = "Bug en el cliente",
                         Version = "1.4",
                         State = BugState.Active,
-                        ProjectId = new Project() { }
+                        Project = new Project() { }
                     }
             };
             Project newProject = new Project
             {
-                BugId = new List<Bug>()
+                Bugs = new List<Bug>()
                 {
                     new Bug
                     {
@@ -89,7 +89,7 @@ namespace DomainTest
                         Description = "Bug en el servidor",
                         Version = "1.4",
                         State = BugState.Active,
-                        ProjectId = new Project() { }
+                        Project = new Project() { }
                     },
                     new Bug
                     {
@@ -98,12 +98,12 @@ namespace DomainTest
                         Description = "Bug en el cliente",
                         Version = "1.4",
                         State = BugState.Active,
-                        ProjectId = new Project() { }
+                        Project = new Project() { }
                     }
                 }
             };
-            Assert.AreEqual(2, newProject.BugId.Count());
-            CollectionAssert.AreEqual(bugsExpected, newProject.BugId, new BugComparer());
+            Assert.AreEqual(2, newProject.Bugs.Count());
+            CollectionAssert.AreEqual(bugsExpected, newProject.Bugs, new BugComparer());
         }
 
     }
