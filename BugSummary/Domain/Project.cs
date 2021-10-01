@@ -25,7 +25,7 @@ namespace Domain
         public void ValidateName(string name)
         {
             if(name.Length > 30)
-            throw new ProjectNameLengthIncorrectException();
+            throw new NameLengthIncorrectException();
         }
     }
 }

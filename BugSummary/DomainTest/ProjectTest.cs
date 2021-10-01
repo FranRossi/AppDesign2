@@ -143,7 +143,7 @@ namespace DomainTest
             Assert.AreEqual(2, newProject.Users.Count());
         }
 
-        [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
+        [ExpectedException(typeof(NameLengthIncorrectException))]
         [TestMethod]
         public void VerifyProjectNameLengthIsCorrect()
         {

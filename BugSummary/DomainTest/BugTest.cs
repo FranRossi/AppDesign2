@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace Testing
 {
@@ -86,6 +86,18 @@ namespace Testing
                 ProjectId = 2
             };
             Assert.IsNotNull(newBug.ProjectId);
+        }
+
+        [ExpectedException(typeof(NameLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugNameLengthIsCorrect()
+        {
+            string name = "Semester2021Semester2021Semester2021Semester2021";
+            Bug newBug = new Bug
+            {
+                Name = name
+            };
+            newBug.ValidateName(name);
         }
     }
 }
