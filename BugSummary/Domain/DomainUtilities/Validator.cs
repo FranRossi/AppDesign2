@@ -17,5 +17,10 @@ namespace Domain.DomainUtilities
         {
             return (value == BugState.Active || value == BugState.Inactive);
         }
+
+        public static bool CheckValueIsNull(string value)
+        {
+            return value == null;
+        }
     }
 }

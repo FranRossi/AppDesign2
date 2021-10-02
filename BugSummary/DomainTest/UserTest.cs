@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace Testing
 {
@@ -118,7 +118,7 @@ namespace Testing
             Assert.AreEqual(2, newUser.ProjectId);
         }
 
-        [ExpectedException(typeof(NameIsNullException))]
+        [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyFirstNameIsInCorrect()
         {
@@ -128,7 +128,7 @@ namespace Testing
             };
         }
 
-        [ExpectedException(typeof(LastNameIsNullException))]
+        [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyLasttNameIsInCorrect()
         {
@@ -138,7 +138,7 @@ namespace Testing
             };
         }
 
-        [ExpectedException(typeof(UserNameIsNullException))]
+        [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyUserNameIsInCorrect()
         {
@@ -148,7 +148,7 @@ namespace Testing
             };
         }
 
-        [ExpectedException(typeof(PasswordIsNullException))]
+        [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyPasswordIsInCorrect()
         {
