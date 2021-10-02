@@ -13,7 +13,7 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public IEnumerable<User> GetAll()
+        public override IEnumerable<User> GetAll()
         {
             return Context.Users.ToList();
         }

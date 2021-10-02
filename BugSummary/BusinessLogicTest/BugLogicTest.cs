@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
@@ -28,7 +29,8 @@ namespace BusinessLogicTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
             };
             Project projectTester = new Project()
             {
@@ -52,9 +54,9 @@ namespace BusinessLogicTest
             };
             Bug receivedBug = null;
             Mock<IBugRepository> _mockUserRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>(), newBug)).Callback((User newUser) =>
+            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>(), newBug)).Callback((User user, Bug postedBug) =>
             {
-                receivedBug = newBug;
+                receivedBug = postedBug;
             });
             _mockUserRepository.Setup(mr => mr.Save());
 
