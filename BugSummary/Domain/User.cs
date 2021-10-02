@@ -1,6 +1,7 @@
 ﻿using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -69,9 +70,7 @@ namespace Domain
                 _role = value;
             }
         }
-        public Project Project { get; set; }
-        public int ProjectId { get; set; }
-
+        public List<Project> Projects { get; set; }
 
         private void ValidateStringIsNotNull(string value)
         {

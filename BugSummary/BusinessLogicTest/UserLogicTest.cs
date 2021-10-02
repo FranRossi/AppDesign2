@@ -11,7 +11,7 @@ namespace BusinessLogicTest
     [TestClass]
     public class UserLogicTest
     {
-        [DataTestMethod]
+        [TestMethod]
         public void AddAdmin()
         {
             Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
@@ -41,7 +41,7 @@ namespace BusinessLogicTest
             Assert.AreEqual(newUser, receivedUser);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         public void AddDeveloper()
         {
             Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
@@ -71,7 +71,7 @@ namespace BusinessLogicTest
             Assert.AreEqual(newUser, receivedUser);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         public void AddTester()
         {
             Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
