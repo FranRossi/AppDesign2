@@ -30,5 +30,10 @@ namespace Domain.DomainUtilities
                 return false;
             return true;
         }
+
+        public static bool CorrectRole(RoleType value)
+        {
+            return (value == RoleType.Admin|| value == RoleType.Developer || value == RoleType.Tester);
+        }
     }
 }

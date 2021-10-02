@@ -11,6 +11,7 @@ namespace Domain
         private string _userName;
         private string _pass;
         private string _email;
+        private RoleType _role;
 
         public int Id { get; set; }
         public string FirstName
@@ -59,7 +60,15 @@ namespace Domain
             }
         }
 
-        public RoleType Role { get; set; }
+        public RoleType Role
+        {
+            get => _role;
+            set
+            {
+                ValidateRole(value);
+                _role = value;
+            }
+        }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
 
@@ -76,6 +85,14 @@ namespace Domain
             if (!Validator.ValidateEmailFormat(email))
                 throw new EmailIsIncorrectException();
         }
+
+
+        private void ValidateRole(RoleType value)
+        {
+            if (!Validator.CorrectRole(value))
+                throw new UserRoleIncorrectException();
+        }
+
 
     }
 }

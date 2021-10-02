@@ -167,5 +167,16 @@ namespace Testing
                 Email = "estemail.estaMal@.ds@.com"
             };
         }
+
+
+        [ExpectedException(typeof(UserRoleIncorrectException))]
+        [TestMethod]
+        public void VerifRoleIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Role = (RoleType)(-1)
+            };
+        }
     }
 }
