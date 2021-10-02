@@ -18,7 +18,10 @@ namespace BusinessLogic
 
         public string GenerateToken()
         {
-            return "hprpxbGF2UjU5uANp+hmQqgAQ1eSiLbv";
+            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            byte[] key = Guid.NewGuid().ToByteArray();
+            string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            return token;
         }
     }
 }
