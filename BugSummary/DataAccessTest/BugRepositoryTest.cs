@@ -244,5 +244,65 @@ namespace DataAccessTest
             _bugRepository.Add(developerUser, newBug);
         }
 
+        [TestMethod]
+        public void TesterCreatesBug()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                 testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = projectTester,
+                ProjectId = 1
+            };
+            _bugRepository.Add(testerUser, newBug);
+            _bugSummaryContext.SaveChanges();
+
+            List<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = projectTester,
+                    ProjectId = 1
+                }
+            };
+            List<Bug> bugsDataBase = this._bugRepository.GetAllByTester(testerUser).ToList();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
+
+        }
+
     }
 }
