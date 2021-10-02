@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace Testing
 {
@@ -78,6 +78,77 @@ namespace Testing
             Assert.IsNotNull(newBug.Project);
         }
 
+        [TestMethod]
+        public void CreateProjectIdTest()
+        {
+            Bug newBug = new Bug
+            {
+                ProjectId = 2
+            };
+            Assert.IsNotNull(newBug.ProjectId);
+        }
 
+        [ExpectedException(typeof(BugNameLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugNameLengthIsInCorrect()
+        {
+            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
+            Bug newBug = new Bug
+            {
+                Name = nameWithLengthOver60
+            };
+        }
+
+
+        [ExpectedException(typeof(BugIdLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugIdLengthIsInCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                Id = 12345
+            };
+        }
+
+        [ExpectedException(typeof(BugDescriptionLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugDescriptionLengthIsInCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                Description = GenerateRandomStringWithSpecifiedLength(160)
+            };
+        }
+
+        [ExpectedException(typeof(BugVersionLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyBugVersionLengthIsInCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                Version = GenerateRandomStringWithSpecifiedLength(11)
+            };
+        }
+
+        private string GenerateRandomStringWithSpecifiedLength(int stringLength)
+        {
+            string descriptionOver150Characters = "";
+            for (int i=0; i< stringLength; i++)
+            {
+                descriptionOver150Characters += i;
+            }
+            return descriptionOver150Characters;
+        }
+
+        [ExpectedException(typeof(BugStateIncorrectException))]
+        [TestMethod]
+        public void VerifyBugStateIsInCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                State = (BugState)(-1)
+            };
+
+        }
     }
 }

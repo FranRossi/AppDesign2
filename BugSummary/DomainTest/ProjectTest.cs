@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.DomainUtilities;
 using Utilities.Comparers;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace DomainTest
 {
@@ -104,6 +104,54 @@ namespace DomainTest
             };
             Assert.AreEqual(2, newProject.Bugs.Count());
             CollectionAssert.AreEqual(bugsExpected, newProject.Bugs, new BugComparer());
+        }
+
+        [TestMethod]
+        public void CreateListofTestersAndDevelopers()
+        {
+            Project newProject = new Project
+            {
+                Users = new List<User>()
+                {
+                    new User
+                    {
+                        Id = 1,
+                        FirstName = "Pepe",
+                        LastName = "Perez",
+                        Password = "pepe1234",
+                        UserName = "pp",
+                        Email = "pepe@gmail.com",
+                        Role = RoleType.Tester,
+                        Project = new Project { },
+                        ProjectId = 1
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        FirstName = "Juan",
+                        LastName = "Perez",
+                        Password = "pepe1234",
+                        UserName = "pp",
+                        Email = "Juan@gmail.com",
+                        Role = RoleType.Developer,
+                        Project = new Project { },
+                        ProjectId = 1
+                    }
+                }
+            };
+
+            Assert.AreEqual(2, newProject.Users.Count());
+        }
+
+        [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyProjectNameLengthIsCorrect()
+        {
+            string name = "Semester2021Semester2021Semester2021Semester2021";
+            Project newProject = new Project
+            {
+                Name = name
+            };
         }
 
     }

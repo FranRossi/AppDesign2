@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
-
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace Testing
 {
@@ -96,6 +96,87 @@ namespace Testing
                 Id = 1
             };
             Assert.AreEqual(1, newUser.Id);
+        }
+
+        [TestMethod]
+        public void CreateProject()
+        {
+            User newUser = new User
+            {
+                Project = new Project() { }
+            };
+            Assert.IsNotNull(newUser.Project);
+        }
+
+        [TestMethod]
+        public void CreateProjectId()
+        {
+            User newUser = new User
+            {
+               ProjectId = 2
+            };
+            Assert.AreEqual(2, newUser.ProjectId);
+        }
+
+        [ExpectedException(typeof(UserPropertyIsNullException))]
+        [TestMethod]
+        public void VerifyFirstNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                FirstName = null
+            };
+        }
+
+        [ExpectedException(typeof(UserPropertyIsNullException))]
+        [TestMethod]
+        public void VerifyLasttNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                LastName = null
+            };
+        }
+
+        [ExpectedException(typeof(UserPropertyIsNullException))]
+        [TestMethod]
+        public void VerifyUserNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                UserName = null
+            };
+        }
+
+        [ExpectedException(typeof(UserPropertyIsNullException))]
+        [TestMethod]
+        public void VerifyPasswordIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Password = null
+            };
+        }
+
+        [ExpectedException(typeof(EmailIsIncorrectException))]
+        [TestMethod]
+        public void VerifyEmailIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Email = "estemail.estaMal@.ds@.com"
+            };
+        }
+
+
+        [ExpectedException(typeof(UserRoleIncorrectException))]
+        [TestMethod]
+        public void VerifRoleIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Role = (RoleType)(-1)
+            };
         }
     }
 }
