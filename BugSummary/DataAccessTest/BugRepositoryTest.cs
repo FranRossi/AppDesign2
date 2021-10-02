@@ -8,6 +8,7 @@ using Domain.DomainUtilities;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
+using DataAccess.Exceptions;
 
 namespace DataAccessTest
 {
@@ -165,6 +166,7 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
         [ExpectedException(typeof(UserCannotCreateBugException))]
         public void DeveloperCreatesBug()
         {
@@ -202,7 +204,7 @@ namespace DataAccessTest
 
             this._bugRepository.Add(devloperUser, newBug1);
             this._bugRepository.Save();
-
         }
+
     }
 }

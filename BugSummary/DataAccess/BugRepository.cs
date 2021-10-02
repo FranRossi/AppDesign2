@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using DataAccess.Exceptions;
+using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,6 +28,13 @@ namespace DataAccess
                 listBugForTester.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
             }
             return listBugForTester;
+        }
+
+        public void Add(User userToCreateBug, Bug newBug1)
+        {
+            if (userToCreateBug.Role != RoleType.Tester)
+                throw new UserCannotCreateBugException();
+ 
         }
     }
 }
