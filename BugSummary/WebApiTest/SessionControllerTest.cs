@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Models;
 
 namespace WebApiTest
 {
@@ -19,12 +20,17 @@ namespace WebApiTest
         {
             string username = "someUsername";
             string password = "somePassword";
+            LoginModel loginModel = new LoginModel
+            {
+                Username = username,
+                Password = password
+            };
             string mockedTokenResponse = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
             SessionController controller = new SessionController(mock.Object);
 
-            IActionResult result = controller.Post(username, password);
+            IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;
             string tokenResponse = createdResult.Value as string;
 
@@ -38,12 +44,17 @@ namespace WebApiTest
         {
             string username = "someUsername";
             string password = "somePassword";
+            LoginModel loginModel = new LoginModel
+            {
+                Username = username,
+                Password = password
+            };
             string mockedTokenResponse = null;
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
             SessionController controller = new SessionController(mock.Object);
 
-            IActionResult result = controller.Post(username, password);
+            IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;
             string tokenResponse = createdResult.Value as string;
 

@@ -33,6 +33,7 @@ namespace BusinessLogic
             {
                 token = GenerateToken();
                 _userRepository.UpdateToken(username, token);
+                _userRepository.Save();
             }
             else
                 throw new LoginException();
