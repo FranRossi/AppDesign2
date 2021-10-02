@@ -1,4 +1,6 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
+using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,8 +20,8 @@ namespace BusinessLogicTest
         [TestMethod]
         public void GetToken()
         {
-            Mock<UserRepository> mockUserRepository = new Mock<UserRepository>(MockBehavior.Strict);
-            SessionLogic sessionLogic = new SessionLogic(mockUserRepository);
+            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
 
             string token = sessionLogic.GenerateToken();
 
