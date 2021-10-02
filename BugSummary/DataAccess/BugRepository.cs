@@ -1,4 +1,5 @@
 ﻿using DataAccess.Exceptions;
+using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class BugRepository : BaseRepository<Bug>
+    public class BugRepository : BaseRepository<Bug>, IBugRepository
     {
         public BugRepository(BugSummaryContext bugSummaryContext)
         {
