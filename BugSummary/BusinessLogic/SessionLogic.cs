@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.CustomExceptions;
 
 namespace BusinessLogic
 {
@@ -33,6 +34,8 @@ namespace BusinessLogic
                 token = GenerateToken();
                 _userRepository.UpdateToken(username, token);
             }
+            else
+                throw new LoginException();
             return token;
         }
     }
