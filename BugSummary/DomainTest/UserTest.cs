@@ -100,6 +100,17 @@ namespace Testing
         }
 
         [TestMethod]
+        public void CreateToken()
+        {
+            string randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
+            User newUser = new User
+            {
+                Token = randomToken
+            };
+            Assert.AreEqual(randomToken, newUser.Token);
+        }
+      
+        [TestMethod]
         public void CreateListProject()
         {
             User newUser = new User

@@ -24,8 +24,10 @@ namespace Factory.Factories
 
         public void AddCustomServices()
         {
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<ILogic<User>, UserLogic>();
+            services.AddScoped<ISessionLogic, SessionLogic>();
         }
 
         public void AddDbContextService(string connectionString)

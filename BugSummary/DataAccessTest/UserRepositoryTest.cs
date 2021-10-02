@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.DomainUtilities;
 using Utilities.Comparers;
+using KellermanSoftware.CompareNetObjects;
 
 namespace DataAccessTest
 {
@@ -21,23 +22,23 @@ namespace DataAccessTest
 
         public UserRepositoryTest()
         {
-            this._connection = new SqliteConnection("Filename=:memory:");
-            this._contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(this._connection).Options;
-            this._bugSummaryContext = new BugSummaryContext(this._contextOptions);
-            this._userRepository = new UserRepository(this._bugSummaryContext);
+            _connection = new SqliteConnection("Filename=:memory:");
+            _contextOptions = new DbContextOptionsBuilder<BugSummaryContext>().UseSqlite(_connection).Options;
+            _bugSummaryContext = new BugSummaryContext(_contextOptions);
+            _userRepository = new UserRepository(_bugSummaryContext);
         }
 
         [TestInitialize]
         public void Setup()
         {
-            this._connection.Open();
-            this._bugSummaryContext.Database.EnsureCreated();
+            _connection.Open();
+            _bugSummaryContext.Database.EnsureCreated();
         }
 
         [TestCleanup]
         public void CleanUp()
         {
-            this._bugSummaryContext.Database.EnsureDeleted();
+            _bugSummaryContext.Database.EnsureDeleted();
         }
 
         [TestMethod]
@@ -57,13 +58,42 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Add(newUser);
-            this._userRepository.Save();
-            List<User> usersDataBase = this._userRepository.GetAll().ToList();
+            _userRepository.Add(newUser);
+            _userRepository.Save();
+            List<User> usersDataBase = _userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
             CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
+        }
 
+        [DataRow("pp", "pepe1234", true)]
+        [DataRow("Pp", "pepe1234", false)]
+        [DataRow("pp", "Pepe1234", false)]
+        [DataRow(" pp", "Pepe1234", false)]
+        [DataRow("pp", " Pepe1234", false)]
+        [DataRow("pp", "Pepe 1234", false)]
+        [DataRow("", "pepe1234", false)]
+        [DataRow("pp", "", false)]
+        [DataRow("", "", false)]
+        [DataTestMethod]
+        public void AuthenticateUser(string username, string password, bool expectedResult)
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            _userRepository.Add(newUser);
+            _userRepository.Save();
+
+            bool result = _userRepository.Authenticate(username, password);
+
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]
@@ -94,12 +124,40 @@ namespace DataAccessTest
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
 
-            this._userRepository.Add(newUser2);
-            this._userRepository.Save();
-            List<User> usersDataBase = this._userRepository.GetAll().ToList();
+            _userRepository.Add(newUser2);
+            _userRepository.Save();
+            List<User> usersDataBase = _userRepository.GetAll().ToList();
 
             Assert.AreEqual(1, usersDataBase.Count());
             CollectionAssert.AreNotEqual(userExpected, usersDataBase, new UserComparer());
+        }
+
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow(null)]
+        [DataTestMethod]
+        public void UpdateTokenTest(string token)
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            _userRepository.Add(newUser);
+            _userRepository.Save();
+            newUser.Token = token;
+
+            _userRepository.UpdateToken(newUser.UserName, newUser.Token);
+            _userRepository.Save();
+            User databaseUser = _userRepository.GetAll().ToList()[0];
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(newUser, databaseUser);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }

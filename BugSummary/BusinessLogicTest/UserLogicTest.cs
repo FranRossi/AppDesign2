@@ -14,7 +14,6 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddAdmin()
         {
-            Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User newUser = new User
             {
                 Id = 1,
@@ -44,7 +43,6 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddDeveloper()
         {
-            Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User newUser = new User
             {
                 Id = 2,
@@ -74,7 +72,6 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddTester()
         {
-            Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User newUser = new User
             {
                 Id = 24,
