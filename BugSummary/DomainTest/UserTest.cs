@@ -157,5 +157,15 @@ namespace Testing
                 Password = null
             };
         }
+
+        [ExpectedException(typeof(EmailIsIncorrectException))]
+        [TestMethod]
+        public void VerifyEmailIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Email = "estemail.estaMal@.ds@.com"
+            };
+        }
     }
 }

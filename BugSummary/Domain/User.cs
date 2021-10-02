@@ -10,6 +10,7 @@ namespace Domain
         private string _lastName;
         private string _userName;
         private string _pass;
+        private string _email;
 
         public int Id { get; set; }
         public string FirstName
@@ -48,7 +49,16 @@ namespace Domain
                 _pass = value;
             }
         }
-        public string Email { get; set; }
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                ValidateEmail(value);
+                _email = value;
+            }
+        }
+
         public RoleType Role { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
@@ -58,6 +68,13 @@ namespace Domain
         {
             if (Validator.CheckValueIsNull(value))
                 throw new UserPropertyIsNullException();
+        }
+
+
+        private void ValidateEmail(string email)
+        {
+            if (!Validator.ValidateEmailFormat(email))
+                throw new EmailIsIncorrectException();
         }
 
     }
