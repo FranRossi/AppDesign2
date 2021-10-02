@@ -45,6 +45,21 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewBugTest()
         {
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = new Project(),
+                    ProjectId = 1
+                });
+                context.SaveChanges();
+            }
+
             Bug newBug = new Bug
             {
                 Id = 1,
@@ -57,19 +72,45 @@ namespace DataAccessTest
             };
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug);
+            List<Bug> bugsDataBase = _bugRepository.GetAll().ToList();
 
-            this._bugRepository.Add(newBug);
-            this._bugRepository.Save();
-            List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
-
-            Assert.AreEqual(1, bugsDataBase.Count());
-            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
-
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
         }
 
         [TestMethod]
         public void GetAllBugsFromRepositoryTest()
         {
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = new Project(),
+                    ProjectId = 1
+                });
+                context.SaveChanges();
+                context.Add(new Bug
+                {
+                    Id = 2,
+                    Name = "Bug2",
+                    Description = "Bug en el cliente",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = new Project(),
+                    ProjectId = 1
+                });
+                context.SaveChanges();
+
+            }
+
             Bug newBug1 = new Bug
             {
                 Id = 1,
@@ -93,16 +134,13 @@ namespace DataAccessTest
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug1);
             bugsExpected.Add(newBug2);
+            List<Bug> bugsDataBase = _bugRepository.GetAll().ToList();
 
-
-            this._bugRepository.Add(newBug1);
-            this._bugRepository.Save();
-            this._bugRepository.Add(newBug2);
-            this._bugRepository.Save();
-            List<Bug> bugsDataBase = this._bugRepository.GetAll().ToList();
-
-            Assert.AreEqual(2, bugsDataBase.Count());
-            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(2, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
 
         }
 
@@ -130,47 +168,59 @@ namespace DataAccessTest
                 }
             };
             testerUser.Projects.Add(projectTester);
-            Bug newBug1 = new Bug
+            using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Id = 1,
-                Name = "Bug1",
-                Description = "Bug en el servidor",
-                Version = "1.4",
-                State = BugState.Active,
-                Project = projectTester,
-                ProjectId = 1
-            };
-            Bug newBug2 = new Bug
+                context.Add(new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = projectTester,
+                    ProjectId = 1
+                });
+                context.SaveChanges();
+                context.Add(new Bug
+                {
+                    Id = 2,
+                    Name = "Bug2",
+                    Description = "Bug en el cliente",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = new Project(),
+                    ProjectId = 1
+                });
+                context.SaveChanges();
+            }
+
+            List<Bug> bugsExpected = new List<Bug>()
             {
-                Id = 2,
-                Name = "Bug2",
-                Description = "Bug en el cliente",
-                Version = "1.4",
-                State = BugState.Active,
-                Project = new Project(),
-                ProjectId = 1
+                new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    Project = projectTester,
+                    ProjectId = 1
+                }
             };
-            List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(newBug1);
-
-
-            this._bugRepository.Add(newBug1);
-            this._bugRepository.Save();
-            this._bugRepository.Add(newBug2);
-            this._bugRepository.Save();
-
             List<Bug> bugsDataBase = this._bugRepository.GetAllByTester(testerUser).ToList();
 
-            Assert.AreEqual(1, bugsDataBase.Count());
-            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
-
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(UserCannotCreateBugException))]
         public void DeveloperCreatesBug()
         {
-            User devloperUser = new User
+            User developerUser = new User
             {
                 Id = 2,
                 FirstName = "Juan",
@@ -181,29 +231,17 @@ namespace DataAccessTest
                 Role = RoleType.Developer,
                 Projects = new List<Project>()
             };
-            Project projectTester = new Project()
-            {
-                Id = 1,
-                Name = "Semester 2021",
-                Users = new List<User>
-                {
-                 devloperUser
-                }
-            };
-            devloperUser.Projects.Add(projectTester);
-            Bug newBug1 = new Bug
+            Bug newBug = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                Project = projectTester,
+                Project = new Project(),
                 ProjectId = 1
             };
-
-            this._bugRepository.Add(devloperUser, newBug1);
-            this._bugRepository.Save();
+            _bugRepository.Add(developerUser, newBug);
         }
 
     }
