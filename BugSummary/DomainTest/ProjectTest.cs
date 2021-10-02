@@ -122,7 +122,7 @@ namespace DomainTest
                         UserName = "pp",
                         Email = "pepe@gmail.com",
                         Role = RoleType.Tester,
-                        Project = new Project { },
+                        Projects = new List<Project>(),
                         ProjectId = 1
                     },
                     new User
@@ -134,7 +134,7 @@ namespace DomainTest
                         UserName = "pp",
                         Email = "Juan@gmail.com",
                         Role = RoleType.Developer,
-                        Project = new Project { },
+                        Projects = new List<Project>(),
                         ProjectId = 1
                     }
                 }

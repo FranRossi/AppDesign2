@@ -106,7 +106,7 @@ namespace Testing
             {
                 Projects = new List<Project>()
             };
-            Assert.IsNotNull(newUser.Project);
+            Assert.IsNotNull(newUser.Projects);
         }
 
         [TestMethod]
