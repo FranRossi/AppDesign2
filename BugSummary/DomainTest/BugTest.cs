@@ -90,7 +90,7 @@ namespace Testing
 
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
-        public void VerifyBugNameLengthIsCorrect()
+        public void VerifyBugNameLengthIsInCorrect()
         {
             string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
             Bug newBug = new Bug
@@ -102,7 +102,7 @@ namespace Testing
 
         [ExpectedException(typeof(BugIdLengthIncorrectException))]
         [TestMethod]
-        public void VerifyBugIdLengthIsCorrect()
+        public void VerifyBugIdLengthIsInCorrect()
         {
             Bug newBug = new Bug
             {
@@ -112,7 +112,7 @@ namespace Testing
 
         [ExpectedException(typeof(BugDescriptionLengthIncorrectException))]
         [TestMethod]
-        public void VerifyBugDescriptionLengthIsCorrect()
+        public void VerifyBugDescriptionLengthIsInCorrect()
         {
             Bug newBug = new Bug
             {
@@ -122,7 +122,7 @@ namespace Testing
 
         [ExpectedException(typeof(BugVersionLengthIncorrectException))]
         [TestMethod]
-        public void VerifyBugVersionLengthIsCorrect()
+        public void VerifyBugVersionLengthIsInCorrect()
         {
             Bug newBug = new Bug
             {
@@ -138,6 +138,17 @@ namespace Testing
                 descriptionOver150Characters += i;
             }
             return descriptionOver150Characters;
+        }
+
+        [ExpectedException(typeof(BugStateIncorrectException))]
+        [TestMethod]
+        public void VerifyBugStateIsInCorrect()
+        {
+            Bug newBug = new Bug
+            {
+                State = (BugState)2
+            };
+
         }
     }
 }

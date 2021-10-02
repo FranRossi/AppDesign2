@@ -12,5 +12,10 @@ namespace Domain.DomainUtilities
         {
             return (text.Length <= maxNumber);
         }
+
+        public static bool CorrectBugState(BugState value)
+        {
+            return (value == BugState.Active || value == BugState.Inactive);
+        }
     }
 }

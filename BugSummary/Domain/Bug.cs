@@ -14,7 +14,8 @@ namespace Domain
 
 
 
-        public int Id {
+        public int Id 
+        {
             get => _id;
             set
             {
@@ -51,7 +52,16 @@ namespace Domain
         }
 
 
-        public BugState State { get; set; }
+        public BugState State
+        {
+            get => _state;
+            set
+            {
+                ValidateState(value);
+                _state = value;
+            }
+        }
+
         public Project Project { get; set; }
         public int ProjectId { get; set; }
 
@@ -59,6 +69,8 @@ namespace Domain
         private int _id;
         private string _description;
         private string _version;
+        private BugState _state;
+
 
 
         private void ValidateName(string nameToValidate)
@@ -83,6 +95,12 @@ namespace Domain
         {
             if (!Validator.MaxLengthOfString(versionToValidate, MaxBugVersionLength))
                 throw new BugVersionLengthIncorrectException();
+        }
+
+        private void ValidateState(BugState value)
+        {
+            if (!Validator.CorrectBugState(value))
+                throw new BugStateIncorrectException();
         }
 
     }
