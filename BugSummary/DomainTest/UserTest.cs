@@ -109,16 +109,6 @@ namespace Testing
             Assert.IsNotNull(newUser.Projects);
         }
 
-        [TestMethod]
-        public void CreateProjectId()
-        {
-            User newUser = new User
-            {
-               ProjectId = 2
-            };
-            Assert.AreEqual(2, newUser.ProjectId);
-        }
-
         [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyFirstNameIsInCorrect()

@@ -19,25 +19,14 @@ namespace DataAccess
             return Context.Bugs.ToList();
         }
 
-        public IEnumerable<Bug> GetAllByTesterID()
+        public IEnumerable<Bug> GetAllByTester(User tester)
         {
-
-            List<Bug> list = new List<Bug>
+            List<Bug> listBugForTester = new List<Bug>();
+            foreach (Project project in tester.Projects)
             {
-            new Bug
-            {
-                Id = 2,
-                Name = "Bug1",
-                Description = "Bug en el servidor",
-                Version = "1.4",
-                State = BugState.Active,
-                Project = new Project(),
-                ProjectId = 1
+                listBugForTester.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
             }
-
-            };
-            return list;
-            //return Context.Bugs.ToList();
+            return listBugForTester;
         }
     }
 }

@@ -71,8 +71,6 @@ namespace Domain
             }
         }
         public List<Project> Projects { get; set; }
-        public int ProjectId { get; set; }
-
 
         private void ValidateStringIsNotNull(string value)
         {

@@ -116,8 +116,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin,
-                ProjectId = 1,
+                Role = RoleType.Tester,
                 Projects = new List<Project>()
             };
             Project projectTester = new Project()
@@ -159,10 +158,10 @@ namespace DataAccessTest
             this._bugRepository.Add(newBug2);
             this._bugRepository.Save();
 
-            List<Bug> bugsDataBase = this._bugRepository.GetAllByTesterID().ToList();
+            List<Bug> bugsDataBase = this._bugRepository.GetAllByTester(testerUser).ToList();
 
             Assert.AreEqual(1, bugsDataBase.Count());
-            CollectionAssert.AreNotEqual(bugsExpected, bugsDataBase, new BugComparer());
+            CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
 
         }
 
