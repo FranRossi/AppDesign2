@@ -15,7 +15,6 @@ namespace DataAccessTest
     [TestClass]
     public class ProjectRepositoryTest
     {
-
         private readonly DbConnection _connection;
         private readonly ProjectRepository _projectRepository;
         private readonly BugSummaryContext _bugSummaryContext;
