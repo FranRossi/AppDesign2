@@ -19,6 +19,25 @@ namespace DataAccess
             return Context.Bugs.ToList();
         }
 
-       
+        public IEnumerable<Bug> GetAllByTesterID()
+        {
+
+            List<Bug> list = new List<Bug>
+            {
+            new Bug
+            {
+                Id = 2,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            }
+
+            };
+            return list;
+            //return Context.Bugs.ToList();
+        }
     }
 }
