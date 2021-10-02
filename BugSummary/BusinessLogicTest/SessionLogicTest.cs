@@ -3,6 +3,7 @@ using DataAccessInterface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Utilities.Authentication;
+using Utilities.CustomExceptions;
 
 namespace BusinessLogicTest
 {
@@ -57,6 +58,7 @@ namespace BusinessLogicTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(LoginException))]
         public void AuthenticateInvalidUser()
         {
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
