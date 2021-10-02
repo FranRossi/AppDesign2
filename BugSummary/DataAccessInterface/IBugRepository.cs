@@ -12,5 +12,6 @@ namespace DataAccessInterface
         void Add(User tester, Bug newBug);
         IEnumerable<Bug> GetAllByTester(User tester);
         IEnumerable<Bug> GetAll();
+        void Save();
     }
 }
