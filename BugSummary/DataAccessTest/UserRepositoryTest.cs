@@ -74,7 +74,7 @@ namespace DataAccessTest
         [DataRow("pp", "", false)]
         [DataRow("", "", false)]
         [DataTestMethod]
-        public void AuthenticateValidUser(string username, string password, bool expectedResult)
+        public void AuthenticateUser(string username, string password, bool expectedResult)
         {
             User newUser = new User
             {

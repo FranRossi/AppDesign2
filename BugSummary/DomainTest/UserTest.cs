@@ -101,7 +101,7 @@ namespace Testing
         [TestMethod]
         public void CreateToken()
         {
-            string randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+            string randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
             User newUser = new User
             {
                 Token = randomToken
