@@ -117,5 +117,45 @@ namespace Testing
             };
             Assert.AreEqual(2, newUser.ProjectId);
         }
+
+        [ExpectedException(typeof(NameIsNullException))]
+        [TestMethod]
+        public void VerifyFirstNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                FirstName = null
+            };
+        }
+
+        [ExpectedException(typeof(LastNameIsNullException))]
+        [TestMethod]
+        public void VerifyLasttNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                LastName = null
+            };
+        }
+
+        [ExpectedException(typeof(UserNameIsNullException))]
+        [TestMethod]
+        public void VerifyUserNameIsInCorrect()
+        {
+            User newUser = new User
+            {
+                UserName = null
+            };
+        }
+
+        [ExpectedException(typeof(PasswordIsNullException))]
+        [TestMethod]
+        public void VerifyPasswordIsInCorrect()
+        {
+            User newUser = new User
+            {
+                Password = null
+            };
+        }
     }
 }
