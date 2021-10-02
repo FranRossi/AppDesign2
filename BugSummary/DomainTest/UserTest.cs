@@ -2,6 +2,7 @@ using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
+using System.Collections.Generic;
 
 namespace Testing
 {
@@ -99,11 +100,11 @@ namespace Testing
         }
 
         [TestMethod]
-        public void CreateProject()
+        public void CreateListProject()
         {
             User newUser = new User
             {
-                Project = new Project() { }
+                Projects = new List<Project>()
             };
             Assert.IsNotNull(newUser.Project);
         }
