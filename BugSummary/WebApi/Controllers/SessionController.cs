@@ -24,9 +24,9 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ExceptionFilter]
-        public IActionResult Post([FromBody] string username, string password)
+        public IActionResult Post([FromBody] LoginModel model)
         {
-            string token = _sessionLogic.Authenticate(username, password);
+            string token = _sessionLogic.Authenticate(model.Username, model.Password);
             return Ok(token);
         }
     }
