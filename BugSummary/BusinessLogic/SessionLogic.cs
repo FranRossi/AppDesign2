@@ -1,4 +1,5 @@
-﻿using DataAccessInterface;
+﻿using BusinessLogicInterface;
+using DataAccessInterface;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class SessionLogic
+    public class SessionLogic : ISessionLogic
     {
         private IUserRepository _userRepository;
         public SessionLogic(IUserRepository userRepository)
@@ -24,7 +25,7 @@ namespace BusinessLogic
             return token;
         }
 
-        public string Authenticate(string username, string pass)
+        public string? Authenticate(string username, string pass)
         {
             string token = null;
             if (_userRepository.Authenticate(username, pass))
