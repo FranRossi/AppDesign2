@@ -10,8 +10,8 @@ namespace BusinessLogic
 {
     public class SessionLogic
     {
-        private IRepository<User> _userRepository;
-        public SessionLogic(IRepository<User> userRepository)
+        private IUserRepository _userRepository;
+        public SessionLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -21,6 +21,14 @@ namespace BusinessLogic
             byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
             byte[] key = Guid.NewGuid().ToByteArray();
             string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            return token;
+        }
+
+        public string Authenticate(string username, string pass)
+        {
+            string token = null;
+            if (_userRepository.Authenticate(username, pass))
+                token = GenerateToken();
             return token;
         }
     }

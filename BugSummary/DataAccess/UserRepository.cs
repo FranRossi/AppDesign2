@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using DataAccessInterface;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class UserRepository : BaseRepository<User>
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(BugSummaryContext bugSummaryContext)
         {
@@ -22,6 +23,5 @@ namespace DataAccess
         {
             return Context.Users.Any(u => u.UserName == username && u.Password == password);
         }
-
     }
 }
