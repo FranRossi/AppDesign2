@@ -104,12 +104,10 @@ namespace Testing
         [TestMethod]
         public void VerifyBugIdLengthIsCorrect()
         {
-            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
             Bug newBug = new Bug
             {
                 Id = 12345
             };
-            newBug.ValidateIdLength();
         }
 
         [ExpectedException(typeof(BugDescriptionLengthIncorrectException))]
@@ -118,21 +116,18 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                Description = GenerateRandomStringWithSpecifiedLength(160);
+                Description = GenerateRandomStringWithSpecifiedLength(160)
             };
-            newBug.ValidateDescriptionLength();
         }
 
         [ExpectedException(typeof(BugVersionLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugVersionLengthIsCorrect()
         {
-            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
             Bug newBug = new Bug
             {
                 Version = GenerateRandomStringWithSpecifiedLength(11)
             };
-            newBug.ValidateVersionLength();
         }
 
         private string GenerateRandomStringWithSpecifiedLength(int stringLength)

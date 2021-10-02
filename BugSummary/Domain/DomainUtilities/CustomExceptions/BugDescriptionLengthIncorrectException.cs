@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class BugNameLengthIncorrectException : Exception
+    public class BugDescriptionLengthIncorrectException : Exception
     {
-        public override string Message => "Bug's name must be under 30 characters";
+        public override string Message => "Bug's description must be under 150 characters";
     }
 }
