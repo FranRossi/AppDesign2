@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace DataAccess
             return Context.Bugs.ToList();
         }
 
+       
     }
 }

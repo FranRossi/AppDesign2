@@ -105,6 +105,67 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
+        public void GetAllBugsFromTester()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                ProjectId = 1,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                 testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+            Bug newBug1 = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = projectTester,
+                ProjectId = 1
+            };
+            Bug newBug2 = new Bug
+            {
+                Id = 2,
+                Name = "Bug2",
+                Description = "Bug en el cliente",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug1);
+
+
+            this._bugRepository.Add(newBug1);
+            this._bugRepository.Save();
+            this._bugRepository.Add(newBug2);
+            this._bugRepository.Save();
+
+            List<Bug> bugsDataBase = this._bugRepository.GetAllByTesterID().ToList();
+
+            Assert.AreEqual(1, bugsDataBase.Count());
+            CollectionAssert.AreNotEqual(bugsExpected, bugsDataBase, new BugComparer());
+
+        }
+
 
 
     }
