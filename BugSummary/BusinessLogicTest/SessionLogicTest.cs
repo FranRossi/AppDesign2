@@ -27,5 +27,17 @@ namespace BusinessLogicTest
 
             Assert.IsTrue(token.Length == TokenHelper.TokenLength);
         }
+
+        [TestMethod]
+        public void CompareTokenUniqueness()
+        {
+            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
+
+            string firstToken = sessionLogic.GenerateToken();
+            string secondToken = sessionLogic.GenerateToken();
+
+            Assert.AreNotEqual(firstToken, secondToken);
+        }
     }
 }
