@@ -165,7 +165,44 @@ namespace DataAccessTest
 
         }
 
+        [ExpectedException(typeof(UserCannotCreateBugException))]
+        public void DeveloperCreatesBug()
+        {
+            User devloperUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                 devloperUser
+                }
+            };
+            devloperUser.Projects.Add(projectTester);
+            Bug newBug1 = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = projectTester,
+                ProjectId = 1
+            };
 
+            this._bugRepository.Add(devloperUser, newBug1);
+            this._bugRepository.Save();
 
+        }
     }
 }
