@@ -11,5 +11,6 @@ namespace DataAccessInterface
     {
         public bool Authenticate(string username, string password);
 
+        public void UpdateToken(string username, string token);
     }
 }

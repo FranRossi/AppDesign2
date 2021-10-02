@@ -23,5 +23,15 @@ namespace DataAccess
         {
             return Context.Users.Any(u => u.UserName == username && u.Password == password);
         }
+
+        public void UpdateToken(string username, string token)
+        {
+            User userFromDB = Context.Users.FirstOrDefault(u => u.UserName == username);
+            if (userFromDB != null)
+            {
+                userFromDB.Token = token;
+                Context.Users.Update(userFromDB);
+            }
+        }
     }
 }
