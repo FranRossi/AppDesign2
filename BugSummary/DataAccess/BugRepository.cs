@@ -30,11 +30,19 @@ namespace DataAccess
             return listBugForTester;
         }
 
-        public void Add(User userToCreateBug, Bug newBug1)
+        public void Add(User userToCreateBug, Bug newBug)
         {
-            if (userToCreateBug.Role != RoleType.Tester)
+            if (userToCreateBug.Role == RoleType.Tester)
+            {
+                foreach (Project project in userToCreateBug.Projects)
+                {
+                    if (project.Id == newBug.ProjectId)
+                        Context.Bugs.Add(newBug);
+                }
+            }
+            else
                 throw new UserCannotCreateBugException();
- 
+
         }
     }
 }
