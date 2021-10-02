@@ -39,5 +39,34 @@ namespace BusinessLogicTest
 
             Assert.AreNotEqual(firstToken, secondToken);
         }
+
+        [TestMethod]
+        public void AuthenticateValidUser()
+        {
+            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            string username = "someUsername";
+            string password = "somePassword";
+            mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            SessionLogic _sessionLogic = new SessionLogic(mockUserRepository);
+            string result = _sessionLogic.Authenticate(username, password);
+
+            Assert.AreNotEqual(null, result);
+        }
+
+        [TestMethod]
+        public void AuthenticateInvalidUser()
+        {
+            Mock<UserRepository> mockUserRepository = new Mock<UserRepository>(MockBehavior.Strict);
+            string username = "someUsername";
+            string password = "somePassword";
+            mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+
+            SessionLogic _sessionLogic = new SessionLogic(mockUserRepository);
+            string result = _sessionLogic.Authenticate(username, password);
+
+
+            Assert.AreEqual(null, result);
+        }
     }
 }
