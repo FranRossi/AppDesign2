@@ -19,6 +19,11 @@ namespace WebApiTest
         {
             string username = "someUsername";
             string password = "somePassword";
+            LoginModel loginModel = new LoginModel
+            {
+                Username = username,
+                Password = password
+            };
             string mockedTokenResponse = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
@@ -38,6 +43,11 @@ namespace WebApiTest
         {
             string username = "someUsername";
             string password = "somePassword";
+            LoginModel loginModel = new LoginModel
+            {
+                Username = username,
+                Password = password
+            };
             string mockedTokenResponse = null;
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
