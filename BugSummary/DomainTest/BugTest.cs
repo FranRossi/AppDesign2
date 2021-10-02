@@ -146,7 +146,7 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                State = (BugState)2
+                State = (BugState)(-1)
             };
 
         }
