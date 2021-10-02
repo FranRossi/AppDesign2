@@ -25,7 +25,7 @@ namespace BusinessLogic
             return token;
         }
 
-        public string? Authenticate(string username, string pass)
+        public string Authenticate(string username, string pass)
         {
             string token = null;
             if (_userRepository.Authenticate(username, pass))
