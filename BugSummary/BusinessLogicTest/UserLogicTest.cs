@@ -11,7 +11,7 @@ namespace BusinessLogicTest
     [TestClass]
     public class UserLogicTest
     {
-        [DataTestMethod]
+        [TestMethod]
         public void AddAdmin()
         {
             User newUser = new User
@@ -40,7 +40,7 @@ namespace BusinessLogicTest
             Assert.AreEqual(newUser, receivedUser);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         public void AddDeveloper()
         {
             User newUser = new User
@@ -69,7 +69,7 @@ namespace BusinessLogicTest
             Assert.AreEqual(newUser, receivedUser);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         public void AddTester()
         {
             User newUser = new User

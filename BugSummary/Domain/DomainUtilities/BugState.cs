@@ -4,7 +4,7 @@ namespace Domain.DomainUtilities
 {
     public enum BugState
     {
-        Inactive = 0,
+        Done = 0,
         Active = 1
     }
 }

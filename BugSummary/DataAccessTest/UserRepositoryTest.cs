@@ -52,7 +52,8 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
             };
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);
@@ -106,7 +107,8 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
             };
             User newUser2 = new User
             {
@@ -116,7 +118,8 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
             };
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser);

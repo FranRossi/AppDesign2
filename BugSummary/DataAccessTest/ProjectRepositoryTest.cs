@@ -48,7 +48,8 @@ namespace DataAccessTest
             {
                 Name = "New Project 2022",
                 Id = 1,
-                Bugs = new List<Bug>() { },
+                Bugs = new List<Bug>(),
+                Users = new List<User>()
             };
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(newProject);
@@ -69,13 +70,15 @@ namespace DataAccessTest
             {
                 Name = "New Project 2022",
                 Id = 1,
-                Bugs = new List<Bug>() { },
+                Bugs = new List<Bug>(),
+                Users = new List<User>()
             };
             Project newProject2 = new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
-                Bugs = new List<Bug>() { },
+                Bugs = new List<Bug>(),
+                Users = new List<User>()
             };
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(newProject);
