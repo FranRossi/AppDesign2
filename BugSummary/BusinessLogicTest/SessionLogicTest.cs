@@ -23,9 +23,8 @@ namespace BusinessLogicTest
         {
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
-            MethodInfo generateTokenMethod = sessionLogic.GetType().GetMethod("GenerateToken");
 
-            string token = (string)generateTokenMethod.Invoke(sessionLogic, null);
+            string token = sessionLogic.GenerateToken();
 
             Assert.IsTrue(token.Length == TokenHelper.TokenLength);
         }
@@ -35,7 +34,6 @@ namespace BusinessLogicTest
         {
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
-            MethodInfo generateTokenMethod = sessionLogic.GetType().GetMethod("GenerateToken");
 
             string firstToken = sessionLogic.GenerateToken();
             string secondToken = sessionLogic.GenerateToken();
