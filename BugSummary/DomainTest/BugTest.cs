@@ -63,9 +63,9 @@ namespace Testing
         {
             Bug newBug = new Bug
             {
-                State = BugState.Inactive
+                State = BugState.Done
             };
-            Assert.AreEqual(BugState.Inactive, newBug.State);
+            Assert.AreEqual(BugState.Done, newBug.State);
         }
 
         [TestMethod]
