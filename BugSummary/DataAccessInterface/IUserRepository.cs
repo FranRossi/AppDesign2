@@ -10,5 +10,6 @@ namespace DataAccessInterface
     public interface IUserRepository : IRepository<User>
     {
         public bool Authenticate(string username, string password);
+
     }
 }
