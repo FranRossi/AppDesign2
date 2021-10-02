@@ -52,7 +52,8 @@ namespace BusinessLogicTest
             string result = _sessionLogic.Authenticate(username, password);
 
             Assert.AreNotEqual(null, result);
-            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            Assert.AreEqual(result, sentToken);
         }
 
         [TestMethod]
@@ -75,8 +76,7 @@ namespace BusinessLogicTest
             string result = _sessionLogic.Authenticate(username, password);
 
             Assert.AreEqual(null, result);
-            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
-            Assert.AreEqual(result, sentToken);
+            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
         }
     }
 }

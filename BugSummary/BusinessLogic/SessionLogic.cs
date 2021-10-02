@@ -28,7 +28,10 @@ namespace BusinessLogic
         {
             string token = null;
             if (_userRepository.Authenticate(username, pass))
+            {
                 token = GenerateToken();
+                _userRepository.UpdateToken(username, token);
+            }
             return token;
         }
     }
