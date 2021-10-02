@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -22,6 +23,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [ExceptionFilter]
         public IActionResult Post([FromBody] string username, string password)
         {
             string token = _sessionLogic.Authenticate(username, password);
