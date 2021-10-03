@@ -46,9 +46,9 @@ namespace WebApiTest
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             Project receivedProject = null;
             mock.Setup(m => m.Add(It.IsAny<Project>())).Callback((Project project) => receivedProject = project);
-            ProjectController controller = new ProjectController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            IActionResult result = controller.Post(user);
+            IActionResult result = controller.Post(projectToAdd);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
