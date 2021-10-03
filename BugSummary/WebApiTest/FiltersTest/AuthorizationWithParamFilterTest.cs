@@ -45,13 +45,14 @@ namespace WebApiTest.FiltersTest
             Assert.IsNull(response);
         }
 
-        [DataRow(RoleType.Admin, "Authentication failed: please log in as an Admin.")]
-        [DataRow(RoleType.Developer, "Authentication failed: please log in as a Developer.")]
-        [DataRow(RoleType.Tester, "Authentication failed: please log in as a Tester.")]
+        [DataRow(RoleType.Admin, "Please send a valid token.")]
+        [DataRow(RoleType.Developer, "Please send a valid token.")]
+        [DataRow(RoleType.Tester, "Please send a valid token.")]
         [DataTestMethod]
         public void TestAuthFilterWithNoHeader(RoleType roleType, string message)
         {
             Mock<ISessionLogic> getRoleMock = new Mock<ISessionLogic>(MockBehavior.Strict);
+            getRoleMock.Setup(x => x.GetRoleByToken(It.IsAny<string>())).Returns(roleType);
             Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(provider => provider.GetService(typeof(ISessionLogic)))
                 .Returns(getRoleMock.Object);
@@ -68,7 +69,7 @@ namespace WebApiTest.FiltersTest
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
-            Assert.AreEqual(401, response.StatusCode);
+            Assert.AreEqual(403, response.StatusCode);
             Assert.AreEqual(message, response.Content);
         }
     }
