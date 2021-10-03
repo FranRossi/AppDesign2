@@ -8,6 +8,7 @@ using Domain.DomainUtilities;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
+using Utilities.CustomExceptions;
 
 namespace DataAccessTest
 {
@@ -65,6 +66,33 @@ namespace DataAccessTest
                 List<Project> projectsDataBase = context.Projects.ToList();
                 Assert.AreEqual(1, projectsDataBase.Count());
                 CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProjectNameIsNotUniqueException))]
+        public void AddAlreadyAddedProjectTest()
+        {
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Project
+                {
+                    Name = "New Project 2022"
+                });
+                context.SaveChanges();
+            }
+            Project projectToAdd = new Project
+            {
+                Name = "New Project 2022"
+            };
+
+            try
+            {
+                _projectRepository.Add(projectToAdd);
+            }
+            catch (ProjectNameIsNotUniqueException e)
+            {
+                Assert.AreEqual("The project name chosen was already taken, please enter a different name", e.Message);
             }
         }
 
