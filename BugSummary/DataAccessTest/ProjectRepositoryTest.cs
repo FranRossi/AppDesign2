@@ -178,7 +178,7 @@ namespace DataAccessTest
                 Name = "Proyect 2344"
             };
 
-            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+            TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.Update(updatedProject), "The entered project does not exist."
            );
         }
