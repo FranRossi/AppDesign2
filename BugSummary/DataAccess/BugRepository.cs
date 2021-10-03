@@ -43,7 +43,6 @@ namespace DataAccess
             }
             else
                 throw new UserCannotCreateBugException();
-
         }
     }
 }

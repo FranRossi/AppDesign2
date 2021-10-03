@@ -13,7 +13,7 @@ using WebApi.Models;
 namespace WebApiTest
 {
     [TestClass]
-    public class SessionControllerTest
+    public class SessionsControllerTest
     {
         [TestMethod]
         public void AuthenticateValidUser()

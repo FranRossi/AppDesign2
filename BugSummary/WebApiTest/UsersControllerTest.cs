@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using BusinessLogicInterface;
+using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
@@ -12,7 +14,7 @@ using WebApi.Models;
 namespace WebApiTest
 {
     [TestClass]
-    public class UserControllerTest
+    public class UsersControllerTest
     {
         [TestMethod]
         public void AddValidUser()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BusinessLogicInterface
 {
@@ -6,5 +7,6 @@ namespace BusinessLogicInterface
     {
         public void Add(T entity);
         T Get(string token);
+     
     }
 }

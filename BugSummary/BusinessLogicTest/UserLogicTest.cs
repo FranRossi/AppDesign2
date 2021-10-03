@@ -114,7 +114,6 @@ namespace BusinessLogicTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
             };
-            User receivedUser = null;
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(m => m.Get(It.IsAny<string>())).Returns(expectedUser);
             mockUserRepository.Setup(mr => mr.Save());
