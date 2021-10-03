@@ -102,5 +102,31 @@ namespace WebApiTest
             mockUserLogic.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         }
+
+        [TestMethod]
+        public void UserToModelTest()
+        {
+            User expectedUser = new User
+            {
+                Id = 0,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            UserModel userToCompare = new UserModel
+            {
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+            };
+            UserModel model = UserModel.ToModel(expectedUser);
+            Assert.AreEqual(userToCompare, model);
+        }
     }
 }
