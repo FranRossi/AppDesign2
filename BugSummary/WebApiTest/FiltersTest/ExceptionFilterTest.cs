@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using BusinessLogicInterface;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
+using System;
 
 namespace WebApiTest.FiltersTest
 {
@@ -19,6 +20,18 @@ namespace WebApiTest.FiltersTest
         public void LoginExceptionTest()
         {
             LoginException exception = new LoginException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void ProjectNameIsNotUniqueExceptionTest()
+        {
+            ProjectNameIsNotUniqueException exception = new ProjectNameIsNotUniqueException();
+            TestException(exception, 409);
+        }
+
+        private void TestException(Exception exception, int statusCode)
+        {
             ModelStateDictionary modelState = new ModelStateDictionary();
             DefaultHttpContext httpContext = new DefaultHttpContext();
             ExceptionContext context = new ExceptionContext(
@@ -34,7 +47,7 @@ namespace WebApiTest.FiltersTest
             exceptionFilter.OnException(context);
 
             ContentResult response = context.Result as ContentResult;
-            Assert.AreEqual(response.StatusCode, 403);
+            Assert.AreEqual(response.StatusCode, statusCode);
             Assert.AreEqual(response.Content, exception.Message);
         }
     }

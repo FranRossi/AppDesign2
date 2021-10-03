@@ -8,10 +8,9 @@ namespace Domain
     public class Project
     {
         public const int MaxProjectNameLength = 30;
-        
-        
+
         public int Id { get; set; }
-        public string Name 
+        public string Name
         {
             get => _name;
             set

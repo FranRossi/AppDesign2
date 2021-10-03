@@ -8,6 +8,9 @@ using Domain.DomainUtilities;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
+using Utilities.CustomExceptions;
+using System;
+using TestUtilities;
 
 namespace DataAccessTest
 {
@@ -44,17 +47,14 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewProjectTest()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
+            Project projectToAdd = new Project
             {
-                context.Add(new Project
-                {
-                    Name = "New Project 2022",
-                    Id = 1,
-                    Bugs = new List<Bug>(),
-                    Users = new List<User>()
-                });
-                context.SaveChanges();
-            }
+                Name = "New Project 2022"
+            };
+
+            _projectRepository.Add(projectToAdd);
+            _projectRepository.Save();
+
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(new Project
             {
@@ -63,14 +63,34 @@ namespace DataAccessTest
                 Bugs = new List<Bug>(),
                 Users = new List<User>()
             });
-
-
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 List<Project> projectsDataBase = context.Projects.ToList();
                 Assert.AreEqual(1, projectsDataBase.Count());
                 CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
             }
+        }
+
+        [TestMethod]
+        public void AddAlreadyAddedProjectTest()
+        {
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Project
+                {
+                    Name = "New Project 2022"
+                });
+                context.SaveChanges();
+            }
+            Project projectToAdd = new Project
+            {
+                Name = "New Project 2022"
+            };
+
+
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+                () => _projectRepository.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+            );
         }
 
         [TestMethod]
