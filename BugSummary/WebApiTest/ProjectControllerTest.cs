@@ -57,6 +57,32 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+        [TestMethod]
+        public void UpdateValidProject()
+        {
+            ProjectModel projectToUpdate = new ProjectModel
+            {
+                Name = "New Project 2023"
+            };
+            int id = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            Project receivedProject = null;
+            int receivedId = -1;
+            mock.Setup(m => m.Update(It.IsAny<int>(), It.IsAny<Project>())).Callback((int id, Project sentProject) =>
+            {
+                receivedId = id;
+                receivedProject = sentProject;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
 
+            IActionResult result = controller.Post(id, projectToUpdate);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projectToUpdate.ToEntity(), receivedProject);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+            Assert.AreEqual(id, receivedId);
+        }
     }
 }
