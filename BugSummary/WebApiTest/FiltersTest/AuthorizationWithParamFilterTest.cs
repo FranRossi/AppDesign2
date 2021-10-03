@@ -73,12 +73,12 @@ namespace WebApiTest.FiltersTest
             Assert.AreEqual(message, response.Content);
         }
 
-        [DataRow(RoleType.Admin, RoleType.Developer, "Authentication failed: please log in as Admin")]
-        [DataRow(RoleType.Admin, RoleType.Tester, "Authentication failed: please log in as Admin")]
-        [DataRow(RoleType.Developer, RoleType.Admin, "Authentication failed: please log in as Developer")]
-        [DataRow(RoleType.Developer, RoleType.Tester, "Authentication failed: please log in as Developer")]
-        [DataRow(RoleType.Tester, RoleType.Developer, "Authentication failed: please log in as Tester")]
-        [DataRow(RoleType.Tester, RoleType.Admin, "Authentication failed: please log in as Tester")]
+        [DataRow(RoleType.Developer, RoleType.Admin, "Authentication failed: please log in as Admin")]
+        [DataRow(RoleType.Tester, RoleType.Admin, "Authentication failed: please log in as Admin")]
+        [DataRow(RoleType.Admin, RoleType.Developer, "Authentication failed: please log in as Developer")]
+        [DataRow(RoleType.Tester, RoleType.Developer, "Authentication failed: please log in as Developer")]
+        [DataRow(RoleType.Developer, RoleType.Tester, "Authentication failed: please log in as Tester")]
+        [DataRow(RoleType.Admin, RoleType.Tester, "Authentication failed: please log in as Tester")]
         [DataTestMethod]
         public void TestAuthFilterWithMismatchingRoles(RoleType actualRoleType, RoleType expectedRoleType, string message)
         {
