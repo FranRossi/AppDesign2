@@ -140,5 +140,37 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
+        public void UpdateProjectTest()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            Project updatedProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _userRepository.Update(updatedProject);
+            _userRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                User databaseUser = context.Users.ToList().First(u => u.Id == newProject.Id);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(updatedProject, databaseUser);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+
     }
 }
