@@ -26,7 +26,7 @@ namespace WebApiTest
                 Name = "New Project 2022"
             };
 
-            Project result = projectModel.ToEntity(ExpectedProject);
+            Project result = projectModel.ToEntity();
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(ExpectedProject, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
