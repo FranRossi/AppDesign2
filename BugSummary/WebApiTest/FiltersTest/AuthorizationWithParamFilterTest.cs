@@ -10,17 +10,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Filters;
 
 namespace WebApiTest.FiltersTest
 {
+    [TestClass]
     public class AuthorizationWithParameterFilterTest
     {
-        [TestMethod]
-        public void TestAuthFilterWithValidHeader()
+        [DataRow(RoleType.Admin)]
+        [DataRow(RoleType.Developer)]
+        [DataRow(RoleType.Tester)]
+        [DataTestMethod]
+        public void TestAuthFilterWithValidHeader(RoleType roleType)
         {
             string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
             var getRoleMock = new Mock<ISessionLogic>(MockBehavior.Strict);
-            getRoleMock.Setup(x => x.GetRoleByToken(token)).Returns(RoleType.Admin);
+            getRoleMock.Setup(x => x.GetRoleByToken(token)).Returns(roleType);
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(provider => provider.GetService(typeof(ISessionLogic)))
                 .Returns(getRoleMock.Object);
@@ -33,7 +38,7 @@ namespace WebApiTest.FiltersTest
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
 
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter("Admin");
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roleType);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
