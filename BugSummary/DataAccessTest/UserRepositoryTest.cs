@@ -246,5 +246,12 @@ namespace DataAccessTest
 
             Assert.AreEqual(expected.Id, user.Id);
         }
+        
+        [TestMethod]
+        public void GetUserByInvalidValidTokenTest()
+        {
+            User result = _userRepository.Get(null);
+            Assert.AreEqual(null, result);
+        }
     }
 }
