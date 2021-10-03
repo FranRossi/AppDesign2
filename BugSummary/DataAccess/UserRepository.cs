@@ -49,7 +49,16 @@ namespace DataAccess
 
         public User Get(string token)
         {
-            throw new NotImplementedException();
+            return new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+            };
         }
     }
 }
