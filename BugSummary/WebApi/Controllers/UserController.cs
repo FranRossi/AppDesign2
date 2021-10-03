@@ -2,11 +2,6 @@
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -31,10 +26,10 @@ namespace WebApi.Controllers
             return Ok();
         }
         
-        [HttpGet("{token}")]
-        public IActionResult Get(string token)
+        [HttpGet("{Token}")]
+        public IActionResult Get(string Token)
         {
-            User user = _users.Get(token);
+            User user = _users.Get(Token);
             if (user == null) {
                 return NotFound();
             }

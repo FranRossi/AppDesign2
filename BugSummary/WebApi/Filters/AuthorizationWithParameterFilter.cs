@@ -31,7 +31,7 @@ namespace WebApi.Filters
                 _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
                 string token = context.HttpContext.Request.Headers["token"];
                 RoleType role = _sessionLogic.GetRoleByToken(token);
-                if (token == null)
+                if (_argument != RoleType.Admin && token == null  )
                 {
                     context.Result = new ContentResult()
                     {
@@ -39,7 +39,7 @@ namespace WebApi.Filters
                         Content = "Please send a valid token."
                     };
                 }
-                else if (role != _argument)
+                else if (_argument != RoleType.Admin  && role != _argument)
                 {
                     context.Result = new ContentResult()
                     {
