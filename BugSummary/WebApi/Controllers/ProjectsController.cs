@@ -26,5 +26,13 @@ namespace WebApi.Controllers
             _projects.Add(model.ToEntity());
             return Ok();
         }
+
+        [HttpPost("{id}")]
+        [AuthorizationWithParameterFilter(RoleType.Admin)]
+        public IActionResult Post(int id, [FromBody] ProjectModel model)
+        {
+            _projects.Update(id, model.ToEntity());
+            return Ok();
+        }
     }
 }

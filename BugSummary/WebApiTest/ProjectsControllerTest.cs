@@ -12,7 +12,7 @@ using WebApi.Models;
 namespace WebApiTest
 {
     [TestClass]
-    public class ProjectControllerTest
+    public class ProjectsControllerTest
     {
         [TestMethod]
         public void ProjectToEntityTest()
