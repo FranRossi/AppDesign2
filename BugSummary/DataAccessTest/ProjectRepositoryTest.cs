@@ -171,16 +171,16 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InexistentProjectException))]
-        public void UpdateInexistentUserTest()
+        public void UpdateInexistentProjectTest()
         {
             Project updatedProject = new Project
             {
                 Name = "Proyect 2344"
             };
 
-            _projectRepository.Update(updatedProject);
-            _projectRepository.Save();
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+               () => _projectRepository.Update(updatedProject), "The entered project does not exist."
+           );
         }
     }
 }
