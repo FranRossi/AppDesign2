@@ -39,6 +39,8 @@ namespace DataAccess
                 projectFromDB.Name = updatedProject.Name;
                 Context.Projects.Update(projectFromDB);
             }
+            else
+                throw new InexistentProjectException();
         }
     }
 }
