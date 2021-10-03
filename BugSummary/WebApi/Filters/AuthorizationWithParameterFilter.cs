@@ -44,7 +44,7 @@ namespace WebApi.Filters
                     context.Result = new ContentResult()
                     {
                         StatusCode = 401,
-                        Content = GetMessageByRole(role)
+                        Content = GetMessageByRole(_argument)
                     };
                 }
             }
