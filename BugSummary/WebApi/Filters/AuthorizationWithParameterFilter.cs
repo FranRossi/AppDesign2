@@ -26,24 +26,27 @@ namespace WebApi.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
-            string token = context.HttpContext.Request.Headers["token"];
-            RoleType role = _sessionLogic.GetRoleByToken(token);
-            if (token == null)
+            if (_argument != RoleType.Invalid)
             {
-                context.Result = new ContentResult()
+                _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
+                string token = context.HttpContext.Request.Headers["token"];
+                RoleType role = _sessionLogic.GetRoleByToken(token);
+                if (token == null)
                 {
-                    StatusCode = 403,
-                    Content = "Please send a valid token."
-                };
-            }
-            else if (role != _argument)
-            {
-                context.Result = new ContentResult()
+                    context.Result = new ContentResult()
+                    {
+                        StatusCode = 403,
+                        Content = "Please send a valid token."
+                    };
+                }
+                else if (role != _argument)
                 {
-                    StatusCode = 401,
-                    Content = GetMessageByRole(role)
-                };
+                    context.Result = new ContentResult()
+                    {
+                        StatusCode = 401,
+                        Content = GetMessageByRole(role)
+                    };
+                }
             }
         }
 
