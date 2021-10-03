@@ -12,6 +12,12 @@ namespace WebApi.Filters
     {
         private ISessionLogic _sessionLogic;
         private RoleType _argument;
+        private static Dictionary<RoleType, string> _messageMap = new Dictionary<RoleType, string>()
+        {
+            { RoleType.Admin, "Admin" },
+            { RoleType.Developer, "Developer" },
+            { RoleType.Tester, "Tester" },
+        };
 
         public AuthorizationWithParameterFilter(RoleType argument)
         {
@@ -31,6 +37,20 @@ namespace WebApi.Filters
                     Content = "Please send a valid token."
                 };
             }
+            else if (role != _argument)
+            {
+                context.Result = new ContentResult()
+                {
+                    StatusCode = 401,
+                    Content = GetMessageByRole(role)
+                };
+            }
+        }
+
+        private string GetMessageByRole(RoleType role)
+        {
+            string baseMessage = "Authentication failed: please log in as ";
+            return baseMessage + _messageMap[role];
         }
     }
 }
