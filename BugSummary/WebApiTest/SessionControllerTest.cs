@@ -28,7 +28,7 @@ namespace WebApiTest
             string mockedTokenResponse = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
-            SessionController controller = new SessionController(mock.Object);
+            SessionsController controller = new SessionsController(mock.Object);
 
             IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;
@@ -52,7 +52,7 @@ namespace WebApiTest
             string mockedTokenResponse = null;
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
-            SessionController controller = new SessionController(mock.Object);
+            SessionsController controller = new SessionsController(mock.Object);
 
             IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;

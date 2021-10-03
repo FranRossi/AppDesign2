@@ -9,11 +9,11 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly ILogic<User> _users;
 
-        public UserController(ILogic<User> users)
+        public UsersController(ILogic<User> users)
         {
             _users = users;
         }

@@ -39,7 +39,7 @@ namespace WebApiTest
             Mock<ILogic<User>> mock = new Mock<ILogic<User>>(MockBehavior.Strict);
             User receivedUser = null;
             mock.Setup(m => m.Add(It.IsAny<User>())).Callback((User user) => receivedUser = user);
-            UserController controller = new UserController(mock.Object);
+            UsersController controller = new UsersController(mock.Object);
 
             IActionResult result = controller.Post(user);
 
@@ -75,7 +75,7 @@ namespace WebApiTest
             };
             Mock<ILogic<User>> mockUserLogic = new Mock<ILogic<User>>(MockBehavior.Strict);
             mockUserLogic.Setup(m => m.Get(It.IsAny<string>())).Returns(user.ToEntity());
-            UserController controller = new UserController(mockUserLogic.Object);
+            UsersController controller = new UsersController(mockUserLogic.Object);
 
             
             IActionResult result = controller.Get(token);
@@ -94,7 +94,7 @@ namespace WebApiTest
             User invalidUser = null;
             Mock<ILogic<User>> mockUserLogic = new Mock<ILogic<User>>(MockBehavior.Strict);
             mockUserLogic.Setup(m => m.Get(It.IsAny<string>())).Returns(invalidUser);
-            UserController controller = new UserController(mockUserLogic.Object);
+            UsersController controller = new UsersController(mockUserLogic.Object);
 
             
             IActionResult result = controller.Get(token);
