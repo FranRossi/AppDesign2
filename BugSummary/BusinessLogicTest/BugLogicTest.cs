@@ -62,8 +62,8 @@ namespace BusinessLogicTest
             });
             mockBugRepository.Setup(mr => mr.Save());
 
-
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object);
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             bugLogic.Add(testerUser, newBug);
 
             mockBugRepository.VerifyAll();

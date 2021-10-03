@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AuthorizationWithParameterFilter(RoleType.Tester )]
         public IActionResult Get([FromHeader] string token)
         {
             IEnumerable<Bug> bugs = _bugs.GetAll(token);

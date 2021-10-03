@@ -16,10 +16,6 @@ namespace BusinessLogic
             _bugRepository = bugRepository;
             _userRepository = userRepository;
         }
-        public BugLogic(IBugRepository bugRepository)
-        {
-            _bugRepository = bugRepository;
-        }
 
         public void Add(User tester, Bug newBug)
         {
