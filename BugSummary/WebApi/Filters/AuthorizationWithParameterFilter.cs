@@ -31,8 +31,6 @@ namespace WebApi.Filters
                     Content = "Please send a valid token."
                 };
             }
-
         }
-
     }
 }

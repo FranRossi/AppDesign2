@@ -72,5 +72,36 @@ namespace WebApiTest.FiltersTest
             Assert.AreEqual(403, response.StatusCode);
             Assert.AreEqual(message, response.Content);
         }
+
+        [DataRow(RoleType.Admin, RoleType.Developer, "Authentication failed: please log in as Admin")]
+        [DataRow(RoleType.Admin, RoleType.Tester, "Authentication failed: please log in as Admin")]
+        [DataRow(RoleType.Developer, RoleType.Admin, "Authentication failed: please log in as Developer")]
+        [DataRow(RoleType.Developer, RoleType.Tester, "Authentication failed: please log in as Developer")]
+        [DataRow(RoleType.Tester, RoleType.Developer, "Authentication failed: please log in as Tester")]
+        [DataRow(RoleType.Tester, RoleType.Admin, "Authentication failed: please log in as Tester")]
+        [DataTestMethod]
+        public void TestAuthFilterWithInvalidRole(RoleType actualRoleType, RoleType expectedRoleType, string message)
+        {
+            Mock<ISessionLogic> getRoleMock = new Mock<ISessionLogic>(MockBehavior.Strict);
+            getRoleMock.Setup(x => x.GetRoleByToken(It.IsAny<string>())).Returns(actualRoleType);
+            Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(provider => provider.GetService(typeof(ISessionLogic)))
+                .Returns(getRoleMock.Object);
+            Mock<HttpContext> httpContextMock = new Mock<HttpContext>();
+            httpContextMock.SetupGet(context => context.RequestServices)
+                .Returns(serviceProviderMock.Object);
+            httpContextMock.SetupGet(context => context.Request.Headers["token"]).Returns("ohasdhaoistdeh234235");
+            ActionContext actionContextMock = new ActionContext(httpContextMock.Object, new Microsoft.AspNetCore.Routing.RouteData(),
+                                                                 new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
+            AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
+
+
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(expectedRoleType);
+            authFilter.OnAuthorization(authFilterContext);
+
+            ContentResult response = authFilterContext.Result as ContentResult;
+            Assert.AreEqual(401, response.StatusCode);
+            Assert.AreEqual(message, response.Content);
+        }
     }
 }
