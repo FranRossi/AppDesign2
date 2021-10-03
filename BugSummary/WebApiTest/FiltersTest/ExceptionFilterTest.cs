@@ -23,6 +23,13 @@ namespace WebApiTest.FiltersTest
             TestException(exception, 403);
         }
 
+        [TestMethod]
+        public void ProjectNameIsNotUniqueExceptionTest()
+        {
+            ProjectNameIsNotUniqueException exception = new ProjectNameIsNotUniqueException();
+            TestException(exception, 409);
+        }
+
         private void TestException(Exception exception, int statusCode)
         {
             ModelStateDictionary modelState = new ModelStateDictionary();
