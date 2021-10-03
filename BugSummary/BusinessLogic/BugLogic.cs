@@ -2,6 +2,7 @@
 using DataAccessInterface;
 using Domain;
 using System;
+using System.Collections.Generic;
 
 
 namespace BusinessLogic
@@ -19,6 +20,11 @@ namespace BusinessLogic
         {
             _bugRepository.Add(tester, newBug);
             _bugRepository.Save();
+        }
+
+        public IEnumerable<Bug> GetAll(User user)
+        {
+            return new List<Bug>();
         }
     }
 }

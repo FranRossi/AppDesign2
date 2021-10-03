@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using BusinessLogicInterface;
 using DataAccessInterface;
@@ -17,9 +18,28 @@ namespace WebApiTest
     public class BugsControllerTest
     {
         [TestMethod]
-        public void GetBugsForTester(int id)
+        public void GetBugsForTester()
         {
-            List<Bug> bugsExpected = new List<Bug>()
+            UserModel userModel = new UserModel
+            {
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            User expectedUser = new User
+            {
+                Id = 0,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
             {
                 new Bug()
                 {
@@ -32,18 +52,18 @@ namespace WebApiTest
                     ProjectId = 1,
                 }
             };
-            Mock<IUserRepository> mock = new Mock<IUserRepository>(MockBehavior.Strict);
-            mock.Setup(r=>r.GetAll()).Returns(bugsExpected);
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            mock.Setup(r=>r.GetAll(It.IsAny<User>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
             
-            mock.VerifyAll();
-            IActionResult result = controller.Get();
+            IActionResult result = controller.Get(userModel);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 
+            mock.VerifyAll();
             Assert.AreEqual(200,okResult.StatusCode);
             Assert.AreEqual(bugsExpected,bugsResult);
-            CollectionAssert.AreEqual(bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
+            CollectionAssert.AreEqual((ICollection) bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
         }
     }
 }
