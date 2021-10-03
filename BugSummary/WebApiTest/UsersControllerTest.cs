@@ -12,7 +12,7 @@ using WebApi.Models;
 namespace WebApiTest
 {
     [TestClass]
-    public class UserControllerTest
+    public class UsersControllerTest
     {
         [TestMethod]
         public void AddValidUser()
