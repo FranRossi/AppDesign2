@@ -1,4 +1,5 @@
-﻿using DataAccessInterface;
+﻿using BusinessLogicInterface;
+using DataAccessInterface;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class ProjectLogic
+    public class ProjectLogic : IProjectLogic
     {
         private IRepository<Project> _projectRepository;
         public ProjectLogic(IRepository<Project> projectRepository)
