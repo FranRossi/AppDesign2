@@ -161,11 +161,10 @@ namespace DataAccessTest
         }
 
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX", RoleType.Admin)]
-        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX", RoleType.Developer)]
-        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX", RoleType.Tester)]
-        [DataRow(null, RoleType.Invalid)]
+        [DataRow("eydstdstdrstdrhrNiIsInRhstdarstd", RoleType.Developer)]
+        [DataRow("342srtasrtars32rsdsrdasrdar44444", RoleType.Tester)]
         [DataTestMethod]
-        public void GetRoleByTokenTest(string token, RoleType roleType)
+        public void GetRoleByValidTokenTest(string token, RoleType roleType)
         {
             User newUser = new User
             {
@@ -187,6 +186,13 @@ namespace DataAccessTest
             RoleType roleTypeResult = _userRepository.GetRoleByToken(token);
 
             Assert.AreEqual(roleType, roleTypeResult);
+        }
+
+        [TestMethod]
+        public void GetRoleByInvalidValidTokenTest()
+        {
+            RoleType roleTypeResult = _userRepository.GetRoleByToken(null);
+            Assert.AreEqual(RoleType.Invalid, roleTypeResult);
         }
     }
 }

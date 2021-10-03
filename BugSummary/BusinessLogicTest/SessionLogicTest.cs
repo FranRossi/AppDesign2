@@ -40,6 +40,7 @@ namespace BusinessLogicTest
             string username = "someUsername";
             string password = "somePassword";
             mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            mockUserRepository.Setup(mr => mr.Save());
             string sentUsername = "";
             string sentToken = "";
             mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()))

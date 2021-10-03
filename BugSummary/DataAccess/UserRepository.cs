@@ -1,5 +1,6 @@
 ﻿using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,17 @@ namespace DataAccess
                 userFromDB.Token = token;
                 Context.Users.Update(userFromDB);
             }
+        }
+
+        public RoleType GetRoleByToken(string token)
+        {
+            if (token != null)
+            {
+                User userFromDB = Context.Users.FirstOrDefault(u => u.Token == token);
+                if (userFromDB != null)
+                    return userFromDB.Role;
+            }
+            return RoleType.Invalid;
         }
     }
 }
