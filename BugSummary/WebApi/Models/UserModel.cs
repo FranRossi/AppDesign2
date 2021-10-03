@@ -26,5 +26,16 @@ namespace WebApi.Models
             Role = this.Role
         };
 
+        public static UserModel ToModel(User user)
+        {
+            UserModel model = new UserModel();
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Email = user.Email;
+            model.UserName = user.UserName;
+            model.Role = user.Role;
+
+            return model;
+        }
     }
 }

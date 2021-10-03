@@ -114,19 +114,20 @@ namespace WebApiTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                Role = RoleType.Tester
             };
             UserModel userToCompare = new UserModel
             {
                 FirstName = "Pepe",
                 LastName = "Perez",
-                Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
             };
             UserModel model = UserModel.ToModel(expectedUser);
-            Assert.AreEqual(userToCompare, model);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(userToCompare, model);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }
