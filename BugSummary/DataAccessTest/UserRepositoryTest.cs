@@ -234,6 +234,7 @@ namespace DataAccessTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
+                Token = token
             };
             using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
             {

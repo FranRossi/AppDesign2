@@ -27,11 +27,11 @@ namespace DataAccess
 
         public void UpdateToken(string username, string token)
         {
-            User userFromDB = Context.Users.FirstOrDefault(u => u.UserName == username);
-            if (userFromDB != null)
+            User userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
+            if (userFromDb != null)
             {
-                userFromDB.Token = token;
-                Context.Users.Update(userFromDB);
+                userFromDb.Token = token;
+                Context.Users.Update(userFromDb);
             }
         }
 
@@ -40,25 +40,23 @@ namespace DataAccess
             RoleType result = RoleType.Invalid;
             if (token != null)
             {
-                User userFromDB = Context.Users.FirstOrDefault(u => u.Token == token);
-                if (userFromDB != null)
-                    result = userFromDB.Role;
+                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                if (userFromDb != null)
+                    result = userFromDb.Role;
             }
             return result;
         }
 
         public User Get(string token)
         {
-            return new User
+            User result = null;
+            if (token != null)
             {
-                Id = 1,
-                FirstName = "Pepe",
-                LastName = "Perez",
-                Password = "pepe1234",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
-            };
+                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                if (userFromDb != null)
+                    result = userFromDb;
+            }
+            return result;
         }
     }
 }
