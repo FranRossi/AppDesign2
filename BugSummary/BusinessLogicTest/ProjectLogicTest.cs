@@ -74,5 +74,23 @@ namespace BusinessLogicTest
             updatedProject.Id = id;
             Assert.AreEqual(updatedProject, sentProject);
         }
+
+        [TestMethod]
+        public void UpdateInvalidProject()
+        {
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int id = 1;
+            Project updatedProject = new Project
+            {
+                Name = "Project 01"
+            };
+            mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>())).Throws(new InexistentProjectException());
+            mockUserRepository.Setup(mr => mr.Save());
+
+            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _sessionLogic.Update(id, updatedProject), "The entered project does not exist."
+            );
+        }
     }
 }
