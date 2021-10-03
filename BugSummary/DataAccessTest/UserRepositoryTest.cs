@@ -220,5 +220,38 @@ namespace DataAccessTest
             RoleType roleTypeResult = _userRepository.GetRoleByToken(null);
             Assert.AreEqual(RoleType.Invalid, roleTypeResult);
         }
+        
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataTestMethod]
+        public void GetUserByToken(string token)
+        {
+            User expected = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Token = token
+            };
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(expected);
+                context.SaveChanges();
+            }
+
+            User user = _userRepository.Get(token);
+
+            Assert.AreEqual(expected.Id, user.Id);
+        }
+        
+        [TestMethod]
+        public void GetUserByInvalidValidTokenTest()
+        {
+            User result = _userRepository.Get(null);
+            Assert.AreEqual(null, result);
+        }
     }
 }

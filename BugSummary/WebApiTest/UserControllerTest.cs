@@ -39,7 +39,7 @@ namespace WebApiTest
             Mock<ILogic<User>> mock = new Mock<ILogic<User>>(MockBehavior.Strict);
             User receivedUser = null;
             mock.Setup(m => m.Add(It.IsAny<User>())).Callback((User user) => receivedUser = user);
-            UserController controller = new UserController(mock.Object);
+            UsersController controller = new UsersController(mock.Object);
 
             IActionResult result = controller.Post(user);
 
@@ -47,6 +47,33 @@ namespace WebApiTest
             Assert.IsInstanceOfType(result, typeof(OkResult));
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, receivedUser);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
+        [TestMethod]
+        public void UserToModelTest()
+        {
+            User expectedUser = new User
+            {
+                Id = 0,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester
+            };
+            UserModel userToCompare = new UserModel
+            {
+                FirstName = "Pepe",
+                LastName = "Perez",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+            };
+            UserModel model = UserModel.ToModel(expectedUser);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(userToCompare, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }

@@ -31,7 +31,7 @@ namespace WebApi.Filters
                 _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
                 string token = context.HttpContext.Request.Headers["token"];
                 RoleType role = _sessionLogic.GetRoleByToken(token);
-                if (token == null)
+                if (token == null  )
                 {
                     context.Result = new ContentResult()
                     {

@@ -15,5 +15,6 @@ namespace DataAccessInterface
         public void UpdateToken(string username, string token);
 
         public RoleType GetRoleByToken(string token);
+        User Get(string token);
     }
 }

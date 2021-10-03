@@ -1,8 +1,10 @@
+using System;
 using BusinessLogic;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -25,18 +27,18 @@ namespace BusinessLogicTest
                 Role = RoleType.Admin
             };
             User receivedUser = null;
-            Mock<IRepository<User>> _mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
             });
-            _mockUserRepository.Setup(mr => mr.Save());
+            mockUserRepository.Setup(mr => mr.Save());
 
 
-            UserLogic userLogic = new UserLogic(_mockUserRepository.Object);
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
             userLogic.Add(newUser);
 
-            _mockUserRepository.VerifyAll();
+            mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
         }
 
@@ -54,18 +56,18 @@ namespace BusinessLogicTest
                 Role = RoleType.Developer
             };
             User receivedUser = null;
-            Mock<IRepository<User>> _mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
             });
-            _mockUserRepository.Setup(mr => mr.Save());
+            mockUserRepository.Setup(mr => mr.Save());
 
 
-            UserLogic userLogic = new UserLogic(_mockUserRepository.Object);
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
             userLogic.Add(newUser);
 
-            _mockUserRepository.VerifyAll();
+            mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
         }
 
@@ -83,19 +85,49 @@ namespace BusinessLogicTest
                 Role = RoleType.Tester
             };
             User receivedUser = null;
-            Mock<IRepository<User>> _mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
             });
-            _mockUserRepository.Setup(mr => mr.Save());
+            mockUserRepository.Setup(mr => mr.Save());
 
 
-            UserLogic userLogic = new UserLogic(_mockUserRepository.Object);
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
             userLogic.Add(newUser);
 
-            _mockUserRepository.VerifyAll();
+            mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
+        }
+        
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataTestMethod]
+        public void GetUserByToken(string token)
+        {
+            User expectedUser = new User
+            {
+                Id = 0,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+            };
+            User receivedUser = null;
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.Get(It.IsAny<string>())).Returns(expectedUser);
+            mockUserRepository.Setup(mr => mr.Save());
+
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            User result = userLogic.Get(token);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(expectedUser, result);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }
