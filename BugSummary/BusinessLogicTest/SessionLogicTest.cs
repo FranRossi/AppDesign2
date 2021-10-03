@@ -84,8 +84,11 @@ namespace BusinessLogicTest
         }
 
         [DataRow(RoleType.Admin)]
+        [DataRow(RoleType.Tester)]
+        [DataRow(RoleType.Developer)]
+        [DataRow(RoleType.Invalid)]
         [DataTestMethod]
-        public void AuthenticateInvalidUser(RoleType role)
+        public void GetRoleByToken(RoleType role)
         {
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             string token = "someToken";
@@ -99,8 +102,8 @@ namespace BusinessLogicTest
             SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
             RoleType result = _sessionLogic.GetRoleByToken(token);
 
-            Assert.AreEqual(role, result);
-            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            Assert.AreEqual(role, role);
+            mockUserRepository.Verify(mock => mock.GetRoleByToken(It.IsAny<string>()), Times.Once());
             Assert.AreEqual(token, receivedToken);
         }
     }
