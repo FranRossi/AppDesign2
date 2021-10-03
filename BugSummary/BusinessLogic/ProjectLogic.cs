@@ -11,8 +11,8 @@ namespace BusinessLogic
 {
     public class ProjectLogic : IProjectLogic
     {
-        private IRepository<Project> _projectRepository;
-        public ProjectLogic(IRepository<Project> projectRepository)
+        private IProjectRepository _projectRepository;
+        public ProjectLogic(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
         }
@@ -20,6 +20,13 @@ namespace BusinessLogic
         public void Add(Project newProject)
         {
             _projectRepository.Add(newProject);
+            _projectRepository.Save();
+        }
+
+        public void Update(int id, Project updatedProject)
+        {
+            updatedProject.Id = id;
+            _projectRepository.Update(updatedProject);
             _projectRepository.Save();
         }
     }

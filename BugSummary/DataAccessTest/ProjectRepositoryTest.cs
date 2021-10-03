@@ -11,6 +11,7 @@ using Utilities.Comparers;
 using Utilities.CustomExceptions;
 using System;
 using TestUtilities;
+using KellermanSoftware.CompareNetObjects;
 
 namespace DataAccessTest
 {
@@ -132,7 +133,6 @@ namespace DataAccessTest
                 Users = new List<User>()
             });
 
-
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
             Assert.AreEqual(2, projectsDataBase.Count());
@@ -140,5 +140,47 @@ namespace DataAccessTest
 
         }
 
+        [TestMethod]
+        public void UpdateProjectTest()
+        {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            Project updatedProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _projectRepository.Update(updatedProject);
+            _projectRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.ToList().First(p => p.Id == newProject.Id);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(updatedProject, databaseProject);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+        [TestMethod]
+        public void UpdateInexistentProjectTest()
+        {
+            Project updatedProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.Update(updatedProject), "The entered project does not exist."
+           );
+        }
     }
 }

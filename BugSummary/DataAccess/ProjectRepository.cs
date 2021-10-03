@@ -1,6 +1,7 @@
 ﻿
 
 
+using DataAccessInterface;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
-    public class ProjectRepository : BaseRepository<Project>
+    public class ProjectRepository : BaseRepository<Project>, IProjectRepository
     {
         public ProjectRepository(BugSummaryContext bugSummaryContext)
         {
@@ -28,6 +29,18 @@ namespace DataAccess
         public override IEnumerable<Project> GetAll()
         {
             return Context.Projects.ToList();
+        }
+
+        public void Update(Project updatedProject)
+        {
+            Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == updatedProject.Id);
+            if (projectFromDB != null)
+            {
+                projectFromDB.Name = updatedProject.Name;
+                Context.Projects.Update(projectFromDB);
+            }
+            else
+                throw new InexistentProjectException();
         }
     }
 }
