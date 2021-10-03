@@ -185,5 +185,40 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
+
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX", RoleType.Admin)]
+        [DataRow("eydstdstdrstdrhrNiIsInRhstdarstd", RoleType.Developer)]
+        [DataRow("342srtasrtars32rsdsrdasrdar44444", RoleType.Tester)]
+        [DataTestMethod]
+        public void GetRoleByValidTokenTest(string token, RoleType roleType)
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = roleType,
+                Token = token,
+            };
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+
+            RoleType roleTypeResult = _userRepository.GetRoleByToken(token);
+
+            Assert.AreEqual(roleType, roleTypeResult);
+        }
+
+        [TestMethod]
+        public void GetRoleByInvalidValidTokenTest()
+        {
+            RoleType roleTypeResult = _userRepository.GetRoleByToken(null);
+            Assert.AreEqual(RoleType.Invalid, roleTypeResult);
+        }
     }
 }

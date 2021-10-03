@@ -33,7 +33,8 @@ namespace Domain.DomainUtilities
 
         public static bool CorrectRole(RoleType value)
         {
-            return (value == RoleType.Admin|| value == RoleType.Developer || value == RoleType.Tester);
+            return (value == RoleType.Admin || value == RoleType.Developer
+                || value == RoleType.Tester);
         }
     }
 }

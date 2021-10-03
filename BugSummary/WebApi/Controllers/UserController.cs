@@ -1,11 +1,13 @@
 ﻿using BusinessLogicInterface;
 using Domain;
+using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -22,6 +24,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [AuthorizationWithParameterFilter(RoleType.Admin)]
         public IActionResult Post([FromBody] UserModel model)
         {
             _users.Add(model.ToEntity());

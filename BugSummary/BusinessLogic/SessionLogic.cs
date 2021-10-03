@@ -1,6 +1,7 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,11 @@ namespace BusinessLogic
             else
                 throw new LoginException();
             return token;
+        }
+
+        public RoleType GetRoleByToken(string token)
+        {
+            return _userRepository.GetRoleByToken(token);
         }
     }
 }
