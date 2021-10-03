@@ -44,14 +44,14 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewProjectTest()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
+            Project projectToAdd = new Project
             {
-                context.Add(new Project
-                {
-                    Name = "New Project 2022"
-                });
-                context.SaveChanges();
-            }
+                Name = "New Project 2022"
+            };
+
+            _projectRepository.Add(projectToAdd);
+            _projectRepository.Save();
+
             List<Project> projectsExpected = new List<Project>();
             projectsExpected.Add(new Project
             {
@@ -60,8 +60,6 @@ namespace DataAccessTest
                 Bugs = new List<Bug>(),
                 Users = new List<User>()
             });
-
-
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 List<Project> projectsDataBase = context.Projects.ToList();
