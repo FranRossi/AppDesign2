@@ -10,11 +10,16 @@ namespace BusinessLogic
     public class BugLogic : IBugLogic
     {
         private IBugRepository _bugRepository;
+        private IUserRepository _userRepository;
+        public BugLogic(IBugRepository bugRepository, IUserRepository userRepository)
+        {
+            _bugRepository = bugRepository;
+            _userRepository = userRepository;
+        }
         public BugLogic(IBugRepository bugRepository)
         {
             _bugRepository = bugRepository;
         }
-
 
         public void Add(User tester, Bug newBug)
         {
@@ -22,9 +27,11 @@ namespace BusinessLogic
             _bugRepository.Save();
         }
 
-        public IEnumerable<Bug> GetAll(User user)
+        public IEnumerable<Bug> GetAll(string token)
         {
-            return new List<Bug>();
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            return _bugRepository.GetAllByTester(userByToken);
         }
     }
 }

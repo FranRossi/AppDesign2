@@ -6,10 +6,12 @@ using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.Comparers;
 
 namespace BusinessLogicTest
 {
@@ -20,7 +22,7 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddBug()
         {
-            Mock<BugSummaryContext> _mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
+            Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
             {
                 Id = 1,
@@ -53,19 +55,72 @@ namespace BusinessLogicTest
                 ProjectId = 1
             };
             Bug receivedBug = null;
-            Mock<IBugRepository> _mockUserRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            _mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>(), newBug)).Callback((User user, Bug postedBug) =>
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Add(It.IsAny<User>(), newBug)).Callback((User user, Bug postedBug) =>
             {
                 receivedBug = postedBug;
             });
-            _mockUserRepository.Setup(mr => mr.Save());
+            mockBugRepository.Setup(mr => mr.Save());
 
 
-            BugLogic bugLogic = new BugLogic(_mockUserRepository.Object);
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object);
             bugLogic.Add(testerUser, newBug);
 
-            _mockUserRepository.VerifyAll();
+            mockBugRepository.VerifyAll();
             Assert.AreEqual(newBug, receivedBug);
+        }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void GetBugsForUser(string token)
+        {
+            User testerUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                    testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+            
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug()
+                {
+                    Id = 1,
+                    Name = "Bug2021",
+                    Description = "ImportanteBug",
+                    Project = projectTester,
+                    State = BugState.Active,
+                    Version = "2",
+                    ProjectId = 1,
+                }
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
+            mockUserRepository.Setup(mr => mr.Save());
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAllByTester(It.IsAny<User>())).Returns(bugsExpected);
+            
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            IEnumerable<Bug> bugsResult = bugLogic.GetAll(token);
+
+            
+            mockBugRepository.VerifyAll();
+            CollectionAssert.AreEqual((ICollection) bugsExpected, (ICollection) bugsResult, new BugComparer());
         }
 
     }

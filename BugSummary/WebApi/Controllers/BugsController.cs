@@ -20,9 +20,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromBody] UserModel model)
+        public IActionResult Get([FromHeader] string token)
         {
-            IEnumerable<Bug> bugs = _bugs.GetAll(model.ToEntity());
+            IEnumerable<Bug> bugs = _bugs.GetAll(token);
             return Ok(bugs);
         }
     }

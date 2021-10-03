@@ -4,7 +4,6 @@ using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
-using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -17,28 +16,12 @@ namespace WebApiTest
     [TestClass]
     public class BugsControllerTest
     {
-        [TestMethod]
-        public void GetBugsForTester()
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void GetBugsForTester(string token)
         {
-            UserModel userModel = new UserModel
-            {
-                FirstName = "Pepe",
-                LastName = "Perez",
-                Password = "pepe1234",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Admin
-            };
-            User expectedUser = new User
-            {
-                Id = 0,
-                FirstName = "Pepe",
-                LastName = "Perez",
-                Password = "pepe1234",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Admin
-            };
+            
             IEnumerable<Bug> bugsExpected = new List<Bug>()
             {
                 new Bug()
@@ -53,10 +36,10 @@ namespace WebApiTest
                 }
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            mock.Setup(r=>r.GetAll(It.IsAny<User>())).Returns(bugsExpected);
+            mock.Setup(r=>r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
             
-            IActionResult result = controller.Get(userModel);
+            IActionResult result = controller.Get(token);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 

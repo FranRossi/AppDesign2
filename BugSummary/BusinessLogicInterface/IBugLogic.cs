@@ -8,6 +8,6 @@ namespace BusinessLogicInterface
     public interface IBugLogic
     {
         void Add(User tester, Bug newBug);
-        IEnumerable<Bug> GetAll(User user);
+        IEnumerable<Bug> GetAll(string token);
     }
 }
