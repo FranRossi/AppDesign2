@@ -29,7 +29,7 @@ namespace Factory.Factories
             services.AddScoped<ILogic<User>, UserLogic>();
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
-            services.AddScoped<IRepository<Project>, ProjectRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
         }
 
         public void AddDbContextService(string connectionString)
