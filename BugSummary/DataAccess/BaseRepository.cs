@@ -12,7 +12,7 @@ namespace DataAccess
     {
         protected BugSummaryContext Context { get; set; }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             DbSet<T> entities = Context.Set<T>();
             entities.Add(entity);
