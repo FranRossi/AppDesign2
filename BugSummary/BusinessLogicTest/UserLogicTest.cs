@@ -99,7 +99,7 @@ namespace BusinessLogicTest
             mockUserRepository.VerifyAll();
             Assert.AreEqual(newUser, receivedUser);
         }
-        
+
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
         [DataTestMethod]
         public void GetUserByToken(string token)
