@@ -20,6 +20,11 @@ namespace WebApi.Filters
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
+            else if (context.Exception is ProjectNameIsNotUniqueException)
+            {
+                statusCode = 409;
+                exceptionMessage = context.Exception.Message;
+            }
 
             context.Result = new ContentResult()
             {
