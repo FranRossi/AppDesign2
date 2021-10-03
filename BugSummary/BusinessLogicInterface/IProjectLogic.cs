@@ -10,5 +10,7 @@ namespace BusinessLogicInterface
     public interface IProjectLogic
     {
         public void Add(Project newProject);
+
+        public void Update(int id, Project updatedProject);
     }
 }
