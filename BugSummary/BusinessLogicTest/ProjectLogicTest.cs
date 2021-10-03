@@ -19,7 +19,7 @@ namespace BusinessLogicTest
                 Name = "New Project 2022"
             };
             Project receivedProject = null;
-            Mock<IRepository<Project>> mockUserRepository = new Mock<IRepository<Project>>(MockBehavior.Strict);
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<Project>())).Callback((Project newProject) =>
             {
                 receivedProject = newProject;
@@ -41,7 +41,7 @@ namespace BusinessLogicTest
             {
                 Name = "New Project 2022"
             };
-            Mock<IRepository<Project>> mockUserRepository = new Mock<IRepository<Project>>(MockBehavior.Strict);
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<Project>())).Throws(new ProjectNameIsNotUniqueException());
 
             ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
