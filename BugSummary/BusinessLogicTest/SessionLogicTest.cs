@@ -40,6 +40,7 @@ namespace BusinessLogicTest
             string username = "someUsername";
             string password = "somePassword";
             mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            mockUserRepository.Setup(mr => mr.Save());
             string sentUsername = "";
             string sentToken = "";
             mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()))
@@ -48,7 +49,6 @@ namespace BusinessLogicTest
                     sentUsername = username;
                     sentToken = token;
                 });
-
             SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
             string result = _sessionLogic.Authenticate(username, password);
 

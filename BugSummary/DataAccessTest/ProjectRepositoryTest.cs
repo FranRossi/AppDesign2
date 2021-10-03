@@ -44,52 +44,75 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewProjectTest()
         {
-            Project newProject = new Project
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Project
+                {
+                    Name = "New Project 2022",
+                    Id = 1,
+                    Bugs = new List<Bug>(),
+                    Users = new List<User>()
+                });
+                context.SaveChanges();
+            }
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(new Project
             {
                 Name = "New Project 2022",
                 Id = 1,
                 Bugs = new List<Bug>(),
                 Users = new List<User>()
-            };
-            List<Project> projectsExpected = new List<Project>();
-            projectsExpected.Add(newProject);
+            });
 
-            this._projectRepository.Add(newProject);
-            this._projectRepository.Save();
-            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
-            Assert.AreEqual(1, projectsDataBase.Count());
-            CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
-
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                List<Project> projectsDataBase = context.Projects.ToList();
+                Assert.AreEqual(1, projectsDataBase.Count());
+                CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
+            }
         }
 
         [TestMethod]
         public void GetAllProjectsFromRepositoryTest()
         {
-            Project newProject = new Project
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new Project
+                {
+                    Name = "New Project 2022",
+                    Id = 1,
+                    Bugs = new List<Bug>(),
+                    Users = new List<User>()
+                });
+                context.SaveChanges();
+                context.Add(new Project
+                {
+                    Name = "New Project 2023",
+                    Id = 2,
+                    Bugs = new List<Bug>(),
+                    Users = new List<User>()
+                });
+                context.SaveChanges();
+
+            }
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(new Project
             {
                 Name = "New Project 2022",
                 Id = 1,
                 Bugs = new List<Bug>(),
                 Users = new List<User>()
-            };
-            Project newProject2 = new Project
+            });
+            projectsExpected.Add(new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
                 Bugs = new List<Bug>(),
                 Users = new List<User>()
-            };
-            List<Project> projectsExpected = new List<Project>();
-            projectsExpected.Add(newProject);
-            projectsExpected.Add(newProject2);
+            });
 
 
-
-            this._projectRepository.Add(newProject);
-            this._projectRepository.Save();
-            this._projectRepository.Add(newProject2);
-            this._projectRepository.Save();
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
             Assert.AreEqual(2, projectsDataBase.Count());
