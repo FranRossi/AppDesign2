@@ -86,5 +86,21 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, user.ToEntity());
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+        
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataTestMethod]
+        public void GetUserByInvalidTokenTest(string token)
+        {
+            User invalidUser = null;
+            Mock<ILogic<User>> mockUserLogic = new Mock<ILogic<User>>(MockBehavior.Strict);
+            mockUserLogic.Setup(m => m.Get(It.IsAny<string>())).Returns(invalidUser);
+            UserController controller = new UserController(mockUserLogic.Object);
+
+            
+            IActionResult result = controller.Get(token);
+
+            mockUserLogic.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
     }
 }
