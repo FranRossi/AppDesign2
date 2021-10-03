@@ -49,5 +49,30 @@ namespace BusinessLogicTest
                 () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
             );
         }
+
+        [TestMethod]
+        public void UpdateValidProject()
+        {
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            Project sentProject = null;
+            int id = 1;
+            Project updatedProject = new Project
+            {
+                Name = "Project 01"
+            };
+            mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>()))
+                .Callback((Project project) =>
+                {
+                    sentProject = project;
+                }); ;
+            mockUserRepository.Setup(mr => mr.Save());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
+            _projectLogic.Update(id, updatedProject);
+
+            mockUserRepository.Verify(mock => mock.Update(It.IsAny<Project>()), Times.Once());
+            updatedProject.Id = id;
+            Assert.AreEqual(updatedProject, sentProject);
+        }
     }
 }
