@@ -9,6 +9,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ExceptionFilter]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectLogic _projects;
