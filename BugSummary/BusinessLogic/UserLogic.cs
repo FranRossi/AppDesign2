@@ -7,8 +7,8 @@ namespace BusinessLogic
 {
     public class UserLogic : ILogic<User>
     {
-        private IRepository<User> _userRepository;
-        public UserLogic(IRepository<User> userRepository)
+        private IUserRepository _userRepository;
+        public UserLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -21,7 +21,9 @@ namespace BusinessLogic
 
         public User Get(string token)
         {
-            throw new NotImplementedException();
+            User user = _userRepository.Get(token);
+            _userRepository.Save();
+            return user;
         }
     }
 }

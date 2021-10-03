@@ -46,5 +46,10 @@ namespace DataAccess
             }
             return result;
         }
+
+        public User Get(string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

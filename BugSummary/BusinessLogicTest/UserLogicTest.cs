@@ -27,7 +27,7 @@ namespace BusinessLogicTest
                 Role = RoleType.Admin
             };
             User receivedUser = null;
-            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
@@ -56,7 +56,7 @@ namespace BusinessLogicTest
                 Role = RoleType.Developer
             };
             User receivedUser = null;
-            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
@@ -85,7 +85,7 @@ namespace BusinessLogicTest
                 Role = RoleType.Tester
             };
             User receivedUser = null;
-            Mock<IRepository<User>> mockUserRepository = new Mock<IRepository<User>>(MockBehavior.Strict);
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<User>())).Callback((User newUser) =>
             {
                 receivedUser = newUser;
