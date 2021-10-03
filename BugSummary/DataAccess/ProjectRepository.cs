@@ -8,12 +8,10 @@ namespace DataAccess
 {
     public class ProjectRepository : BaseRepository<Project>
     {
-
         public ProjectRepository(BugSummaryContext bugSummaryContext)
         {
             Context = bugSummaryContext;
         }
-
 
         public override IEnumerable<Project> GetAll()
         {

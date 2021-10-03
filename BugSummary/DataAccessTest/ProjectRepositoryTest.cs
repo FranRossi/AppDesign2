@@ -48,10 +48,7 @@ namespace DataAccessTest
             {
                 context.Add(new Project
                 {
-                    Name = "New Project 2022",
-                    Id = 1,
-                    Bugs = new List<Bug>(),
-                    Users = new List<User>()
+                    Name = "New Project 2022"
                 });
                 context.SaveChanges();
             }
