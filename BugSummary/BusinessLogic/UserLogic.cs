@@ -18,5 +18,10 @@ namespace BusinessLogic
             _userRepository.Add(newUser);
             _userRepository.Save();
         }
+
+        public User Get(string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
