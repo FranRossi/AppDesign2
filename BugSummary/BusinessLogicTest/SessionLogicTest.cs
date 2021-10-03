@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using DataAccessInterface;
+using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Utilities.Authentication;
@@ -80,6 +81,27 @@ namespace BusinessLogicTest
 
             Assert.AreEqual(null, result);
             mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+        }
+
+        [DataRow(RoleType.Admin)]
+        [DataTestMethod]
+        public void AuthenticateInvalidUser(RoleType role)
+        {
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            string token = "someToken";
+            string receivedToken = "";
+            mockUserRepository.Setup(mr => mr.GetRoleByToken(It.IsAny<string>()))
+                .Returns(role).Callback((string sentToken) =>
+                {
+                    receivedToken = sentToken;
+                });
+
+            SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
+            RoleType result = _sessionLogic.GetRoleByToken(token);
+
+            Assert.AreEqual(role, result);
+            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            Assert.AreEqual(token, receivedToken);
         }
     }
 }

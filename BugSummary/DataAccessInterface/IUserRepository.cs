@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DomainUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace DataAccessInterface
         public bool Authenticate(string username, string password);
 
         public void UpdateToken(string username, string token);
+
+        public RoleType GetRoleByToken(string token);
     }
 }
