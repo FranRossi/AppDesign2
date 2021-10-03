@@ -50,7 +50,7 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
         
-        [DataRow("estoEsUnTokenFake")]
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
         [DataTestMethod]
         public void GetUserByTokenTest(string token)
         {
