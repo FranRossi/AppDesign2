@@ -69,18 +69,10 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             string sentUsername = "";
             string sentToken = "";
-            mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()))
-                .Callback((string username, string token) =>
-                    {
-                        sentUsername = username;
-                        sentToken = token;
-                    });
+            mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()));
 
             SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
-            string result = _sessionLogic.Authenticate(username, password);
-
-            Assert.AreEqual(null, result);
-            mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            _sessionLogic.Authenticate(username, password);
         }
 
         [DataRow(RoleType.Admin)]

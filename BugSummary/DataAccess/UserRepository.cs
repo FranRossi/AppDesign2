@@ -37,13 +37,14 @@ namespace DataAccess
 
         public RoleType GetRoleByToken(string token)
         {
+            RoleType result = RoleType.Invalid;
             if (token != null)
             {
                 User userFromDB = Context.Users.FirstOrDefault(u => u.Token == token);
                 if (userFromDB != null)
-                    return userFromDB.Role;
+                    result = userFromDB.Role;
             }
-            return RoleType.Invalid;
+            return result;
         }
     }
 }
