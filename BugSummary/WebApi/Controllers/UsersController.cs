@@ -25,15 +25,5 @@ namespace WebApi.Controllers
             _users.Add(model.ToEntity());
             return Ok();
         }
-        
-        [HttpGet("{Token}")]
-        public IActionResult Get(string Token)
-        {
-            User user = _users.Get(Token);
-            if (user == null) {
-                return NotFound();
-            }
-            return Ok(UserModel.ToModel((user)));
-        }
     }
 }
