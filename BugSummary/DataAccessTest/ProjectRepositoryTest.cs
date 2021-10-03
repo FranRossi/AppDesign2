@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
 using Utilities.CustomExceptions;
+using System;
+using TestUtilities;
 
 namespace DataAccessTest
 {
@@ -70,7 +72,6 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProjectNameIsNotUniqueException))]
         public void AddAlreadyAddedProjectTest()
         {
             using (var context = new BugSummaryContext(this._contextOptions))
@@ -86,14 +87,10 @@ namespace DataAccessTest
                 Name = "New Project 2022"
             };
 
-            try
-            {
-                _projectRepository.Add(projectToAdd);
-            }
-            catch (ProjectNameIsNotUniqueException e)
-            {
-                Assert.AreEqual("The project name chosen was already taken, please enter a different name", e.Message);
-            }
+
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+                () => _projectRepository.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+            );
         }
 
         [TestMethod]
