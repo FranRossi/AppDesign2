@@ -48,22 +48,7 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewBugTest()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                context.Add(new Bug
-                {
-                    Id = 1,
-                    Name = "Bug1",
-                    Description = "Bug en el servidor",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project(),
-                    ProjectId = 1
-                });
-                context.SaveChanges();
-            }
-
-            Bug newBug = new Bug
+            Bug newBugToAdd = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
@@ -73,16 +58,81 @@ namespace DataAccessTest
                 Project = new Project(),
                 ProjectId = 1
             };
+            _bugRepository.Add(newBugToAdd);
+            _bugRepository.Save();
+            
             List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(newBug);
-
-
+            bugsExpected.Add(newBugToAdd);
+            
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 List<Bug> bugsDataBase = context.Bugs.ToList();
                 Assert.AreEqual(1, bugsDataBase.Count());
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
+        }
+        
+        [TestMethod]
+        public void TesterAddsBugWithoutNewProjectTest()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                Project projectTester2 = new Project()
+                {
+                    Id = 2,
+                    Name = "Semester 2021",
+                    Users = new List<User>()
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                //User does not have second project
+                context.Projects.Add(projectTester2);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1
+                };
+                    context.Add(oldBug);
+                    context.SaveChanges();
+            }
+            
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug Nuevo",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 2
+            };
+            
+            TestExceptionUtils.Throws<ProjectDontBelongToUser>(
+                () => _bugRepository.Add(testerUser,updatedBug), "New project to update bug, does not belong to tester"
+            );
         }
 
         [TestMethod]

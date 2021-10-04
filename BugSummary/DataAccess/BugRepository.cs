@@ -35,16 +35,12 @@ namespace DataAccess
 
         public void Add(User userToCreateBug, Bug newBug)
         {
-            if (userToCreateBug.Role == RoleType.Tester)
-            {
-                foreach (Project project in userToCreateBug.Projects)
-                {
-                    if (project.Id == newBug.ProjectId)
-                        Context.Bugs.Add(newBug);
-                }
-            }
-            else
+            if (userToCreateBug.Role != RoleType.Tester)
                 throw new UserMustBeTesterException();
+            Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
+            if ( userProject == null)
+                throw new ProjectDontBelongToUser();
+            Context.Bugs.Add(newBug);
         }
 
         public void Update(User testerUser, Bug updatedBug)

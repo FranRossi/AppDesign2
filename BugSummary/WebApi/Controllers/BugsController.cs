@@ -36,5 +36,13 @@ namespace WebApi.Controllers
             _bugs.Update(token,bug.ToEntity());
             return Ok();
         }
+
+        [HttpPost]
+        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
+        {
+            _bugs.Add(token, bug.ToEntity());
+            return Ok();
+        }
     }
 }

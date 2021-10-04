@@ -17,9 +17,11 @@ namespace BusinessLogic
             _userRepository = userRepository;
         }
 
-        public void Add(User tester, Bug newBug)
+        public void Add(string token, Bug newBug)
         {
-            _bugRepository.Add(tester, newBug);
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            _bugRepository.Add(userByToken, newBug);
             _bugRepository.Save();
         }
 
