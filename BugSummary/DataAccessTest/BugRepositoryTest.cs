@@ -511,5 +511,45 @@ namespace DataAccessTest
             );
         }
         
+        [TestMethod]
+        public void DeleteBug()
+        {
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug Nuevo",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 2
+            };
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            int bugID = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newBug);
+                context.SaveChanges();
+            }
+
+            _bugRepository.Delete(testerUser,bugID);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.FirstOrDefault(p => p.Id == bugID);
+                Assert.AreEqual(null, databaseBug);
+            }
+        }
+        
     }
 }
