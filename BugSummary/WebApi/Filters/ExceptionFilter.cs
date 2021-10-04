@@ -29,7 +29,9 @@ namespace WebApi.Filters
             }
             else if (context.Exception is DomainValidationException)
             {
-                statusCode = 400;
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
             else if (context.Exception is InexistentProjectException)
             {
                 statusCode = 403;
