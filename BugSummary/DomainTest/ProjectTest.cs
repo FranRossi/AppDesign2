@@ -160,6 +160,25 @@ namespace DomainTest
 
             Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
         }
+        [TestMethod]
+        public void AddDeveloper()
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            newProject.AddUser(newUser);
+
+            Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
+        }
 
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
         [TestMethod]
