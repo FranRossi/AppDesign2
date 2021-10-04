@@ -9,6 +9,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
+    [ExceptionFilter]
     [Route("[controller]")]
     public class BugsController : ControllerBase
     {
@@ -28,8 +29,9 @@ namespace WebApi.Controllers
         }
 
   
-        [HttpPost]
-        public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
+        [HttpPut]
+        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        public IActionResult Put([FromHeader]string token,[FromBody] BugModel bug)
         {
             _bugs.Update(token,bug.ToEntity());
             return Ok();

@@ -10,6 +10,7 @@ using BusinessLogicInterface;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
 using System;
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -33,7 +34,7 @@ namespace WebApiTest.FiltersTest
         [TestMethod]
         public void DomainExceptionTest()
         {
-            DomainException exception = new DomainException();
+            DomainValidationException exception = new DomainValidationException();
             TestException(exception, 400);
         }
         private void TestException(Exception exception, int statusCode)
