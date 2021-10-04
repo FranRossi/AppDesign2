@@ -21,9 +21,10 @@ namespace BusinessLogicTest
     [TestClass]
     public class BugLogicTest
     {
-
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
         [TestMethod]
-        public void AddBug()
+        public void AddBug(string token)
         {
             Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
@@ -67,12 +68,42 @@ namespace BusinessLogicTest
 
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            bugLogic.Add(testerUser, newBug);
+            bugLogic.Add(token, newBug);
 
             mockBugRepository.VerifyAll();
             Assert.AreEqual(newBug, receivedBug);
         }
-        
+
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        [TestMethod]
+        public void DeveloperAddBugInvalidRole(string token)
+        {
+            User tester = null;
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
+            mockUserRepository.Setup(mr => mr.Save());
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug en el cliente",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 1
+            };
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(), It.IsAny<Bug>()))
+                .Throws(new InexistentBugException());
+            mockBugRepository.Setup(mr => mr.Save());
+
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => bugLogic.Update(token, updatedBug),
+                "The bug to update does not exist on database, please enter a different bug"
+            );
+        }
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsForUser(string token)
