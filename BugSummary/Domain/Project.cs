@@ -32,9 +32,14 @@ namespace Domain
 
         public void AddUser(User newUser)
         {
-            if (Users == null)
-                Users = new List<User>();
-            Users.Add(newUser);
+            if (newUser.Role == RoleType.Developer || newUser.Role == RoleType.Tester)
+            {
+                if (Users == null)
+                    Users = new List<User>();
+                Users.Add(newUser);
+            }
+            else
+                throw new InvalidProjectAssigneeRole();
         }
     }
 }
