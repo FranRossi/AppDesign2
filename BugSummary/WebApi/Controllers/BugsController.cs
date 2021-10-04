@@ -40,7 +40,8 @@ namespace WebApi.Controllers
         [HttpPost]
         public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
         {
-            throw new System.NotImplementedException();
+            _bugs.Add(token, bug.ToEntity());
+            return Ok();
         }
     }
 }
