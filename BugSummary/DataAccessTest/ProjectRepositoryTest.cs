@@ -186,6 +186,10 @@ namespace DataAccessTest
         [TestMethod]
         public void DeleteProjectTest()
         {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
             int id = 1;
             using (var context = new BugSummaryContext(this._contextOptions))
             {
