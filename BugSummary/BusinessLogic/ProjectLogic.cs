@@ -34,5 +34,11 @@ namespace BusinessLogic
             _projectRepository.Delete(projectId);
             _projectRepository.Save();
         }
+
+        public void AssignUserToProject(int userId, int projectId)
+        {
+            _projectRepository.AssignUserToProject(userId, projectId);
+            _projectRepository.Save();
+        }
     }
 }

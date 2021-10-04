@@ -40,5 +40,12 @@ namespace WebApi.Controllers
             _projects.Delete(id);
             return Ok();
         }
+
+        [HttpPost("{userId},{projectId}")]
+        public IActionResult Post(int userId, int projectId)
+        {
+            _projects.AssignUserToProject(userId, projectId);
+            return Ok();
+        }
     }
 }

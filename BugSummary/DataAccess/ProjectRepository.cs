@@ -53,5 +53,17 @@ namespace DataAccess
             else
                 throw new InexistentProjectException();
         }
+
+        public void AssignUserToProject(int projectId, int userId)
+        {
+            Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
+            if (projectFromDB == null)
+                throw new InexistentProjectException();
+            User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
+            if (userFromDB == null)
+                throw new InexistentUserException();
+            projectFromDB.AddUser(userFromDB);
+            Context.Projects.Update(projectFromDB);
+        }
     }
 }

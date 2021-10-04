@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.DomainUtilities.CustomExceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,21 @@ namespace WebApi.Filters
             else if (context.Exception is ProjectNameIsNotUniqueException)
             {
                 statusCode = 409;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InexistentProjectException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InexistentUserException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InvalidProjectAssigneeRoleException)
+            {
+                statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
 
