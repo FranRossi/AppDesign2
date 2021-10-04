@@ -112,5 +112,18 @@ namespace BusinessLogicTest
             mockUserRepository.Verify(mock => mock.Delete(It.IsAny<int>()), Times.Once());
             Assert.AreEqual(projectId, receivedId);
         }
+
+        [TestMethod]
+        public void DeleteInvalidProject()
+        {
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int id = 1;
+            mockUserRepository.Setup(mr => mr.Delete(It.IsAny<int>())).Throws(new InexistentProjectException());
+
+            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _sessionLogic.Delete(id), "The entered project does not exist."
+            );
+        }
     }
 }
