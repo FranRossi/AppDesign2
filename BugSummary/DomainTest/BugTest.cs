@@ -2,6 +2,7 @@ using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
+using TestUtilities;
 
 namespace Testing
 {
@@ -88,6 +89,35 @@ namespace Testing
             Assert.IsNotNull(newBug.ProjectId);
         }
 
+        [TestMethod]
+        public void CreateFixerDeveloperTest()
+        {
+            User user = new User
+            {
+                Role = RoleType.Developer
+            };
+            Bug newBug = new Bug
+            {
+                Fixer = user
+            };
+            Assert.IsNotNull(newBug.Fixer);
+        }
+
+        [DataRow(RoleType.Tester)]
+        [DataRow(RoleType.Admin)]
+        [DataTestMethod]
+        public void CreateInvalidRoleFixerTest(RoleType role)
+        {
+            User user = new User
+            {
+                Role = role
+            };
+            TestExceptionUtils.Throws<InvalidBugSolverRoleException>(
+                () => new Bug { Fixer = user }, "Bug fixers may only be Developers."
+            );
+
+        }
+
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
@@ -133,7 +163,7 @@ namespace Testing
         private string GenerateRandomStringWithSpecifiedLength(int stringLength)
         {
             string descriptionOver150Characters = "";
-            for (int i=0; i< stringLength; i++)
+            for (int i = 0; i < stringLength; i++)
             {
                 descriptionOver150Characters += i;
             }
