@@ -19,7 +19,33 @@ namespace WebApiTest
     [TestClass]
     public class BugsControllerTest
     {
-        
+        [TestMethod]
+        public void AddValidBug()
+        {
+            BugModel bug = new BugModel
+            {
+                Name = "Bug2021",
+                Description = "ImportanteBug",
+                State = BugState.Active,
+                Version = "2",
+                ProjectId = 1,
+            };
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            Bug receivedBug = null;
+            mock.Setup(m => m.Add(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token,Bug sentBug) =>
+            {
+                receivedBug = sentBug;
+            });
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.Post(token,bug);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsForTester(string token)
