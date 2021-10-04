@@ -10,6 +10,7 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [ExceptionFilter]
+    [AuthorizationWithParameterFilter(RoleType.Admin)]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectLogic _projects;
@@ -20,7 +21,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [AuthorizationWithParameterFilter(RoleType.Admin)]
         public IActionResult Post([FromBody] ProjectModel model)
         {
             _projects.Add(model.ToEntity());
@@ -28,7 +28,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("{id}")]
-        [AuthorizationWithParameterFilter(RoleType.Admin)]
         public IActionResult Post(int id, [FromBody] ProjectModel model)
         {
             _projects.Update(id, model.ToEntity());
@@ -36,7 +35,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("{id}")]
-        [AuthorizationWithParameterFilter(RoleType.Admin)]
         public IActionResult Delete(int id)
         {
             _projects.Delete(id);
