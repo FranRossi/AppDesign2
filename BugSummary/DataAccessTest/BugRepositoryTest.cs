@@ -321,6 +321,44 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
-   
+        
+        [TestMethod]
+        public void UpdateInexistentBugTest()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                    testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug en el cliente",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 1
+            };
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.Update(testerUser,updatedBug), "The bug to update does not exist on database, please enter a different bug"
+            );
+        }
+        
     }
 }
