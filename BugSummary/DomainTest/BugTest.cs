@@ -118,6 +118,16 @@ namespace Testing
 
         }
 
+        [TestMethod]
+        public void CreateFixerIdTest()
+        {
+            Bug newBug = new Bug
+            {
+                FixerId = 23
+            };
+            Assert.AreEqual(23, newBug.FixerId);
+        }
+
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
