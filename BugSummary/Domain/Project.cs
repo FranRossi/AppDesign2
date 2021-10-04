@@ -41,5 +41,11 @@ namespace Domain
             else
                 throw new InvalidProjectAssigneeRoleException();
         }
+
+        public void RemoveUser(User newUser)
+        {
+            if (Users != null)
+                Users.Remove(newUser);
+        }
     }
 }

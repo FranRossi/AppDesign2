@@ -461,5 +461,136 @@ namespace DataAccessTest
                () => _projectRepository.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
             );
         }
+
+        [TestMethod]
+        public void DissociateUserFromProject()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            newProject.Users = new List<User> { newUser };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _projectRepository.DissociateUserFromProject(userId, projectId);
+            _projectRepository.Save();
+
+            newProject.Users = new List<User>();
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Users").FirstOrDefault(p => p.Id == projectId);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(newProject, databaseProject);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+        [TestMethod]
+        public void DissociateDissociatedUserFromProject()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+
+            _projectRepository.DissociateUserFromProject(userId, projectId);
+            _projectRepository.Save();
+
+            newProject.Users = new List<User>();
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Users").FirstOrDefault(p => p.Id == projectId);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(newProject, databaseProject);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+
+        [TestMethod]
+        public void DissociateInvalidUserFromProject()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<InexistentUserException>(
+               () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void DissociateUserFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
+            );
+        }
     }
 }

@@ -205,6 +205,33 @@ namespace DomainTest
             );
         }
 
+        [DataRow(RoleType.Admin)]
+        [DataRow(RoleType.Developer)]
+        [DataRow(RoleType.Tester)]
+        [DataTestMethod]
+        public void RemoveUser(RoleType role)
+        {
+            Project newProject = new Project
+            {
+                Name = "Semester2021"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = role,
+                Projects = new List<Project>()
+            };
+            newProject.Users = new List<User> { newUser };
+            newProject.RemoveUser(newUser);
+
+            Assert.AreEqual(0, newProject.Users.Count);
+        }
+
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyProjectNameLengthIsCorrect()

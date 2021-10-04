@@ -16,5 +16,7 @@ namespace BusinessLogicInterface
         public void Delete(int projectId);
 
         public void AssignUserToProject(int userId, int projectId);
+
+        public void DissociateUserFromProject(int userId, int projectId);
     }
 }

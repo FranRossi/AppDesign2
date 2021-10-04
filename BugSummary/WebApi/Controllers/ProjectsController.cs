@@ -47,5 +47,12 @@ namespace WebApi.Controllers
             _projects.AssignUserToProject(userId, projectId);
             return Ok();
         }
+
+        [HttpDelete("{userId},{projectId}")]
+        public IActionResult Delete(int userId, int projectId)
+        {
+            _projects.DissociateUserFromProject(userId, projectId);
+            return Ok();
+        }
     }
 }
