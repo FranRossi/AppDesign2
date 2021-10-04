@@ -31,6 +31,13 @@ namespace WebApiTest.FiltersTest
         }
 
         [TestMethod]
+        public void InexistentUserExceptionTest()
+        {
+            InexistentUserException exception = new InexistentUserException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
         public void ProjectNameIsNotUniqueExceptionTest()
         {
             ProjectNameIsNotUniqueException exception = new ProjectNameIsNotUniqueException();
