@@ -59,6 +59,7 @@ namespace DataAccess
             Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
             User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
             projectFromDB.Users.Add(userFromDB);
+            Context.Projects.Update(projectFromDB);
         }
     }
 }
