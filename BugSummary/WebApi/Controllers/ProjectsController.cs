@@ -41,7 +41,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{userId, projectId}")]
+        [HttpPost("{userId},{projectId}")]
         public IActionResult Post(int userId, int projectId)
         {
             _projects.AssignUserToProject(userId, projectId);
