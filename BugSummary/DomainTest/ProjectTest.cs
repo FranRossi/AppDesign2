@@ -158,7 +158,7 @@ namespace DomainTest
             };
             newProject.AddUser(newUser);
 
-            Assert.AreEqual(newUser, newProject.Users.ElementAt(1));
+            Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
         }
 
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
