@@ -10,6 +10,7 @@ using BusinessLogicInterface;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
 using System;
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -34,6 +35,13 @@ namespace WebApiTest.FiltersTest
         public void InexistentUserExceptionTest()
         {
             InexistentUserException exception = new InexistentUserException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void InvalidProjectAssigneeRoleExceptionTest()
+        {
+            InvalidProjectAssigneeRoleException exception = new InvalidProjectAssigneeRoleException();
             TestException(exception, 403);
         }
 
