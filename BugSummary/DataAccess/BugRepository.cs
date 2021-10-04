@@ -63,5 +63,14 @@ namespace DataAccess
                 throw new InexistentBugException();
 
         }
+
+        public void Delete(User testerUser, int bugId)
+        {
+            Bug bugFromDB = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
+            if (bugFromDB != null)
+            {
+                Context.Bugs.Remove(bugFromDB);
+            }
+        }
     }
 }
