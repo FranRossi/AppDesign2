@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class BugStateIncorrectException : Exception
+    public class BugStateIncorrectException : DomainValidationException
     {
-        public override string Message => "Bug's state must be active or inactive";
+        public BugStateIncorrectException()
+        {
+            this.messageToDisplay = "Bug's state must be active or inactive";
+        }
+
     }
 }

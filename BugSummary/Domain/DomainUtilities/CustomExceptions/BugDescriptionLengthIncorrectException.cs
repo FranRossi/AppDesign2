@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class BugDescriptionLengthIncorrectException : Exception
+    public class BugDescriptionLengthIncorrectException : DomainValidationException
     {
-        public override string Message => "Bug's description must be under 150 characters";
+        public BugDescriptionLengthIncorrectException()
+        {
+            this.messageToDisplay = "Bug's description must be under 150 characters";
+        }
     }
 }

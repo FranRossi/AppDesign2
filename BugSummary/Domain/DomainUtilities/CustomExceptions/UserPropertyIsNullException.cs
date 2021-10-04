@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class UserPropertyIsNullException : Exception
+    public class UserPropertyIsNullException : DomainValidationException
     {
-        public override string Message => "User has a value that it is null";
+        public UserPropertyIsNullException()
+        {
+            this.messageToDisplay = "User has a value that it is null";
+        }
     }
 }

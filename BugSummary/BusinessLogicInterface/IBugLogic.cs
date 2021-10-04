@@ -9,5 +9,6 @@ namespace BusinessLogicInterface
     {
         void Add(User tester, Bug newBug);
         IEnumerable<Bug> GetAll(string token);
+        void Update(string token, Bug updatedBug);
     }
 }

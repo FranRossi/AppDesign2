@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.DomainUtilities.CustomExceptions;
 using Utilities.CustomExceptions;
 
 namespace WebApi.Filters
@@ -26,6 +27,9 @@ namespace WebApi.Filters
                 statusCode = 409;
                 exceptionMessage = context.Exception.Message;
             }
+            else if (context.Exception is DomainValidationException)
+            {
+                statusCode = 400;
             else if (context.Exception is InexistentProjectException)
             {
                 statusCode = 403;
