@@ -48,22 +48,7 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewBugTest()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                context.Add(new Bug
-                {
-                    Id = 1,
-                    Name = "Bug1",
-                    Description = "Bug en el servidor",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project(),
-                    ProjectId = 1
-                });
-                context.SaveChanges();
-            }
-
-            Bug newBug = new Bug
+            Bug newBugToAdd = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
@@ -73,10 +58,12 @@ namespace DataAccessTest
                 Project = new Project(),
                 ProjectId = 1
             };
+            _bugRepository.Add(newBugToAdd);
+            _bugRepository.Save();
+            
             List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(newBug);
-
-
+            bugsExpected.Add(newBugToAdd);
+            
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 List<Bug> bugsDataBase = context.Bugs.ToList();
