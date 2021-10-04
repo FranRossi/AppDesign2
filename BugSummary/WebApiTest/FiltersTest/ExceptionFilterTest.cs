@@ -56,7 +56,7 @@ namespace WebApiTest.FiltersTest
         public void DomainExceptionTest()
         {
             DomainValidationException exception = new DomainValidationException();
-            TestException(exception, 400);
+            TestException(exception, 403);
         }
         private void TestException(Exception exception, int statusCode)
         {
