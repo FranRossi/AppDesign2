@@ -34,5 +34,13 @@ namespace WebApi.Controllers
             _projects.Update(id, model.ToEntity());
             return Ok();
         }
+
+        [HttpPost("{id}")]
+        [AuthorizationWithParameterFilter(RoleType.Admin)]
+        public IActionResult Delete(int id)
+        {
+            _projects.Delete(id);
+            return Ok();
+        }
     }
 }
