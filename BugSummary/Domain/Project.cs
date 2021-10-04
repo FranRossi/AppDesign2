@@ -29,5 +29,12 @@ namespace Domain
             if (!Validator.MaxLengthOfString(nameToValidate, MaxProjectNameLength))
                 throw new ProjectNameLengthIncorrectException();
         }
+
+        public void AddUser(User newUser)
+        {
+            if (Users == null)
+                Users = new List<User>();
+            Users.Add(newUser);
+        }
     }
 }
