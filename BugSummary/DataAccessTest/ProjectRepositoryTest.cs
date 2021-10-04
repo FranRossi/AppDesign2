@@ -564,5 +564,32 @@ namespace DataAccessTest
                () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
             );
         }
+
+        [TestMethod]
+        public void DissociateUserFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
+            );
+        }
     }
 }
