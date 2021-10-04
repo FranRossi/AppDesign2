@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _projects.Delete(id);
