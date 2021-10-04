@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BusinessLogicInterface;
+using DataAccess.Exceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
@@ -10,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
 using Utilities.Comparers;
-using Utilities.CustomExceptions;
 using WebApi.Controllers;
 using WebApi.Models;
 

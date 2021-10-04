@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utilities.CustomExceptions
+namespace DataAccess.Exceptions
 {
     public class ProjectDontBelongToUser : Exception
     {

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Exceptions
 {
-    public class UserCannotCreateBugException : Exception
+    public class UserMustBeTesterException : Exception
     {
-        public override string Message => "Only tester can create bugs";
+        public override string Message => "User's role must be tester for this action";
     }
 }

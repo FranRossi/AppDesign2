@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
 using DataAccess.Exceptions;
-using Domain.DomainUtilities.CustomExceptions;
 using KellermanSoftware.CompareNetObjects;
 using TestUtilities;
 using Utilities.CustomExceptions;
@@ -224,7 +223,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UserCannotCreateBugException))]
+        [ExpectedException(typeof(UserMustBeTesterException))]
         public void DeveloperCreatesBug()
         {
             User developerUser = new User

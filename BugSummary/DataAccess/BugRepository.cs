@@ -44,7 +44,7 @@ namespace DataAccess
                 }
             }
             else
-                throw new UserCannotCreateBugException();
+                throw new UserMustBeTesterException();
         }
 
         public void Update(User testerUser, Bug updatedBug)
