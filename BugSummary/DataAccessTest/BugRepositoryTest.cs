@@ -514,15 +514,6 @@ namespace DataAccessTest
         [TestMethod]
         public void DeleteBug()
         {
-            Bug newBug = new Bug
-            {
-                Id = 1,
-                Name = "BugNuevo",
-                Description = "Bug Nuevo",
-                Version = "1.5",
-                State = BugState.Done,
-                ProjectId = 2
-            };
             User testerUser = new User
             {
                 Id = 2,
@@ -534,12 +525,34 @@ namespace DataAccessTest
                 Role = RoleType.Tester,
                 Projects = new List<Project>()
             };
-            int bugID = 1;
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                context.Add(newBug);
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1,
+                    Project = projectTester
+                };
+                context.Add(oldBug);
                 context.SaveChanges();
             }
+            int bugID = 1;
+            
 
             _bugRepository.Delete(testerUser,bugID);
             _bugRepository.Save();
@@ -549,6 +562,40 @@ namespace DataAccessTest
                 Bug databaseBug = context.Bugs.FirstOrDefault(p => p.Id == bugID);
                 Assert.AreEqual(null, databaseBug);
             }
+        }
+        
+        [TestMethod]
+        public void DeveloperDeletesBug()
+        {
+            User developerUser = new User
+            {
+                Id = 2,
+                Role = RoleType.Developer,
+            };
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+            };
+            TestExceptionUtils.Throws<UserMustBeTesterException>(
+                () => _bugRepository.Delete(developerUser,updatedBug.Id), "User's role must be tester for this action"
+            );
+        }
+        
+        [TestMethod]
+        public void DeletesInexistentBug()
+        {
+            User developerUser = new User
+            {
+                Id = 2,
+                Role = RoleType.Developer,
+            };
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+            };
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.Delete(developerUser,updatedBug.Id), "The bug to update does not exist on database, please enter a different bug"
+            );
         }
         
     }
