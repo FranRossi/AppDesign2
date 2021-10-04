@@ -542,5 +542,27 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
+
+
+        [TestMethod]
+        public void DissociateInvalidUserFromProject()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<InexistentUserException>(
+               () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
+            );
+        }
     }
 }
