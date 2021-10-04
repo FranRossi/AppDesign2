@@ -202,7 +202,7 @@ namespace DataAccessTest
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Project databaseProject = context.Projects.ToList().First(p => p.Id == id);
+                Project databaseProject = context.Projects.FirstOrDefault(p => p.Id == id);
                 Assert.Equals(null, databaseProject);
             }
         }
