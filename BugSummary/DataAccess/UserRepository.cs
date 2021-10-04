@@ -52,7 +52,7 @@ namespace DataAccess
             User result = null;
             if (token != null)
             {
-                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                User userFromDb = Context.Users.Include("Projects").FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb;
             }
