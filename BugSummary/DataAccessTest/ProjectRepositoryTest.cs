@@ -229,7 +229,6 @@ namespace DataAccessTest
             {
                 context.Add(newProject);
                 context.SaveChanges();
-                Bug databaseBug = context.Bugs.FirstOrDefault(b => b.Id == newBug.Id);
             }
 
             _projectRepository.Delete(id);
@@ -241,6 +240,48 @@ namespace DataAccessTest
                 Bug databaseBug = context.Bugs.FirstOrDefault(b => b.Id == newBug.Id);
                 Assert.AreEqual(null, databaseProject);
                 Assert.AreEqual(null, databaseBug);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteProjectWithUsersTest()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+            };
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344",
+                Users = new List<User> { newUser }
+            };
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _projectRepository.Delete(id);
+            _projectRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.FirstOrDefault(p => p.Id == id);
+                User databaseUsers = context.Users.FirstOrDefault(b => b.Id == newUser.Id);
+                User expectedUser = newUser;
+                expectedUser.Token = null;
+                expectedUser.Projects = null;
+                Assert.AreEqual(null, databaseProject);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, databaseUsers);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
     }
