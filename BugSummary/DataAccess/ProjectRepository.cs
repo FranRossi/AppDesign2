@@ -70,6 +70,8 @@ namespace DataAccess
         {
             Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
             User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
+            if (userFromDB == null)
+                throw new InexistentUserException();
             projectFromDB.Users.Remove(userFromDB);
             Context.Projects.Update(projectFromDB);
         }
