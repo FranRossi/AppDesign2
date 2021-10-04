@@ -37,7 +37,7 @@ namespace DomainTest
         {
             Project newProject = new Project
             {
-                Bugs = new List<Bug>() 
+                Bugs = new List<Bug>()
                 {
                     new Bug
                     {
@@ -139,6 +139,26 @@ namespace DomainTest
             };
 
             Assert.AreEqual(2, newProject.Users.Count());
+        }
+
+        [TestMethod]
+        public void AddTester()
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            newProject.AddUser(newUser);
+
+            Assert.AreEqual(newUser, newProject.Users.ElementAt(1));
         }
 
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
