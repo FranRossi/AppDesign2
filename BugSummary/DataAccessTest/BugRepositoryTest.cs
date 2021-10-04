@@ -587,7 +587,7 @@ namespace DataAccessTest
             User developerUser = new User
             {
                 Id = 2,
-                Role = RoleType.Developer,
+                Role = RoleType.Tester,
             };
             Bug updatedBug = new Bug
             {

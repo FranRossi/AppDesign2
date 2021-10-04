@@ -66,11 +66,15 @@ namespace DataAccess
 
         public void Delete(User testerUser, int bugId)
         {
+            if (testerUser.Role != RoleType.Tester)
+                throw new UserMustBeTesterException();
             Bug bugFromDB = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
             if (bugFromDB != null)
             {
                 Context.Bugs.Remove(bugFromDB);
             }
+            else
+                throw new InexistentBugException();
         }
     }
 }
