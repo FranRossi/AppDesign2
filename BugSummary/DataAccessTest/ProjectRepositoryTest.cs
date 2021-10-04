@@ -293,7 +293,7 @@ namespace DataAccessTest
 
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.Delete(id), "The entered project does not exist."
-           );
+            );
         }
 
         [TestMethod]
@@ -378,6 +378,27 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
                 Assert.AreEqual(1, databaseProject.Users.Count);
             }
+        }
+
+        [TestMethod]
+        public void AssignInvalidUserToProjectTest()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<InexistentUserException>(
+               () => _projectRepository.AssignUserToProject(userId, projectId), "The entered user does not exist."
+            );
         }
     }
 }
