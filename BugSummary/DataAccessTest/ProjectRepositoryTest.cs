@@ -327,11 +327,14 @@ namespace DataAccessTest
             _projectRepository.AssignUserToProject(userId, projectId);
             _projectRepository.Save();
 
+            newUser.Projects = new List<Project> { newProject };
             newProject.Users = new List<User> { newUser };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Project databaseProject = context.Projects.Include("User").FirstOrDefault(p => p.Id == projectId);
-                Assert.AreEqual(newProject, databaseProject);
+                Project databaseProject = context.Projects.Include("Users").FirstOrDefault(p => p.Id == projectId);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(newProject, databaseProject);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
     }
