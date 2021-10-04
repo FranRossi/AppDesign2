@@ -211,7 +211,10 @@ namespace DomainTest
         [DataTestMethod]
         public void RemoveUser(RoleType role)
         {
-            Project newProject = new Project();
+            Project newProject = new Project
+            {
+                Name = "Semester2021"
+            };
             User newUser = new User
             {
                 Id = 1,
@@ -223,6 +226,7 @@ namespace DomainTest
                 Role = role,
                 Projects = new List<Project>()
             };
+            newProject.Users = new List<User> { newUser };
             newProject.RemoveUser(newUser);
 
             Assert.AreEqual(0, newProject.Users.Count);
