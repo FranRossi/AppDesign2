@@ -14,7 +14,7 @@ namespace Domain
 
 
 
-        public int Id 
+        public int Id
         {
             get => _id;
             set
@@ -24,13 +24,13 @@ namespace Domain
             }
         }
         public string Name
-        { 
-                get => _name;
-                set
-                {
-                    ValidateName(value);
-                    _name = value;
-                }
+        {
+            get => _name;
+            set
+            {
+                ValidateName(value);
+                _name = value;
+            }
         }
         public string Description
         {
@@ -64,12 +64,22 @@ namespace Domain
 
         public Project Project { get; set; }
         public int ProjectId { get; set; }
+        public User Fixer
+        {
+            get => _fixer;
+            set
+            {
+                ValidateFixerRole(value);
+                _fixer = value;
+            }
+        }
 
         private string _name;
         private int _id;
         private string _description;
         private string _version;
         private BugState _state;
+        private User _fixer;
 
 
 
@@ -101,6 +111,12 @@ namespace Domain
         {
             if (!Validator.CorrectBugState(value))
                 throw new BugStateIncorrectException();
+        }
+
+        private void ValidateFixerRole(User user)
+        {
+            if (!Validator.CorrectFixerRole(user.Role))
+                throw new InvalidBugSolverRoleException();
         }
 
     }
