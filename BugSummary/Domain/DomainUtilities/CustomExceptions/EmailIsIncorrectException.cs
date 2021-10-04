@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class EmailIsIncorrectException : Exception
+    public class EmailIsIncorrectException : DomainValidationException
     {
-        public override string Message => "Email has a wrong format";
+        public EmailIsIncorrectException()
+        {
+            this.messageToDisplay = "Email has a wrong format";
+        }
     }
 }

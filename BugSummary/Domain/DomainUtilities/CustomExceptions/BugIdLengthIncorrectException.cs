@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class BugIdLengthIncorrectException : Exception
+    public class BugIdLengthIncorrectException : DomainValidationException
     {
-        public override string Message => "Bug's id must be under 4 characters";
+        public BugIdLengthIncorrectException()
+        {
+            this.messageToDisplay = "Bug's id must be under 4 characters";
+        }
     }
 }

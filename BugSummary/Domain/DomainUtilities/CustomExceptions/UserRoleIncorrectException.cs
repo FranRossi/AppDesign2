@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class UserRoleIncorrectException : Exception
+    public class UserRoleIncorrectException : DomainValidationException
     {
-        public override string Message => "User's role must be tester, developer or admin";
+        public UserRoleIncorrectException()
+        {
+            this.messageToDisplay = "User's role must be tester, developer or admin";
+        }
     }
 }

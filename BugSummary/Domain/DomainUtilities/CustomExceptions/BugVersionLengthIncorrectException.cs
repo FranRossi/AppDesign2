@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class BugVersionLengthIncorrectException : Exception
+    public class BugVersionLengthIncorrectException : DomainValidationException
     {
-        public override string Message => "Bug's version must be under 10 characters";
+        public BugVersionLengthIncorrectException()
+        {
+            this.messageToDisplay = "Bug's version must be under 10 characters";
+        }
     }
 }

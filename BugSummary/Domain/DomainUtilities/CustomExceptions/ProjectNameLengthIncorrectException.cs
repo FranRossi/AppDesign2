@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class ProjectNameLengthIncorrectException : Exception
+    public class ProjectNameLengthIncorrectException : DomainValidationException
     {
-        public override string Message => "Project's name must be under 30 characters";
+        public ProjectNameLengthIncorrectException()
+        {
+            this.messageToDisplay = "Project's name must be under 30 characters";
+        }
     }
 }
