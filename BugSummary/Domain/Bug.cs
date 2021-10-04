@@ -73,6 +73,7 @@ namespace Domain
                 _fixer = value;
             }
         }
+        public int FixerId { get; set; }
 
         private string _name;
         private int _id;
