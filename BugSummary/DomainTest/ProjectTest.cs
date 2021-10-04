@@ -5,6 +5,8 @@ using System.Linq;
 using Domain.DomainUtilities;
 using Utilities.Comparers;
 using Domain.DomainUtilities.CustomExceptions;
+using Utilities.CustomExceptions;
+using TestUtilities;
 
 namespace DomainTest
 {
@@ -160,6 +162,7 @@ namespace DomainTest
 
             Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
         }
+
         [TestMethod]
         public void AddDeveloper()
         {
@@ -178,6 +181,30 @@ namespace DomainTest
             newProject.AddUser(newUser);
 
             Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
+        }
+
+        [DataRow(RoleType.Admin)]
+        [DataRow(RoleType.Invalid)]
+        [DataTestMethod]
+        public void AddInvalidRoleAsignee(RoleType role)
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = role,
+                Projects = new List<Project>()
+            };
+
+
+            TestExceptionUtils.Throws<InvalidProjectAssigneeRole>(
+               () => newProject.AddUser(newUser), "Project asingnees must either be Developers or Testers."
+            );
         }
 
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
