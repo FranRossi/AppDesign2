@@ -67,7 +67,7 @@ namespace WebApiTest
             BugsController controller = new BugsController(mock.Object);
 
             TestExceptionUtils.Throws<UserMustBeTesterException>(
-                () => controller.Put(token,bug), "User's role must be tester for this action"
+                () => controller.Post(token,bug), "User's role must be tester for this action"
             );
 
         }
