@@ -284,5 +284,16 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
+
+
+        [TestMethod]
+        public void DeleteInexistentProjectTest()
+        {
+            int id = 1;
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.Delete(id), "The entered project does not exist."
+           );
+        }
     }
 }
