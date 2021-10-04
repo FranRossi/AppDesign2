@@ -8,6 +8,6 @@ namespace Domain.DomainUtilities.CustomExceptions
 {
     public class UserRoleIncorrectException : Exception
     {
-        public override string Message => "User's rolemust be tester, developer or admin";
+        public override string Message => "User's role must be tester, developer or admin";
     }
 }

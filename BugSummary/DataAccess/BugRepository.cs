@@ -49,6 +49,10 @@ namespace DataAccess
 
         public void Update(User testerUser, Bug updatedBug)
         {
+            if (testerUser.Role != RoleType.Tester)
+                throw new UserMustBeTesterException();
+            if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
+                throw new ProjectDontBelongToUser();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
