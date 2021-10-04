@@ -65,5 +65,13 @@ namespace DataAccess
             projectFromDB.AddUser(userFromDB);
             Context.Projects.Update(projectFromDB);
         }
+
+        public void DissociateUserFromProject(int userId, int projectId)
+        {
+            Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
+            User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
+            projectFromDB.Users.Remove(userFromDB);
+            Context.Projects.Update(projectFromDB);
+        }
     }
 }
