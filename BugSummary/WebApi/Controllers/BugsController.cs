@@ -36,5 +36,11 @@ namespace WebApi.Controllers
             _bugs.Update(token,bug.ToEntity());
             return Ok();
         }
+
+        [HttpPost]
+        public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

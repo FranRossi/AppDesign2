@@ -19,8 +19,10 @@ namespace WebApiTest
     [TestClass]
     public class BugsControllerTest
     {
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
         [TestMethod]
-        public void AddValidBug()
+        public void AddValidBug(string token)
         {
             BugModel bug = new BugModel
             {
