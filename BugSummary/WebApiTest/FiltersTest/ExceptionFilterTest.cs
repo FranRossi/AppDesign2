@@ -30,6 +30,12 @@ namespace WebApiTest.FiltersTest
             TestException(exception, 409);
         }
 
+        [TestMethod]
+        public void DomainExceptionTest()
+        {
+            DomainException exception = new DomainException();
+            TestException(exception, 400);
+        }
         private void TestException(Exception exception, int statusCode)
         {
             ModelStateDictionary modelState = new ModelStateDictionary();
