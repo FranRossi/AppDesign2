@@ -461,5 +461,46 @@ namespace DataAccessTest
                () => _projectRepository.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
             );
         }
+
+        [TestMethod]
+        public void DissociateUserFromProject()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            newProject.Users = new List<User> { newUser };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _projectRepository.DissociateUserFromProject(userId, projectId);
+            _projectRepository.Save();
+
+            newUser.Projects = null;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Users").FirstOrDefault(p => p.Id == projectId);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(newProject, databaseProject);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
     }
 }
