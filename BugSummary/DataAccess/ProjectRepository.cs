@@ -62,7 +62,7 @@ namespace DataAccess
             User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
             if (userFromDB == null)
                 throw new InexistentUserException();
-            projectFromDB.Users.Add(userFromDB);
+            projectFromDB.AddUser(userFromDB);
             Context.Projects.Update(projectFromDB);
         }
     }

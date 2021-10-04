@@ -39,7 +39,7 @@ namespace Domain
                 Users.Add(newUser);
             }
             else
-                throw new InvalidProjectAssigneeRole();
+                throw new InvalidProjectAssigneeRoleException();
         }
     }
 }

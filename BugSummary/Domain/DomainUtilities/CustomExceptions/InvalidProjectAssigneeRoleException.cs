@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.DomainUtilities.CustomExceptions
 {
-    public class InvalidProjectAssigneeRole : Exception
+    public class InvalidProjectAssigneeRoleException : Exception
     {
         public override string Message => "Project asingnees must either be Developers or Testers.";
     }

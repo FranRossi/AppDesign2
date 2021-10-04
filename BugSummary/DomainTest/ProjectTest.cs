@@ -200,7 +200,7 @@ namespace DomainTest
             };
 
 
-            TestExceptionUtils.Throws<InvalidProjectAssigneeRole>(
+            TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
                () => newProject.AddUser(newUser), "Project asingnees must either be Developers or Testers."
             );
         }
