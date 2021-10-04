@@ -29,5 +29,13 @@ namespace BusinessLogic
             User userByToken = userLogic.Get(token);
             return _bugRepository.GetAllByTester(userByToken);
         }
+
+        public void Update(string token, Bug updatedBug)
+        {
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            _bugRepository.Update(userByToken,updatedBug);
+            _bugRepository.Save();
+        }
     }
 }

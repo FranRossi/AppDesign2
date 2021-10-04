@@ -137,16 +137,19 @@ namespace BusinessLogicTest
                 State = BugState.Done,
                 ProjectId = 1
             };
+            User tester = null;
             Bug sentBugToBeUpdated = null;
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(),It.IsAny<Bug>()))
-                .Callback((Bug bug) =>
+                .Callback((User user,Bug bug) =>
                 {
                     sentBugToBeUpdated = bug;
                 }); ;
             mockBugRepository.Setup(mr => mr.Save());
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
+            mockUserRepository.Setup(mr => mr.Save());
+            
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             bugLogic.Update(token,updatedBug);
 
