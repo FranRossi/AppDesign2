@@ -183,10 +183,8 @@ namespace DomainTest
             Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
         }
 
-        [DataRow(RoleType.Admin)]
-        [DataRow(RoleType.Invalid)]
-        [DataTestMethod]
-        public void AddInvalidRoleAsignee(RoleType role)
+        [TestMethod]
+        public void AddInvalidRoleAsignee()
         {
             Project newProject = new Project();
             User newUser = new User
@@ -197,7 +195,7 @@ namespace DomainTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = role,
+                Role = RoleType.Admin,
                 Projects = new List<Project>()
             };
 
