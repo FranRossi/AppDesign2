@@ -29,5 +29,10 @@ namespace BusinessLogic
             _projectRepository.Update(updatedProject);
             _projectRepository.Save();
         }
+        public void Delete(int projectId)
+        {
+            _projectRepository.Delete(projectId);
+            _projectRepository.Save();
+        }
     }
 }

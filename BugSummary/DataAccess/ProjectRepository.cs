@@ -25,7 +25,6 @@ namespace DataAccess
             else
                 throw new ProjectNameIsNotUniqueException();
         }
-
         public override IEnumerable<Project> GetAll()
         {
             return Context.Projects.ToList();
@@ -38,6 +37,18 @@ namespace DataAccess
             {
                 projectFromDB.Name = updatedProject.Name;
                 Context.Projects.Update(projectFromDB);
+            }
+            else
+                throw new InexistentProjectException();
+        }
+
+
+        public void Delete(int projectId)
+        {
+            Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == projectId);
+            if (projectFromDB != null)
+            {
+                Context.Projects.Remove(projectFromDB);
             }
             else
                 throw new InexistentProjectException();
