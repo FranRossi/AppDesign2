@@ -206,5 +206,42 @@ namespace DataAccessTest
                 Assert.AreEqual(null, databaseProject);
             }
         }
+
+        [TestMethod]
+        public void DeleteProjectWithBugsTest()
+        {
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344",
+                Bugs = new List<Bug> { newBug }
+            };
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+                Bug databaseBug = context.Bugs.FirstOrDefault(b => b.Id == newBug.Id);
+            }
+
+            _projectRepository.Delete(id);
+            _projectRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.FirstOrDefault(p => p.Id == id);
+                Bug databaseBug = context.Bugs.FirstOrDefault(b => b.Id == newBug.Id);
+                Assert.AreEqual(null, databaseProject);
+                Assert.AreEqual(null, databaseBug);
+            }
+        }
     }
 }
