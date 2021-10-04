@@ -527,6 +527,7 @@ namespace DataAccessTest
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 context.Add(newProject);
+                context.Add(newUser);
                 context.SaveChanges();
             }
 
