@@ -163,5 +163,19 @@ namespace BusinessLogicTest
                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered user does not exist."
             );
         }
+
+        [TestMethod]
+        public void AssignUserToInvalidProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
+            );
+        }
     }
 }
