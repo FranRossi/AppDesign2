@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.DomainUtilities.CustomExceptions;
+using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -58,7 +59,9 @@ namespace DataAccess
                 bugFromDb.State = updatedBug.State;
                 Context.Bugs.Update(bugFromDb);
             }
-            
+            else
+                throw new InexistentBugException();
+
         }
     }
 }
