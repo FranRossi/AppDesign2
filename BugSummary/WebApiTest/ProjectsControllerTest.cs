@@ -103,5 +103,51 @@ namespace WebApiTest
             Assert.IsInstanceOfType(result, typeof(OkResult));
             Assert.AreEqual(id, receivedId);
         }
+
+        [TestMethod]
+        public void AssignUserToProjectProject()
+        {
+            int projectId = 1;
+            int userId = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mock.Setup(m => m.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Callback((int sentUserId, int sentProjectId) =>
+            {
+                receivedUserId = sentUserId;
+                receivedProjectId = sentProjectId;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Post(userId, projectId);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(projectId, receivedProjectId);
+            Assert.AreEqual(userId, receivedUserId);
+        }
+
+        [TestMethod]
+        public void DissociateUserFromProject()
+        {
+            int projectId = 1;
+            int userId = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mock.Setup(m => m.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Callback((int sentUserId, int sentProjectId) =>
+            {
+                receivedUserId = sentUserId;
+                receivedProjectId = sentProjectId;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Delete(userId, projectId);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(projectId, receivedProjectId);
+            Assert.AreEqual(userId, receivedUserId);
+        }
     }
 }

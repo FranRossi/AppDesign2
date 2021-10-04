@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.DomainUtilities.CustomExceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,19 @@ namespace WebApi.Filters
             else if (context.Exception is DomainValidationException)
             {
                 statusCode = 400;
+            else if (context.Exception is InexistentProjectException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InexistentUserException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InvalidProjectAssigneeRoleException)
+            {
+                statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
 

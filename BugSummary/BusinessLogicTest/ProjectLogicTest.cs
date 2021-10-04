@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
@@ -123,6 +124,124 @@ namespace BusinessLogicTest
             ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _sessionLogic.Delete(id), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void AssignUserToProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = 1;
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Callback((int sentUserId, int sentProjectId) =>
+                {
+                    receivedProjectId = sentProjectId;
+                    receivedUserId = sentUserId;
+                });
+            mockProject.Setup(mr => mr.Save());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            _projectLogic.AssignUserToProject(userId, projectId);
+
+            mockProject.Verify(mock => mock.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            Assert.AreEqual(projectId, receivedProjectId);
+            Assert.AreEqual(userId, receivedUserId);
+        }
+
+        [TestMethod]
+        public void AssignInvalidUserToProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InexistentUserException>(
+               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered user does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void AssignUserToInvalidProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void AssignInvalidRoleUserToProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InvalidProjectAssigneeRoleException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
+               () => _projectLogic.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
+            );
+        }
+
+        [TestMethod]
+        public void DissociateUserFromProject()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = 1;
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Callback((int sentUserId, int sentProjectId) =>
+                {
+                    receivedProjectId = sentProjectId;
+                    receivedUserId = sentUserId;
+                });
+            mockProject.Setup(mr => mr.Save());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            _projectLogic.DissociateUserFromProject(userId, projectId);
+
+            mockProject.Verify(mock => mock.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            Assert.AreEqual(projectId, receivedProjectId);
+            Assert.AreEqual(userId, receivedUserId);
+        }
+
+        [TestMethod]
+        public void DissociateInvalidUserFromProject()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InexistentUserException>(
+               () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void DissociateUserFromInvalidProject()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -1;
+            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
             );
         }
     }

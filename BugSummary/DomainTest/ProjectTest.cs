@@ -5,6 +5,8 @@ using System.Linq;
 using Domain.DomainUtilities;
 using Utilities.Comparers;
 using Domain.DomainUtilities.CustomExceptions;
+using Utilities.CustomExceptions;
+using TestUtilities;
 
 namespace DomainTest
 {
@@ -37,7 +39,7 @@ namespace DomainTest
         {
             Project newProject = new Project
             {
-                Bugs = new List<Bug>() 
+                Bugs = new List<Bug>()
                 {
                     new Bug
                     {
@@ -139,6 +141,95 @@ namespace DomainTest
             };
 
             Assert.AreEqual(2, newProject.Users.Count());
+        }
+
+        [TestMethod]
+        public void AddTester()
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            newProject.AddUser(newUser);
+
+            Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
+        }
+
+        [TestMethod]
+        public void AddDeveloper()
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            newProject.AddUser(newUser);
+
+            Assert.AreEqual(newUser, newProject.Users.ElementAt(0));
+        }
+
+        [TestMethod]
+        public void AddInvalidRoleAsignee()
+        {
+            Project newProject = new Project();
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
+            };
+
+
+            TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
+               () => newProject.AddUser(newUser), "Project asingnees must either be Developers or Testers."
+            );
+        }
+
+        [DataRow(RoleType.Admin)]
+        [DataRow(RoleType.Developer)]
+        [DataRow(RoleType.Tester)]
+        [DataTestMethod]
+        public void RemoveUser(RoleType role)
+        {
+            Project newProject = new Project
+            {
+                Name = "Semester2021"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = role,
+                Projects = new List<Project>()
+            };
+            newProject.Users = new List<User> { newUser };
+            newProject.RemoveUser(newUser);
+
+            Assert.AreEqual(0, newProject.Users.Count);
         }
 
         [ExpectedException(typeof(ProjectNameLengthIncorrectException))]
