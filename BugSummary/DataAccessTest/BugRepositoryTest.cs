@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Utilities.Comparers;
 using DataAccess.Exceptions;
+using Domain.DomainUtilities.CustomExceptions;
 using KellermanSoftware.CompareNetObjects;
 using TestUtilities;
 using Utilities.CustomExceptions;
@@ -357,6 +358,107 @@ namespace DataAccessTest
             };
             TestExceptionUtils.Throws<InexistentBugException>(
                 () => _bugRepository.Update(testerUser,updatedBug), "The bug to update does not exist on database, please enter a different bug"
+            );
+        }
+        
+        [TestMethod]
+        public void DeveloperUpdateBugTest()
+        {
+            User developerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                    developerUser
+                }
+            };
+            developerUser.Projects.Add(projectTester);
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug en el cliente",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 1
+            };
+            TestExceptionUtils.Throws<UserMustBeTesterException>(
+                () => _bugRepository.Update(developerUser,updatedBug), "User's role must be tester for this action"
+            );
+        }
+        
+          [TestMethod]
+        public void TesterUpdateBugWithoutNewProjectTest()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                Project projectTester2 = new Project()
+                {
+                    Id = 2,
+                    Name = "Semester 2021",
+                    Users = new List<User>()
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                //User does not have second project
+                context.Projects.Add(projectTester2);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1
+                };
+                    context.Add(oldBug);
+                    context.SaveChanges();
+            }
+            
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug Nuevo",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 2
+            };
+            
+            TestExceptionUtils.Throws<ProjectDontBelongToUser>(
+                () => _bugRepository.Update(testerUser,updatedBug), "New project to update bug, does not belong to tester"
             );
         }
         
