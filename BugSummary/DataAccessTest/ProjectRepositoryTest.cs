@@ -423,8 +423,8 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
 
-            TestExceptionUtils.Throws<InexistentUserException>(
-               () => _projectRepository.AssignUserToProject(userId, projectId), "The entered user does not exist."
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.AssignUserToProject(userId, projectId), "The entered project does not exist."
             );
         }
     }
