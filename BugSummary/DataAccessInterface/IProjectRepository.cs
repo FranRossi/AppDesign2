@@ -10,5 +10,7 @@ namespace DataAccessInterface
     public interface IProjectRepository : IRepository<Project>
     {
         public void Update(Project updatedProject);
+
+        public void Delete(int projectId);
     }
 }
