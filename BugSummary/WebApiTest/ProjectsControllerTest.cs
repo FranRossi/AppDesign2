@@ -84,5 +84,24 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
             Assert.AreEqual(id, receivedId);
         }
+
+        [TestMethod]
+        public void DeleteValidProject()
+        {
+            int id = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedId = -1;
+            mock.Setup(m => m.Delete(It.IsAny<int>())).Callback((int id) =>
+            {
+                receivedId = id;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Delete(id);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(id, receivedId);
+        }
     }
 }
