@@ -125,5 +125,29 @@ namespace BusinessLogicTest
                () => _sessionLogic.Delete(id), "The entered project does not exist."
             );
         }
+
+        [TestMethod]
+        public void AssignUserToProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = 1;
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Callback((int sentUserId, int sentProjectId) =>
+                {
+                    receivedProjectId = sentProjectId;
+                    receivedUserId = sentUserId;
+                });
+            mockProject.Setup(mr => mr.Save());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            _projectLogic.AssignUserToProject(userId, projectId);
+
+            mockProject.Verify(mock => mock.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            Assert.AreEqual(projectId, receivedProjectId);
+            Assert.AreEqual(userId, receivedUserId);
+        }
     }
 }
