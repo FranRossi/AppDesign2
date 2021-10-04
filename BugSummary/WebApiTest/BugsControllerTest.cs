@@ -64,14 +64,14 @@ namespace WebApiTest
                 ProjectId = 1,
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            User receivedBug = null;
-            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<User>())).Callback((string token,User sentBug) =>
+            Bug receivedBug = null;
+            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token,Bug sentBug) =>
             {
                 receivedBug = sentBug;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Post(bug);
+            IActionResult result = controller.Post(token,bug);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));

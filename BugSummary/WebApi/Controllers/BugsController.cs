@@ -26,5 +26,13 @@ namespace WebApi.Controllers
             IEnumerable<Bug> bugs = _bugs.GetAll(token);
             return Ok(bugs);
         }
+
+  
+        [HttpPost]
+        public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
+        {
+            _bugs.Update(token,bug.ToEntity());
+            return Ok();
+        }
     }
 }
