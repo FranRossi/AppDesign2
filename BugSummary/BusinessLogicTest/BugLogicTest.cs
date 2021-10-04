@@ -122,6 +122,38 @@ namespace BusinessLogicTest
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection) bugsExpected, (ICollection) bugsResult, new BugComparer());
         }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void UpdateValidBug(string token)
+        {
+          
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug en el cliente",
+                Version = "1.5",
+                State = BugState.Done,
+                ProjectId = 1
+            };
+            Bug sentBugToBeUpdated = null;
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(),It.IsAny<Bug>()))
+                .Callback((Bug bug) =>
+                {
+                    sentBugToBeUpdated = bug;
+                }); ;
+            mockBugRepository.Setup(mr => mr.Save());
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            bugLogic.Update(token,updatedBug);
+
+            mockBugRepository.VerifyAll();
+            Assert.AreEqual(updatedBug, sentBugToBeUpdated);
+        }
+
 
     }
 }
