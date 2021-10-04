@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.DomainUtilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -43,6 +44,21 @@ namespace DataAccess
             }
             else
                 throw new UserCannotCreateBugException();
+        }
+
+        public void Update(User testerUser, Bug updatedBug)
+        {
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
+            if (bugFromDb != null)
+            {
+                bugFromDb.Name = updatedBug.Name;
+                bugFromDb.Description = updatedBug.Description;
+                bugFromDb.ProjectId = updatedBug.ProjectId;
+                bugFromDb.Version = updatedBug.Version;
+                bugFromDb.State = updatedBug.State;
+                Context.Bugs.Update(bugFromDb);
+            }
+            
         }
     }
 }
