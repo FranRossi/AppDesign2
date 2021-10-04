@@ -295,5 +295,44 @@ namespace DataAccessTest
                () => _projectRepository.Delete(id), "The entered project does not exist."
            );
         }
+
+        [TestMethod]
+        public void AssignUserToProjectTest()
+        {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = null
+            };
+            int projectId = 1;
+            int userId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+
+            _projectRepository.AssignUserToProject(userId, projectId);
+            _projectRepository.Save();
+
+            newProject.Users = new List<User> { newUser };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("User").FirstOrDefault(p => p.Id == projectId);
+                Assert.AreEqual(newProject, databaseProject);
+            }
+        }
     }
 }
