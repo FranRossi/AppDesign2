@@ -46,7 +46,12 @@ namespace DataAccess
         public void Delete(int projectId)
         {
             Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == projectId);
-            Context.Projects.Remove(projectFromDB);
+            if (projectFromDB != null)
+            {
+                Context.Projects.Remove(projectFromDB);
+            }
+            else
+                throw new InexistentProjectException();
         }
     }
 }
