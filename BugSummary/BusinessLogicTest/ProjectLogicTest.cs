@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
@@ -175,6 +176,20 @@ namespace BusinessLogicTest
             ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void AssignInvalidRoleUserToProjectTest()
+        {
+            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            int projectId = 1;
+            int userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InvalidProjectAssigneeRoleException());
+
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
+               () => _projectLogic.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
             );
         }
     }
