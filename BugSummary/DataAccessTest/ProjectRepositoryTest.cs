@@ -182,5 +182,25 @@ namespace DataAccessTest
                () => _projectRepository.Update(updatedProject), "The entered project does not exist."
            );
         }
+
+        [TestMethod]
+        public void DeleteProjectTest()
+        {
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            _projectRepository.Delete(id);
+            _projectRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.ToList().First(p => p.Id == id);
+                Assert.Equals(null, databaseProject);
+            }
+        }
     }
 }
