@@ -493,7 +493,7 @@ namespace DataAccessTest
             _projectRepository.DissociateUserFromProject(userId, projectId);
             _projectRepository.Save();
 
-            newUser.Projects = null;
+            newProject.Users = new List<User>();
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 Project databaseProject = context.Projects.Include("Users").FirstOrDefault(p => p.Id == projectId);
