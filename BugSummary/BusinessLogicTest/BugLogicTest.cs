@@ -20,6 +20,60 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddBug(string token)
         {
+            User testerUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                 testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = projectTester,
+                ProjectId = 1
+            };
+            int receivedBugId = -1;
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Get(It.IsAny<User>(), It.IsAny<int>())).Callback((User user, int postedBug) =>
+            {
+                receivedBugId = postedBug;
+            });
+            mockBugRepository.Setup(mr => mr.Save());
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
+            mockUserRepository.Setup(mr => mr.Save());
+
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            bugLogic.Get(token, newBug.Id);
+
+            mockBugRepository.VerifyAll();
+            Assert.AreEqual(newBug.Id, receivedBugId);
+        }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        [TestMethod]
+        public void GetBug(string token)
+        {
             Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
             {
