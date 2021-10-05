@@ -528,5 +528,35 @@ namespace DataAccessTest
             }
         }
 
+        [TestMethod]
+        public void FixInvalidBugTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.FixBug(developerUser, bug.Id), "The bug to update does not exist on database, please enter a different bug"
+            );
+        }
+
+
     }
 }

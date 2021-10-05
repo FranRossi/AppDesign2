@@ -75,8 +75,6 @@ namespace DataAccess
                 throw new InexistentBugException();
             if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
                 throw new ProjectDoesntBelongToUserException();
-            if (developerUser.Role != RoleType.Developer)
-                throw new UserMustBeTesterException();
             bugFromDb.State = BugState.Done;
             bugFromDb.Fixer = developerUser;
             bugFromDb.Fixer.Projects = null;
