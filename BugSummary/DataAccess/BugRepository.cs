@@ -68,10 +68,10 @@ namespace DataAccess
         {
             if (testerUser.Role != RoleType.Tester)
                 throw new UserMustBeTesterException();
-            Bug bugFromDB = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
-            if (bugFromDB != null)
+            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
+            if (bugFromDb != null)
             {
-                Context.Bugs.Remove(bugFromDB);
+                Context.Bugs.Remove(bugFromDb);
             }
             else
                 throw new InexistentBugException();
