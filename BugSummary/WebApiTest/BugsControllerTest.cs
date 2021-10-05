@@ -67,9 +67,11 @@ namespace WebApiTest
             BugsController controller = new BugsController(mock.Object);
 
             IActionResult result = controller.Get(token, bugId);
+            OkObjectResult responseOk = result as OkObjectResult;
+            BugModel bugResponse = responseOk.Value as BugModel;
 
             mock.VerifyAll();
-            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.IsInstanceOfType(bugResponse, typeof(BugModel));
             Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase,receivedBug));
         }
 
@@ -97,7 +99,7 @@ namespace WebApiTest
             mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Get(token);
+            IActionResult result = controller.GetAll(token);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 
