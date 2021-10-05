@@ -80,13 +80,15 @@ namespace DataAccess
 
         }
 
-        public Bug Get(int bugId)
-        {
-            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
-            if (bugFromDb != null)
-                return bugFromDb;
-            else
+        public Bug Get(User user,int bugId)
+        { 
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
                 throw new InexistentBugException();
+            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            return bugFromDb;
+            
         }
     }
 }

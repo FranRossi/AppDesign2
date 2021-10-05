@@ -73,33 +73,56 @@ namespace DataAccessTest
         [TestMethod]
         public void GetBug()
         {
-            Bug newBugToAdd = new Bug
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                Project = new Project{Id = 1},
-                ProjectId = 1
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                context.Add(newBugToAdd);
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                bug.ProjectId = 1;
+                
+                context.Add(bug);
                 context.SaveChanges();
             }
-            int bugId = newBugToAdd.Id;
-
-            Bug bugDataBase =_bugRepository.Get(bugId);
+            
+            int bugId = 1;
+            Bug bugDataBase =_bugRepository.Get(testerUser,bugId);
             _bugRepository.Save();
             
             Assert.IsNotNull(bugDataBase);
-            Assert.AreEqual(0, new BugComparer().Compare(newBugToAdd,bugDataBase));
+            Assert.AreEqual(0, new BugComparer().Compare(bug,bugDataBase));
         }
         
         [TestMethod]
         public void GetInvalidBug()
         {
+            User testerUser = new User {Id = 1};
             Bug newBugToAdd = new Bug
             {
                 Id = 1,
@@ -114,12 +137,12 @@ namespace DataAccessTest
             int bugId = newBugToAdd.Id;
 
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => _bugRepository.Get(bugId), "The entered bug does not exist."
+                () => _bugRepository.Get(testerUser,bugId), "The entered bug does not exist."
             );
         }
         
         [TestMethod]
-        public void TesterAddsBugWithoutNewProjectTest()
+        public void TesterGetsBugWithoutNewProject()
         {
             User testerUser = new User
             {
@@ -138,10 +161,7 @@ namespace DataAccessTest
                 {
                     Id = 1,
                     Name = "Semester 2021",
-                    Users = new List<User>
-                    {
-                        testerUser
-                    }
+                    Users = new List<User>{}
                 };
                 context.Projects.Add(projectTester);
                 Bug bug = new Bug
@@ -157,13 +177,14 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
 
+            int bugId = 1;
             TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
-                () => _bugRepository.Get(testerUser, bug), "The user is not assigned to the Project the bug belongs to."
+                () => _bugRepository.Get(testerUser, bugId), "The user is not assigned to the Project the bug belongs to."
             );
         }
 
         [TestMethod]
-        public void TesterAddsBugWithoutNewProjectTest()
+        public void TesterAddsBugWithoutNewProject()
         {
             User testerUser = new User
             {
