@@ -74,8 +74,9 @@ namespace WebApiTest
             Assert.IsInstanceOfType(bugResponse, typeof(BugModel));
             Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase,receivedBug));
         }
+        
         [TestMethod]
-        public void UserToModelTest()
+        public void BugToModelTest()
         {
             Bug expectedBug = new Bug
             {
@@ -97,7 +98,9 @@ namespace WebApiTest
                 ProjectId = 1,
             };
             BugModel model = BugModel.ToModel(expectedBug);
-            Assert.AreEqual(0, new BugComparer().Compare(expectedBug,model));
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(model, bugToCompare);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
 
