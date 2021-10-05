@@ -83,7 +83,10 @@ namespace DataAccess
         public Bug Get(int bugId)
         {
             Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
-            return bugFromDb;
+            if (bugFromDb != null)
+                return bugFromDb;
+            else
+                throw new InexistentBugException();
         }
     }
 }
