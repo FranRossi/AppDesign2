@@ -14,6 +14,6 @@ namespace DataAccessInterface
         IEnumerable<Bug> GetAll();
         void Update(User testerUser, Bug updatedBug);
         void Save();
-        
+        void FixBug(User developerUser, int bugId);
     }
 }
