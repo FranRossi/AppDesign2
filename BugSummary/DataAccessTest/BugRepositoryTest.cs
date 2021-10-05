@@ -69,7 +69,38 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
-        
+        [TestMethod]
+        public void GetBug()
+        {
+            Bug newBugToAdd = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newBugToAdd);
+                context.SaveChanges();
+            }
+            int bugId = newBugToAdd.Id;
+
+            _bugRepository.Get(bugId);
+            _bugRepository.Save();
+            
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug bugDataBase = context.Bugs.FirstOrDefault(b => b.Id == bugId);
+                Assert.IsNotNull(bugDataBase);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(newBugToAdd, bugDataBase);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
 
         [TestMethod]
         public void TesterAddsBugWithoutNewProjectTest()
@@ -338,7 +369,7 @@ namespace DataAccessTest
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Bug databaseBug = context.Bugs.ToList().First(u => u.Id == updatedBug.Id);
+                Bug databaseBug = context.Bugs.FirstOrDefault(u => u.Id == updatedBug.Id);
                 CompareLogic compareLogic = new CompareLogic();
                 ComparisonResult deepComparisonResult = compareLogic.Compare(updatedBug, databaseBug);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
