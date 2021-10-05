@@ -32,14 +32,14 @@ namespace DataAccess
         {
             Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
             if (userProject == null)
-                throw new ProjectDontBelongToUser();
+                throw new ProjectDoesntBelongToUserException();
             Context.Bugs.Add(newBug);
         }
 
         public void Update(User testerUser, Bug updatedBug)
         {
             if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
-                throw new ProjectDontBelongToUser();
+                throw new ProjectDoesntBelongToUserException();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
@@ -63,6 +63,21 @@ namespace DataAccess
                 Context.Bugs.Remove(bugFromDb);
             else
                 throw new InexistentBugException();
+        }
+
+        public void FixBug(User developerUser, int bugId)
+        {
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
+                throw new InexistentBugException();
+            if (bugFromDb.State == BugState.Done)
+                throw new BugAlreadyFixedException();
+            if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            bugFromDb.State = BugState.Done;
+            bugFromDb.FixerId = developerUser.Id;
+            Context.Bugs.Update(bugFromDb);
+
         }
     }
 }

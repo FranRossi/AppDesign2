@@ -30,5 +30,10 @@ namespace Domain.DomainUtilities
         {
             return value is RoleType.Admin or RoleType.Developer or RoleType.Tester;
         }
+
+        public static bool CorrectFixerRole(RoleType value)
+        {
+            return value == RoleType.Developer;
+        }
     }
 }

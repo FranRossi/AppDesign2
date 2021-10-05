@@ -9,5 +9,6 @@ namespace BusinessLogicInterface
         IEnumerable<Bug> GetAll(string token);
         void Update(string token, Bug updatedBug);
         void Delete(string token, int bugId);
+        void FixBug(string token, int bugId);
     }
 }

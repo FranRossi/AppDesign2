@@ -1,4 +1,6 @@
-﻿using BusinessLogicInterface;
+﻿using System;
+using System.Collections.Generic;
+using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Filters;
@@ -48,6 +50,14 @@ namespace WebApi.Controllers
         public IActionResult Delete(int bugId, [FromHeader] string token)
         {
             _bugs.Delete(token, bugId);
+            return Ok();
+        }
+
+        [HttpPut("{bugId}")]
+        [AuthorizationWithParameterFilter(RoleType.Developer)]
+        public IActionResult Put([FromHeader] string token, int bugId)
+        {
+            _bugs.FixBug(token, bugId);
             return Ok();
         }
     }

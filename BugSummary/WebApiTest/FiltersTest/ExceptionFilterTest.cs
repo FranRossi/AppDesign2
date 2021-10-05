@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
+using DataAccess.Exceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -55,6 +56,27 @@ namespace WebApiTest.FiltersTest
         public void DomainExceptionTest()
         {
             DomainValidationException exception = new DomainValidationException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void ProjectDoesntBelongToUserExceptionTest()
+        {
+            ProjectDoesntBelongToUserException exception = new ProjectDoesntBelongToUserException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void BugAlreadyFixedExceptionTest()
+        {
+            BugAlreadyFixedException exception = new BugAlreadyFixedException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void InexistentBugExceptionTest()
+        {
+            InexistentBugException exception = new InexistentBugException();
             TestException(exception, 403);
         }
         private void TestException(Exception exception, int statusCode)

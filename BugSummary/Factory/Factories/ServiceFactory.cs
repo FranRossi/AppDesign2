@@ -24,7 +24,9 @@ namespace Factory.Factories
             services.AddScoped<ILogic<User>, UserLogic>();
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
+            services.AddScoped<IBugLogic, BugLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IBugRepository, BugRepository>();
         }
 
         public void AddDbContextService(string connectionString)

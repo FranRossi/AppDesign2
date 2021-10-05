@@ -219,7 +219,7 @@ namespace DataAccessTest
             RoleType roleTypeResult = _userRepository.GetRoleByToken(null);
             Assert.AreEqual(RoleType.Invalid, roleTypeResult);
         }
-        
+
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
         [DataTestMethod]
         public void GetUserByToken(string token)
@@ -245,7 +245,42 @@ namespace DataAccessTest
 
             Assert.AreEqual(expected.Id, user.Id);
         }
-        
+
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataTestMethod]
+        public void GetUserByTokenWithProjects(string token)
+        {
+            User expectedUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Token = token
+            };
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            newProject.Users = new List<User> { expectedUser };
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            User user = _userRepository.Get(token);
+
+            expectedUser.Projects = new List<Project> { newProject };
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, user);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
         [TestMethod]
         public void GetUserByInvalidValidTokenTest()
         {

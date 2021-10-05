@@ -77,6 +77,7 @@ namespace Domain
 
         public string Token { get; set; }
         public List<Project> Projects { get; set; }
+        public List<Bug> FixedBugs { get; set; }
 
         private void ValidateStringIsNotNull(string value)
         {

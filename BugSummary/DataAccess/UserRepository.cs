@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace DataAccess
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
@@ -49,7 +52,7 @@ namespace DataAccess
             User result = null;
             if (token != null)
             {
-                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                User userFromDb = Context.Users.Include("Projects").FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb;
             }

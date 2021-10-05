@@ -10,10 +10,12 @@ namespace BusinessLogic
     {
         private IBugRepository _bugRepository;
         private IUserRepository _userRepository;
+        private UserLogic _userLogic;
         public BugLogic(IBugRepository bugRepository, IUserRepository userRepository)
         {
             _bugRepository = bugRepository;
             _userRepository = userRepository;
+            _userLogic = new UserLogic(_userRepository);
         }
 
         public void Add(string token, Bug newBug)
@@ -26,16 +28,21 @@ namespace BusinessLogic
 
         public IEnumerable<Bug> GetAll(string token)
         {
-            UserLogic userLogic = new UserLogic(_userRepository);
-            User userByToken = userLogic.Get(token);
+            User userByToken = _userLogic.Get(token);
             return _bugRepository.GetAllByTester(userByToken);
         }
 
         public void Update(string token, Bug updatedBug)
         {
-            UserLogic userLogic = new UserLogic(_userRepository);
-            User userByToken = userLogic.Get(token);
-            _bugRepository.Update(userByToken,updatedBug);
+            User userByToken = _userLogic.Get(token);
+            _bugRepository.Update(userByToken, updatedBug);
+            _bugRepository.Save();
+        }
+
+        public void FixBug(string token, int bugId)
+        {
+            User userByToken = _userLogic.Get(token);
+            _bugRepository.FixBug(userByToken, bugId);
             _bugRepository.Save();
         }
 

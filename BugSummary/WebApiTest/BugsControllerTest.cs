@@ -31,13 +31,13 @@ namespace WebApiTest
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
-            mock.Setup(m => m.Add(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token,Bug sentBug) =>
+            mock.Setup(m => m.Add(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token, Bug sentBug) =>
             {
                 receivedBug = sentBug;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Post(token,bug);
+            IActionResult result = controller.Post(token, bug);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -51,7 +51,7 @@ namespace WebApiTest
         [DataTestMethod]
         public void GetBugsForTester(string token)
         {
-            
+
             IEnumerable<Bug> bugsExpected = new List<Bug>()
             {
                 new Bug()
@@ -66,19 +66,19 @@ namespace WebApiTest
                 }
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            mock.Setup(r=>r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
+            mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
-            
+
             IActionResult result = controller.Get(token);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 
             mock.VerifyAll();
-            Assert.AreEqual(200,okResult.StatusCode);
-            Assert.AreEqual(bugsExpected,bugsResult);
-            CollectionAssert.AreEqual((ICollection) bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.AreEqual(bugsExpected, bugsResult);
+            CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
@@ -94,13 +94,13 @@ namespace WebApiTest
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
-            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token,Bug sentBug) =>
+            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token, Bug sentBug) =>
             {
                 receivedBug = sentBug;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Put(token,bug);
+            IActionResult result = controller.Put(token, bug);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -108,8 +108,7 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void DeleteValidBug(string token)
@@ -118,7 +117,7 @@ namespace WebApiTest
             int receivedId = -1;
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
-            mock.Setup(m => m.Delete(It.IsAny<string>(), It.IsAny<int>())).Callback((string token,int idSent) =>
+            mock.Setup(m => m.Delete(It.IsAny<string>(), It.IsAny<int>())).Callback((string token, int idSent) =>
             {
                 receivedId = id;
             });
@@ -131,6 +130,29 @@ namespace WebApiTest
             Assert.AreEqual(id, receivedId);
         }
 
+
+        [TestMethod]
+        public void FixBug()
+        {
+            int bug = 1;
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            int receivedBug = -1;
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
+            string receivedToken = "";
+            mock.Setup(m => m.FixBug(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
+            {
+                receivedBug = sentBug;
+                receivedToken = sentToken;
+            });
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.Put(token, bug);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(bug, receivedBug);
+            Assert.AreEqual(token, receivedToken);
+        }
+
     }
-    
 }
