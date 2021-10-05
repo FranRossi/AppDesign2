@@ -18,7 +18,7 @@ namespace BusinessLogicTest
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
-        public void AddBug(string token)
+        public void GetBug(string token)
         {
             User testerUser = new User
             {
@@ -51,13 +51,9 @@ namespace BusinessLogicTest
                 Project = projectTester,
                 ProjectId = 1
             };
-            int receivedBugId = -1;
+            Bug receivedBug = null;
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Get(It.IsAny<User>(), It.IsAny<int>())).Callback((User user, int postedBug) =>
-            {
-                receivedBugId = postedBug;
-            });
-            mockBugRepository.Setup(mr => mr.Save());
+            mockBugRepository.Setup(mr => mr.Get(It.IsAny<User>(), It.IsAny<int>())).Returns(receivedBug = newBug);
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
             mockUserRepository.Setup(mr => mr.Save());
@@ -66,13 +62,13 @@ namespace BusinessLogicTest
             bugLogic.Get(token, newBug.Id);
 
             mockBugRepository.VerifyAll();
-            Assert.AreEqual(newBug.Id, receivedBugId);
+            Assert.AreEqual(0, new BugComparer().Compare(newBug,receivedBug));
         }
         
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
-        public void GetBug(string token)
+        public void AddBug(string token)
         {
             Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
@@ -121,7 +117,8 @@ namespace BusinessLogicTest
             bugLogic.Add(token, newBug);
 
             mockBugRepository.VerifyAll();
-            Assert.AreEqual(newBug, receivedBug);
+            Assert.AreEqual(0, new BugComparer().Compare(receivedBug,newBug));
+
         }
 
 

@@ -113,8 +113,7 @@ namespace DataAccessTest
             
             int bugId = 1;
             Bug bugDataBase =_bugRepository.Get(testerUser,bugId);
-            _bugRepository.Save();
-            
+
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug,bugDataBase));
         }
