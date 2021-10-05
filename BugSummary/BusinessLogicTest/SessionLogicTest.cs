@@ -14,10 +14,10 @@ namespace BusinessLogicTest
         [TestMethod]
         public void GetToken()
         {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var sessionLogic = new SessionLogic(mockUserRepository.Object);
 
-            string token = sessionLogic.GenerateToken();
+            var token = sessionLogic.GenerateToken();
 
             Assert.IsTrue(token.Length == TokenHelper.TokenLength);
         }
@@ -25,11 +25,11 @@ namespace BusinessLogicTest
         [TestMethod]
         public void CompareTokenUniqueness()
         {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var sessionLogic = new SessionLogic(mockUserRepository.Object);
 
-            string firstToken = sessionLogic.GenerateToken();
-            string secondToken = sessionLogic.GenerateToken();
+            var firstToken = sessionLogic.GenerateToken();
+            var secondToken = sessionLogic.GenerateToken();
 
             Assert.AreNotEqual(firstToken, secondToken);
         }
@@ -37,21 +37,21 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AuthenticateValidUser()
         {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            string username = "someUsername";
-            string password = "somePassword";
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var username = "someUsername";
+            var password = "somePassword";
             mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             mockUserRepository.Setup(mr => mr.Save());
-            string sentUsername = "";
-            string sentToken = "";
+            var sentUsername = "";
+            var sentToken = "";
             mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback((string username, string token) =>
                 {
                     sentUsername = username;
                     sentToken = token;
                 });
-            SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
-            string result = _sessionLogic.Authenticate(username, password);
+            var _sessionLogic = new SessionLogic(mockUserRepository.Object);
+            var result = _sessionLogic.Authenticate(username, password);
 
             Assert.AreNotEqual(null, result);
             mockUserRepository.Verify(mock => mock.UpdateToken(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
@@ -62,13 +62,13 @@ namespace BusinessLogicTest
         [ExpectedException(typeof(LoginException))]
         public void AuthenticateInvalidUser()
         {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            string username = "someUsername";
-            string password = "somePassword";
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var username = "someUsername";
+            var password = "somePassword";
             mockUserRepository.Setup(mr => mr.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             mockUserRepository.Setup(mr => mr.UpdateToken(It.IsAny<string>(), It.IsAny<string>()));
 
-            SessionLogic sessionLogic = new SessionLogic(mockUserRepository.Object);
+            var sessionLogic = new SessionLogic(mockUserRepository.Object);
             sessionLogic.Authenticate(username, password);
         }
 
@@ -79,17 +79,14 @@ namespace BusinessLogicTest
         [DataTestMethod]
         public void GetRoleByToken(RoleType role)
         {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            string token = "someToken";
-            string receivedToken = "";
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var token = "someToken";
+            var receivedToken = "";
             mockUserRepository.Setup(mr => mr.GetRoleByToken(It.IsAny<string>()))
-                .Returns(role).Callback((string sentToken) =>
-                {
-                    receivedToken = sentToken;
-                });
+                .Returns(role).Callback((string sentToken) => { receivedToken = sentToken; });
 
-            SessionLogic _sessionLogic = new SessionLogic(mockUserRepository.Object);
-            RoleType result = _sessionLogic.GetRoleByToken(token);
+            var _sessionLogic = new SessionLogic(mockUserRepository.Object);
+            var result = _sessionLogic.GetRoleByToken(token);
 
             Assert.AreEqual(role, role);
             mockUserRepository.Verify(mock => mock.GetRoleByToken(It.IsAny<string>()), Times.Once());

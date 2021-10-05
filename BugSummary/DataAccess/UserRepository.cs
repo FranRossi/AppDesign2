@@ -1,10 +1,8 @@
-﻿using DataAccessInterface;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DataAccess
 {
@@ -27,7 +25,7 @@ namespace DataAccess
 
         public void UpdateToken(string username, string token)
         {
-            User userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
+            var userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
             if (userFromDb != null)
             {
                 userFromDb.Token = token;
@@ -37,13 +35,14 @@ namespace DataAccess
 
         public RoleType GetRoleByToken(string token)
         {
-            RoleType result = RoleType.Invalid;
+            var result = RoleType.Invalid;
             if (token != null)
             {
-                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                var userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb.Role;
             }
+
             return result;
         }
 
@@ -52,10 +51,11 @@ namespace DataAccess
             User result = null;
             if (token != null)
             {
-                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                var userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb;
             }
+
             return result;
         }
     }

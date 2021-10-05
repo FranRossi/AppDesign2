@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System;
 using System.Collections.Generic;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using BusinessLogicInterface;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
-using System;
-using Domain.DomainUtilities.CustomExceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -20,61 +19,62 @@ namespace WebApiTest.FiltersTest
         [TestMethod]
         public void LoginExceptionTest()
         {
-            LoginException exception = new LoginException();
+            var exception = new LoginException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InexistentProjectExceptionTest()
         {
-            InexistentProjectException exception = new InexistentProjectException();
+            var exception = new InexistentProjectException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InexistentUserExceptionTest()
         {
-            InexistentUserException exception = new InexistentUserException();
+            var exception = new InexistentUserException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InvalidProjectAssigneeRoleExceptionTest()
         {
-            InvalidProjectAssigneeRoleException exception = new InvalidProjectAssigneeRoleException();
+            var exception = new InvalidProjectAssigneeRoleException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void ProjectNameIsNotUniqueExceptionTest()
         {
-            ProjectNameIsNotUniqueException exception = new ProjectNameIsNotUniqueException();
+            var exception = new ProjectNameIsNotUniqueException();
             TestException(exception, 409);
         }
 
         [TestMethod]
         public void DomainExceptionTest()
         {
-            DomainValidationException exception = new DomainValidationException();
+            var exception = new DomainValidationException();
             TestException(exception, 403);
         }
+
         private void TestException(Exception exception, int statusCode)
         {
-            ModelStateDictionary modelState = new ModelStateDictionary();
-            DefaultHttpContext httpContext = new DefaultHttpContext();
-            ExceptionContext context = new ExceptionContext(
-                new ActionContext(httpContext: httpContext,
-                                  routeData: new Microsoft.AspNetCore.Routing.RouteData(),
-                                  actionDescriptor: new ActionDescriptor(),
-                                  modelState: modelState),
+            var modelState = new ModelStateDictionary();
+            var httpContext = new DefaultHttpContext();
+            var context = new ExceptionContext(
+                new ActionContext(httpContext,
+                    new RouteData(),
+                    new ActionDescriptor(),
+                    modelState),
                 new List<IFilterMetadata>());
 
 
-            ExceptionFilter exceptionFilter = new ExceptionFilter();
+            var exceptionFilter = new ExceptionFilter();
             context.Exception = exception;
             exceptionFilter.OnException(context);
 
-            ContentResult response = context.Result as ContentResult;
+            var response = context.Result as ContentResult;
             Assert.AreEqual(response.StatusCode, statusCode);
             Assert.AreEqual(response.Content, exception.Message);
         }

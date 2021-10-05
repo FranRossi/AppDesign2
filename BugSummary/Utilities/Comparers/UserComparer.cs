@@ -1,10 +1,4 @@
 ﻿using Domain;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Utilities.Comparers
 {
@@ -12,7 +6,7 @@ namespace Utilities.Comparers
     {
         protected override bool ConcreteCompare(User expected, User actual)
         {
-            bool equalsUser = expected.Email == actual.Email;
+            var equalsUser = expected.Email == actual.Email;
             equalsUser &= expected.Id == actual.Id;
 
             return equalsUser;

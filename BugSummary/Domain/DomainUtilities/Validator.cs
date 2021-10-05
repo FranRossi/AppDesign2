@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Mail;
 
 namespace Domain.DomainUtilities
 {
@@ -11,12 +6,12 @@ namespace Domain.DomainUtilities
     {
         public static bool MaxLengthOfString(string text, int maxNumber)
         {
-            return (text.Length <= maxNumber);
+            return text.Length <= maxNumber;
         }
 
         public static bool CorrectBugState(BugState value)
         {
-            return (value == BugState.Active || value == BugState.Done);
+            return value == BugState.Active || value == BugState.Done;
         }
 
         public static bool CheckValueIsNull(string value)
@@ -33,8 +28,8 @@ namespace Domain.DomainUtilities
 
         public static bool CorrectRole(RoleType value)
         {
-            return (value == RoleType.Admin || value == RoleType.Developer
-                || value == RoleType.Tester);
+            return value == RoleType.Admin || value == RoleType.Developer
+                                           || value == RoleType.Tester;
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using DataAccessInterface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using DataAccessInterface;
 
 namespace DataAccess
 {
@@ -14,7 +9,7 @@ namespace DataAccess
 
         public virtual void Add(T entity)
         {
-            DbSet<T> entities = Context.Set<T>();
+            var entities = Context.Set<T>();
             entities.Add(entity);
         }
 

@@ -1,7 +1,5 @@
-﻿using Domain;
-using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using Domain;
 
 namespace BusinessLogicInterface
 {
@@ -10,5 +8,6 @@ namespace BusinessLogicInterface
         void Add(string token, Bug newBug);
         IEnumerable<Bug> GetAll(string token);
         void Update(string token, Bug updatedBug);
+        void Delete(string token, int bugId);
     }
 }

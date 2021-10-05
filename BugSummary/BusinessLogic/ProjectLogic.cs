@@ -1,17 +1,13 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
     public class ProjectLogic : IProjectLogic
     {
-        private IProjectRepository _projectRepository;
+        private readonly IProjectRepository _projectRepository;
+
         public ProjectLogic(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
@@ -29,6 +25,7 @@ namespace BusinessLogic
             _projectRepository.Update(updatedProject);
             _projectRepository.Save();
         }
+
         public void Delete(int projectId)
         {
             _projectRepository.Delete(projectId);

@@ -1,24 +1,24 @@
-using DataAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using DataAccess;
+using Domain;
+using Domain.DomainUtilities;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Domain;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.DomainUtilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.Comparers;
-using KellermanSoftware.CompareNetObjects;
 
 namespace DataAccessTest
 {
     [TestClass]
     public class UserRepositoryTest
     {
-        private readonly DbConnection _connection;
-        private readonly UserRepository _userRepository;
         private readonly BugSummaryContext _bugSummaryContext;
+        private readonly DbConnection _connection;
         private readonly DbContextOptions<BugSummaryContext> _contextOptions;
+        private readonly UserRepository _userRepository;
 
         public UserRepositoryTest()
         {
@@ -44,8 +44,7 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewUserTest()
         {
-
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(new User
                 {
@@ -60,7 +59,8 @@ namespace DataAccessTest
                 });
                 context.SaveChanges();
             }
-            List<User> userExpected = new List<User>();
+
+            var userExpected = new List<User>();
             userExpected.Add(new User
             {
                 Id = 1,
@@ -73,9 +73,9 @@ namespace DataAccessTest
                 Projects = new List<Project>()
             });
 
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
-                List<User> usersDataBase = context.Users.ToList();
+                var usersDataBase = context.Users.ToList();
                 Assert.AreEqual(1, usersDataBase.Count());
                 CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
             }
@@ -93,7 +93,7 @@ namespace DataAccessTest
         [DataTestMethod]
         public void AuthenticateUser(string username, string password, bool expectedResult)
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(new User
                 {
@@ -108,7 +108,7 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
 
-            bool result = _userRepository.Authenticate(username, password);
+            var result = _userRepository.Authenticate(username, password);
 
             Assert.AreEqual(expectedResult, result);
         }
@@ -116,7 +116,7 @@ namespace DataAccessTest
         [TestMethod]
         public void UserComparerTest()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(new User
                 {
@@ -131,7 +131,8 @@ namespace DataAccessTest
                 });
                 context.SaveChanges();
             }
-            List<User> userExpected = new List<User>();
+
+            var userExpected = new List<User>();
             userExpected.Add(new User
             {
                 Id = 1,
@@ -144,9 +145,9 @@ namespace DataAccessTest
                 Projects = new List<Project>()
             });
 
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
-                List<User> usersDataBase = context.Users.ToList();
+                var usersDataBase = context.Users.ToList();
                 Assert.AreEqual(1, usersDataBase.Count());
                 CollectionAssert.AreNotEqual(userExpected, usersDataBase, new UserComparer());
             }
@@ -157,7 +158,7 @@ namespace DataAccessTest
         [DataTestMethod]
         public void UpdateTokenTest(string token)
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -167,21 +168,22 @@ namespace DataAccessTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Admin
             };
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(newUser);
                 context.SaveChanges();
             }
+
             newUser.Token = token;
 
             _userRepository.UpdateToken(newUser.UserName, newUser.Token);
             _userRepository.Save();
 
-            using (var context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
-                User databaseUser = context.Users.ToList().First(u => u.Id == newUser.Id);
-                CompareLogic compareLogic = new CompareLogic();
-                ComparisonResult deepComparisonResult = compareLogic.Compare(newUser, databaseUser);
+                var databaseUser = context.Users.ToList().First(u => u.Id == newUser.Id);
+                var compareLogic = new CompareLogic();
+                var deepComparisonResult = compareLogic.Compare(newUser, databaseUser);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
@@ -192,7 +194,7 @@ namespace DataAccessTest
         [DataTestMethod]
         public void GetRoleByValidTokenTest(string token, RoleType roleType)
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -201,15 +203,15 @@ namespace DataAccessTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = roleType,
-                Token = token,
+                Token = token
             };
-            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(newUser);
                 context.SaveChanges();
             }
 
-            RoleType roleTypeResult = _userRepository.GetRoleByToken(token);
+            var roleTypeResult = _userRepository.GetRoleByToken(token);
 
             Assert.AreEqual(roleType, roleTypeResult);
         }
@@ -217,15 +219,15 @@ namespace DataAccessTest
         [TestMethod]
         public void GetRoleByInvalidValidTokenTest()
         {
-            RoleType roleTypeResult = _userRepository.GetRoleByToken(null);
+            var roleTypeResult = _userRepository.GetRoleByToken(null);
             Assert.AreEqual(RoleType.Invalid, roleTypeResult);
         }
-        
+
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
         [DataTestMethod]
         public void GetUserByToken(string token)
         {
-            User expected = new User
+            var expected = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -236,21 +238,21 @@ namespace DataAccessTest
                 Role = RoleType.Tester,
                 Token = token
             };
-            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            using (var context = new BugSummaryContext(_contextOptions))
             {
                 context.Add(expected);
                 context.SaveChanges();
             }
 
-            User user = _userRepository.Get(token);
+            var user = _userRepository.Get(token);
 
             Assert.AreEqual(expected.Id, user.Id);
         }
-        
+
         [TestMethod]
         public void GetUserByInvalidValidTokenTest()
         {
-            User result = _userRepository.Get(null);
+            var result = _userRepository.Get(null);
             Assert.AreEqual(null, result);
         }
     }

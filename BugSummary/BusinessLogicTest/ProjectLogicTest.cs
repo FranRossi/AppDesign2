@@ -15,12 +15,12 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddProject()
         {
-            Project projectToAdd = new Project
+            var projectToAdd = new Project
             {
                 Name = "New Project 2022"
             };
             Project receivedProject = null;
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<Project>())).Callback((Project newProject) =>
             {
                 receivedProject = newProject;
@@ -28,7 +28,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            var projectLogic = new ProjectLogic(mockUserRepository.Object);
             projectLogic.Add(projectToAdd);
 
             mockUserRepository.VerifyAll();
@@ -38,37 +38,36 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddAlreadyAddedProject()
         {
-            Project projectToAdd = new Project
+            var projectToAdd = new Project
             {
                 Name = "New Project 2022"
             };
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<Project>())).Throws(new ProjectNameIsNotUniqueException());
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            var projectLogic = new ProjectLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
-                () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+                () => projectLogic.Add(projectToAdd),
+                "The project name chosen was already taken, please enter a different name"
             );
         }
 
         [TestMethod]
         public void UpdateValidProject()
         {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Project sentProject = null;
-            int id = 1;
-            Project updatedProject = new Project
+            var id = 1;
+            var updatedProject = new Project
             {
                 Name = "Project 01"
             };
             mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>()))
-                .Callback((Project project) =>
-                {
-                    sentProject = project;
-                }); ;
+                .Callback((Project project) => { sentProject = project; });
+            ;
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
+            var _projectLogic = new ProjectLogic(mockUserRepository.Object);
             _projectLogic.Update(id, updatedProject);
 
             mockUserRepository.Verify(mock => mock.Update(It.IsAny<Project>()), Times.Once());
@@ -79,35 +78,32 @@ namespace BusinessLogicTest
         [TestMethod]
         public void UpdateInvalidProject()
         {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int id = 1;
-            Project updatedProject = new Project
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var id = 1;
+            var updatedProject = new Project
             {
                 Name = "Project 01"
             };
             mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>())).Throws(new InexistentProjectException());
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            var _sessionLogic = new ProjectLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _sessionLogic.Update(id, updatedProject), "The entered project does not exist."
+                () => _sessionLogic.Update(id, updatedProject), "The entered project does not exist."
             );
         }
 
         [TestMethod]
         public void DeleteValidProject()
         {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int receivedId = -1;
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var receivedId = -1;
             mockUserRepository.Setup(mr => mr.Delete(It.IsAny<int>()))
-                .Callback((int sentId) =>
-                {
-                    receivedId = sentId;
-                });
+                .Callback((int sentId) => { receivedId = sentId; });
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
+            var _projectLogic = new ProjectLogic(mockUserRepository.Object);
             _projectLogic.Delete(projectId);
 
             mockUserRepository.Verify(mock => mock.Delete(It.IsAny<int>()), Times.Once());
@@ -117,24 +113,24 @@ namespace BusinessLogicTest
         [TestMethod]
         public void DeleteInvalidProject()
         {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int id = 1;
+            var mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var id = 1;
             mockUserRepository.Setup(mr => mr.Delete(It.IsAny<int>())).Throws(new InexistentProjectException());
 
-            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            var _sessionLogic = new ProjectLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _sessionLogic.Delete(id), "The entered project does not exist."
+                () => _sessionLogic.Delete(id), "The entered project does not exist."
             );
         }
 
         [TestMethod]
         public void AssignUserToProjectTest()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = 1;
-            int receivedProjectId = -1;
-            int receivedUserId = -1;
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = 1;
+            var receivedProjectId = -1;
+            var receivedUserId = -1;
             mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
                 .Callback((int sentUserId, int sentProjectId) =>
                 {
@@ -143,7 +139,7 @@ namespace BusinessLogicTest
                 });
             mockProject.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             _projectLogic.AssignUserToProject(userId, projectId);
 
             mockProject.Verify(mock => mock.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
@@ -154,53 +150,57 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AssignInvalidUserToProjectTest()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = -11;
-            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new InexistentUserException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InexistentUserException>(
-               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered user does not exist."
+                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered user does not exist."
             );
         }
 
         [TestMethod]
         public void AssignUserToInvalidProjectTest()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = -11;
-            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new InexistentProjectException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
+                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
             );
         }
 
         [TestMethod]
         public void AssignInvalidRoleUserToProjectTest()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = -11;
-            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InvalidProjectAssigneeRoleException());
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = -11;
+            mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new InvalidProjectAssigneeRoleException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
-               () => _projectLogic.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
+                () => _projectLogic.AssignUserToProject(userId, projectId),
+                "Project asingnees must either be Developers or Testers."
             );
         }
 
         [TestMethod]
         public void DissociateUserFromProject()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = 1;
-            int receivedProjectId = -1;
-            int receivedUserId = -1;
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = 1;
+            var receivedProjectId = -1;
+            var receivedUserId = -1;
             mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()))
                 .Callback((int sentUserId, int sentProjectId) =>
                 {
@@ -209,7 +209,7 @@ namespace BusinessLogicTest
                 });
             mockProject.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             _projectLogic.DissociateUserFromProject(userId, projectId);
 
             mockProject.Verify(mock => mock.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
@@ -220,28 +220,30 @@ namespace BusinessLogicTest
         [TestMethod]
         public void DissociateInvalidUserFromProject()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = -11;
-            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = -11;
+            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new InexistentUserException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InexistentUserException>(
-               () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
+                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
             );
         }
 
         [TestMethod]
         public void DissociateUserFromInvalidProject()
         {
-            Mock<IProjectRepository> mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int projectId = 1;
-            int userId = -1;
-            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
+            var mockProject = new Mock<IProjectRepository>(MockBehavior.Strict);
+            var projectId = 1;
+            var userId = -1;
+            mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new InexistentProjectException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            var _projectLogic = new ProjectLogic(mockProject.Object);
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
+                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
             );
         }
     }

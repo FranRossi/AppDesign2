@@ -1,16 +1,15 @@
-﻿using BusinessLogicInterface;
+﻿using System.Collections.Generic;
+using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
-using System;
-using System.Collections.Generic;
-
 
 namespace BusinessLogic
 {
     public class BugLogic : IBugLogic
     {
-        private IBugRepository _bugRepository;
-        private IUserRepository _userRepository;
+        private readonly IBugRepository _bugRepository;
+        private readonly IUserRepository _userRepository;
+
         public BugLogic(IBugRepository bugRepository, IUserRepository userRepository)
         {
             _bugRepository = bugRepository;
@@ -19,24 +18,32 @@ namespace BusinessLogic
 
         public void Add(string token, Bug newBug)
         {
-            UserLogic userLogic = new UserLogic(_userRepository);
-            User userByToken = userLogic.Get(token);
+            var userLogic = new UserLogic(_userRepository);
+            var userByToken = userLogic.Get(token);
             _bugRepository.Add(userByToken, newBug);
             _bugRepository.Save();
         }
 
         public IEnumerable<Bug> GetAll(string token)
         {
-            UserLogic userLogic = new UserLogic(_userRepository);
-            User userByToken = userLogic.Get(token);
+            var userLogic = new UserLogic(_userRepository);
+            var userByToken = userLogic.Get(token);
             return _bugRepository.GetAllByTester(userByToken);
         }
 
         public void Update(string token, Bug updatedBug)
         {
-            UserLogic userLogic = new UserLogic(_userRepository);
-            User userByToken = userLogic.Get(token);
-            _bugRepository.Update(userByToken,updatedBug);
+            var userLogic = new UserLogic(_userRepository);
+            var userByToken = userLogic.Get(token);
+            _bugRepository.Update(userByToken, updatedBug);
+            _bugRepository.Save();
+        }
+
+        public void Delete(string token, int bugId)
+        {
+            var userLogic = new UserLogic(_userRepository);
+            var userByToken = userLogic.Get(token);
+            _bugRepository.Delete(userByToken, bugId);
             _bugRepository.Save();
         }
     }

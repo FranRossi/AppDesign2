@@ -11,13 +11,16 @@ namespace WebApi.Models
         public string Version { get; set; }
         public int ProjectId { get; set; }
 
-        public Bug ToEntity() => new Bug()
+        public Bug ToEntity()
         {
-            Name = this.Name,
-            Description = this.Description,
-            State = this.State,
-            Version = this.Version,
-            ProjectId = this.ProjectId,
-        };
+            return new()
+            {
+                Name = Name,
+                Description = Description,
+                State = State,
+                Version = Version,
+                ProjectId = ProjectId
+            };
+        }
     }
 }

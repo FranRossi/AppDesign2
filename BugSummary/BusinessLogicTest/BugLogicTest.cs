@@ -1,13 +1,13 @@
-﻿using BusinessLogic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using BusinessLogic;
 using DataAccess;
+using DataAccess.Exceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections;
-using System.Collections.Generic;
-using DataAccess.Exceptions;
 using TestUtilities;
 using Utilities.Comparers;
 
@@ -21,8 +21,8 @@ namespace BusinessLogicTest
         [TestMethod]
         public void AddBug(string token)
         {
-            Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
-            User testerUser = new User
+            var mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
+            var testerUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -33,17 +33,17 @@ namespace BusinessLogicTest
                 Role = RoleType.Tester,
                 Projects = new List<Project>()
             };
-            Project projectTester = new Project()
+            var projectTester = new Project
             {
                 Id = 1,
                 Name = "Semester 2021",
                 Users = new List<User>
                 {
-                 testerUser
+                    testerUser
                 }
             };
             testerUser.Projects.Add(projectTester);
-            Bug newBug = new Bug
+            var newBug = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
@@ -54,17 +54,17 @@ namespace BusinessLogicTest
                 ProjectId = 1
             };
             Bug receivedBug = null;
-            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.Add(It.IsAny<User>(), newBug)).Callback((User user, Bug postedBug) =>
             {
                 receivedBug = postedBug;
             });
             mockBugRepository.Setup(mr => mr.Save());
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
             mockUserRepository.Setup(mr => mr.Save());
-            
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             bugLogic.Add(token, newBug);
 
             mockBugRepository.VerifyAll();
@@ -77,10 +77,10 @@ namespace BusinessLogicTest
         public void DeveloperAddBugInvalidRole(string token)
         {
             User tester = null;
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
             mockUserRepository.Setup(mr => mr.Save());
-            Bug updatedBug = new Bug
+            var updatedBug = new Bug
             {
                 Id = 1,
                 Name = "BugNuevo",
@@ -89,12 +89,12 @@ namespace BusinessLogicTest
                 State = BugState.Done,
                 ProjectId = 1
             };
-            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(), It.IsAny<Bug>()))
                 .Throws(new InexistentBugException());
             mockBugRepository.Setup(mr => mr.Save());
 
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentBugException>(
                 () => bugLogic.Update(token, updatedBug),
                 "The bug to update does not exist on database, please enter a different bug"
@@ -105,7 +105,7 @@ namespace BusinessLogicTest
         [DataTestMethod]
         public void GetBugsForUser(string token)
         {
-            User testerUser = new User
+            var testerUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -116,7 +116,7 @@ namespace BusinessLogicTest
                 Role = RoleType.Tester,
                 Projects = new List<Project>()
             };
-            Project projectTester = new Project()
+            var projectTester = new Project
             {
                 Id = 1,
                 Name = "Semester 2021",
@@ -126,10 +126,10 @@ namespace BusinessLogicTest
                 }
             };
             testerUser.Projects.Add(projectTester);
-            
-            IEnumerable<Bug> bugsExpected = new List<Bug>()
+
+            IEnumerable<Bug> bugsExpected = new List<Bug>
             {
-                new Bug()
+                new()
                 {
                     Id = 1,
                     Name = "Bug2021",
@@ -137,28 +137,28 @@ namespace BusinessLogicTest
                     Project = projectTester,
                     State = BugState.Active,
                     Version = "2",
-                    ProjectId = 1,
+                    ProjectId = 1
                 }
             };
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
             mockUserRepository.Setup(mr => mr.Save());
-            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.GetAllByTester(It.IsAny<User>())).Returns(bugsExpected);
-            
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            IEnumerable<Bug> bugsResult = bugLogic.GetAll(token);
 
-            
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            var bugsResult = bugLogic.GetAll(token);
+
+
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection) bugsExpected, (ICollection) bugsResult, new BugComparer());
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void UpdateValidBug(string token)
         {
-            Bug updatedBug = new Bug
+            var updatedBug = new Bug
             {
                 Id = 1,
                 Name = "BugNuevo",
@@ -169,19 +169,17 @@ namespace BusinessLogicTest
             };
             User tester = null;
             Bug sentBugToBeUpdated = null;
-            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(),It.IsAny<Bug>()))
-                .Callback((User user,Bug bug) =>
-                {
-                    sentBugToBeUpdated = bug;
-                }); ;
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(), It.IsAny<Bug>()))
+                .Callback((User user, Bug bug) => { sentBugToBeUpdated = bug; });
+            ;
             mockBugRepository.Setup(mr => mr.Save());
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
             mockUserRepository.Setup(mr => mr.Save());
-            
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            bugLogic.Update(token,updatedBug);
+
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            bugLogic.Update(token, updatedBug);
 
             mockBugRepository.VerifyAll();
             Assert.AreEqual(updatedBug, sentBugToBeUpdated);
@@ -193,10 +191,10 @@ namespace BusinessLogicTest
         public void UpdateInvalidBug(string token)
         {
             User tester = null;
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
             mockUserRepository.Setup(mr => mr.Save());
-            Bug updatedBug = new Bug
+            var updatedBug = new Bug
             {
                 Id = 1,
                 Name = "BugNuevo",
@@ -205,13 +203,58 @@ namespace BusinessLogicTest
                 State = BugState.Done,
                 ProjectId = 1
             };
-            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(),It.IsAny<Bug>())).Throws(new InexistentBugException());
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Update(It.IsAny<User>(), It.IsAny<Bug>()))
+                .Throws(new InexistentBugException());
             mockBugRepository.Setup(mr => mr.Save());
 
-            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => bugLogic.Update(token,updatedBug), "The bug to update does not exist on database, please enter a different bug"
+                () => bugLogic.Update(token, updatedBug),
+                "The bug to update does not exist on database, please enter a different bug"
+            );
+        }
+
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void DeleteValidBug(string token)
+        {
+            User tester = null;
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
+            mockUserRepository.Setup(mr => mr.Save());
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            var bugId = 1;
+            var receivedBugId = -1;
+            mockBugRepository.Setup(mr => mr.Delete(It.IsAny<User>(), It.IsAny<int>()))
+                .Callback((int sentId) => { receivedBugId = sentId; });
+            mockBugRepository.Setup(mr => mr.Save());
+
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            bugLogic.Delete(token, bugId);
+
+            mockBugRepository.VerifyAll();
+            Assert.AreEqual(bugId, receivedBugId);
+        }
+
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void DeleteInvalidProject(string token)
+        {
+            User tester = null;
+            var mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
+            mockUserRepository.Setup(mr => mr.Save());
+            var mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            var bugId = 1;
+            ;
+            mockBugRepository.Setup(mr => mr.Delete(It.IsAny<User>(), It.IsAny<int>()))
+                .Throws(new InexistentBugException());
+            mockBugRepository.Setup(mr => mr.Save());
+
+            var bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => bugLogic.Delete(token, bugId), "The entered bug does not exist."
             );
         }
     }

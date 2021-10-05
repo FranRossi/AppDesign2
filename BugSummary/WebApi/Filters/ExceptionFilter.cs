@@ -1,11 +1,7 @@
-﻿using Domain.DomainUtilities.CustomExceptions;
+﻿using System;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.DomainUtilities.CustomExceptions;
 using Utilities.CustomExceptions;
 
 namespace WebApi.Filters
@@ -14,8 +10,8 @@ namespace WebApi.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            int statusCode = 500;
-            string exceptionMessage = "";
+            var statusCode = 500;
+            var exceptionMessage = "";
 
             if (context.Exception is LoginException)
             {
@@ -48,7 +44,7 @@ namespace WebApi.Filters
                 exceptionMessage = context.Exception.Message;
             }
 
-            context.Result = new ContentResult()
+            context.Result = new ContentResult
             {
                 StatusCode = statusCode,
                 Content = exceptionMessage
