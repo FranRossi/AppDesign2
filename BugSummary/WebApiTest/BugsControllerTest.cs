@@ -45,6 +45,63 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        [TestMethod]
+        public void GetValidBug(string token)
+        {
+            int bugId = 1;
+            Bug bugOnDataBase = new Bug
+            {
+                Id = bugId,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            Bug receivedBug = null;
+            mock.Setup(m => m.Get(It.IsAny<string>(), It.IsAny<int>())).Returns(receivedBug = bugOnDataBase);
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.Get(token, bugId);
+            OkObjectResult responseOk = result as OkObjectResult;
+            BugModel bugResponse = responseOk.Value as BugModel;
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(bugResponse, typeof(BugModel));
+            Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase,receivedBug));
+        }
+        
+        [TestMethod]
+        public void BugToModelTest()
+        {
+            Bug expectedBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+                
+            };
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            BugModel model = BugModel.ToModel(expectedBug);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(model, bugToCompare);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
@@ -69,7 +126,7 @@ namespace WebApiTest
             mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Get(token);
+            IActionResult result = controller.GetAll(token);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 

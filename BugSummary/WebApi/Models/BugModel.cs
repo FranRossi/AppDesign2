@@ -10,6 +10,7 @@ namespace WebApi.Models
         public BugState State { get; set; }
         public string Version { get; set; }
         public int ProjectId { get; set; }
+        public int Id { get; set; }
 
         public Bug ToEntity()
         {
@@ -20,6 +21,19 @@ namespace WebApi.Models
                 State = State,
                 Version = Version,
                 ProjectId = ProjectId
+            };
+        }
+
+        public static BugModel ToModel(Bug bugEntity)
+        {
+            return new()
+            {
+                Id = bugEntity.Id,
+                Name = bugEntity.Name,
+                Description = bugEntity.Description,
+                State = bugEntity.State,
+                Version = bugEntity.Version,
+                ProjectId = bugEntity.ProjectId
             };
         }
     }

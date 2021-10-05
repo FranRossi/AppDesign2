@@ -19,10 +19,17 @@ namespace WebApi.Controllers
         {
             _bugs = bugs;
         }
-
+        
+        [HttpGet("{bugId}")]
+        public IActionResult Get([FromHeader] string token, int bugId)
+        {
+            var bug = _bugs.Get(token, bugId);
+            return Ok(BugModel.ToModel(bug));
+        }
+        
         [HttpGet]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
-        public IActionResult Get([FromHeader] string token)
+        public IActionResult GetAll([FromHeader] string token)
         {
             var bugs = _bugs.GetAll(token);
             return Ok(bugs);
@@ -60,5 +67,8 @@ namespace WebApi.Controllers
             _bugs.FixBug(token, bugId);
             return Ok();
         }
+
+
+        
     }
 }

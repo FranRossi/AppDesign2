@@ -5,6 +5,7 @@ namespace DataAccessInterface
 {
     public interface IBugRepository
     {
+        Bug Get(User user, int bugId);
         void Add(User tester, Bug newBug);
         IEnumerable<Bug> GetAllByTester(User tester);
         IEnumerable<Bug> GetAll();
