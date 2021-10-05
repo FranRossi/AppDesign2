@@ -31,7 +31,7 @@ namespace WebApi.Filters
             {
                 _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
                 string token = context.HttpContext.Request.Headers["token"];
-                var role = _sessionLogic.GetRoleByToken(token);
+                RoleType role = _sessionLogic.GetRoleByToken(token);
                 if (token == null)
                     context.Result = new ContentResult
                     {
@@ -49,7 +49,7 @@ namespace WebApi.Filters
 
         private string GetMessageByRole(RoleType role)
         {
-            var baseMessage = "Authentication failed: please log in as ";
+            string baseMessage = "Authentication failed: please log in as ";
             return baseMessage + _messageMap[role];
         }
     }

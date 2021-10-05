@@ -21,7 +21,7 @@ namespace BusinessLogic
 
         public User Get(string token)
         {
-            var user = _userRepository.Get(token);
+            User user = _userRepository.Get(token);
             _userRepository.Save();
             return user;
         }

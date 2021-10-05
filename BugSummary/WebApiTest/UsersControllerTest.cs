@@ -16,7 +16,7 @@ namespace WebApiTest
         [TestMethod]
         public void AddValidUser()
         {
-            var user = new UserModel
+            UserModel user = new UserModel
             {
                 FirstName = "Pepe",
                 LastName = "Perez",
@@ -25,7 +25,7 @@ namespace WebApiTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Admin
             };
-            var expectedUser = new User
+            User expectedUser = new User
             {
                 Id = 0,
                 FirstName = "Pepe",
@@ -35,24 +35,24 @@ namespace WebApiTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Admin
             };
-            var mock = new Mock<ILogic<User>>(MockBehavior.Strict);
+            Mock<ILogic<User>> mock = new Mock<ILogic<User>>(MockBehavior.Strict);
             User receivedUser = null;
             mock.Setup(m => m.Add(It.IsAny<User>())).Callback((User user) => receivedUser = user);
-            var controller = new UsersController(mock.Object);
+            UsersController controller = new UsersController(mock.Object);
 
-            var result = controller.Post(user);
+            IActionResult result = controller.Post(user);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            var compareLogic = new CompareLogic();
-            var deepComparisonResult = compareLogic.Compare(expectedUser, receivedUser);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, receivedUser);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-
+        
         [TestMethod]
         public void UserToModelTest()
         {
-            var expectedUser = new User
+            User expectedUser = new User
             {
                 Id = 0,
                 FirstName = "Pepe",
@@ -62,17 +62,17 @@ namespace WebApiTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester
             };
-            var userToCompare = new UserModel
+            UserModel userToCompare = new UserModel
             {
                 FirstName = "Pepe",
                 LastName = "Perez",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester
+                Role = RoleType.Tester,
             };
-            var model = UserModel.ToModel(expectedUser);
-            var compareLogic = new CompareLogic();
-            var deepComparisonResult = compareLogic.Compare(userToCompare, model);
+            UserModel model = UserModel.ToModel(expectedUser);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(userToCompare, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }

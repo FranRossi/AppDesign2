@@ -3,7 +3,7 @@ using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Testing
+namespace DomainTest
 {
     [TestClass]
     public class BugTest
@@ -11,7 +11,7 @@ namespace Testing
         [TestMethod]
         public void CreateId()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Id = 154
             };
@@ -21,7 +21,7 @@ namespace Testing
         [TestMethod]
         public void CreateName()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Name = "Missing parenthesis"
             };
@@ -31,7 +31,7 @@ namespace Testing
         [TestMethod]
         public void CreateDescription()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Description = "On line 67, code won't compile because a parenthesis is missing"
             };
@@ -41,7 +41,7 @@ namespace Testing
         [TestMethod]
         public void CreateVersion()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Version = "1.0"
             };
@@ -51,7 +51,7 @@ namespace Testing
         [TestMethod]
         public void CreateActiveState()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 State = BugState.Active
             };
@@ -61,7 +61,7 @@ namespace Testing
         [TestMethod]
         public void CreateInactiveState()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 State = BugState.Done
             };
@@ -71,9 +71,9 @@ namespace Testing
         [TestMethod]
         public void CreateProjectTest()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
-                Project = new Project()
+                Project = new Project() { }
             };
             Assert.IsNotNull(newBug.Project);
         }
@@ -81,7 +81,7 @@ namespace Testing
         [TestMethod]
         public void CreateProjectIdTest()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 ProjectId = 2
             };
@@ -92,8 +92,8 @@ namespace Testing
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
         {
-            var nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
-            var newBug = new Bug
+            string nameWithLengthOver60 = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
+            Bug newBug = new Bug
             {
                 Name = nameWithLengthOver60
             };
@@ -104,7 +104,7 @@ namespace Testing
         [TestMethod]
         public void VerifyBugIdLengthIsInCorrect()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Id = 12345
             };
@@ -114,7 +114,7 @@ namespace Testing
         [TestMethod]
         public void VerifyBugDescriptionLengthIsInCorrect()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Description = GenerateRandomStringWithSpecifiedLength(160)
             };
@@ -124,7 +124,7 @@ namespace Testing
         [TestMethod]
         public void VerifyBugVersionLengthIsInCorrect()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
                 Version = GenerateRandomStringWithSpecifiedLength(11)
             };
@@ -132,8 +132,11 @@ namespace Testing
 
         private string GenerateRandomStringWithSpecifiedLength(int stringLength)
         {
-            var descriptionOver150Characters = "";
-            for (var i = 0; i < stringLength; i++) descriptionOver150Characters += i;
+            string descriptionOver150Characters = "";
+            for (int i=0; i< stringLength; i++)
+            {
+                descriptionOver150Characters += i;
+            }
             return descriptionOver150Characters;
         }
 
@@ -141,10 +144,11 @@ namespace Testing
         [TestMethod]
         public void VerifyBugStateIsInCorrect()
         {
-            var newBug = new Bug
+            Bug newBug = new Bug
             {
-                State = (BugState) (-1)
+                State = (BugState)(-1)
             };
+
         }
     }
 }

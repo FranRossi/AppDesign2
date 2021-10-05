@@ -27,7 +27,7 @@ namespace WebApi.Models
 
         public static UserModel ToModel(User user)
         {
-            var model = new UserModel();
+            UserModel model = new UserModel();
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;

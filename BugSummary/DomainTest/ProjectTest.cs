@@ -9,13 +9,14 @@ using Utilities.Comparers;
 
 namespace DomainTest
 {
+
     [TestClass]
     public class ProjectTest
     {
         [TestMethod]
         public void CreateId()
         {
-            var newProject = new Project
+            Project newProject = new Project
             {
                 Id = 154
             };
@@ -25,7 +26,7 @@ namespace DomainTest
         [TestMethod]
         public void CreateName()
         {
-            var newProject = new Project
+            Project newProject = new Project
             {
                 Name = "Semester2021"
             };
@@ -35,18 +36,18 @@ namespace DomainTest
         [TestMethod]
         public void CreateListofBugs()
         {
-            var newProject = new Project
+            Project newProject = new Project
             {
-                Bugs = new List<Bug>
+                Bugs = new List<Bug>()
                 {
-                    new()
+                    new Bug
                     {
                         Id = 1,
                         Name = "Bug1",
                         Description = "Bug en el servidor",
                         Version = "1.4",
                         State = BugState.Active,
-                        Project = new Project()
+                        Project = new Project() { }
                     }
                 }
             };
@@ -57,48 +58,48 @@ namespace DomainTest
         [TestMethod]
         public void AddMultipleBugs()
         {
-            var bugsExpected = new List<Bug>
+            List<Bug> bugsExpected = new List<Bug>()
             {
-                new()
-                {
-                    Id = 1,
-                    Name = "Bug1",
-                    Description = "Bug en el servidor",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project()
-                },
-                new()
-                {
-                    Id = 2,
-                    Name = "Bug2",
-                    Description = "Bug en el cliente",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project()
-                }
-            };
-            var newProject = new Project
-            {
-                Bugs = new List<Bug>
-                {
-                    new()
+                new Bug
                     {
                         Id = 1,
                         Name = "Bug1",
                         Description = "Bug en el servidor",
                         Version = "1.4",
                         State = BugState.Active,
-                        Project = new Project()
+                        Project = new Project() { }
                     },
-                    new()
+                    new Bug
                     {
                         Id = 2,
                         Name = "Bug2",
                         Description = "Bug en el cliente",
                         Version = "1.4",
                         State = BugState.Active,
-                        Project = new Project()
+                        Project = new Project() { }
+                    }
+            };
+            Project newProject = new Project
+            {
+                Bugs = new List<Bug>()
+                {
+                    new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        Project = new Project() { }
+                    },
+                    new Bug
+                    {
+                        Id = 2,
+                        Name = "Bug2",
+                        Description = "Bug en el cliente",
+                        Version = "1.4",
+                        State = BugState.Active,
+                        Project = new Project() { }
                     }
                 }
             };
@@ -109,11 +110,11 @@ namespace DomainTest
         [TestMethod]
         public void CreateListofTestersAndDevelopers()
         {
-            var newProject = new Project
+            Project newProject = new Project
             {
-                Users = new List<User>
+                Users = new List<User>()
                 {
-                    new()
+                    new User
                     {
                         Id = 1,
                         FirstName = "Pepe",
@@ -124,7 +125,7 @@ namespace DomainTest
                         Role = RoleType.Tester,
                         Projects = new List<Project>()
                     },
-                    new()
+                    new User
                     {
                         Id = 2,
                         FirstName = "Juan",
@@ -144,8 +145,8 @@ namespace DomainTest
         [TestMethod]
         public void AddTester()
         {
-            var newProject = new Project();
-            var newUser = new User
+            Project newProject = new Project();
+            User newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -164,8 +165,8 @@ namespace DomainTest
         [TestMethod]
         public void AddDeveloper()
         {
-            var newProject = new Project();
-            var newUser = new User
+            Project newProject = new Project();
+            User newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -184,8 +185,8 @@ namespace DomainTest
         [TestMethod]
         public void AddInvalidRoleAsignee()
         {
-            var newProject = new Project();
-            var newUser = new User
+            Project newProject = new Project();
+            User newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -199,7 +200,7 @@ namespace DomainTest
 
 
             TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
-                () => newProject.AddUser(newUser), "Project asingnees must either be Developers or Testers."
+               () => newProject.AddUser(newUser), "Project asingnees must either be Developers or Testers."
             );
         }
 
@@ -209,11 +210,11 @@ namespace DomainTest
         [DataTestMethod]
         public void RemoveUser(RoleType role)
         {
-            var newProject = new Project
+            Project newProject = new Project
             {
                 Name = "Semester2021"
             };
-            var newUser = new User
+            User newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -224,7 +225,7 @@ namespace DomainTest
                 Role = role,
                 Projects = new List<Project>()
             };
-            newProject.Users = new List<User> {newUser};
+            newProject.Users = new List<User> { newUser };
             newProject.RemoveUser(newUser);
 
             Assert.AreEqual(0, newProject.Users.Count);
@@ -234,11 +235,12 @@ namespace DomainTest
         [TestMethod]
         public void VerifyProjectNameLengthIsCorrect()
         {
-            var name = "Semester2021Semester2021Semester2021Semester2021";
-            var newProject = new Project
+            string name = "Semester2021Semester2021Semester2021Semester2021";
+            Project newProject = new Project
             {
                 Name = name
             };
         }
+
     }
 }

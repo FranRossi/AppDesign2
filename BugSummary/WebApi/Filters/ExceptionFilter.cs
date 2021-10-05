@@ -10,8 +10,8 @@ namespace WebApi.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            var statusCode = 500;
-            var exceptionMessage = "";
+            int statusCode = 500;
+            string exceptionMessage = "";
 
             if (context.Exception is LoginException)
             {

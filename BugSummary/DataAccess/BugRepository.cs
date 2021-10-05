@@ -22,7 +22,7 @@ namespace DataAccess
 
         public IEnumerable<Bug> GetAllByTester(User tester)
         {
-            var listBugForTester = new List<Bug>();
+            List<Bug> listBugForTester = new List<Bug>();
             foreach (var project in tester.Projects)
                 listBugForTester.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
             return listBugForTester;
@@ -30,9 +30,7 @@ namespace DataAccess
 
         public void Add(User userToCreateBug, Bug newBug)
         {
-            if (userToCreateBug.Role != RoleType.Tester)
-                throw new UserMustBeTesterException();
-            var userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
+            Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
             if (userProject == null)
                 throw new ProjectDontBelongToUser();
             Context.Bugs.Add(newBug);
@@ -40,11 +38,9 @@ namespace DataAccess
 
         public void Update(User testerUser, Bug updatedBug)
         {
-            if (testerUser.Role != RoleType.Tester)
-                throw new UserMustBeTesterException();
             if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
                 throw new ProjectDontBelongToUser();
-            var bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
                 bugFromDb.Name = updatedBug.Name;
@@ -62,9 +58,7 @@ namespace DataAccess
 
         public void Delete(User testerUser, int bugId)
         {
-            if (testerUser.Role != RoleType.Tester)
-                throw new UserMustBeTesterException();
-            var bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
+            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
             if (bugFromDb != null)
                 Context.Bugs.Remove(bugFromDb);
             else
