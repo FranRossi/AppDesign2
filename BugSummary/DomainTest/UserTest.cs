@@ -109,7 +109,7 @@ namespace Testing
             };
             Assert.AreEqual(randomToken, newUser.Token);
         }
-      
+
         [TestMethod]
         public void CreateListProject()
         {
@@ -118,6 +118,25 @@ namespace Testing
                 Projects = new List<Project>()
             };
             Assert.IsNotNull(newUser.Projects);
+        }
+
+        [TestMethod]
+        public void CreateListFixedBugs()
+        {
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            User newUser = new User
+            {
+                FixedBugs = new List<Bug> { bug }
+            };
+            Assert.AreEqual(bug, newUser.FixedBugs[0]);
         }
 
         [ExpectedException(typeof(UserPropertyIsNullException))]

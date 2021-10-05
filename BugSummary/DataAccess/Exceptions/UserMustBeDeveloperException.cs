@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Exceptions
 {
-    public class UserMustBeTesterException : Exception
+    public class UserMustBeDeveloperException : Exception
     {
-        public override string Message => "User's role must be tester to perform this action";
+        public override string Message => "User's role must be developer to perform this action";
     }
 }

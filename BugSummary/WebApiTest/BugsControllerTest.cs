@@ -19,12 +19,12 @@ namespace WebApiTest
     [TestClass]
     public class BugsControllerTest
     {
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsForTester(string token)
         {
-            
+
             IEnumerable<Bug> bugsExpected = new List<Bug>()
             {
                 new Bug()
@@ -39,19 +39,19 @@ namespace WebApiTest
                 }
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            mock.Setup(r=>r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
+            mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
-            
+
             IActionResult result = controller.Get(token);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 
             mock.VerifyAll();
-            Assert.AreEqual(200,okResult.StatusCode);
-            Assert.AreEqual(bugsExpected,bugsResult);
-            CollectionAssert.AreEqual((ICollection) bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.AreEqual(bugsExpected, bugsResult);
+            CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
@@ -67,13 +67,13 @@ namespace WebApiTest
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
-            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token,Bug sentBug) =>
+            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token, Bug sentBug) =>
             {
                 receivedBug = sentBug;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Put(token,bug);
+            IActionResult result = controller.Put(token, bug);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -81,7 +81,7 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
@@ -101,10 +101,10 @@ namespace WebApiTest
             BugsController controller = new BugsController(mock.Object);
 
             TestExceptionUtils.Throws<UserMustBeTesterException>(
-                () => controller.Put(token,bug), "User's role must be tester for this action"
+                () => controller.Put(token, bug), "User's role must be tester to perform this action"
             );
 
         }
     }
-    
+
 }

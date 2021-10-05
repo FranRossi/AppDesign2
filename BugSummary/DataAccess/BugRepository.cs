@@ -52,7 +52,7 @@ namespace DataAccess
             if (testerUser.Role != RoleType.Tester)
                 throw new UserMustBeTesterException();
             if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
-                throw new ProjectDontBelongToUser();
+                throw new ProjectDoesntBelongToUserException();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
@@ -65,6 +65,22 @@ namespace DataAccess
             }
             else
                 throw new InexistentBugException();
+
+        }
+
+        public void FixBug(User developerUser, int bugId)
+        {
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
+                throw new InexistentBugException();
+            if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            if (developerUser.Role != RoleType.Developer)
+                throw new UserMustBeTesterException();
+            bugFromDb.State = BugState.Done;
+            bugFromDb.Fixer = developerUser;
+            bugFromDb.Fixer.Projects = null;
+            Context.Bugs.Update(bugFromDb);
 
         }
     }
