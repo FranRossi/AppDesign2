@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Testing
+namespace DomainTest
 {
     [TestClass]
     public class UserTest

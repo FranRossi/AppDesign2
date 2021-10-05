@@ -1,11 +1,7 @@
-﻿using Domain.DomainUtilities.CustomExceptions;
+﻿using System;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.DomainUtilities.CustomExceptions;
 using Utilities.CustomExceptions;
 using DataAccess.Exceptions;
 
@@ -63,13 +59,8 @@ namespace WebApi.Filters
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is UserMustBeTesterException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
 
-            context.Result = new ContentResult()
+            context.Result = new ContentResult
             {
                 StatusCode = statusCode,
                 Content = exceptionMessage

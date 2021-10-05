@@ -1,7 +1,7 @@
-﻿using Domain;
+﻿using System.IO;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace DataAccess
 {
@@ -20,9 +20,9 @@ namespace DataAccess
                 string directory = Directory.GetCurrentDirectory();
 
                 IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(directory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+                    .SetBasePath(directory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
 
                 string connectionString = configuration.GetConnectionString(@"BugDB");
 

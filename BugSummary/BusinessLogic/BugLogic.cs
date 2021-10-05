@@ -1,8 +1,7 @@
-﻿using BusinessLogicInterface;
+﻿using System.Collections.Generic;
+using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
-using System;
-using System.Collections.Generic;
 
 
 namespace BusinessLogic
@@ -19,9 +18,11 @@ namespace BusinessLogic
             _userLogic = new UserLogic(_userRepository);
         }
 
-        public void Add(User tester, Bug newBug)
+        public void Add(string token, Bug newBug)
         {
-            _bugRepository.Add(tester, newBug);
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            _bugRepository.Add(userByToken, newBug);
             _bugRepository.Save();
         }
 
@@ -42,6 +43,14 @@ namespace BusinessLogic
         {
             User userByToken = _userLogic.Get(token);
             _bugRepository.FixBug(userByToken, bugId);
+            _bugRepository.Save();
+        }
+
+        public void Delete(string token, int bugId)
+        {
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            _bugRepository.Delete(userByToken,bugId);
             _bugRepository.Save();
         }
     }

@@ -1,14 +1,9 @@
-﻿
-
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using DataAccessInterface;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Utilities.CustomExceptions;
-
 namespace DataAccess
 {
     public class ProjectRepository : BaseRepository<Project>, IProjectRepository

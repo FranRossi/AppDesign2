@@ -1,23 +1,24 @@
-﻿using BusinessLogicInterface;
+﻿using System;
+using System.Collections.Generic;
+using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 
 namespace WebApi.Filters
 {
     public class AuthorizationWithParameterFilter : Attribute, IAuthorizationFilter
     {
-        private ISessionLogic _sessionLogic;
-        private RoleType _argument;
-        private static Dictionary<RoleType, string> _messageMap = new Dictionary<RoleType, string>()
+        private static readonly Dictionary<RoleType, string> _messageMap = new()
         {
-            { RoleType.Admin, "Admin" },
-            { RoleType.Developer, "Developer" },
-            { RoleType.Tester, "Tester" },
+            {RoleType.Admin, "Admin"},
+            {RoleType.Developer, "Developer"},
+            {RoleType.Tester, "Tester"}
         };
+
+        private readonly RoleType _argument;
+        private ISessionLogic _sessionLogic;
 
         public AuthorizationWithParameterFilter(RoleType argument)
         {
@@ -31,22 +32,18 @@ namespace WebApi.Filters
                 _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
                 string token = context.HttpContext.Request.Headers["token"];
                 RoleType role = _sessionLogic.GetRoleByToken(token);
-                if (token == null  )
-                {
-                    context.Result = new ContentResult()
+                if (token == null)
+                    context.Result = new ContentResult
                     {
                         StatusCode = 403,
                         Content = "Please send a valid token."
                     };
-                }
                 else if (role != _argument)
-                {
-                    context.Result = new ContentResult()
+                    context.Result = new ContentResult
                     {
                         StatusCode = 401,
                         Content = GetMessageByRole(_argument)
                     };
-                }
             }
         }
 

@@ -1,10 +1,10 @@
 using Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using TestUtilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Testing
+namespace DomainTest
 {
     [TestClass]
     public class BugTest

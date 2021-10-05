@@ -1,19 +1,16 @@
-﻿using BusinessLogicInterface;
-using DataAccessInterface;
-using Domain;
-using Domain.DomainUtilities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BusinessLogicInterface;
+using DataAccessInterface;
+using Domain.DomainUtilities;
 using Utilities.CustomExceptions;
 
 namespace BusinessLogic
 {
     public class SessionLogic : ISessionLogic
     {
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
+
         public SessionLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -37,7 +34,10 @@ namespace BusinessLogic
                 _userRepository.Save();
             }
             else
+            {
                 throw new LoginException();
+            }
+
             return token;
         }
 

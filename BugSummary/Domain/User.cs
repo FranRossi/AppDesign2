@@ -1,20 +1,20 @@
-﻿using Domain.DomainUtilities;
+﻿using System.Collections.Generic;
+using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
-using System;
-using System.Collections.Generic;
 
 namespace Domain
 {
     public class User
     {
+        private string _email;
         private string _firstName;
         private string _lastName;
-        private string _userName;
         private string _pass;
-        private string _email;
         private RoleType _role;
+        private string _userName;
 
         public int Id { get; set; }
+
         public string FirstName
         {
             get => _firstName;
@@ -24,6 +24,7 @@ namespace Domain
                 _firstName = value;
             }
         }
+
         public string LastName
         {
             get => _lastName;
@@ -33,6 +34,7 @@ namespace Domain
                 _lastName = value;
             }
         }
+
         public string UserName
         {
             get => _userName;
@@ -42,6 +44,7 @@ namespace Domain
                 _userName = value;
             }
         }
+
         public string Password
         {
             get => _pass;
@@ -51,6 +54,7 @@ namespace Domain
                 _pass = value;
             }
         }
+
         public string Email
         {
             get => _email;
@@ -60,6 +64,7 @@ namespace Domain
                 _email = value;
             }
         }
+
         public RoleType Role
         {
             get => _role;
@@ -69,6 +74,7 @@ namespace Domain
                 _role = value;
             }
         }
+
         public string Token { get; set; }
         public List<Project> Projects { get; set; }
         public List<Bug> FixedBugs { get; set; }

@@ -1,14 +1,13 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
-using System;
-using System.Collections.Generic;
 
 namespace BusinessLogic
 {
     public class UserLogic : ILogic<User>
     {
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
+
         public UserLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;

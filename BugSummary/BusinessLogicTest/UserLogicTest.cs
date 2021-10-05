@@ -1,13 +1,10 @@
-using System;
 using BusinessLogic;
-using DataAccess;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-
 namespace BusinessLogicTest
 {
     [TestClass]

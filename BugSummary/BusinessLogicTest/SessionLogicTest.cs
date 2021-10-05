@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Utilities.Authentication;
 using Utilities.CustomExceptions;
-
 namespace BusinessLogicTest
 {
     [TestClass]

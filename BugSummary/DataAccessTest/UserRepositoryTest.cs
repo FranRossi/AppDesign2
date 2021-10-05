@@ -1,15 +1,14 @@
-using DataAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using DataAccess;
+using Domain;
+using Domain.DomainUtilities;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Domain;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.DomainUtilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.Comparers;
-using KellermanSoftware.CompareNetObjects;
-
 namespace DataAccessTest
 {
     [TestClass]

@@ -1,12 +1,11 @@
-﻿using Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Domain;
 using Domain.DomainUtilities;
-using Utilities.Comparers;
 using Domain.DomainUtilities.CustomExceptions;
-using Utilities.CustomExceptions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
+using Utilities.Comparers;
 
 namespace DomainTest
 {

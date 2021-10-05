@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System;
 using System.Collections.Generic;
+using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using BusinessLogicInterface;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
-using System;
-using Domain.DomainUtilities.CustomExceptions;
 using DataAccess.Exceptions;
 
 namespace WebApiTest.FiltersTest
@@ -64,13 +63,6 @@ namespace WebApiTest.FiltersTest
         public void ProjectDoesntBelongToUserExceptionTest()
         {
             ProjectDoesntBelongToUserException exception = new ProjectDoesntBelongToUserException();
-            TestException(exception, 403);
-        }
-
-        [TestMethod]
-        public void UserMustBeTesterExceptionTest()
-        {
-            UserMustBeTesterException exception = new UserMustBeTesterException();
             TestException(exception, 403);
         }
 

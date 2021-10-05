@@ -1,11 +1,9 @@
 using BusinessLogicInterface;
 using Domain;
-using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Utilities.Comparers;
 using WebApi.Controllers;
 using WebApi.Models;
 

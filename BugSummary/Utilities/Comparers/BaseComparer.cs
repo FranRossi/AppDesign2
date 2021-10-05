@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace Utilities.Comparers
 {
@@ -18,8 +13,6 @@ namespace Utilities.Comparers
 
             return equals ? 0 : 1;
         }
-
         protected abstract bool ConcreteCompare(T expected, T actual);
     }
-
 }
