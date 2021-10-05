@@ -46,6 +46,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete ("{bugId}")]
+        [AuthorizationWithParameterFilter(RoleType.Tester)]
         public IActionResult Delete(int bugId, [FromHeader]string token)
         {
             _bugs.Delete(token, bugId);

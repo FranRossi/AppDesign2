@@ -187,7 +187,7 @@ namespace WebApiTest
         {
             int bugId = 1;
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Throws(new UserMustBeTesterException());
+            mock.Setup(m => m.Delete(It.IsAny<string>(), It.IsAny<int>())).Throws(new UserMustBeTesterException());
             BugsController controller = new BugsController(mock.Object);
 
             TestExceptionUtils.Throws<UserMustBeTesterException>(
