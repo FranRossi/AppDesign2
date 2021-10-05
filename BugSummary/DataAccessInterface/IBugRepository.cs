@@ -13,6 +13,7 @@ namespace DataAccessInterface
         IEnumerable<Bug> GetAllByTester(User tester);
         IEnumerable<Bug> GetAll();
         void Update(User testerUser, Bug updatedBug);
+        void Delete(User testerUser, int bugId);
         void Save();
         
     }
