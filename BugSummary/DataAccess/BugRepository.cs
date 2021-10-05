@@ -73,6 +73,8 @@ namespace DataAccess
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
+            if (bugFromDb.State == BugState.Done)
+                throw new BugAlreadyFixedException();
             if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
                 throw new ProjectDoesntBelongToUserException();
             bugFromDb.State = BugState.Done;

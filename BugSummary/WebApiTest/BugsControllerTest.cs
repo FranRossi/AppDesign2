@@ -114,8 +114,8 @@ namespace WebApiTest
             string receivedToken = "";
             mock.Setup(m => m.FixBug(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
             {
-                receivedToken = sentToken;
                 receivedBug = sentBug;
+                receivedToken = sentToken;
             });
             BugsController controller = new BugsController(mock.Object);
 
@@ -123,7 +123,7 @@ namespace WebApiTest
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            Assert.AreEqual(bug, receivedToken);
+            Assert.AreEqual(bug, receivedBug);
             Assert.AreEqual(token, receivedToken);
         }
     }

@@ -599,5 +599,44 @@ namespace DataAccessTest
             );
         }
 
+        [TestMethod]
+        public void FixAlreadyFixedBugTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Done,
+                ProjectId = 1
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(projectTester);
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<BugAlreadyFixedException>(
+                () => _bugRepository.FixBug(developerUser, bug.Id), "The bug you are trying to fix is already fixed."
+            );
+        }
     }
 }
