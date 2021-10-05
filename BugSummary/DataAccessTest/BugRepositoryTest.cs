@@ -667,5 +667,45 @@ namespace DataAccessTest
                 () => _bugRepository.Delete(developerUser, updatedBug.Id), "The entered bug does not exist."
             );
         }
+        
+        [TestMethod]
+        public void TesterDeleteBugWithoutNewProjectTest()
+        {
+           User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+           Bug bug = new Bug
+           {
+               Id = 1,
+               Name = "Bug1",
+               Description = "Bug en el servidor",
+               Version = "1.4",
+               State = BugState.Active,
+           };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>{}
+                };
+                context.Projects.Add(projectTester);
+                bug.ProjectId = projectTester.Id;
+                context.Add(bug);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+                () => _bugRepository.Delete(testerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
+            );
+        }
     }
 }
