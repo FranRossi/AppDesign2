@@ -44,7 +44,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void AddNewBugTest()
+        public void AddNewBug()
         {
             Bug newBugToAdd = new Bug
             {
@@ -69,6 +69,7 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
+        
 
         [TestMethod]
         public void TesterAddsBugWithoutNewProjectTest()
