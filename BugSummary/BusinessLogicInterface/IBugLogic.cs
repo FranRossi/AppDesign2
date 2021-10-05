@@ -6,6 +6,7 @@ namespace BusinessLogicInterface
     public interface IBugLogic
     {
         void Add(string token, Bug newBug);
+        Bug Get(string token, int bugId);
         IEnumerable<Bug> GetAll(string token);
         void Update(string token, Bug updatedBug);
         void Delete(string token, int bugId);
