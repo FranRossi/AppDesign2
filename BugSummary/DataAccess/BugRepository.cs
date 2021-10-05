@@ -56,13 +56,14 @@ namespace DataAccess
             }
         }
 
-        public void Delete(User testerUser, int bugId)
+        public void Delete(User user, int bugId)
         {
-            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
-            if (bugFromDb != null)
-                Context.Bugs.Remove(bugFromDb);
-            else
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
                 throw new InexistentBugException();
+            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            Context.Bugs.Remove(bugFromDb);
         }
 
         public void FixBug(User developerUser, int bugId)
