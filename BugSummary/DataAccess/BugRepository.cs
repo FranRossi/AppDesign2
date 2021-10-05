@@ -76,8 +76,7 @@ namespace DataAccess
             if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
                 throw new ProjectDoesntBelongToUserException();
             bugFromDb.State = BugState.Done;
-            bugFromDb.Fixer = developerUser;
-            bugFromDb.Fixer.Projects = null;
+            bugFromDb.FixerId = developerUser.Id;
             Context.Bugs.Update(bugFromDb);
 
         }

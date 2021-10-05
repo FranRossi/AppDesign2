@@ -458,7 +458,7 @@ namespace DataAccessTest
             };
 
             TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
-                () => _bugRepository.Update(testerUser, updatedBug), "The user is not assigned to the Project the bug belongs to"
+                () => _bugRepository.Update(testerUser, updatedBug), "The user is not assigned to the Project the bug belongs to."
             );
         }
 
@@ -521,6 +521,8 @@ namespace DataAccessTest
             {
                 Bug databaseBug = context.Bugs.Include("Fixer").Include("Project").First();
                 User fixer = databaseBug.Fixer;
+                developerUser.Projects = null;
+                fixer.FixedBugs = null;
                 CompareLogic compareLogic = new CompareLogic();
                 ComparisonResult deepComparisonResult = compareLogic.Compare(developerUser, fixer);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -557,6 +559,45 @@ namespace DataAccessTest
             );
         }
 
+        [TestMethod]
+        public void FixBugFromOtherProjectTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(projectTester);
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+                () => _bugRepository.FixBug(developerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
+            );
+        }
 
     }
 }
