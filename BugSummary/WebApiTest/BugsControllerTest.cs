@@ -84,7 +84,6 @@ namespace WebApiTest
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
-        [TestMethod]
         public void DeveloperUpdateBug(string token)
         {
             BugModel bug = new BugModel
@@ -103,7 +102,29 @@ namespace WebApiTest
             TestExceptionUtils.Throws<UserMustBeTesterException>(
                 () => controller.Put(token, bug), "User's role must be tester to perform this action"
             );
+        }
 
+        [TestMethod]
+        public void FixBug()
+        {
+            int bug = 1;
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            int receivedBug = -1;
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
+            string receivedToken = "";
+            mock.Setup(m => m.FixBug(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
+            {
+                receivedToken = sentToken;
+                receivedBug = sentBug;
+            });
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.Put(token, bug);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(bug, receivedToken);
+            Assert.AreEqual(token, receivedToken);
         }
     }
 
