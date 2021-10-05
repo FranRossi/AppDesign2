@@ -39,5 +39,13 @@ namespace BusinessLogic
             _bugRepository.Update(userByToken,updatedBug);
             _bugRepository.Save();
         }
+
+        public void Delete(string token, int bugId)
+        {
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            _bugRepository.Delete(userByToken,bugId);
+            _bugRepository.Save();
+        }
     }
 }

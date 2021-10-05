@@ -249,14 +249,13 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
             mockUserRepository.Setup(mr => mr.Save());
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            int bugId = 1;
-            int receivedBugId = -1;
+            int bugId = 1;;
             mockBugRepository.Setup(mr => mr.Delete( It.IsAny<User>(),It.IsAny<int>())).Throws(new InexistentBugException());
             mockBugRepository.Setup(mr => mr.Save());
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => BugLogic.Delete(token, id), "The entered project does not exist."
+                () => bugLogic.Delete(token, bugId), "The entered bug does not exist."
             );
         }
         

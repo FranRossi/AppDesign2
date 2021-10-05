@@ -406,7 +406,7 @@ namespace DataAccessTest
                 ProjectId = 1
             };
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => _bugRepository.Update(testerUser,updatedBug), "The bug to update does not exist on database, please enter a different bug"
+                () => _bugRepository.Update(testerUser,updatedBug), "The entered bug does not exist."
             );
         }
         
@@ -594,7 +594,7 @@ namespace DataAccessTest
                 Id = 1,
             };
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => _bugRepository.Delete(developerUser,updatedBug.Id), "The bug to update does not exist on database, please enter a different bug"
+                () => _bugRepository.Delete(developerUser,updatedBug.Id), "The entered bug does not exist."
             );
         }
         
