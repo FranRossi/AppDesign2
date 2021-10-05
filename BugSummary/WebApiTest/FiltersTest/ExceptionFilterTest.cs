@@ -19,62 +19,61 @@ namespace WebApiTest.FiltersTest
         [TestMethod]
         public void LoginExceptionTest()
         {
-            var exception = new LoginException();
+            LoginException exception = new LoginException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InexistentProjectExceptionTest()
         {
-            var exception = new InexistentProjectException();
+            InexistentProjectException exception = new InexistentProjectException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InexistentUserExceptionTest()
         {
-            var exception = new InexistentUserException();
+            InexistentUserException exception = new InexistentUserException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void InvalidProjectAssigneeRoleExceptionTest()
         {
-            var exception = new InvalidProjectAssigneeRoleException();
+            InvalidProjectAssigneeRoleException exception = new InvalidProjectAssigneeRoleException();
             TestException(exception, 403);
         }
 
         [TestMethod]
         public void ProjectNameIsNotUniqueExceptionTest()
         {
-            var exception = new ProjectNameIsNotUniqueException();
+            ProjectNameIsNotUniqueException exception = new ProjectNameIsNotUniqueException();
             TestException(exception, 409);
         }
 
         [TestMethod]
         public void DomainExceptionTest()
         {
-            var exception = new DomainValidationException();
+            DomainValidationException exception = new DomainValidationException();
             TestException(exception, 403);
         }
-
         private void TestException(Exception exception, int statusCode)
         {
-            var modelState = new ModelStateDictionary();
-            var httpContext = new DefaultHttpContext();
-            var context = new ExceptionContext(
-                new ActionContext(httpContext,
-                    new RouteData(),
-                    new ActionDescriptor(),
-                    modelState),
+            ModelStateDictionary modelState = new ModelStateDictionary();
+            DefaultHttpContext httpContext = new DefaultHttpContext();
+            ExceptionContext context = new ExceptionContext(
+                new ActionContext(httpContext: httpContext,
+                                  routeData: new Microsoft.AspNetCore.Routing.RouteData(),
+                                  actionDescriptor: new ActionDescriptor(),
+                                  modelState: modelState),
                 new List<IFilterMetadata>());
 
 
-            var exceptionFilter = new ExceptionFilter();
+            ExceptionFilter exceptionFilter = new ExceptionFilter();
             context.Exception = exception;
             exceptionFilter.OnException(context);
 
-            var response = context.Result as ContentResult;
+            ContentResult response = context.Result as ContentResult;
             Assert.AreEqual(response.StatusCode, statusCode);
             Assert.AreEqual(response.Content, exception.Message);
         }

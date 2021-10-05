@@ -9,11 +9,10 @@ namespace Utilities.Comparers
             var expected = x as T;
             var actual = y as T;
 
-            var equals = ConcreteCompare(expected, actual);
+            bool equals = this.ConcreteCompare(expected, actual);
 
             return equals ? 0 : 1;
         }
-
         protected abstract bool ConcreteCompare(T expected, T actual);
     }
 }

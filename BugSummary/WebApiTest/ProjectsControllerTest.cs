@@ -15,70 +15,70 @@ namespace WebApiTest
         [TestMethod]
         public void ProjectToEntityTest()
         {
-            var projectModel = new ProjectModel
+            ProjectModel projectModel = new ProjectModel
             {
                 Name = "New Project 2022"
             };
-            var ExpectedProject = new Project
+            Project ExpectedProject = new Project
             {
                 Name = "New Project 2022"
             };
 
-            var result = projectModel.ToEntity();
-            var compareLogic = new CompareLogic();
-            var deepComparisonResult = compareLogic.Compare(ExpectedProject, result);
+            Project result = projectModel.ToEntity();
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(ExpectedProject, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [TestMethod]
         public void AddValidProject()
         {
-            var projectToAdd = new ProjectModel
+            ProjectModel projectToAdd = new ProjectModel
             {
                 Name = "New Project 2022"
             };
-            var expectedProject = new Project
+            Project expectedProject = new Project
             {
                 Name = "New Project 2022"
             };
-            var mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             Project receivedProject = null;
             mock.Setup(m => m.Add(It.IsAny<Project>())).Callback((Project project) => receivedProject = project);
-            var controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            var result = controller.Post(projectToAdd);
+            IActionResult result = controller.Post(projectToAdd);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            var compareLogic = new CompareLogic();
-            var deepComparisonResult = compareLogic.Compare(expectedProject, receivedProject);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedProject, receivedProject);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [TestMethod]
         public void UpdateValidProject()
         {
-            var projectToUpdate = new ProjectModel
+            ProjectModel projectToUpdate = new ProjectModel
             {
                 Name = "New Project 2023"
             };
-            var id = 1;
-            var mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int id = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             Project receivedProject = null;
-            var receivedId = -1;
+            int receivedId = -1;
             mock.Setup(m => m.Update(It.IsAny<int>(), It.IsAny<Project>())).Callback((int id, Project sentProject) =>
             {
                 receivedId = id;
                 receivedProject = sentProject;
             });
-            var controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            var result = controller.Post(id, projectToUpdate);
+            IActionResult result = controller.Post(id, projectToUpdate);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            var compareLogic = new CompareLogic();
-            var deepComparisonResult = compareLogic.Compare(projectToUpdate.ToEntity(), receivedProject);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projectToUpdate.ToEntity(), receivedProject);
             Assert.IsTrue(deepComparisonResult.AreEqual);
             Assert.AreEqual(id, receivedId);
         }
@@ -86,13 +86,16 @@ namespace WebApiTest
         [TestMethod]
         public void DeleteValidProject()
         {
-            var id = 1;
-            var mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-            var receivedId = -1;
-            mock.Setup(m => m.Delete(It.IsAny<int>())).Callback((int id) => { receivedId = id; });
-            var controller = new ProjectsController(mock.Object);
+            int id = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedId = -1;
+            mock.Setup(m => m.Delete(It.IsAny<int>())).Callback((int id) =>
+            {
+                receivedId = id;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            var result = controller.Delete(id);
+            IActionResult result = controller.Delete(id);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -102,20 +105,19 @@ namespace WebApiTest
         [TestMethod]
         public void AssignUserToProjectProject()
         {
-            var projectId = 1;
-            var userId = 1;
-            var mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-            var receivedProjectId = -1;
-            var receivedUserId = -1;
-            mock.Setup(m => m.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Callback(
-                (int sentUserId, int sentProjectId) =>
-                {
-                    receivedUserId = sentUserId;
-                    receivedProjectId = sentProjectId;
-                });
-            var controller = new ProjectsController(mock.Object);
+            int projectId = 1;
+            int userId = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mock.Setup(m => m.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Callback((int sentUserId, int sentProjectId) =>
+            {
+                receivedUserId = sentUserId;
+                receivedProjectId = sentProjectId;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            var result = controller.Post(userId, projectId);
+            IActionResult result = controller.Post(userId, projectId);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -126,20 +128,19 @@ namespace WebApiTest
         [TestMethod]
         public void DissociateUserFromProject()
         {
-            var projectId = 1;
-            var userId = 1;
-            var mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-            var receivedProjectId = -1;
-            var receivedUserId = -1;
-            mock.Setup(m => m.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Callback(
-                (int sentUserId, int sentProjectId) =>
-                {
-                    receivedUserId = sentUserId;
-                    receivedProjectId = sentProjectId;
-                });
-            var controller = new ProjectsController(mock.Object);
+            int projectId = 1;
+            int userId = 1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            int receivedProjectId = -1;
+            int receivedUserId = -1;
+            mock.Setup(m => m.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Callback((int sentUserId, int sentProjectId) =>
+            {
+                receivedUserId = sentUserId;
+                receivedProjectId = sentProjectId;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
 
-            var result = controller.Delete(userId, projectId);
+            IActionResult result = controller.Delete(userId, projectId);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));

@@ -6,7 +6,7 @@ namespace Utilities.Comparers
     {
         protected override bool ConcreteCompare(User expected, User actual)
         {
-            var equalsUser = expected.Email == actual.Email;
+            bool equalsUser = expected.Email == actual.Email;
             equalsUser &= expected.Id == actual.Id;
 
             return equalsUser;

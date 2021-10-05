@@ -3,7 +3,6 @@ using System.Linq;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
-
 namespace DataAccess
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
@@ -25,7 +24,7 @@ namespace DataAccess
 
         public void UpdateToken(string username, string token)
         {
-            var userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
+            User userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
             if (userFromDb != null)
             {
                 userFromDb.Token = token;
@@ -35,14 +34,13 @@ namespace DataAccess
 
         public RoleType GetRoleByToken(string token)
         {
-            var result = RoleType.Invalid;
+            RoleType result = RoleType.Invalid;
             if (token != null)
             {
-                var userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb.Role;
             }
-
             return result;
         }
 
@@ -51,11 +49,10 @@ namespace DataAccess
             User result = null;
             if (token != null)
             {
-                var userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
+                User userFromDb = Context.Users.FirstOrDefault(u => u.Token == token);
                 if (userFromDb != null)
                     result = userFromDb;
             }
-
             return result;
         }
     }

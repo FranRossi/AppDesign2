@@ -28,8 +28,7 @@ namespace Domain.DomainUtilities
 
         public static bool CorrectRole(RoleType value)
         {
-            return value == RoleType.Admin || value == RoleType.Developer
-                                           || value == RoleType.Tester;
+            return value is RoleType.Admin or RoleType.Developer or RoleType.Tester;
         }
     }
 }

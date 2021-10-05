@@ -6,7 +6,7 @@ namespace Utilities.Comparers
     {
         protected override bool ConcreteCompare(Project expected, Project actual)
         {
-            var equalsProject = expected.Name == actual.Name;
+            bool equalsProject = expected.Name == actual.Name;
             equalsProject &= expected.Id == actual.Id;
 
             return equalsProject;
