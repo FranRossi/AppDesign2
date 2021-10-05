@@ -10,6 +10,7 @@ namespace WebApi.Models
         public BugState State { get; set; }
         public string Version { get; set; }
         public int ProjectId { get; set; }
+        public int Id { get; set; }
 
         public Bug ToEntity()
         {

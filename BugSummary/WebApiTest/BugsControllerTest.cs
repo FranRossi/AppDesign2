@@ -74,7 +74,31 @@ namespace WebApiTest
             Assert.IsInstanceOfType(bugResponse, typeof(BugModel));
             Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase,receivedBug));
         }
-
+        [TestMethod]
+        public void UserToModelTest()
+        {
+            Bug expectedBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+                
+            };
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            BugModel model = BugModel.ToModel(expectedBug);
+            Assert.AreEqual(0, new BugComparer().Compare(expectedBug,model));
+        }
 
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]

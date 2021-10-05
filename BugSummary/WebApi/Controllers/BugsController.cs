@@ -20,6 +20,12 @@ namespace WebApi.Controllers
             _bugs = bugs;
         }
         
+        [HttpGet("{bugId}")]
+        public IActionResult Get([FromHeader] string token, int bugId)
+        {
+            var bug = _bugs.Get(token, bugId);
+            return Ok(BugModel.ToModel(bug));
+        }
         
         [HttpGet]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
@@ -62,6 +68,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-       
+
+        
     }
 }
