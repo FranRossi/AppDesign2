@@ -44,5 +44,12 @@ namespace WebApi.Controllers
             _bugs.Add(token, bug.ToEntity());
             return Ok();
         }
+
+        [HttpDelete ("{bugId}")]
+        public IActionResult Delete(int bugId, [FromHeader]string token)
+        {
+            _bugs.Delete(token, bugId);
+            return Ok();
+        }
     }
 }
