@@ -158,6 +158,27 @@ namespace WebApiTest
             );
 
         }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        public void DeleteValidBug(string token)
+        {
+            int id = 1;
+            int receivedId = -1;
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            Bug receivedBug = null;
+            mock.Setup(m => m.Delete(It.IsAny<string>(), It.IsAny<int>())).Callback((string token,int idSent) =>
+            {
+                receivedId = id;
+            });
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.Delete(id, token);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(id, receivedId);
+        }
     }
     
 }
