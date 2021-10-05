@@ -96,6 +96,27 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(newBugToAdd,bugDataBase));
         }
+        
+        [TestMethod]
+        public void GetInvalidBug()
+        {
+            Bug newBugToAdd = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project{Id = 1},
+                ProjectId = 1
+            };
+            
+            int bugId = newBugToAdd.Id;
+
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.Get(bugId), "The entered bug does not exist."
+            );
+        }
 
         [TestMethod]
         public void TesterAddsBugWithoutNewProjectTest()
