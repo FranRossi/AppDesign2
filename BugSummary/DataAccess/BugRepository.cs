@@ -79,5 +79,11 @@ namespace DataAccess
             Context.Bugs.Update(bugFromDb);
 
         }
+
+        public Bug Get(int bugId)
+        {
+            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
+            return bugFromDb;
+        }
     }
 }

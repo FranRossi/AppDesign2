@@ -69,6 +69,7 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
+        
         [TestMethod]
         public void GetBug()
         {
@@ -79,7 +80,7 @@ namespace DataAccessTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                Project = new Project(),
+                Project = new Project{Id = 1},
                 ProjectId = 1
             };
             using (var context = new BugSummaryContext(this._contextOptions))
@@ -89,17 +90,11 @@ namespace DataAccessTest
             }
             int bugId = newBugToAdd.Id;
 
-            _bugRepository.Get(bugId);
+            Bug bugDataBase =_bugRepository.Get(bugId);
             _bugRepository.Save();
             
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                Bug bugDataBase = context.Bugs.FirstOrDefault(b => b.Id == bugId);
-                Assert.IsNotNull(bugDataBase);
-                CompareLogic compareLogic = new CompareLogic();
-                ComparisonResult deepComparisonResult = compareLogic.Compare(newBugToAdd, bugDataBase);
-                Assert.IsTrue(deepComparisonResult.AreEqual);
-            }
+            Assert.IsNotNull(bugDataBase);
+            Assert.AreEqual(0, new BugComparer().Compare(newBugToAdd,bugDataBase));
         }
 
         [TestMethod]
@@ -192,7 +187,6 @@ namespace DataAccessTest
                     ProjectId = 1
                 });
                 context.SaveChanges();
-
             }
 
             Bug newBug1 = new Bug
