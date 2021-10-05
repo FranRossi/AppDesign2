@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Testing
 {
@@ -12,7 +12,7 @@ namespace Testing
         [TestMethod]
         public void CreateFirstName()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 FirstName = "Juana"
             };
@@ -22,7 +22,7 @@ namespace Testing
         [TestMethod]
         public void CreateLastName()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 LastName = "DeArcos"
             };
@@ -32,7 +32,7 @@ namespace Testing
         [TestMethod]
         public void CreateUserName()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 UserName = "jdArcos"
             };
@@ -42,7 +42,7 @@ namespace Testing
         [TestMethod]
         public void CreatePassword()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Password = "1234"
             };
@@ -52,7 +52,7 @@ namespace Testing
         [TestMethod]
         public void CreateEmail()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Email = "juana@gmail.com"
             };
@@ -62,7 +62,7 @@ namespace Testing
         [TestMethod]
         public void CreateRoleTester()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Role = RoleType.Tester
             };
@@ -72,7 +72,7 @@ namespace Testing
         [TestMethod]
         public void CreateRoleDeveloper()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Role = RoleType.Developer
             };
@@ -82,7 +82,7 @@ namespace Testing
         [TestMethod]
         public void CreateRoleAdmin()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Role = RoleType.Admin
             };
@@ -92,7 +92,7 @@ namespace Testing
         [TestMethod]
         public void CreateId()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Id = 1
             };
@@ -102,18 +102,18 @@ namespace Testing
         [TestMethod]
         public void CreateToken()
         {
-            string randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
-            User newUser = new User
+            var randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX";
+            var newUser = new User
             {
                 Token = randomToken
             };
             Assert.AreEqual(randomToken, newUser.Token);
         }
-      
+
         [TestMethod]
         public void CreateListProject()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Projects = new List<Project>()
             };
@@ -124,7 +124,7 @@ namespace Testing
         [TestMethod]
         public void VerifyFirstNameIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 FirstName = null
             };
@@ -134,7 +134,7 @@ namespace Testing
         [TestMethod]
         public void VerifyLasttNameIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 LastName = null
             };
@@ -144,7 +144,7 @@ namespace Testing
         [TestMethod]
         public void VerifyUserNameIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 UserName = null
             };
@@ -154,7 +154,7 @@ namespace Testing
         [TestMethod]
         public void VerifyPasswordIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Password = null
             };
@@ -164,7 +164,7 @@ namespace Testing
         [TestMethod]
         public void VerifyEmailIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
                 Email = "estemail.estaMal@.ds@.com"
             };
@@ -175,9 +175,9 @@ namespace Testing
         [TestMethod]
         public void VerifRoleIsInCorrect()
         {
-            User newUser = new User
+            var newUser = new User
             {
-                Role = (RoleType)(-1)
+                Role = (RoleType) (-1)
             };
         }
     }

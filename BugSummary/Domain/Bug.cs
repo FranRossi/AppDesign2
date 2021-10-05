@@ -1,7 +1,5 @@
-﻿
-using Domain.DomainUtilities;
+﻿using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
-using System;
 
 namespace Domain
 {
@@ -11,10 +9,15 @@ namespace Domain
         public const int MaxBugDescriptionLength = 150;
         public const int MaxBugIdLength = 4;
         public const int MaxBugVersionLength = 10;
+        private string _description;
+        private int _id;
+
+        private string _name;
+        private BugState _state;
+        private string _version;
 
 
-
-        public int Id 
+        public int Id
         {
             get => _id;
             set
@@ -23,15 +26,17 @@ namespace Domain
                 _id = value;
             }
         }
+
         public string Name
-        { 
-                get => _name;
-                set
-                {
-                    ValidateName(value);
-                    _name = value;
-                }
+        {
+            get => _name;
+            set
+            {
+                ValidateName(value);
+                _name = value;
+            }
         }
+
         public string Description
         {
             get => _description;
@@ -41,6 +46,7 @@ namespace Domain
                 _description = value;
             }
         }
+
         public string Version
         {
             get => _version;
@@ -64,13 +70,6 @@ namespace Domain
 
         public Project Project { get; set; }
         public int ProjectId { get; set; }
-
-        private string _name;
-        private int _id;
-        private string _description;
-        private string _version;
-        private BugState _state;
-
 
 
         private void ValidateName(string nameToValidate)
@@ -102,6 +101,5 @@ namespace Domain
             if (!Validator.CorrectBugState(value))
                 throw new BugStateIncorrectException();
         }
-
     }
 }

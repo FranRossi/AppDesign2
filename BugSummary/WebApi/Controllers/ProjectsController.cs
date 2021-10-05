@@ -1,5 +1,4 @@
 ﻿using BusinessLogicInterface;
-using Domain;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Filters;

@@ -1,13 +1,10 @@
-﻿using DataAccess.Exceptions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DataAccess.Exceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.DomainUtilities.CustomExceptions;
-using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -25,11 +22,9 @@ namespace DataAccess
 
         public IEnumerable<Bug> GetAllByTester(User tester)
         {
-            List<Bug> listBugForTester = new List<Bug>();
-            foreach (Project project in tester.Projects)
-            {
+            var listBugForTester = new List<Bug>();
+            foreach (var project in tester.Projects)
                 listBugForTester.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
-            }
             return listBugForTester;
         }
 
@@ -37,8 +32,8 @@ namespace DataAccess
         {
             if (userToCreateBug.Role != RoleType.Tester)
                 throw new UserMustBeTesterException();
-            Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
-            if ( userProject == null)
+            var userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
+            if (userProject == null)
                 throw new ProjectDontBelongToUser();
             Context.Bugs.Add(newBug);
         }
@@ -49,7 +44,7 @@ namespace DataAccess
                 throw new UserMustBeTesterException();
             if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
                 throw new ProjectDontBelongToUser();
-            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
+            var bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
                 bugFromDb.Name = updatedBug.Name;
@@ -60,19 +55,18 @@ namespace DataAccess
                 Context.Bugs.Update(bugFromDb);
             }
             else
+            {
                 throw new InexistentBugException();
-
+            }
         }
 
         public void Delete(User testerUser, int bugId)
         {
             if (testerUser.Role != RoleType.Tester)
                 throw new UserMustBeTesterException();
-            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
+            var bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
             if (bugFromDb != null)
-            {
                 Context.Bugs.Remove(bugFromDb);
-            }
             else
                 throw new InexistentBugException();
         }

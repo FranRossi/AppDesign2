@@ -1,12 +1,8 @@
-﻿
-
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using DataAccessInterface;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Utilities.CustomExceptions;
 
 namespace DataAccess
@@ -25,6 +21,7 @@ namespace DataAccess
             else
                 throw new ProjectNameIsNotUniqueException();
         }
+
         public override IEnumerable<Project> GetAll()
         {
             return Context.Projects.ToList();
@@ -32,34 +29,34 @@ namespace DataAccess
 
         public void Update(Project updatedProject)
         {
-            Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == updatedProject.Id);
+            var projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == updatedProject.Id);
             if (projectFromDB != null)
             {
                 projectFromDB.Name = updatedProject.Name;
                 Context.Projects.Update(projectFromDB);
             }
             else
+            {
                 throw new InexistentProjectException();
+            }
         }
 
 
         public void Delete(int projectId)
         {
-            Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == projectId);
+            var projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == projectId);
             if (projectFromDB != null)
-            {
                 Context.Projects.Remove(projectFromDB);
-            }
             else
                 throw new InexistentProjectException();
         }
 
         public void AssignUserToProject(int projectId, int userId)
         {
-            Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
+            var projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
             if (projectFromDB == null)
                 throw new InexistentProjectException();
-            User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
+            var userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
             if (userFromDB == null)
                 throw new InexistentUserException();
             projectFromDB.AddUser(userFromDB);
@@ -68,10 +65,10 @@ namespace DataAccess
 
         public void DissociateUserFromProject(int userId, int projectId)
         {
-            Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
+            var projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
             if (projectFromDB == null)
                 throw new InexistentProjectException();
-            User userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
+            var userFromDB = Context.Users.FirstOrDefault(u => u.Id == userId);
             if (userFromDB == null)
                 throw new InexistentUserException();
             projectFromDB.Users.Remove(userFromDB);

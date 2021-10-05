@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestUtilities
 {
     public class TestExceptionUtils
     {
         public static void Throws<TException>(Action action, string message)
-           where TException : Exception
+            where TException : Exception
         {
             try
             {
@@ -20,7 +20,8 @@ namespace TestUtilities
             }
             catch (Exception ex)
             {
-                Assert.Fail("Exception of type {0} expected; got exception of type {1}", typeof(TException).Name, ex.GetType().Name);
+                Assert.Fail("Exception of type {0} expected; got exception of type {1}", typeof(TException).Name,
+                    ex.GetType().Name);
             }
         }
     }

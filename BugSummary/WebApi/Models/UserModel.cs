@@ -1,9 +1,5 @@
 ﻿using Domain;
 using Domain.DomainUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
@@ -16,19 +12,22 @@ namespace WebApi.Models
         public string Email { get; set; }
         public RoleType Role { get; set; }
 
-        public User ToEntity() => new User()
+        public User ToEntity()
         {
-            FirstName = this.FirstName,
-            LastName = this.LastName,
-            UserName = this.UserName,
-            Password = this.Password,
-            Email = this.Email,
-            Role = this.Role
-        };
+            return new()
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                UserName = UserName,
+                Password = Password,
+                Email = Email,
+                Role = Role
+            };
+        }
 
         public static UserModel ToModel(User user)
         {
-            UserModel model = new UserModel();
+            var model = new UserModel();
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;

@@ -1,9 +1,4 @@
 ﻿using Domain;
-using Domain.DomainUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
@@ -11,9 +6,12 @@ namespace WebApi.Models
     {
         public string Name { get; set; }
 
-        public Project ToEntity() => new Project()
+        public Project ToEntity()
         {
-            Name = this.Name,
-        };
+            return new()
+            {
+                Name = Name
+            };
+        }
     }
 }

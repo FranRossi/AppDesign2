@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using BusinessLogicInterface;
-using Domain;
+﻿using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Filters;
@@ -21,33 +19,33 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [AuthorizationWithParameterFilter(RoleType.Tester )]
+        [AuthorizationWithParameterFilter(RoleType.Tester)]
         public IActionResult Get([FromHeader] string token)
         {
-            IEnumerable<Bug> bugs = _bugs.GetAll(token);
+            var bugs = _bugs.GetAll(token);
             return Ok(bugs);
         }
 
-  
+
         [HttpPut]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
-        public IActionResult Put([FromHeader]string token,[FromBody] BugModel bug)
+        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug)
         {
-            _bugs.Update(token,bug.ToEntity());
+            _bugs.Update(token, bug.ToEntity());
             return Ok();
         }
 
         [HttpPost]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
-        public IActionResult Post([FromHeader]string token,[FromBody] BugModel bug)
+        public IActionResult Post([FromHeader] string token, [FromBody] BugModel bug)
         {
             _bugs.Add(token, bug.ToEntity());
             return Ok();
         }
 
-        [HttpDelete ("{bugId}")]
+        [HttpDelete("{bugId}")]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
-        public IActionResult Delete(int bugId, [FromHeader]string token)
+        public IActionResult Delete(int bugId, [FromHeader] string token)
         {
             _bugs.Delete(token, bugId);
             return Ok();
