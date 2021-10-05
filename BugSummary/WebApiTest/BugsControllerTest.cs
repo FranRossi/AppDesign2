@@ -179,6 +179,23 @@ namespace WebApiTest
             Assert.IsInstanceOfType(result, typeof(OkResult));
             Assert.AreEqual(id, receivedId);
         }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
+        [TestMethod]
+        public void DeveloperDeletesBug(string token)
+        {
+            int bugId = 1;
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Throws(new UserMustBeTesterException());
+            BugsController controller = new BugsController(mock.Object);
+
+            TestExceptionUtils.Throws<UserMustBeTesterException>(
+                () => controller.Delete(bugId, token), "User's role must be tester for this action"
+            );
+
+        }
+        
     }
     
 }
