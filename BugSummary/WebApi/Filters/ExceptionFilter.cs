@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.DomainUtilities.CustomExceptions;
 using Utilities.CustomExceptions;
+using DataAccess.Exceptions;
 
 namespace WebApi.Filters
 {
@@ -43,6 +44,26 @@ namespace WebApi.Filters
                 exceptionMessage = context.Exception.Message;
             }
             else if (context.Exception is InvalidProjectAssigneeRoleException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is BugAlreadyFixedException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is InexistentBugException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is ProjectDoesntBelongToUserException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is UserMustBeTesterException)
             {
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;

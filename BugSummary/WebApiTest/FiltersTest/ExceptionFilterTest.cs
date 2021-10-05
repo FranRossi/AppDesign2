@@ -11,6 +11,7 @@ using Utilities.CustomExceptions;
 using WebApi.Filters;
 using System;
 using Domain.DomainUtilities.CustomExceptions;
+using DataAccess.Exceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -56,6 +57,34 @@ namespace WebApiTest.FiltersTest
         public void DomainExceptionTest()
         {
             DomainValidationException exception = new DomainValidationException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void ProjectDoesntBelongToUserExceptionTest()
+        {
+            ProjectDoesntBelongToUserException exception = new ProjectDoesntBelongToUserException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void UserMustBeTesterExceptionTest()
+        {
+            UserMustBeTesterException exception = new UserMustBeTesterException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void BugAlreadyFixedExceptionTest()
+        {
+            BugAlreadyFixedException exception = new BugAlreadyFixedException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void InexistentBugExceptionTest()
+        {
+            InexistentBugException exception = new InexistentBugException();
             TestException(exception, 403);
         }
         private void TestException(Exception exception, int statusCode)
