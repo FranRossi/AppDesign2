@@ -642,7 +642,7 @@ namespace DataAccessTest
             }
             newProject.Bugs = new List<Bug> { newBug1, newBug2 };
 
-            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.AddBugsFromFile(new List<Project> { newProject });
             _projectRepository.Save();
 
             newBug1.Id = 1;
@@ -680,7 +680,7 @@ namespace DataAccessTest
             }
             newProject.Bugs = new List<Bug> { newBug2 };
 
-            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.AddBugsFromFile(new List<Project> { newProject });
             _projectRepository.Save();
 
             newBug2.Id = 1;
@@ -710,7 +710,7 @@ namespace DataAccessTest
             }
             newProject.Bugs = new List<Bug> { };
 
-            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.AddBugsFromFile(new List<Project> { newProject });
             _projectRepository.Save();
 
             List<Bug> expected = new List<Bug> { };
@@ -733,7 +733,7 @@ namespace DataAccessTest
             };
 
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _projectRepository.AddBugsFromFile(newProject), "The entered project does not exist."
+               () => _projectRepository.AddBugsFromFile(new List<Project> { newProject }), "The entered project does not exist."
             );
         }
     }

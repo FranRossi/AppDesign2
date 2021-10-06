@@ -259,7 +259,8 @@ namespace BusinessLogicTest
             {
                 Name = "ProjectOne"
             };
-            Project receivedProject = null;
+            IEnumerable<Project> projects = new List<Project>() { project };
+            IEnumerable<Project> receivedProjects = null;
             string path = "some path";
             string receivedPath = "";
             string companyName = "some company name";
@@ -267,13 +268,13 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
             Mock<IFileReaderStrategy> mockReader = new Mock<IFileReaderStrategy>(MockBehavior.Strict);
-            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(project)
+            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(projects)
                 .Callback((string sentPath) => { receivedPath = sentPath; });
             mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(mockReader.Object)
                 .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });
 
-            mockUserRepository.Setup(mr => mr.AddBugsFromFile(It.IsAny<Project>()))
-                .Callback((Project sentProject) => { receivedProject = sentProject; });
+            mockUserRepository.Setup(mr => mr.AddBugsFromFile(It.IsAny<IEnumerable<Project>>()))
+                .Callback((IEnumerable<Project> sentProject) => { receivedProjects = sentProject; });
             mockUserRepository.Setup(mr => mr.Save());
 
 
@@ -281,7 +282,7 @@ namespace BusinessLogicTest
             projectLogic.AddBugsFromFile(path, companyName);
 
             mockUserRepository.VerifyAll();
-            Assert.AreEqual(project, receivedProject);
+            Assert.AreEqual(projects, receivedProjects);
             Assert.AreEqual(companyName, receivedCompanyName);
             Assert.AreEqual(path, receivedPath);
         }
