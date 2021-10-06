@@ -13,9 +13,9 @@ namespace WebApi.Filters
     {
         private static readonly Dictionary<RoleType, string> _messageMap = new()
         {
-            {RoleType.Admin, "Admin"},
-            {RoleType.Developer, "Developer"},
-            {RoleType.Tester, "Tester"}
+            { RoleType.Admin, "Admin" },
+            { RoleType.Developer, "Developer" },
+            { RoleType.Tester, "Tester" }
         };
 
         private readonly RoleType[] _argument;
@@ -53,7 +53,7 @@ namespace WebApi.Filters
             string baseMessage = "Authentication failed: please log in as: \n ";
             foreach (var role in roles)
             {
-                baseMessage += "- " + _messageMap[role];
+                baseMessage += "- " + _messageMap[role] + "\n";
             }
             return baseMessage;
         }
