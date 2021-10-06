@@ -252,32 +252,7 @@ namespace DataAccessTest
         [TestMethod]
         public void GetAllBugsFiltered()
         {
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                context.Add(new Bug
-                {
-                    Id = 1,
-                    Name = "Bug1",
-                    Description = "Bug en el servidor",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project(),
-                    ProjectId = 1
-                });
-                context.SaveChanges();
-                context.Add(new Bug
-                {
-                    Id = 1,
-                    Name = "Bug2",
-                    Description = "Bug en el cliente",
-                    Version = "1.4",
-                    State = BugState.Done,
-                    Project = new Project(),
-                    ProjectId = 2
-                });
-                context.SaveChanges();
-            }
-
+            
             Bug newBug1 = new Bug
             {
                 Id = 1,
@@ -290,7 +265,7 @@ namespace DataAccessTest
             };
             Bug newBug2 = new Bug
             {
-                Id = 1,
+                Id = 2,
                 Name = "Bug2",
                 Description = "Bug en el cliente",
                 Version = "1.4",
@@ -298,6 +273,14 @@ namespace DataAccessTest
                 Project = new Project(),
                 ProjectId = 2
             };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newBug1);
+                context.SaveChanges();
+                context.Add(newBug2);
+                context.SaveChanges();
+            }
+
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug1);
             BugSearchCriteria criteria = new BugSearchCriteria()
@@ -311,11 +294,11 @@ namespace DataAccessTest
             
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Assert.AreEqual(2, bugsDataBase.Count());
+                Assert.AreEqual(1, bugsDataBase.Count());
                 CollectionAssert.AreEqual(bugsExpected, (ICollection) bugsDataBase, new BugComparer());
             }
-
         }
+        
 
         [TestMethod]
         public void BugMatchesCriteria()
