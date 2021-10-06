@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Domain;
 using Domain.DomainUtilities;
 
 namespace WebApi.Models
@@ -35,6 +37,16 @@ namespace WebApi.Models
                 Version = bugEntity.Version,
                 ProjectId = bugEntity.ProjectId
             };
+        }
+
+        public static IEnumerable<BugModel> ToModelList(IEnumerable<Bug> bugsToModel)
+        {
+            IEnumerable<BugModel> models = new List<BugModel>();
+            foreach (var bug in bugsToModel)
+            {
+                models = models.Append(ToModel(bug));
+            }
+            return models;
         }
     }
 }

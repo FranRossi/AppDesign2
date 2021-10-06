@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BusinessLogicInterface;
 using Domain;
 using Domain.DomainUtilities;
@@ -117,9 +118,9 @@ namespace WebApiTest
                 ProjectId = 1,
 
             };
-            List<Bug> bugToModel = new List<Bug>();
-            bugToModel.Add(expectedBug);
-            BugModel bugToCompare = new BugModel
+            List<Bug> bugsToModel = new List<Bug>();
+            bugsToModel.Add(expectedBug);
+            BugModel bugModelToCompare = new BugModel
             {
                 Id = 1,
                 Name = "Bug1",
@@ -128,11 +129,13 @@ namespace WebApiTest
                 State = BugState.Active,
                 ProjectId = 1,
             };
-            List<BugModel> models = new List<BugModel>();
-            models.Add(bugToCompare);
+            IEnumerable<BugModel> models = new List<BugModel>();
+            models = models.Append(bugModelToCompare);
             
-            List<BugModel> bugsConverted = BugModel.ToModelList(bugToModel);
-            CollectionAssert.AreEqual(models,bugsConverted);
+            IEnumerable<BugModel> bugsConverted = BugModel.ToModelList(bugsToModel);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(models.First(), bugsConverted.First());
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
         
 
