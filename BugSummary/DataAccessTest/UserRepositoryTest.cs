@@ -374,7 +374,6 @@ namespace DataAccessTest
             TestExceptionUtils.Throws<InexistentUserException>(
                  () => _userRepository.Get(1), "The entered user does not exist."
              );
-            ;
         }
     }
 }

@@ -5,6 +5,10 @@ using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
+using TestUtilities;
+using Utilities.CustomExceptions;
+
 namespace BusinessLogicTest
 {
     [TestClass]
@@ -98,6 +102,7 @@ namespace BusinessLogicTest
         }
 
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow("ada2tsdarstda4545523apfd6Idtrsdd")]
         [DataTestMethod]
         public void GetUserByToken(string token)
         {
@@ -113,7 +118,6 @@ namespace BusinessLogicTest
             };
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(m => m.Get(It.IsAny<string>())).Returns(expectedUser);
-            mockUserRepository.Setup(mr => mr.Save());
 
 
             UserLogic userLogic = new UserLogic(mockUserRepository.Object);
@@ -124,6 +128,47 @@ namespace BusinessLogicTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+
+        [TestMethod]
+        public void GetUserById()
+        {
+            User expectedUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                FixedBugs = new List<Bug>()
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(expectedUser);
+
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            User result = userLogic.Get(expectedUser.Id);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(expectedUser, result);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetInvalidUserById()
+        {
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Throws(new InexistentUserException());
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            TestExceptionUtils.Throws<InexistentUserException>(
+                 () => userLogic.Get(1), "The entered user does not exist."
+             );
         }
     }
 }

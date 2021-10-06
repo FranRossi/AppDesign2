@@ -1,6 +1,7 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using System;
 
 namespace BusinessLogic
 {
@@ -22,7 +23,12 @@ namespace BusinessLogic
         public User Get(string token)
         {
             User user = _userRepository.Get(token);
-            _userRepository.Save();
+            return user;
+        }
+
+        public User Get(int id)
+        {
+            User user = _userRepository.Get(id);
             return user;
         }
     }
