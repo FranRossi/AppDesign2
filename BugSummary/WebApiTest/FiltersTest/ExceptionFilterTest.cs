@@ -39,6 +39,13 @@ namespace WebApiTest.FiltersTest
         }
 
         [TestMethod]
+        public void DataAccessExceptionTest()
+        {
+            DataAccessException exception = new DataAccessException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
         public void InvalidProjectAssigneeRoleExceptionTest()
         {
             InvalidProjectAssigneeRoleException exception = new InvalidProjectAssigneeRoleException();
