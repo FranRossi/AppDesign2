@@ -253,7 +253,6 @@ namespace WebApiTest
                 Version = "2",
                 ProjectId = 1,
             };
-            bug.Id = bugId;
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
             mock.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<Bug>())).Callback((string token, Bug sentBug) =>
@@ -267,7 +266,7 @@ namespace WebApiTest
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
             CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
+            ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntityWithID(bugId), receivedBug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
