@@ -21,9 +21,9 @@ namespace DataAccess
             else
                 throw new ProjectNameIsNotUniqueException();
         }
-        public override IEnumerable<Project> GetAll()
+        public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.ToList();
+            return Context.Projects.Include("Bugs").ToList();
         }
 
         public void Update(Project updatedProject)

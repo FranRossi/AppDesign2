@@ -13,8 +13,6 @@ namespace DataAccess
             entities.Add(entity);
         }
 
-        public abstract IEnumerable<T> GetAll();
-
         public void Save()
         {
             Context.SaveChanges();

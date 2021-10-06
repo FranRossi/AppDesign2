@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using DataAccess;
@@ -11,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
 using Utilities.Comparers;
+using Utilities.Criterias;
+
 namespace DataAccessTest
 {
     [TestClass]
@@ -44,7 +48,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void AddNewBugTest()
+        public void AddNewBug()
         {
             Bug newBugToAdd = new Bug
             {
@@ -69,9 +73,121 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
+        
+        [TestMethod]
+        public void GetBug()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                bug.ProjectId = 1;
+                
+                context.Add(bug);
+                context.SaveChanges();
+            }
+            
+            int bugId = 1;
+            Bug bugDataBase =_bugRepository.Get(testerUser,bugId);
+
+            Assert.IsNotNull(bugDataBase);
+            Assert.AreEqual(0, new BugComparer().Compare(bug,bugDataBase));
+        }
+        
+        [TestMethod]
+        public void GetInvalidBug()
+        {
+            User testerUser = new User {Id = 1};
+            Bug newBugToAdd = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project{Id = 1},
+                ProjectId = 1
+            };
+            
+            int bugId = newBugToAdd.Id;
+
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.Get(testerUser,bugId), "The entered bug does not exist."
+            );
+        }
+        
+        [TestMethod]
+        public void TesterGetsBugWithoutNewProject()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>{}
+                };
+                context.Projects.Add(projectTester);
+                Bug bug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1
+                };
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            int bugId = 1;
+            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+                () => _bugRepository.Get(testerUser, bugId), "The user is not assigned to the Project the bug belongs to."
+            );
+        }
 
         [TestMethod]
-        public void TesterAddsBugWithoutNewProjectTest()
+        public void TesterAddsBugWithoutNewProject()
         {
             User testerUser = new User
             {
@@ -134,35 +250,64 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void GetAllBugsFromRepositoryTest()
+        public void GetAllBugsFiltered()
         {
+            Bug oldBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                context.Add(new Bug
+                Project projectTester = new Project()
                 {
                     Id = 1,
-                    Name = "Bug1",
-                    Description = "Bug en el servidor",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project(),
-                    ProjectId = 1
-                });
+                    Name = "Semester 2021",
+                    Users = new List<User>{}
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                oldBug.ProjectId = 1;
+                context.Add(oldBug);
                 context.SaveChanges();
-                context.Add(new Bug
-                {
-                    Id = 2,
-                    Name = "Bug2",
-                    Description = "Bug en el cliente",
-                    Version = "1.4",
-                    State = BugState.Active,
-                    Project = new Project(),
-                    ProjectId = 1
-                });
-                context.SaveChanges();
-
             }
 
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(oldBug);
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(testerUser, criteria.MatchesCriteria);
+            
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, (ICollection) bugsDataBase, new BugComparer());
+            }
+        }
+        
+
+        [TestMethod]
+        public void BugMatchesCriteria()
+        {
             Bug newBug1 = new Bug
             {
                 Id = 1,
@@ -173,32 +318,43 @@ namespace DataAccessTest
                 Project = new Project(),
                 ProjectId = 1
             };
-            Bug newBug2 = new Bug
+            BugSearchCriteria criteria = new BugSearchCriteria()
             {
-                Id = 2,
-                Name = "Bug2",
-                Description = "Bug en el cliente",
-                Version = "1.4",
+                Name = "Bug1",
                 State = BugState.Active,
-                Project = new Project(),
-                ProjectId = 1
+                ProjectId = 1,
+                Id = 1
             };
-            List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(newBug1);
-            bugsExpected.Add(newBug2);
-
-
-            using (var context = new BugSummaryContext(this._contextOptions))
+            bool matches = criteria.MatchesCriteria(newBug1);
+            Assert.IsTrue(matches);
+        }
+        
+        [TestMethod]
+        public void CreateBugCriteria()
+        {
+            BugSearchCriteria criteria = new BugSearchCriteria()
             {
-                List<Bug> bugsDataBase = context.Bugs.ToList();
-                Assert.AreEqual(2, bugsDataBase.Count());
-                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
-            }
-
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            BugSearchCriteria criteria2 = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(criteria, criteria2);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+
         [TestMethod]
-        public void GetAllBugsFromTester()
+        public void GetAllBugsFromUser()
         {
             User testerUser = new User
             {
@@ -208,7 +364,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
+                Role = RoleType.Developer,
                 Projects = new List<Project>()
             };
             Project projectTester = new Project()
@@ -261,7 +417,7 @@ namespace DataAccessTest
                 }
             };
 
-            List<Bug> bugsDataBase = this._bugRepository.GetAllByTester(testerUser).ToList();
+            List<Bug> bugsDataBase = this._bugRepository.GetAllByUser(testerUser).ToList();
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -337,7 +493,7 @@ namespace DataAccessTest
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Bug databaseBug = context.Bugs.ToList().First(u => u.Id == updatedBug.Id);
+                Bug databaseBug = context.Bugs.FirstOrDefault(u => u.Id == updatedBug.Id);
                 CompareLogic compareLogic = new CompareLogic();
                 ComparisonResult deepComparisonResult = compareLogic.Compare(updatedBug, databaseBug);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -554,6 +710,46 @@ namespace DataAccessTest
             };
             TestExceptionUtils.Throws<InexistentBugException>(
                 () => _bugRepository.Delete(developerUser, updatedBug.Id), "The entered bug does not exist."
+            );
+        }
+        
+        [TestMethod]
+        public void TesterDeleteBugWithoutNewProjectTest()
+        {
+           User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+           Bug bug = new Bug
+           {
+               Id = 1,
+               Name = "Bug1",
+               Description = "Bug en el servidor",
+               Version = "1.4",
+               State = BugState.Active,
+           };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>{}
+                };
+                context.Projects.Add(projectTester);
+                bug.ProjectId = projectTester.Id;
+                context.Add(bug);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+                () => _bugRepository.Delete(testerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
             );
         }
     }

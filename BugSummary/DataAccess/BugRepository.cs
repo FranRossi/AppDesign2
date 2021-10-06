@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Exceptions;
 using DataAccessInterface;
@@ -15,17 +16,24 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public override IEnumerable<Bug> GetAll()
+        public IEnumerable<Bug> GetAll()
         {
             return Context.Bugs.ToList();
         }
-
-        public IEnumerable<Bug> GetAllByTester(User tester)
+        public IEnumerable<Bug> GetAllFiltered(User user,Func<Bug, bool> criteria)
         {
-            List<Bug> listBugForTester = new List<Bug>();
-            foreach (var project in tester.Projects)
-                listBugForTester.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
-            return listBugForTester;
+            List<Bug> listBugForUser = new List<Bug>();
+            foreach (var project in user.Projects)
+                listBugForUser.AddRange(Context.Bugs.Where(criteria).ToList().FindAll(bug => bug.ProjectId == project.Id));
+            return listBugForUser;
+        }
+
+        public IEnumerable<Bug> GetAllByUser(User user)
+        {
+            List<Bug> listBugForUser = new List<Bug>();
+            foreach (var project in user.Projects)
+                listBugForUser.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
+            return listBugForUser;
         }
 
         public void Add(User userToCreateBug, Bug newBug)
@@ -56,13 +64,14 @@ namespace DataAccess
             }
         }
 
-        public void Delete(User testerUser, int bugId)
+        public void Delete(User user, int bugId)
         {
-            Bug bugFromDb = Context.Bugs.FirstOrDefault(b => b.Id == bugId);
-            if (bugFromDb != null)
-                Context.Bugs.Remove(bugFromDb);
-            else
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
                 throw new InexistentBugException();
+            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            Context.Bugs.Remove(bugFromDb);
         }
 
         public void FixBug(User developerUser, int bugId)
@@ -78,6 +87,17 @@ namespace DataAccess
             bugFromDb.FixerId = developerUser.Id;
             Context.Bugs.Update(bugFromDb);
 
+        }
+
+        public Bug Get(User user,int bugId)
+        { 
+            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            if (bugFromDb == null)
+                throw new InexistentBugException();
+            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+                throw new ProjectDoesntBelongToUserException();
+            return bugFromDb;
+            
         }
     }
 }

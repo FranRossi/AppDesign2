@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using Utilities.Criterias;
 
 
 namespace BusinessLogic
@@ -29,7 +31,7 @@ namespace BusinessLogic
         public IEnumerable<Bug> GetAll(string token)
         {
             User userByToken = _userLogic.Get(token);
-            return _bugRepository.GetAllByTester(userByToken);
+            return _bugRepository.GetAllByUser(userByToken);
         }
 
         public void Update(string token, Bug updatedBug)
@@ -52,6 +54,21 @@ namespace BusinessLogic
             User userByToken = userLogic.Get(token);
             _bugRepository.Delete(userByToken,bugId);
             _bugRepository.Save();
+        }
+
+        public Bug Get(string token, int bugId)
+        {
+            UserLogic userLogic = new UserLogic(_userRepository);
+            User userByToken = userLogic.Get(token);
+            Bug dataBaseBug =_bugRepository.Get(userByToken,bugId);
+            return dataBaseBug;
+        }
+
+        public IEnumerable<Bug> GetAllFiltered(string token, BugSearchCriteria criteria)
+        {
+            Func<Bug, bool> matchesCriteria = criteria.MatchesCriteria;
+            User userByToken = _userLogic.Get(token);
+            return _bugRepository.GetAllFiltered(userByToken, matchesCriteria);
         }
     }
 }

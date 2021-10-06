@@ -96,22 +96,43 @@ namespace DataAccessTest
         [TestMethod]
         public void GetAllProjectsFromRepositoryTest()
         {
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Done,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                State = BugState.Done,
+            };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 context.Add(new Project
                 {
                     Name = "New Project 2022",
                     Id = 1,
-                    Bugs = new List<Bug>(),
-                    Users = new List<User>()
+                    Bugs = new List<Bug> { bug1, bug2 },
+                    Users = null
                 });
                 context.SaveChanges();
                 context.Add(new Project
                 {
                     Name = "New Project 2023",
                     Id = 2,
-                    Bugs = new List<Bug>(),
-                    Users = new List<User>()
+                    Bugs = new List<Bug> { bug3 },
+                    Users = null
                 });
                 context.SaveChanges();
 
@@ -121,22 +142,23 @@ namespace DataAccessTest
             {
                 Name = "New Project 2022",
                 Id = 1,
-                Bugs = new List<Bug>(),
-                Users = new List<User>()
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = null
             });
             projectsExpected.Add(new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
-                Bugs = new List<Bug>(),
-                Users = new List<User>()
+                Bugs = new List<Bug> { bug3 },
+                Users = null
             });
 
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
             Assert.AreEqual(2, projectsDataBase.Count());
-            CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());
-
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [TestMethod]

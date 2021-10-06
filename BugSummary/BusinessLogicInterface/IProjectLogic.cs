@@ -1,4 +1,5 @@
 ﻿using Domain;
+using System.Collections.Generic;
 
 namespace BusinessLogicInterface
 {
@@ -15,5 +16,7 @@ namespace BusinessLogicInterface
         public void DissociateUserFromProject(int userId, int projectId);
 
         public void AddBugsFromFile(string path, string companyName);
+      
+        public IEnumerable<Project> GetAll();
     }
 }

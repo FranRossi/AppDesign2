@@ -5,6 +5,8 @@ using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
 using System;
+using System;
+using System.Collections.Generic;
 
 namespace BusinessLogic
 {
@@ -56,6 +58,11 @@ namespace BusinessLogic
             Project parsedProject = readerStrategy.GetProjectFromFile(path);
             _projectRepository.AddBugsFromFile(parsedProject);
             _projectRepository.Save();
+        }
+        
+        public IEnumerable<Project> GetAll()
+        {
+            return _projectRepository.GetAll();
         }
     }
 }
