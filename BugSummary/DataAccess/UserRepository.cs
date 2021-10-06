@@ -3,8 +3,10 @@ using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -56,6 +58,14 @@ namespace DataAccess
                 if (userFromDb != null)
                     result = userFromDb;
             }
+            return result;
+        }
+
+        public User Get(int id)
+        {
+            User result = Context.Users.Include("FixedBugs").FirstOrDefault(u => u.Id == id);
+            if (result == null)
+                throw new InexistentUserException();
             return result;
         }
     }

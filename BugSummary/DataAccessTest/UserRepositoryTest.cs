@@ -2,13 +2,17 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using DataAccess;
+using DataAccess.Exceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestUtilities;
 using Utilities.Comparers;
+using Utilities.CustomExceptions;
+
 namespace DataAccessTest
 {
     [TestClass]
@@ -221,6 +225,7 @@ namespace DataAccessTest
         }
 
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow("sthdciOi34253454543543stdasrdrst")]
         [DataTestMethod]
         public void GetUserByToken(string token)
         {
@@ -243,7 +248,10 @@ namespace DataAccessTest
 
             User user = _userRepository.Get(token);
 
-            Assert.AreEqual(expected.Id, user.Id);
+            CompareLogic compareLogic = new CompareLogic();
+            expected.Projects = new List<Project>();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expected, user);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
@@ -286,6 +294,86 @@ namespace DataAccessTest
         {
             User result = _userRepository.Get(null);
             Assert.AreEqual(null, result);
+        }
+
+        [TestMethod]
+        public void GetUserById()
+        {
+            User expected = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                FixedBugs = new List<Bug>() { }
+            };
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(expected);
+                context.SaveChanges();
+            }
+
+            User user = _userRepository.Get(expected.Id);
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expected, user);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetUserWithBugsById()
+        {
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            User expected = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                FixedBugs = new List<Bug>() { bug }
+            };
+
+
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(projectTester);
+                context.Add(expected);
+                context.SaveChanges();
+            }
+
+            User user = _userRepository.Get(expected.Id);
+
+            CompareLogic compareLogic = new CompareLogic();
+            bug.Project = null;
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expected, user);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetInvalidUserById()
+        {
+            TestExceptionUtils.Throws<InexistentUserException>(
+                 () => _userRepository.Get(1), "The entered user does not exist."
+             );
         }
     }
 }

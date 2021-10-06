@@ -14,7 +14,7 @@ namespace WebApiTest
     public class UsersControllerTest
     {
         [TestMethod]
-        public void AddValidUser()
+        public void AddUser()
         {
             UserModel user = new UserModel
             {
@@ -35,7 +35,7 @@ namespace WebApiTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Admin
             };
-            Mock<ILogic<User>> mock = new Mock<ILogic<User>>(MockBehavior.Strict);
+            Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
             User receivedUser = null;
             mock.Setup(m => m.Add(It.IsAny<User>())).Callback((User user) => receivedUser = user);
             UsersController controller = new UsersController(mock.Object);
@@ -48,7 +48,27 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, receivedUser);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
+
+        [TestMethod]
+        public void GetFixedBugCount()
+        {
+            int id = 1;
+            int receivedId = -1;
+            int expectedResult = 3;
+            Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
+            mock.Setup(m => m.GetFixedBugCount(It.IsAny<int>())).Returns(expectedResult).Callback((int sentId) => receivedId = sentId);
+            UsersController controller = new UsersController(mock.Object);
+
+            IActionResult result = controller.Get(id);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            OkObjectResult createdResult = result as OkObjectResult;
+            int response = (int)createdResult.Value;
+            Assert.AreEqual(id, receivedId);
+            Assert.AreEqual(expectedResult, response);
+        }
+
         [TestMethod]
         public void UserToModelTest()
         {

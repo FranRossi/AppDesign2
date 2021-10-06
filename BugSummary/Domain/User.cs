@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 
@@ -97,6 +98,13 @@ namespace Domain
         {
             if (!Validator.CorrectRole(value))
                 throw new UserRoleIncorrectException();
+        }
+
+        public int GetFixedBugCount()
+        {
+            if (FixedBugs == null)
+                return 0;
+            return FixedBugs.Count;
         }
     }
 }
