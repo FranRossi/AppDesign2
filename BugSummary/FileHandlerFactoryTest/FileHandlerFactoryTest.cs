@@ -13,7 +13,19 @@ namespace FileHandlerFactoryTest
         {
             ReaderFactory factory = new ReaderFactory();
             IFileReaderStrategy expectedStrategy = new Company1Reader();
-            string companyName = "Company1";
+            string companyName = "Empresa1";
+
+            IFileReaderStrategy strategy = factory.GetStrategy(companyName);
+
+            Assert.IsTrue(expectedStrategy.GetType() == strategy.GetType());
+        }
+
+        [TestMethod]
+        public void GetCompany2ReaderStrategy()
+        {
+            ReaderFactory factory = new ReaderFactory();
+            IFileReaderStrategy expectedStrategy = new Company2Reader();
+            string companyName = "Empresa2";
 
             IFileReaderStrategy strategy = factory.GetStrategy(companyName);
 
