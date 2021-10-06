@@ -252,37 +252,45 @@ namespace DataAccessTest
         [TestMethod]
         public void GetAllBugsFiltered()
         {
-            
-            Bug newBug1 = new Bug
+            Bug oldBug = new Bug
             {
                 Id = 1,
                 Name = "Bug1",
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                Project = new Project(),
-                ProjectId = 1
             };
-            Bug newBug2 = new Bug
+            User testerUser = new User
             {
                 Id = 2,
-                Name = "Bug2",
-                Description = "Bug en el cliente",
-                Version = "1.4",
-                State = BugState.Done,
-                Project = new Project(),
-                ProjectId = 2
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                context.Add(newBug1);
-                context.SaveChanges();
-                context.Add(newBug2);
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                context.Projects.Add(projectTester);
+                testerUser.Projects.Add(projectTester);
+                oldBug.ProjectId = 1;
+                context.Add(oldBug);
                 context.SaveChanges();
             }
 
             List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(newBug1);
+            bugsExpected.Add(oldBug);
             BugSearchCriteria criteria = new BugSearchCriteria()
             {
                 Name = "Bug1",
@@ -290,7 +298,7 @@ namespace DataAccessTest
                 ProjectId = 1,
                 Id = 1
             };
-            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(criteria.MatchesCriteria);
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(testerUser, criteria.MatchesCriteria);
             
             using (var context = new BugSummaryContext(this._contextOptions))
             {
