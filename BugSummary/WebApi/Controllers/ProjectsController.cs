@@ -12,7 +12,7 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("projects")]
     [ExceptionFilter]
-    [AuthorizationWithParameterFilter(RoleType.Admin)]
+    [AuthorizationWithParameterFilter(new[]{RoleType.Admin})]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectLogic _projects;

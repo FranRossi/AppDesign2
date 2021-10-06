@@ -28,12 +28,6 @@ namespace BusinessLogic
             _bugRepository.Save();
         }
 
-        public IEnumerable<Bug> GetAll(string token)
-        {
-            User userByToken = _userLogic.Get(token);
-            return _bugRepository.GetAllByUser(userByToken);
-        }
-
         public void Update(string token, Bug updatedBug)
         {
             User userByToken = _userLogic.Get(token);

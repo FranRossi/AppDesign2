@@ -36,8 +36,8 @@ namespace WebApiTest.FiltersTest
                                                                  new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
-
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roleType);
+            RoleType[] roles = new[] {roleType};
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roles);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
@@ -63,8 +63,8 @@ namespace WebApiTest.FiltersTest
                                                                  new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
-
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roleType);
+            RoleType[] roles = new[] {roleType};
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roles);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
@@ -72,12 +72,12 @@ namespace WebApiTest.FiltersTest
             Assert.AreEqual(message, response.Content);
         }
 
-        [DataRow(RoleType.Developer, RoleType.Admin, "Authentication failed: please log in as Admin")]
-        [DataRow(RoleType.Tester, RoleType.Admin, "Authentication failed: please log in as Admin")]
-        [DataRow(RoleType.Admin, RoleType.Developer, "Authentication failed: please log in as Developer")]
-        [DataRow(RoleType.Tester, RoleType.Developer, "Authentication failed: please log in as Developer")]
-        [DataRow(RoleType.Developer, RoleType.Tester, "Authentication failed: please log in as Tester")]
-        [DataRow(RoleType.Admin, RoleType.Tester, "Authentication failed: please log in as Tester")]
+        [DataRow(RoleType.Developer, RoleType.Admin, "Authentication failed: please log in as: \n - Admin")]
+        [DataRow(RoleType.Tester, RoleType.Admin, "Authentication failed: please log in as: \n - Admin")]
+        [DataRow(RoleType.Admin, RoleType.Developer, "Authentication failed: please log in as: \n - Developer")]
+        [DataRow(RoleType.Tester, RoleType.Developer, "Authentication failed: please log in as: \n - Developer")]
+        [DataRow(RoleType.Developer, RoleType.Tester, "Authentication failed: please log in as: \n - Tester")]
+        [DataRow(RoleType.Admin, RoleType.Tester, "Authentication failed: please log in as: \n - Tester")]
         [DataTestMethod]
         public void TestAuthFilterWithMismatchingRoles(RoleType actualRoleType, RoleType expectedRoleType, string message)
         {
@@ -94,8 +94,8 @@ namespace WebApiTest.FiltersTest
                                                                  new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
-
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(expectedRoleType);
+            RoleType[] roles = new[] {expectedRoleType};
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roles);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
@@ -123,8 +123,8 @@ namespace WebApiTest.FiltersTest
                                                                  new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
-
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(RoleType.Invalid);
+            RoleType[] roles = new[] {RoleType.Invalid};
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roles);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;
