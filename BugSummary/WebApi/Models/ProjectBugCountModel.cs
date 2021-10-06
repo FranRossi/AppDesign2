@@ -1,4 +1,5 @@
 ﻿using Domain;
+using System.Collections.Generic;
 
 namespace WebApi.Models
 {
@@ -7,13 +8,18 @@ namespace WebApi.Models
         public string Name { get; set; }
         public int BugCount { get; set; }
 
-        public static ProjectBugCountModel ToModel(Project project)
+        public static IEnumerable<ProjectBugCountModel> ToModel(IEnumerable<Project> projects)
         {
-            ProjectBugCountModel model = new ProjectBugCountModel();
-            model.Name = project.Name;
-            model.BugCount = project.Bugs.Count;
+            List<ProjectBugCountModel> modelList = new List<ProjectBugCountModel>();
+            foreach (Project project in projects)
+            {
+                ProjectBugCountModel model = new ProjectBugCountModel();
+                model.Name = project.Name;
+                model.BugCount = project.Bugs.Count;
+                modelList.Add(model);
+            }
 
-            return model;
+            return modelList;
         }
     }
 }

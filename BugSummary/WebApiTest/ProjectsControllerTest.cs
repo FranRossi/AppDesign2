@@ -4,7 +4,9 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections;
 using System.Collections.Generic;
+using Utilities.Comparers;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -152,18 +154,44 @@ namespace WebApiTest
         [TestMethod]
         public void ProjectBugCountToEntityTest()
         {
-            ProjectBugCountModel expectedModel = new ProjectBugCountModel
+            IEnumerable<Project> projects = new List<Project>()
             {
-                Name = "New Project 2022",
-                BugCount = 3
+                new Project
+                    {
+                        Name = "Project A",
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                    },
+                new Project
+                    {
+                        Name = "Project B",
+                        Bugs = new List<Bug> {  }
+                    },
+                new Project
+                    {
+                        Name = "Project C",
+                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                    }
             };
-            Project project1 = new Project
+            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
             {
-                Name = "New Project 2022",
-                Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                new ProjectBugCountModel
+                {
+                    Name = "Project A",
+                    BugCount = 3
+                },
+                new ProjectBugCountModel
+                {
+                        Name = "Project B",
+                        BugCount = 0
+                },
+                new ProjectBugCountModel
+                {
+                    Name = "Project C",
+                    BugCount = 2
+                }
             };
 
-            ProjectBugCountModel model = ProjectBugCountModel.ToModel(project1);
+            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -172,21 +200,66 @@ namespace WebApiTest
         [TestMethod]
         public void ProjectZeroBugCountToEntityTest()
         {
-            ProjectBugCountModel expectedModel = new ProjectBugCountModel
+            IEnumerable<Project> projects = new List<Project>()
             {
-                Name = "New Project 2022",
-                BugCount = 0
+                new Project
+                    {
+                        Name = "Project A",
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                    }
             };
-            Project project1 = new Project
+            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
             {
-                Name = "New Project 2022",
-                Bugs = new List<Bug> { }
+                new ProjectBugCountModel
+                {
+                    Name = "Project A",
+                    BugCount = 3
+                }
             };
 
-            ProjectBugCountModel model = ProjectBugCountModel.ToModel(project1);
+            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+
+        [TestMethod]
+        public void GetBugsForUser()
+        {
+
+            IEnumerable<Project> projects = new List<Project>()
+            {
+                new Project
+                    {
+                        Name = "Project A",
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                    },
+                new Project
+                    {
+                        Name = "Project B",
+                        Bugs = new List<Bug> {  }
+                    },
+                new Project
+                    {
+                        Name = "Project C",
+                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                    }
+            };
+            IEnumerable<ProjectBugCountModel> expectedModel = ProjectBugCountModel.ToModel(projects);
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.GetAll()).Returns(projects);
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Get();
+            OkObjectResult okResult = result as OkObjectResult;
+            IEnumerable<ProjectBugCountModel> projectResult = okResult.Value as IEnumerable<ProjectBugCountModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
     }
 }

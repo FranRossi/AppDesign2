@@ -21,21 +21,21 @@ namespace WebApi.Controllers
         {
             _bugs = bugs;
         }
-        
+
         [HttpGet("{bugId}")]
         public IActionResult Get([FromHeader] string token, int bugId)
         {
             var bug = _bugs.Get(token, bugId);
             return Ok(BugModel.ToModel(bug));
         }
-        
-        [HttpGet]
-        [AuthorizationWithParameterFilter(RoleType.Tester)]
-        public IActionResult GetAll([FromHeader] string token)
-        {
-            var bugs = _bugs.GetAll(token);
-            return Ok(bugs);
-        }
+
+        /*  [HttpGet]
+          [AuthorizationWithParameterFilter(RoleType.Tester)]
+          public IActionResult GetAll([FromHeader] string token)
+          {
+              var bugs = _bugs.GetAll(token);
+              return Ok(bugs);
+          }*/
 
 
         [HttpPut]
@@ -74,7 +74,7 @@ namespace WebApi.Controllers
         [AuthorizationWithParameterFilter(RoleType.Tester)]
         public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
         {
-            var bugs =_bugs.GetAllFiltered(token, criteria);
+            var bugs = _bugs.GetAllFiltered(token, criteria);
             return Ok(bugs);
         }
     }
