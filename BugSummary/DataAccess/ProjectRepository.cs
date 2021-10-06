@@ -20,7 +20,7 @@ namespace DataAccess
             else
                 throw new ProjectNameIsNotUniqueException();
         }
-        public override IEnumerable<Project> GetAllFiltered()
+        public IEnumerable<Project> GetAll()
         {
             return Context.Projects.ToList();
         }
