@@ -277,10 +277,7 @@ namespace DataAccessTest
                 {
                     Id = 1,
                     Name = "Semester 2021",
-                    Users = new List<User>
-                    {
-                        testerUser
-                    }
+                    Users = new List<User>{}
                 };
                 context.Projects.Add(projectTester);
                 testerUser.Projects.Add(projectTester);
