@@ -87,7 +87,7 @@ namespace FileHandlerTest
                 Name = "Error en el envío de correo 2",
                 Description = "El error se produce cuando el usuario no tiene un correo asignado 2",
                 Version = "1.0",
-                State = BugState.Active
+                State = BugState.Done
             };
         }
 
