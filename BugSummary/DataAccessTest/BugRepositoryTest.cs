@@ -309,7 +309,7 @@ namespace DataAccessTest
                 State = BugState.Active
             };
             BugSearchCriteria criteria = new BugSearchCriteria() ;
-            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(criteria.MatchesCriteria);
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered();
             
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -320,7 +320,31 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void CreateBugCrtieria()
+        public void CreateBugCriteria()
+        {
+            Bug newBug1 = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            bool matches = criteria.MatchesCriteria(newBug1);
+            Assert.IsTrue(matches);
+        }
+        
+        [TestMethod]
+        public void BugMatchesCriteria()
         {
             BugSearchCriteria criteria = new BugSearchCriteria()
             {
@@ -342,6 +366,7 @@ namespace DataAccessTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(criteria, criteria2);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+
 
         [TestMethod]
         public void GetAllBugsFromUser()

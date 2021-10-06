@@ -8,5 +8,6 @@ namespace Utilities.Criterias
         public BugState State { get; set; }
         public int ProjectId { get; set; }
         public int Id { get; set; }
+        
     }
 }
