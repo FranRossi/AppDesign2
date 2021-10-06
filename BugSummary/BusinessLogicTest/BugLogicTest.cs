@@ -65,9 +65,9 @@ namespace BusinessLogicTest
             bugLogic.Get(token, newBug.Id);
 
             mockBugRepository.VerifyAll();
-            Assert.AreEqual(0, new BugComparer().Compare(newBug,receivedBug));
+            Assert.AreEqual(0, new BugComparer().Compare(newBug, receivedBug));
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
@@ -120,7 +120,7 @@ namespace BusinessLogicTest
             bugLogic.Add(token, newBug);
 
             mockBugRepository.VerifyAll();
-            Assert.AreEqual(0, new BugComparer().Compare(receivedBug,newBug));
+            Assert.AreEqual(0, new BugComparer().Compare(receivedBug, newBug));
 
         }
 
@@ -175,16 +175,16 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
             mockUserRepository.Setup(mr => mr.Save());
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.GetAllFiltered(It.IsAny<User>(),It.IsAny<Func<Bug,bool>>())).Returns(bugsExpected);
+            mockBugRepository.Setup(mr => mr.GetAllFiltered(It.IsAny<User>(), It.IsAny<Func<Bug, bool>>())).Returns(bugsExpected);
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            IEnumerable<Bug> bugsResult = bugLogic.GetAllFiltered(token,criteria.MatchesCriteria);
-            
-            
+            IEnumerable<Bug> bugsResult = bugLogic.GetAllFiltered(token, criteria);
+
+
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsForUser(string token)
@@ -232,12 +232,12 @@ namespace BusinessLogicTest
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             IEnumerable<Bug> bugsResult = bugLogic.GetAll(token);
-            
-            
+
+
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
         }
-        
+
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
