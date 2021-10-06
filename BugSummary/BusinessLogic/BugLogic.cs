@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
@@ -60,6 +61,12 @@ namespace BusinessLogic
             User userByToken = userLogic.Get(token);
             Bug dataBaseBug =_bugRepository.Get(userByToken,bugId);
             return dataBaseBug;
+        }
+
+        public IEnumerable<Bug> GetAllFiltered(string token, Func<Bug, bool> matchesCriteria)
+        {
+            User userByToken = _userLogic.Get(token);
+            return _bugRepository.GetAllFiltered(userByToken, matchesCriteria);
         }
     }
 }
