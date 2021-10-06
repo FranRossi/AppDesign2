@@ -63,8 +63,8 @@ namespace WebApiTest.FiltersTest
                                                                  new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
             AuthorizationFilterContext authFilterContext = new AuthorizationFilterContext(actionContextMock, new List<IFilterMetadata>());
 
-
-            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roleType);
+            RoleType[] roles = new[] {roleType};
+            AuthorizationWithParameterFilter authFilter = new AuthorizationWithParameterFilter(roles);
             authFilter.OnAuthorization(authFilterContext);
 
             ContentResult response = authFilterContext.Result as ContentResult;

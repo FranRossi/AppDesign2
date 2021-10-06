@@ -12,7 +12,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [ExceptionFilter]
-    [Route("[controller]")]
+    [Route("bugs")]
     public class BugsController : ControllerBase
     {
         private readonly IBugLogic _bugs;
