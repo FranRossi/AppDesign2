@@ -38,11 +38,11 @@ namespace DataAccess
         public void UpdateToken(string username, string token)
         {
             User userFromDb = Context.Users.FirstOrDefault(u => u.UserName == username);
-            if (userFromDb != null)
-            {
-                userFromDb.Token = token;
-                Context.Users.Update(userFromDb);
-            }
+            if (userFromDb == null)
+                throw new InexistentUserException();
+            userFromDb.Token = token;
+            Context.Users.Update(userFromDb);
+
         }
 
         public RoleType GetRoleByToken(string token)

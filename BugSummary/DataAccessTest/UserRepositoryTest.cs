@@ -188,6 +188,28 @@ namespace DataAccessTest
             }
         }
 
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow(null)]
+        [DataTestMethod]
+        public void UpdateInvalidUserTokenTest(string token)
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Token = token
+            };
+
+            TestExceptionUtils.Throws<InexistentUserException>(
+                 () => _userRepository.UpdateToken(newUser.UserName, newUser.Token), "The entered user does not exist."
+             );
+        }
+
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX", RoleType.Admin)]
         [DataRow("eydstdstdrstdrhrNiIsInRhstdarstd", RoleType.Developer)]
         [DataRow("342srtasrtars32rsdsrdasrdar44444", RoleType.Tester)]
