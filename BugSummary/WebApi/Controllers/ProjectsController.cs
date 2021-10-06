@@ -1,6 +1,7 @@
 ﻿using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -17,13 +18,6 @@ namespace WebApi.Controllers
         public ProjectsController(IProjectLogic projects)
         {
             _projects = projects;
-        }
-
-        [HttpPost]
-        public IActionResult Post([FromBody] ProjectModel model)
-        {
-            _projects.Add(model.ToEntity());
-            return Ok();
         }
 
         [HttpPost("{id}")]
@@ -51,6 +45,13 @@ namespace WebApi.Controllers
         public IActionResult Delete(int userId, int projectId)
         {
             _projects.DissociateUserFromProject(userId, projectId);
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] string path, [FromQuery] string companyName)
+        {
+            _projects.AddBugsFromFile(path, companyName);
             return Ok();
         }
     }

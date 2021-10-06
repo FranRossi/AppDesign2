@@ -13,5 +13,7 @@ namespace BusinessLogicInterface
         public void AssignUserToProject(int userId, int projectId);
 
         public void DissociateUserFromProject(int userId, int projectId);
+
+        public void AddBugsFromFile(string path, string companyName);
     }
 }
