@@ -12,7 +12,7 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("projects")]
     [ExceptionFilter]
-    [AuthorizationWithParameterFilter(new[]{RoleType.Admin})]
+    [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectLogic _projects;
@@ -44,14 +44,14 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{userId},{projectId}")]
+        [HttpPost("{projectId}/users/{userId}")]
         public IActionResult Post(int userId, int projectId)
         {
             _projects.AssignUserToProject(userId, projectId);
             return Ok();
         }
 
-        [HttpDelete("{userId},{projectId}")]
+        [HttpDelete("{projectId}/users/{userId}")]
         public IActionResult Delete(int userId, int projectId)
         {
             _projects.DissociateUserFromProject(userId, projectId);

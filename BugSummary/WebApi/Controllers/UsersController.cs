@@ -9,7 +9,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("users")]
     [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
     [ExceptionFilter]
     public class UsersController : ControllerBase
@@ -28,8 +28,8 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public IActionResult Get([FromQuery] int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
             int result = _users.GetFixedBugCount(id);
             return Ok(result);
