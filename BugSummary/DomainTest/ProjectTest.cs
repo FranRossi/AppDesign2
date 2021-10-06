@@ -34,7 +34,7 @@ namespace DomainTest
         }
 
         [TestMethod]
-        public void CreateListofBugs()
+        public void CreateListOfBugs()
         {
             Project newProject = new Project
             {
