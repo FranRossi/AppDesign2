@@ -11,7 +11,7 @@ namespace DataAccessInterface
 
         public IEnumerable<Project> GetAll();
 
-        public void AssignUserToProject(int projectId, int userId);
+        public void AssignUserToProject(int userId, int projectId);
 
         public void DissociateUserFromProject(int userId, int projectId);
 
