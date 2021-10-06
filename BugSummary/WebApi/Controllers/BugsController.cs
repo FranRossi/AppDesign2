@@ -67,7 +67,7 @@ namespace WebApi.Controllers
         public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
         {
             var bugs = _bugs.GetAllFiltered(token, criteria);
-            return Ok(bugs);
+            return Ok(BugModel.ToModelList(bugs));
         }
     }
 }

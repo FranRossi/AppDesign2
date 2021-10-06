@@ -156,6 +156,7 @@ namespace WebApiTest
                     ProjectId = 1,
                 }
             };
+            IEnumerable<BugModel> expectedModels = BugModel.ToModelList(bugsExpected);
             BugSearchCriteria criteria = new BugSearchCriteria()
             {
                 Name = "Bug1",
@@ -169,12 +170,13 @@ namespace WebApiTest
 
             IActionResult result = controller.GetAllFiltered(token, criteria);
             OkObjectResult okResult = result as OkObjectResult;
-            IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
+            IEnumerable<BugModel> bugsResult = okResult.Value as IEnumerable<BugModel>;
 
             mock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.AreEqual(bugsExpected, bugsResult);
-            CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModels.First(), bugsResult.First());
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
 
