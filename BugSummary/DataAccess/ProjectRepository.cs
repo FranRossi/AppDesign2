@@ -50,7 +50,7 @@ namespace DataAccess
                 throw new InexistentProjectException();
         }
 
-        public void AssignUserToProject(int projectId, int userId)
+        public void AssignUserToProject(int userId, int projectId)
         {
             Project projectFromDB = Context.Projects.Include("Users").FirstOrDefault(u => u.Id == projectId);
             if (projectFromDB == null)

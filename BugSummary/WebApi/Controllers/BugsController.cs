@@ -32,9 +32,9 @@ namespace WebApi.Controllers
 
         [HttpPut]
         [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
-        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug)
+        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, [FromQuery] int bugId)
         {
-            _bugs.Update(token, bug.ToEntity());
+            _bugs.Update(token, bug.ToEntityWithID(bugId));
             return Ok();
         }
 
