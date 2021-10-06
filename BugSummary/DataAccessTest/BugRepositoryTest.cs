@@ -160,6 +160,58 @@ namespace DataAccessTest
         }
 
         [TestMethod]
+        public void AddNewBugTest()
+        {
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                Projects = new List<Project>()
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>
+                    {
+                        testerUser
+                    }
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+            };
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug);
+
+            _bugRepository.Add(testerUser, newBug);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                List<Bug> bugsDataBase = context.Bugs.ToList();
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
+        }
+
+        [TestMethod]
         public void TesterAddsBugWithoutNewProject()
         {
             User testerUser = new User

@@ -46,24 +46,8 @@ namespace DataAccessTest
         [TestMethod]
         public void AddNewUserTest()
         {
-
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                context.Add(new User
-                {
-                    Id = 1,
-                    FirstName = "Pepe",
-                    LastName = "Perez",
-                    Password = "pepe1234",
-                    UserName = "pp",
-                    Email = "pepe@gmail.com",
-                    Role = RoleType.Admin,
-                    Projects = new List<Project>()
-                });
-                context.SaveChanges();
-            }
             List<User> userExpected = new List<User>();
-            userExpected.Add(new User
+            User newUser = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -73,12 +57,15 @@ namespace DataAccessTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Admin,
                 Projects = new List<Project>()
-            });
+            };
+            _userRepository.Add(newUser);
+            _userRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 List<User> usersDataBase = context.Users.ToList();
                 Assert.AreEqual(1, usersDataBase.Count());
+                userExpected.Add(newUser);
                 CollectionAssert.AreEqual(userExpected, usersDataBase, new UserComparer());
             }
         }
