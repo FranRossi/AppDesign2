@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using DataAccess;
@@ -298,18 +299,18 @@ namespace DataAccessTest
             bugsExpected.Add(newBug1);
             bugsExpected.Add(newBug2);
 
-
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAll();
+            
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                List<Bug> bugsDataBase = context.Bugs.ToList();
                 Assert.AreEqual(2, bugsDataBase.Count());
-                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+                CollectionAssert.AreEqual(bugsExpected, (ICollection) bugsDataBase, new BugComparer());
             }
 
         }
 
         [TestMethod]
-        public void GetAllBugsFromTester()
+        public void GetAllBugsFromUser()
         {
             User testerUser = new User
             {
@@ -319,7 +320,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
+                Role = RoleType.Developer,
                 Projects = new List<Project>()
             };
             Project projectTester = new Project()
@@ -372,7 +373,7 @@ namespace DataAccessTest
                 }
             };
 
-            List<Bug> bugsDataBase = this._bugRepository.GetAllByTester(testerUser).ToList();
+            List<Bug> bugsDataBase = this._bugRepository.GetAllByUser(testerUser).ToList();
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {

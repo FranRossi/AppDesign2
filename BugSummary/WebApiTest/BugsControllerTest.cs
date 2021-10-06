@@ -106,7 +106,7 @@ namespace WebApiTest
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
-        public void GetBugsForTester(string token)
+        public void GetBugsForUser(string token)
         {
 
             IEnumerable<Bug> bugsExpected = new List<Bug>()

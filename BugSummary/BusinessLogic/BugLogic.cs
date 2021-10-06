@@ -29,7 +29,7 @@ namespace BusinessLogic
         public IEnumerable<Bug> GetAll(string token)
         {
             User userByToken = _userLogic.Get(token);
-            return _bugRepository.GetAllByTester(userByToken);
+            return _bugRepository.GetAllByUser(userByToken);
         }
 
         public void Update(string token, Bug updatedBug)

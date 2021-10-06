@@ -134,7 +134,7 @@ namespace BusinessLogicTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
+                Role = RoleType.Developer,
                 Projects = new List<Project>()
             };
             Project projectTester = new Project()
@@ -165,12 +165,12 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
             mockUserRepository.Setup(mr => mr.Save());
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.GetAllByTester(It.IsAny<User>())).Returns(bugsExpected);
+            mockBugRepository.Setup(mr => mr.GetAllByUser(It.IsAny<User>())).Returns(bugsExpected);
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
             IEnumerable<Bug> bugsResult = bugLogic.GetAll(token);
-
-
+            
+            
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
         }
