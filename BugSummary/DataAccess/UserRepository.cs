@@ -17,6 +17,14 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
+        public void Add(User user)
+        {
+            if (!Context.Users.Any(u => u.UserName == user.UserName))
+                Context.Users.Add(user);
+            else
+                throw new UsernameIsNotUniqueException();
+        }
+
         public IEnumerable<User> GetAll()
         {
             return Context.Users.ToList();

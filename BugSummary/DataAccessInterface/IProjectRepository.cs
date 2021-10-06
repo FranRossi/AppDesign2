@@ -3,18 +3,22 @@ using Domain;
 
 namespace DataAccessInterface
 {
-    public interface IProjectRepository : IRepository<Project>
+    public interface IProjectRepository
     {
-        public void Update(Project updatedProject);
+        void Add(Project project);
 
-        public void Delete(int projectId);
+        void Update(Project updatedProject);
 
-        public IEnumerable<Project> GetAll();
+        void Delete(int projectId);
 
-        public void AssignUserToProject(int userId, int projectId);
+        IEnumerable<Project> GetAll();
 
-        public void DissociateUserFromProject(int userId, int projectId);
+        void AssignUserToProject(int userId, int projectId);
 
-        public void AddBugsFromFile(IEnumerable<Project> newProject);
+        void DissociateUserFromProject(int userId, int projectId);
+
+        void AddBugsFromFile(IEnumerable<Project> newProject);
+
+        void Save();
     }
 }

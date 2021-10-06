@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
-using DataAccess.Exceptions;
+using CustomExceptions;
 
 namespace WebApiTest.FiltersTest
 {
@@ -35,6 +35,13 @@ namespace WebApiTest.FiltersTest
         public void InexistentUserExceptionTest()
         {
             InexistentUserException exception = new InexistentUserException();
+            TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void DataAccessExceptionTest()
+        {
+            DataAccessException exception = new DataAccessException();
             TestException(exception, 403);
         }
 

@@ -19,6 +19,7 @@
         <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Exceptions\" />
         <Folder Include="Migrations\" />
     </ItemGroup>
 

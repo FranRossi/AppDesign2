@@ -3,7 +3,7 @@ using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Utilities.CustomExceptions;
-using DataAccess.Exceptions;
+using CustomExceptions;
 
 namespace WebApi.Filters
 {
@@ -19,42 +19,12 @@ namespace WebApi.Filters
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is ProjectNameIsNotUniqueException)
+            else if (context.Exception is ProjectNameIsNotUniqueException || context.Exception is UsernameIsNotUniqueException)
             {
                 statusCode = 409;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is DomainValidationException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is InexistentProjectException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is InexistentUserException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is InvalidProjectAssigneeRoleException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is BugAlreadyFixedException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is InexistentBugException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is ProjectDoesntBelongToUserException)
+            else if (context.Exception is DomainValidationException || context.Exception is DataAccessException)
             {
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
