@@ -1,0 +1,35 @@
+﻿using Domain;
+using Domain.DomainUtilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace FileHandler
+{
+    public class Company1Reader : IFileReaderStrategy
+    {
+        public Project GetProjectFromFile(string path)
+        {
+            XDocument doc = XDocument.Load(path);
+
+            Project project = new Project
+            {
+                Name = (string)doc.Descendants("Proyecto").First()
+            };
+
+            List<Bug> bugs = doc.Descendants("Bug").Select(x => new Bug
+            {
+                Name = (string)x.Element("Nombre"),
+                Description = (string)x.Element("Descripcion"),
+                Version = (string)x.Element("Version"),
+                State = ((string)x.Element("Estado") == "Activo") ? BugState.Active : BugState.Done
+            }).ToList();
+
+            project.Bugs = bugs;
+            return project;
+        }
+    }
+}
