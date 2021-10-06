@@ -262,7 +262,7 @@ namespace WebApiTest
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Put(token, bug);
+            IActionResult result = controller.Put(token, bug, bugId);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
