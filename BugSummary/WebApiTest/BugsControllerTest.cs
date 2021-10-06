@@ -165,7 +165,7 @@ namespace WebApiTest
             mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.GetAllFiltered(token,criteria.MatchesCriteria);
+            IActionResult result = controller.GetAllFiltered(token,criteria);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 

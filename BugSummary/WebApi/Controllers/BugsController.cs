@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using BusinessLogicInterface;
+using Domain;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
+using Utilities.Criterias;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -67,6 +69,13 @@ namespace WebApi.Controllers
             _bugs.FixBug(token, bugId);
             return Ok();
         }
-        
+
+        [HttpGet]
+        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
+        {
+            var bugs =_bugs.GetAllFiltered(token, criteria);
+            return Ok(bugs);
+        }
     }
 }

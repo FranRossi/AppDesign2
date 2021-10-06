@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using Utilities.Criterias;
 
 
 namespace BusinessLogic
@@ -63,8 +64,9 @@ namespace BusinessLogic
             return dataBaseBug;
         }
 
-        public IEnumerable<Bug> GetAllFiltered(string token, Func<Bug, bool> matchesCriteria)
+        public IEnumerable<Bug> GetAllFiltered(string token, BugSearchCriteria criteria)
         {
+            Func<Bug, bool> matchesCriteria = criteria.MatchesCriteria;
             User userByToken = _userLogic.Get(token);
             return _bugRepository.GetAllFiltered(userByToken, matchesCriteria);
         }
