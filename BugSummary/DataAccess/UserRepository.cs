@@ -3,6 +3,7 @@ using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,6 +58,11 @@ namespace DataAccess
                     result = userFromDb;
             }
             return result;
+        }
+
+        public User Get(int id)
+        {
+            return Context.Users.Include("FixedBugs").FirstOrDefault(u => u.Id == id);
         }
     }
 }
