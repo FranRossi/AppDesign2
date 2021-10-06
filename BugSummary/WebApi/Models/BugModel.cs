@@ -26,6 +26,18 @@ namespace WebApi.Models
             };
         }
 
+        public Bug ToEntityWithID(int id)
+        {
+            return new()
+            {
+                Id = id,
+                Name = Name,
+                Description = Description,
+                State = State,
+                Version = Version,
+                ProjectId = ProjectId
+            };
+        }
         public static BugModel ToModel(Bug bugEntity)
         {
             return new()
