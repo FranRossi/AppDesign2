@@ -1,10 +1,14 @@
 ﻿using BusinessLogic;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections;
+using System.Collections.Generic;
 using TestUtilities;
+using Utilities.Comparers;
 using Utilities.CustomExceptions;
 
 namespace BusinessLogicTest
@@ -243,6 +247,107 @@ namespace BusinessLogicTest
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
             );
+        }
+
+        [TestMethod]
+        public void GetAllProjects()
+        {
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Done,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                State = BugState.Done,
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = null
+            };
+            Project project2 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug3 },
+                Users = null
+            };
+
+            IEnumerable<Project> projectsExpected = new List<Project>()
+            {
+                project1, project2
+            };
+            Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
+
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            IEnumerable<Project> projectResult = projectLogic.GetAll();
+
+
+            mockBugRepository.VerifyAll();
+            CollectionAssert.AreEqual((ICollection)projectsExpected, (ICollection)projectResult, new ProjectComparer());
+        }
+
+        [TestMethod]
+        public void GetAllProjectsOne()
+        {
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Done,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                State = BugState.Done,
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2, bug3 },
+                Users = null
+            };
+
+            IEnumerable<Project> projectsExpected = new List<Project>()
+            {
+                project1
+            };
+            Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
+
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            IEnumerable<Project> projectResult = projectLogic.GetAll();
+
+
+            mockBugRepository.VerifyAll();
+            CollectionAssert.AreEqual((ICollection)projectsExpected, (ICollection)projectResult, new ProjectComparer());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain;
+using System.Collections.Generic;
 
 namespace BusinessLogicInterface
 {
@@ -13,5 +14,6 @@ namespace BusinessLogicInterface
         public void AssignUserToProject(int userId, int projectId);
 
         public void DissociateUserFromProject(int userId, int projectId);
+        public IEnumerable<Project> GetAll();
     }
 }

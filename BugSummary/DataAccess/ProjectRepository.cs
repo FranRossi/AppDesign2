@@ -22,7 +22,7 @@ namespace DataAccess
         }
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.ToList();
+            return Context.Projects.Include("Bugs").ToList();
         }
 
         public void Update(Project updatedProject)

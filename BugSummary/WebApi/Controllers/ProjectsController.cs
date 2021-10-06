@@ -1,6 +1,9 @@
 ﻿using BusinessLogicInterface;
+using Domain;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -52,6 +55,13 @@ namespace WebApi.Controllers
         {
             _projects.DissociateUserFromProject(userId, projectId);
             return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            IEnumerable<Project> result = _projects.GetAll();
+            return Ok(ProjectBugCountModel.ToModel(result));
         }
     }
 }
