@@ -1,6 +1,10 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using FileHandler;
+using FileHandlerFactory;
+using FileHandlerInterface;
+using System;
 using System;
 using System.Collections.Generic;
 
@@ -9,10 +13,12 @@ namespace BusinessLogic
     public class ProjectLogic : IProjectLogic
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly ReaderFactory _readerFactory;
 
-        public ProjectLogic(IProjectRepository projectRepository)
+        public ProjectLogic(IProjectRepository projectRepository, ReaderFactory readerFactory)
         {
             _projectRepository = projectRepository;
+            _readerFactory = readerFactory;
         }
 
         public void Add(Project newProject)
@@ -46,6 +52,14 @@ namespace BusinessLogic
             _projectRepository.Save();
         }
 
+        public void AddBugsFromFile(string path, string companyName)
+        {
+            IFileReaderStrategy readerStrategy = _readerFactory.GetStrategy(companyName);
+            Project parsedProject = readerStrategy.GetProjectFromFile(path);
+            _projectRepository.AddBugsFromFile(parsedProject);
+            _projectRepository.Save();
+        }
+        
         public IEnumerable<Project> GetAll()
         {
             return _projectRepository.GetAll();

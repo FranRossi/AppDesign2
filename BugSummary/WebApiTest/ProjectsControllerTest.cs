@@ -76,7 +76,7 @@ namespace WebApiTest
             });
             ProjectsController controller = new ProjectsController(mock.Object);
 
-            IActionResult result = controller.Post(id, projectToUpdate);
+            IActionResult result = controller.Put(id, projectToUpdate);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
@@ -152,6 +152,29 @@ namespace WebApiTest
         }
 
         [TestMethod]
+        public void AddBugsFromFile()
+        {
+            string path = "some path";
+            string receivedPath = "";
+            string companyName = "some company name";
+            string receivedCompanyName = "";
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+
+            mock.Setup(m => m.AddBugsFromFile(It.IsAny<string>(), It.IsAny<string>())).Callback((string sentPath, string sentCompanyName) =>
+            {
+                receivedCompanyName = sentCompanyName;
+                receivedPath = sentPath;
+            });
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Post(path, companyName);
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(companyName, receivedCompanyName);
+            Assert.AreEqual(path, receivedPath);
+        }
+
         public void ProjectBugCountToEntityTest()
         {
             IEnumerable<Project> projects = new List<Project>()

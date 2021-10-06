@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataAccessInterface;
 using Domain;
@@ -27,7 +28,7 @@ namespace DataAccess
 
         public void Update(Project updatedProject)
         {
-            Project projectFromDB = Context.Projects.FirstOrDefault(u => u.Id == updatedProject.Id);
+            Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Id == updatedProject.Id);
             if (projectFromDB != null)
             {
                 projectFromDB.Name = updatedProject.Name;
@@ -71,6 +72,18 @@ namespace DataAccess
                 throw new InexistentUserException();
             projectFromDB.Users.Remove(userFromDB);
             Context.Projects.Update(projectFromDB);
+        }
+
+        public void AddBugsFromFile(Project newProject)
+        {
+            Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Name == newProject.Name);
+            if (projectFromDB == null)
+                throw new InexistentProjectException();
+            foreach (Bug newBug in newProject.Bugs)
+            {
+                newBug.ProjectId = projectFromDB.Id;
+                Context.Bugs.Add(newBug);
+            }
         }
     }
 }
