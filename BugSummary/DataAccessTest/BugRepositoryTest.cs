@@ -300,16 +300,14 @@ namespace DataAccessTest
             };
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug1);
-            bugsExpected.Add(newBug2);
-            Bug filterBug = new Bug
+            BugSearchCriteria criteria = new BugSearchCriteria()
             {
-                Id = 1,
-                ProjectId = 1,
                 Name = "Bug1",
-                State = BugState.Active
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
             };
-            BugSearchCriteria criteria = new BugSearchCriteria() ;
-            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered();
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(criteria.MatchesCriteria);
             
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -320,7 +318,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void CreateBugCriteria()
+        public void BugMatchesCriteria()
         {
             Bug newBug1 = new Bug
             {
@@ -344,7 +342,7 @@ namespace DataAccessTest
         }
         
         [TestMethod]
-        public void BugMatchesCriteria()
+        public void CreateBugCriteria()
         {
             BugSearchCriteria criteria = new BugSearchCriteria()
             {
@@ -353,7 +351,6 @@ namespace DataAccessTest
                 ProjectId = 1,
                 Id = 1
             };
-            
             BugSearchCriteria criteria2 = new BugSearchCriteria()
             {
                 Name = "Bug1",
