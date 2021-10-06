@@ -191,7 +191,7 @@ namespace DataAccessTest
         [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
         [DataRow(null)]
         [DataTestMethod]
-        public void UpdateInvalidUserTokenTest(string token)
+        public void UpdateInvalidUserToken(string token)
         {
             User newUser = new User
             {
