@@ -23,6 +23,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{bugId}")]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Tester,RoleType.Developer})]
         public IActionResult Get([FromHeader] string token, int bugId)
         {
             var bug = _bugs.Get(token, bugId);
@@ -30,7 +31,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
         public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug)
         {
             _bugs.Update(token, bug.ToEntity());
@@ -38,7 +39,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
         public IActionResult Post([FromHeader] string token, [FromBody] BugModel bug)
         {
             _bugs.Add(token, bug.ToEntity());
@@ -46,7 +47,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{bugId}")]
-        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
         public IActionResult Delete(int bugId, [FromHeader] string token)
         {
             _bugs.Delete(token, bugId);
@@ -54,7 +55,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{bugId}")]
-        [AuthorizationWithParameterFilter(RoleType.Developer)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Developer})]
         public IActionResult Put([FromHeader] string token, int bugId)
         {
             _bugs.FixBug(token, bugId);
@@ -62,7 +63,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [AuthorizationWithParameterFilter(RoleType.Tester)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Tester, RoleType.Developer})]
         public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
         {
             var bugs = _bugs.GetAllFiltered(token, criteria);

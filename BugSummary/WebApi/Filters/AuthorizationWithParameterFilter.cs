@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
@@ -17,17 +18,17 @@ namespace WebApi.Filters
             {RoleType.Tester, "Tester"}
         };
 
-        private readonly RoleType _argument;
+        private readonly RoleType[] _argument;
         private ISessionLogic _sessionLogic;
 
-        public AuthorizationWithParameterFilter(RoleType argument)
+        public AuthorizationWithParameterFilter(RoleType[] argument)
         {
             _argument = argument;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (_argument != RoleType.Invalid)
+            if (!_argument.Contains(RoleType.Invalid))
             {
                 _sessionLogic = context.HttpContext.RequestServices.GetService<ISessionLogic>();
                 string token = context.HttpContext.Request.Headers["token"];
@@ -38,7 +39,7 @@ namespace WebApi.Filters
                         StatusCode = 403,
                         Content = "Please send a valid token."
                     };
-                else if (role != _argument)
+                else if (!_argument.Contains(role))
                     context.Result = new ContentResult
                     {
                         StatusCode = 401,
@@ -47,10 +48,14 @@ namespace WebApi.Filters
             }
         }
 
-        private string GetMessageByRole(RoleType role)
+        private string GetMessageByRole(RoleType[] roles)
         {
-            string baseMessage = "Authentication failed: please log in as ";
-            return baseMessage + _messageMap[role];
+            string baseMessage = "Authentication failed: please log in as: \n ";
+            foreach (var role in roles)
+            {
+                baseMessage += "- " + _messageMap[role];
+            }
+            return baseMessage;
         }
     }
 }
