@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BusinessLogic;
 using DataAccess;
@@ -10,6 +11,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
 using Utilities.Comparers;
+using Utilities.Criterias;
+
 namespace BusinessLogicTest
 {
     [TestClass]
@@ -124,6 +127,66 @@ namespace BusinessLogicTest
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
+        public void GetBugsFilteredForUser(string token)
+        {
+            User testerUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                    testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug()
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "ImportanteBug",
+                    Project = projectTester,
+                    State = BugState.Active,
+                    Version = "2",
+                    ProjectId = 1,
+                }
+            };
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
+            mockUserRepository.Setup(mr => mr.Save());
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAllFiltered(It.IsAny<User>(),It.IsAny<Func<Bug,bool>>())).Returns(bugsExpected);
+
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            IEnumerable<Bug> bugsResult = bugLogic.GetAllFiltered(token,criteria.MatchesCriteria);
+            
+            
+            mockBugRepository.VerifyAll();
+            CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
+        }
+        
+        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        [DataTestMethod]
         public void GetBugsForUser(string token)
         {
             User testerUser = new User
@@ -174,6 +237,7 @@ namespace BusinessLogicTest
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
         }
+        
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
