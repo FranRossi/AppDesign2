@@ -6,7 +6,7 @@ namespace Utilities.CustomExceptions
     {
         public InexistentProjectException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.messageToDisplay = "The entered project does not exist.";
         }
     }
 }

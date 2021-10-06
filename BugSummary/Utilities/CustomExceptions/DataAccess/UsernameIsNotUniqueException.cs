@@ -6,7 +6,7 @@ namespace Utilities.CustomExceptions
     {
         public UsernameIsNotUniqueException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.messageToDisplay = "The username chosen was already taken, please enter a different one.";
         }
     }
 }

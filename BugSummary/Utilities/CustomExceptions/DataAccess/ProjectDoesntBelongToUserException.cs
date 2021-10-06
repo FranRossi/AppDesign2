@@ -7,7 +7,7 @@ namespace CustomExceptions
     {
         public ProjectDoesntBelongToUserException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.messageToDisplay = "The user is not assigned to the Project the bug belongs to.";
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Utilities.CustomExceptions
     {
         public InexistentUserException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.messageToDisplay = "The entered user does not exist.";
         }
     }
 }

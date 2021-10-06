@@ -89,7 +89,7 @@ namespace DataAccessTest
 
 
             TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
-                () => _projectRepository.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+                () => _projectRepository.Add(projectToAdd), "The project name chosen was already taken, please enter a different name."
             );
         }
 

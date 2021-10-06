@@ -54,7 +54,7 @@ namespace BusinessLogicTest
 
             ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
-                () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+                () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name."
             );
         }
 

@@ -6,7 +6,7 @@ namespace Utilities.CustomExceptions
     {
         public ProjectNameIsNotUniqueException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.messageToDisplay = "The project name chosen was already taken, please enter a different name.";
         }
     }
 }
