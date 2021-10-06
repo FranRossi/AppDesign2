@@ -2,6 +2,8 @@
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities.CustomExceptions;
+using FileHandler;
+using FileHandlerFactory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
@@ -243,6 +245,39 @@ namespace BusinessLogicTest
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
             );
+        }
+
+        [TestMethod]
+        public void AddBugsFromFile()
+        {
+            Project project = new Project
+            {
+                Name = "ProjectOne"
+            };
+            Project receivedProject = null;
+            string path = "some path";
+            string receivedPath = "";
+            string companyName = "some company name";
+            string receivedCompanyName = "";
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
+            mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(new Company1Reader())
+                .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });
+            Mock<Company1Reader> mockReader = new Mock<Company1Reader>(MockBehavior.Strict);
+            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(project)
+                .Callback((string sentPath) => { receivedPath = sentPath; });
+            mockUserRepository.Setup(mr => mr.AddBugsFromFile(It.IsAny<Project>()))
+                .Callback((Project sentProject) => { receivedProject = sentProject; });
+            mockUserRepository.Setup(mr => mr.Save());
+
+
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            projectLogic.AddBugsFromFile(path, companyName);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(project, receivedProject);
+            Assert.AreEqual(companyName, receivedCompanyName);
+            Assert.AreEqual(path, receivedPath);
         }
     }
 }

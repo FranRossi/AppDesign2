@@ -1,6 +1,7 @@
 using Domain;
 using Domain.DomainUtilities;
 using FileHandler;
+using FileHandlerInterface;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

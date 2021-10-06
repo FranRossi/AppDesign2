@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\FileHandlerInterface\FileHandlerInterface.csproj" />
+    <ProjectReference Include="..\FileHandler\FileHandler.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,5 +11,7 @@ namespace DataAccessInterface
         public void AssignUserToProject(int projectId, int userId);
 
         public void DissociateUserFromProject(int userId, int projectId);
+
+        public void AddBugsFromFile(Project newProject);
     }
 }
