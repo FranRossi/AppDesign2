@@ -1,6 +1,8 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using System;
+using System.Collections.Generic;
 
 namespace BusinessLogic
 {
@@ -42,6 +44,11 @@ namespace BusinessLogic
         {
             _projectRepository.DissociateUserFromProject(userId, projectId);
             _projectRepository.Save();
+        }
+
+        public IEnumerable<Project> GetAll()
+        {
+            return _projectRepository.GetAll();
         }
     }
 }

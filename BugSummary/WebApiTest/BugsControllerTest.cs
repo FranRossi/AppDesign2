@@ -46,7 +46,7 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(bug.ToEntity(), receivedBug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         [TestMethod]
@@ -73,9 +73,9 @@ namespace WebApiTest
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(bugResponse, typeof(BugModel));
-            Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase,receivedBug));
+            Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase, receivedBug));
         }
-        
+
         [TestMethod]
         public void BugToModelTest()
         {
@@ -87,7 +87,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                
+
             };
             BugModel bugToCompare = new BugModel
             {
@@ -136,7 +136,7 @@ namespace WebApiTest
             Assert.AreEqual(bugsExpected, bugsResult);
             CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
         }
-        
+
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsFilteredForUser(string token)
@@ -162,10 +162,10 @@ namespace WebApiTest
                 Id = 1
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            mock.Setup(r => r.GetAll(It.IsAny<string>())).Returns(bugsExpected);
+            mock.Setup(r => r.GetAllFiltered(It.IsAny<string>(), It.IsAny<BugSearchCriteria>())).Returns(bugsExpected);
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.GetAllFiltered(token,criteria);
+            IActionResult result = controller.GetAllFiltered(token, criteria);
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<Bug> bugsResult = okResult.Value as IEnumerable<Bug>;
 
@@ -174,7 +174,7 @@ namespace WebApiTest
             Assert.AreEqual(bugsExpected, bugsResult);
             CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
         }
-        
+
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
