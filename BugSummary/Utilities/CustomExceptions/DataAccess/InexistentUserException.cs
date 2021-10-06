@@ -2,9 +2,9 @@
 
 namespace Utilities.CustomExceptions
 {
-    public class ProjectNameIsNotUniqueException : DataAccessException
+    public class InexistentUserException : DataAccessException
     {
-        public ProjectNameIsNotUniqueException()
+        public InexistentUserException()
         {
             this.messageToDisplay = "The entered bug does not exist.";
         }

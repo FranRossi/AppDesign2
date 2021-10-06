@@ -2,8 +2,11 @@
 
 namespace Utilities.CustomExceptions
 {
-    public class UsernameIsNotUniqueException : Exception
+    public class UsernameIsNotUniqueException : DataAccessException
     {
-        public override string Message => "The username chosen was already taken, please enter a different one.";
+        public UsernameIsNotUniqueException()
+        {
+            this.messageToDisplay = "The entered bug does not exist.";
+        }
     }
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using DataAccess;
-using DataAccess.Exceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;

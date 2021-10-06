@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DataAccess.Exceptions;
+using CustomExceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
@@ -16,7 +16,7 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public IEnumerable<Bug> GetAllFiltered(User user,Func<Bug, bool> criteria)
+        public IEnumerable<Bug> GetAllFiltered(User user, Func<Bug, bool> criteria)
         {
             List<Bug> listBugForUser = new List<Bug>();
             foreach (var project in user.Projects)
@@ -77,15 +77,15 @@ namespace DataAccess
 
         }
 
-        public Bug Get(User user,int bugId)
-        { 
+        public Bug Get(User user, int bugId)
+        {
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
                 throw new ProjectDoesntBelongToUserException();
             return bugFromDb;
-            
+
         }
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using BusinessLogic;
+using CustomExceptions;
 using DataAccess;
-using DataAccess.Exceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
@@ -184,7 +184,7 @@ namespace BusinessLogicTest
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
         }
-        
+
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]

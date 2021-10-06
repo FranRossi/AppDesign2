@@ -3,7 +3,7 @@ using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Utilities.CustomExceptions;
-using DataAccess.Exceptions;
+using CustomExceptions;
 
 namespace WebApi.Filters
 {

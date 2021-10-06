@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
-using DataAccess.Exceptions;
+using CustomExceptions;
 
 namespace WebApiTest.FiltersTest
 {
