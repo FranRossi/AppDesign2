@@ -4,6 +4,7 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -146,6 +147,46 @@ namespace WebApiTest
             Assert.IsInstanceOfType(result, typeof(OkResult));
             Assert.AreEqual(projectId, receivedProjectId);
             Assert.AreEqual(userId, receivedUserId);
+        }
+
+        [TestMethod]
+        public void ProjectBugCountToEntityTest()
+        {
+            ProjectBugCountModel expectedModel = new ProjectBugCountModel
+            {
+                Name = "New Project 2022",
+                BugCount = 3
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+            };
+
+            ProjectBugCountModel model = ProjectBugCountModel.ToModel(project1);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void ProjectZeroBugCountToEntityTest()
+        {
+            ProjectBugCountModel expectedModel = new ProjectBugCountModel
+            {
+                Name = "New Project 2022",
+                BugCount = 0
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Bugs = new List<Bug> { }
+            };
+
+            ProjectBugCountModel model = ProjectBugCountModel.ToModel(project1);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }
