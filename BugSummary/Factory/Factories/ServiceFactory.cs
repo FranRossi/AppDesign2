@@ -3,6 +3,7 @@ using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
+using FileHandlerFactory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +28,7 @@ namespace Factory.Factories
             services.AddScoped<IBugLogic, BugLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IBugRepository, BugRepository>();
+            services.AddScoped<ReaderFactory, ReaderFactory>();
         }
 
         public void AddDbContextService(string connectionString)

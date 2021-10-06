@@ -6,7 +6,7 @@ namespace FileHandlerFactory
 {
     public class ReaderFactory
     {
-        public IFileReaderStrategy GetStrategy(string companyName)
+        public virtual IFileReaderStrategy GetStrategy(string companyName)
         {
             return new Company1Reader();
         }

@@ -12,10 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BusinessLogicInterface\BusinessLogicInterface.csproj"/>
-        <ProjectReference Include="..\DataAccessInterface\DataAccessInterface.csproj"/>
-        <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\Utilities\Utilities.csproj"/>
+        <ProjectReference Include="..\BusinessLogicInterface\BusinessLogicInterface.csproj" />
+        <ProjectReference Include="..\DataAccessInterface\DataAccessInterface.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\FileHandlerFactory\FileHandlerFactory.csproj" />
+        <ProjectReference Include="..\FileHandlerInterface\FileHandlerInterface.csproj" />
+        <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
 
 </Project>
