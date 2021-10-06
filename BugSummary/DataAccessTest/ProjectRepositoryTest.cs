@@ -132,7 +132,7 @@ namespace DataAccessTest
                 Users = new List<User>()
             });
 
-            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
+            List<Project> projectsDataBase = this._projectRepository.GetAllFiltered().ToList();
 
             Assert.AreEqual(2, projectsDataBase.Count());
             CollectionAssert.AreEqual(projectsExpected, projectsDataBase, new ProjectComparer());

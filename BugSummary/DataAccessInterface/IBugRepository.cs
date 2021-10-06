@@ -8,7 +8,7 @@ namespace DataAccessInterface
         Bug Get(User user, int bugId);
         void Add(User tester, Bug newBug);
         IEnumerable<Bug> GetAllByUser(User user);
-        IEnumerable<Bug> GetAll();
+        IEnumerable<Bug> GetAllFiltered();
         void Update(User testerUser, Bug updatedBug);
         void Delete(User testerUser, int bugId);
         void Save();

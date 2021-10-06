@@ -13,7 +13,7 @@ namespace DataAccess
             entities.Add(entity);
         }
 
-        public abstract IEnumerable<T> GetAll();
+        public abstract IEnumerable<T> GetAllFiltered();
 
         public void Save()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -247,7 +248,7 @@ namespace DataAccessTest
         }
 
         [TestMethod]
-        public void GetAllBugsFromRepositoryTest()
+        public void GetAllBugsFiltered()
         {
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -264,13 +265,13 @@ namespace DataAccessTest
                 context.SaveChanges();
                 context.Add(new Bug
                 {
-                    Id = 2,
+                    Id = 1,
                     Name = "Bug2",
                     Description = "Bug en el cliente",
                     Version = "1.4",
-                    State = BugState.Active,
+                    State = BugState.Done,
                     Project = new Project(),
-                    ProjectId = 1
+                    ProjectId = 2
                 });
                 context.SaveChanges();
             }
@@ -287,19 +288,26 @@ namespace DataAccessTest
             };
             Bug newBug2 = new Bug
             {
-                Id = 2,
+                Id = 1,
                 Name = "Bug2",
                 Description = "Bug en el cliente",
                 Version = "1.4",
-                State = BugState.Active,
+                State = BugState.Done,
                 Project = new Project(),
-                ProjectId = 1
+                ProjectId = 2
             };
             List<Bug> bugsExpected = new List<Bug>();
             bugsExpected.Add(newBug1);
             bugsExpected.Add(newBug2);
-
-            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAll();
+            Bug filterBug = new Bug
+            {
+                Id = 1,
+                ProjectId = 1,
+                Name = "Bug1",
+                State = BugState.Active
+            };
+            BugSearchCriteria criteria = new BugSearchCriteria() ;
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(criteria.MatchesCriteria);
             
             using (var context = new BugSummaryContext(this._contextOptions))
             {

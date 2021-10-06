@@ -6,7 +6,7 @@ namespace DataAccessInterface
     {
         void Add(T entity);
 
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAllFiltered();
 
         void Save();
     }

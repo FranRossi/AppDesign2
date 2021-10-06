@@ -67,8 +67,6 @@ namespace WebApi.Controllers
             _bugs.FixBug(token, bugId);
             return Ok();
         }
-
-
         
     }
 }

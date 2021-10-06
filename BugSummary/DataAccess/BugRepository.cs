@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Exceptions;
 using DataAccessInterface;
@@ -15,9 +16,9 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public override IEnumerable<Bug> GetAll()
+        public override IEnumerable<Bug> GetAllFiltered()
         {
-            return Context.Bugs.ToList();
+            return Context.Bugs.ToList().Where(criteria);
         }
 
         public IEnumerable<Bug> GetAllByUser(User user)
