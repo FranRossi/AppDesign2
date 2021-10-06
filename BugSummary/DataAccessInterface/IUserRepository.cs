@@ -12,8 +12,6 @@ namespace DataAccessInterface
 
         void UpdateToken(string username, string token);
 
-        IEnumerable<User> GetAll();
-
         RoleType GetRoleByToken(string token);
 
         User Get(string token);

@@ -25,11 +25,6 @@ namespace DataAccess
                 throw new UsernameIsNotUniqueException();
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return Context.Users.ToList();
-        }
-
         public bool Authenticate(string username, string password)
         {
             return Context.Users.Any(u => u.UserName == username && u.Password == password);
