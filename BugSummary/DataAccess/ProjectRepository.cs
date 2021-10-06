@@ -74,15 +74,18 @@ namespace DataAccess
             Context.Projects.Update(projectFromDB);
         }
 
-        public void AddBugsFromFile(Project newProject)
+        public void AddBugsFromFile(IEnumerable<Project> projects)
         {
-            Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Name == newProject.Name);
-            if (projectFromDB == null)
-                throw new InexistentProjectException();
-            foreach (Bug newBug in newProject.Bugs)
+            foreach (Project newProject in projects)
             {
-                newBug.ProjectId = projectFromDB.Id;
-                Context.Bugs.Add(newBug);
+                Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Name == newProject.Name);
+                if (projectFromDB == null)
+                    throw new InexistentProjectException();
+                foreach (Bug newBug in newProject.Bugs)
+                {
+                    newBug.ProjectId = projectFromDB.Id;
+                    Context.Bugs.Add(newBug);
+                }
             }
         }
     }

@@ -43,7 +43,7 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            Project result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
 
             IEnumerable<Project> expectedResult = new List<Project>() { GetSecondProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -61,7 +61,7 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            Project result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
 
             IEnumerable<Project> expectedResult = new List<Project>() { GetThirdProyect() };
             CompareLogic compareLogic = new CompareLogic();

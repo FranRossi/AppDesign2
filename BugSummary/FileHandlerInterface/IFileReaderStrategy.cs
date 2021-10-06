@@ -9,6 +9,6 @@ namespace FileHandlerInterface
 {
     public interface IFileReaderStrategy
     {
-        public Project GetProjectFromFile(string path);
+        public IEnumerable<Project> GetProjectFromFile(string path);
     }
 }
