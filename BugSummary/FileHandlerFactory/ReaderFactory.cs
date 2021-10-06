@@ -2,6 +2,7 @@
 using FileHandlerInterface;
 using System;
 using System.Collections.Generic;
+using Utilities.CustomExceptions;
 
 namespace FileHandlerFactory
 {
@@ -14,7 +15,14 @@ namespace FileHandlerFactory
         };
         public virtual IFileReaderStrategy GetStrategy(string companyName)
         {
-            return _commandMap[companyName];
+            try
+            {
+                return _commandMap[companyName];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CompanyIsNotRegisteredException();
+            };
         }
     }
 }

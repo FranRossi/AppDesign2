@@ -3,6 +3,7 @@ using FileHandlerFactory;
 using FileHandlerInterface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
+using Utilities.CustomExceptions;
 
 namespace FileHandlerFactoryTest
 {
@@ -41,7 +42,7 @@ namespace FileHandlerFactoryTest
             string companyName = "non existent company";
 
             TestExceptionUtils.Throws<CompanyIsNotRegisteredException>(
-                () => factory.GetStrategy(companyName), "The entered company is not registered on the API"
+                () => factory.GetStrategy(companyName), "The entered company is not registered on the API."
             );
         }
     }
