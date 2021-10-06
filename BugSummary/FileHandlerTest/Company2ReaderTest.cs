@@ -14,56 +14,38 @@ using System.Xml.Linq;
 namespace FileHandlerTest
 {
     [TestClass]
-    public class Company1ReaderTest
+    public class Company2ReaderTest
     {
 
         [TestMethod]
         public void ValidFile()
         {
-            string fileName = "empresa1_1.XML";
+            string fileName = "empresa2_1.txt";
             string debugPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
             string path = debugPath.Substring(0, debugPath.IndexOf("FileHandlerTest\\bin\\Debug"));
-            string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
+            string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
-            IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IFileReaderStrategy companyReader = new Company2Reader();
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(txtPath);
 
-            IEnumerable<Project> expectedResult = new List<Project>() { GetFirstProyect() };
+            IEnumerable<Project> expectedResult = new List<Project> { GetFirstProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [TestMethod]
-        public void OneBugValidFile()
+        public void TwoProjectsValidFile()
         {
-            string fileName = "empresa1_2.XML";
+            string fileName = "empresa2_2.txt";
             string debugPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
             string path = debugPath.Substring(0, debugPath.IndexOf("FileHandlerTest\\bin\\Debug"));
-            string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
+            string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
-            IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IFileReaderStrategy companyReader = new Company2Reader();
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(txtPath);
 
-            IEnumerable<Project> expectedResult = new List<Project>() { GetSecondProyect() };
-            CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
-            Assert.IsTrue(deepComparisonResult.AreEqual);
-        }
-
-
-        [TestMethod]
-        public void NoBugValidFile()
-        {
-            string fileName = "empresa1_3.XML";
-            string debugPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
-            string path = debugPath.Substring(0, debugPath.IndexOf("FileHandlerTest\\bin\\Debug"));
-            string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
-
-            IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
-
-            IEnumerable<Project> expectedResult = new List<Project>() { GetThirdProyect() };
+            IEnumerable<Project> expectedResult = new List<Project> { GetFirstProyect(), GetFourthProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -100,23 +82,15 @@ namespace FileHandlerTest
             };
         }
 
-        private Project GetSecondProyect()
+        private Project GetFourthProyect()
         {
             return new Project
             {
-                Name = "Nombre del Proyecto",
-                Bugs = new List<Bug> { GetFirstBug() }
+                Name = "Nuevo1 del Proyecto",
+                Bugs = new List<Bug> { GetFirstBug(), GetSecondBug() }
             };
         }
 
-        private Project GetThirdProyect()
-        {
-            return new Project
-            {
-                Name = "Nombre del Proyecto",
-                Bugs = new List<Bug> { }
-            };
-        }
     }
 }
 

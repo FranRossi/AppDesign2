@@ -79,6 +79,14 @@ namespace WebApiTest.FiltersTest
             InexistentBugException exception = new InexistentBugException();
             TestException(exception, 403);
         }
+
+        [TestMethod]
+        public void CompanyIsNotRegisteredExceptionTest()
+        {
+            CompanyIsNotRegisteredException exception = new CompanyIsNotRegisteredException();
+            TestException(exception, 403);
+        }
+
         private void TestException(Exception exception, int statusCode)
         {
             ModelStateDictionary modelState = new ModelStateDictionary();

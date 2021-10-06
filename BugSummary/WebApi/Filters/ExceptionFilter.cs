@@ -59,6 +59,11 @@ namespace WebApi.Filters
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
+            else if (context.Exception is CompanyIsNotRegisteredException)
+            {
+                statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
 
             context.Result = new ContentResult
             {

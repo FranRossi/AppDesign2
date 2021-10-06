@@ -12,7 +12,7 @@ namespace FileHandler
 {
     public class Company1Reader : IFileReaderStrategy
     {
-        public Project GetProjectFromFile(string path)
+        public IEnumerable<Project> GetProjectFromFile(string path)
         {
             XDocument doc = XDocument.Load(path);
 
@@ -30,7 +30,8 @@ namespace FileHandler
             }).ToList();
 
             project.Bugs = bugs;
-            return project;
+            IEnumerable<Project> result = new List<Project>() { project };
+            return result;
         }
     }
 }

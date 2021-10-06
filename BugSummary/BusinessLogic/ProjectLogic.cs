@@ -11,12 +11,12 @@ namespace BusinessLogic
     public class ProjectLogic : IProjectLogic
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly ReaderFactory _readerFactory;
+        public ReaderFactory readerFactory { private get; set; }
 
-        public ProjectLogic(IProjectRepository projectRepository, ReaderFactory readerFactory)
+        public ProjectLogic(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
-            _readerFactory = readerFactory;
+            readerFactory = new ReaderFactory();
         }
 
         public void Add(Project newProject)
@@ -52,12 +52,12 @@ namespace BusinessLogic
 
         public void AddBugsFromFile(string path, string companyName)
         {
-            IFileReaderStrategy readerStrategy = _readerFactory.GetStrategy(companyName);
-            Project parsedProject = readerStrategy.GetProjectFromFile(path);
+            IFileReaderStrategy readerStrategy = readerFactory.GetStrategy(companyName);
+            IEnumerable<Project> parsedProject = readerStrategy.GetProjectFromFile(path);
             _projectRepository.AddBugsFromFile(parsedProject);
             _projectRepository.Save();
         }
-        
+
         public IEnumerable<Project> GetAll()
         {
             return _projectRepository.GetAll();
