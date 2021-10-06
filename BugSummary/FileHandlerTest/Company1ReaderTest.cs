@@ -26,9 +26,9 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            Project result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
 
-            Project expectedResult = GetFirstProyect();
+            IEnumerable<Project> expectedResult = new List<Project>() { GetFirstProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -45,7 +45,7 @@ namespace FileHandlerTest
             IFileReaderStrategy companyReader = new Company1Reader();
             Project result = companyReader.GetProjectFromFile(xmlPath);
 
-            Project expectedResult = GetSecondProyect();
+            IEnumerable<Project> expectedResult = new List<Project>() { GetSecondProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -63,7 +63,7 @@ namespace FileHandlerTest
             IFileReaderStrategy companyReader = new Company1Reader();
             Project result = companyReader.GetProjectFromFile(xmlPath);
 
-            Project expectedResult = GetThirdProyect();
+            IEnumerable<Project> expectedResult = new List<Project>() { GetThirdProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
