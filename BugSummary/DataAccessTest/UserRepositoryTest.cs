@@ -375,5 +375,40 @@ namespace DataAccessTest
                  () => _userRepository.Get(1), "The entered user does not exist."
              );
         }
+
+        [TestMethod]
+        public void AddAlreadyAddedUserTest()
+        {
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(new User
+                {
+                    Id = 1,
+                    FirstName = "Pepe",
+                    LastName = "Perez",
+                    Password = "pepe1234",
+                    UserName = "pp",
+                    Email = "pepe@gmail.com",
+                    Role = RoleType.Admin,
+                    Projects = new List<Project>()
+                });
+                context.SaveChanges();
+            }
+            User repeatedUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
+            };
+            TestExceptionUtils.Throws<UsernameIsNotUniqueException>(
+                 () => _userRepository.Add(repeatedUser), "The username chosen was already taken, please enter a different one."
+             );
+        }
     }
 }

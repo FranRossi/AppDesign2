@@ -14,13 +14,14 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public override void Add(Project project)
+        public void Add(Project project)
         {
             if (!Context.Projects.Any(p => p.Name == project.Name))
-                base.Add(project);
+                Context.Projects.Add(project);
             else
                 throw new ProjectNameIsNotUniqueException();
         }
+
         public IEnumerable<Project> GetAll()
         {
             return Context.Projects.Include("Bugs").ToList();
