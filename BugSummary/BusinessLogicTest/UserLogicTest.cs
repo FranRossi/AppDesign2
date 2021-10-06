@@ -132,7 +132,7 @@ namespace BusinessLogicTest
 
 
         [TestMethod]
-        public void GetUserById()
+        public void GetFixedBugsUserById()
         {
             User expectedUser = new User
             {
@@ -143,20 +143,44 @@ namespace BusinessLogicTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
-                FixedBugs = new List<Bug>()
+                FixedBugs = new List<Bug>() { new Bug(), new Bug(), new Bug() }
             };
+            int expectedResult = 3;
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(expectedUser);
 
 
             UserLogic userLogic = new UserLogic(mockUserRepository.Object);
-            User result = userLogic.Get(expectedUser.Id);
+            int result = userLogic.GetFixedBugCount(expectedUser.Id);
 
             mockUserRepository.VerifyAll();
-            Assert.AreEqual(expectedUser, result);
-            CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedUser, result);
-            Assert.IsTrue(deepComparisonResult.AreEqual);
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void GetUserFixedBugsByIdNoBugs()
+        {
+            User expectedUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                FixedBugs = new List<Bug>() { }
+            };
+            int expectedResult = 0;
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(expectedUser);
+
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            int result = userLogic.GetFixedBugCount(expectedUser.Id);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]

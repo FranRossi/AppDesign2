@@ -139,6 +139,68 @@ namespace DomainTest
             Assert.AreEqual(bug, newUser.FixedBugs[0]);
         }
 
+        [TestMethod]
+        public void GetFixedBugCount()
+        {
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            User newUser = new User
+            {
+                FixedBugs = new List<Bug> { bug }
+            };
+            int expected = 1;
+            Assert.AreEqual(expected, newUser.GetFixedBugCount());
+        }
+
+        [TestMethod]
+        public void Get2FixedBugCount()
+        {
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            User newUser = new User
+            {
+                FixedBugs = new List<Bug> { bug, bug }
+            };
+            int expected = 2;
+            Assert.AreEqual(expected, newUser.GetFixedBugCount());
+        }
+
+        [TestMethod]
+        public void GetNoFixedBugCount()
+        {
+            User newUser = new User
+            {
+                FixedBugs = new List<Bug> { }
+            };
+            int expected = 0;
+            Assert.AreEqual(expected, newUser.GetFixedBugCount());
+        }
+
+        [TestMethod]
+        public void GetNoFixedBugListCount()
+        {
+            User newUser = new User
+            {
+                FixedBugs = null
+            };
+            int expected = 0;
+            Assert.AreEqual(expected, newUser.GetFixedBugCount());
+        }
+
         [ExpectedException(typeof(UserPropertyIsNullException))]
         [TestMethod]
         public void VerifyFirstNameIsInCorrect()

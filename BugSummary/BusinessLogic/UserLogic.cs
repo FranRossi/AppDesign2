@@ -31,5 +31,11 @@ namespace BusinessLogic
             User user = _userRepository.Get(id);
             return user;
         }
+
+        public int GetFixedBugCount(int id)
+        {
+            User user = _userRepository.Get(id);
+            return user.GetFixedBugCount();
+        }
     }
 }
