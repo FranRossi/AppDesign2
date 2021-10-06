@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [AuthorizationWithParameterFilter(RoleType.Admin)]
+        [AuthorizationWithParameterFilter(new[]{RoleType.Admin})]
         public IActionResult Post([FromBody] UserModel model)
         {
             _users.Add(model.ToEntity());

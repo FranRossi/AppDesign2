@@ -181,7 +181,6 @@ namespace WebApiTest
             int id = 1;
             int receivedId = -1;
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
-            Bug receivedBug = null;
             mock.Setup(m => m.Delete(It.IsAny<string>(), It.IsAny<int>())).Callback((string token, int idSent) =>
             {
                 receivedId = id;
