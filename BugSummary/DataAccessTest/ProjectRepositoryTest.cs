@@ -179,7 +179,7 @@ namespace DataAccessTest
 
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.Update(updatedProject), "The entered project does not exist."
-           );
+            );
         }
 
         [TestMethod]
@@ -588,6 +588,130 @@ namespace DataAccessTest
 
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void AddBugsFromFile()
+        {
+            Bug newBug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active
+            };
+            Bug newBug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el mail",
+                Version = "1.42",
+                State = BugState.Active
+            };
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+            newProject.Bugs = new List<Bug> { newBug1, newBug2 };
+
+            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.Save();
+
+            newBug1.Id = 1;
+            newBug2.Id = 2;
+            List<Bug> expected = new List<Bug> { newBug1, newBug2 };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Bugs").FirstOrDefault(p => p.Id == id);
+                List<Bug> result = databaseProject.Bugs;
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(expected, result);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+        [TestMethod]
+        public void AddOneBugFromFile()
+        {
+            Bug newBug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el mail",
+                Version = "1.42",
+                State = BugState.Active
+            };
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+            newProject.Bugs = new List<Bug> { newBug2 };
+
+            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.Save();
+
+            newBug2.Id = 1;
+            List<Bug> expected = new List<Bug> { newBug2 };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Bugs").FirstOrDefault(p => p.Id == id);
+                List<Bug> result = databaseProject.Bugs;
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(expected, result);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+        [TestMethod]
+        public void AddNoBugFromFile()
+        {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            int id = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+            newProject.Bugs = new List<Bug> { };
+
+            _projectRepository.AddBugsFromFile(newProject);
+            _projectRepository.Save();
+
+            List<Bug> expected = new List<Bug> { };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project databaseProject = context.Projects.Include("Bugs").FirstOrDefault(p => p.Id == id);
+                List<Bug> result = databaseProject.Bugs;
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(expected, result);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+
+        [TestMethod]
+        public void AddBugFromFileToInexistentProject()
+        {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.AddBugsFromFile(newProject), "The entered project does not exist."
             );
         }
     }
