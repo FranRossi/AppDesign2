@@ -16,23 +16,11 @@ namespace DataAccess
             Context = bugSummaryContext;
         }
 
-        public IEnumerable<Bug> GetAll()
-        {
-            return Context.Bugs.ToList();
-        }
         public IEnumerable<Bug> GetAllFiltered(User user,Func<Bug, bool> criteria)
         {
             List<Bug> listBugForUser = new List<Bug>();
             foreach (var project in user.Projects)
                 listBugForUser.AddRange(Context.Bugs.Where(criteria).ToList().FindAll(bug => bug.ProjectId == project.Id));
-            return listBugForUser;
-        }
-
-        public IEnumerable<Bug> GetAllByUser(User user)
-        {
-            List<Bug> listBugForUser = new List<Bug>();
-            foreach (var project in user.Projects)
-                listBugForUser.AddRange(Context.Bugs.ToList().FindAll(bug => bug.ProjectId == project.Id));
             return listBugForUser;
         }
 

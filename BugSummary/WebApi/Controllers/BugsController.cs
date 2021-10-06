@@ -29,15 +29,6 @@ namespace WebApi.Controllers
             return Ok(BugModel.ToModel(bug));
         }
 
-        /*  [HttpGet]
-          [AuthorizationWithParameterFilter(RoleType.Tester)]
-          public IActionResult GetAll([FromHeader] string token)
-          {
-              var bugs = _bugs.GetAll(token);
-              return Ok(bugs);
-          }*/
-
-
         [HttpPut]
         [AuthorizationWithParameterFilter(RoleType.Tester)]
         public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug)
