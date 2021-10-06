@@ -34,6 +34,22 @@ namespace FileHandlerTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+        [TestMethod]
+        public void TwoProjectsValidFile()
+        {
+            string fileName = "empresa2_2.txt";
+            string debugPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
+            string path = debugPath.Substring(0, debugPath.IndexOf("FileHandlerTest\\bin\\Debug"));
+            string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
+
+            IFileReaderStrategy companyReader = new Company2Reader();
+            IEnumerable<Project> result = companyReader.GetProjectFromFile(txtPath);
+
+            IEnumerable<Project> expectedResult = new List<Project> { GetFirstProyect(), GetFourthProyect() };
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
         private Bug GetFirstBug()
         {
@@ -66,7 +82,14 @@ namespace FileHandlerTest
             };
         }
 
-
+        private Project GetFourthProyect()
+        {
+            return new Project
+            {
+                Name = "Nuevo1 del Proyecto",
+                Bugs = new List<Bug> { GetFirstBug(), GetSecondBug() }
+            };
+        }
 
     }
 }
