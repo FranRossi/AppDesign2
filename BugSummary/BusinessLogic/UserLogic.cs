@@ -5,7 +5,7 @@ using System;
 
 namespace BusinessLogic
 {
-    public class UserLogic : ILogic<User>
+    public class UserLogic : IUserLogic
     {
         private readonly IUserRepository _userRepository;
 
@@ -23,12 +23,6 @@ namespace BusinessLogic
         public User Get(string token)
         {
             User user = _userRepository.Get(token);
-            return user;
-        }
-
-        public User Get(int id)
-        {
-            User user = _userRepository.Get(id);
             return user;
         }
 

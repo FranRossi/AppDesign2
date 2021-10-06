@@ -191,7 +191,7 @@ namespace BusinessLogicTest
 
             UserLogic userLogic = new UserLogic(mockUserRepository.Object);
             TestExceptionUtils.Throws<InexistentUserException>(
-                 () => userLogic.Get(1), "The entered user does not exist."
+                 () => userLogic.GetFixedBugCount(1), "The entered user does not exist."
              );
         }
     }

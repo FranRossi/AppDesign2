@@ -22,7 +22,7 @@ namespace Factory.Factories
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<ILogic<User>, UserLogic>();
+            services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
             services.AddScoped<IBugLogic, BugLogic>();
