@@ -77,7 +77,7 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void BugToModelTest()
+        public void BugToModel()
         {
             Bug expectedBug = new Bug
             {
@@ -102,6 +102,37 @@ namespace WebApiTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(model, bugToCompare);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
+        [TestMethod]
+        public void BugToModelList()
+        {
+            Bug expectedBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+
+            };
+            List<Bug> bugToModel = new List<Bug>();
+            bugToModel.Add(expectedBug);
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            List<BugModel> models = new List<BugModel>();
+            models.Add(bugToCompare);
+            
+            List<BugModel> bugsConverted = BugModel.ToModelList(bugToModel);
+            CollectionAssert.AreEqual(models,bugsConverted);
         }
         
 
