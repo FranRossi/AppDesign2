@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
 using Utilities.Comparers;
+using Utilities.Criterias;
+
 namespace DataAccessTest
 {
     [TestClass]
@@ -315,6 +317,30 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, (ICollection) bugsDataBase, new BugComparer());
             }
 
+        }
+
+        [TestMethod]
+        public void CreateBugCrtieria()
+        {
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            
+            BugSearchCriteria criteria2 = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(criteria, criteria2);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
         [TestMethod]

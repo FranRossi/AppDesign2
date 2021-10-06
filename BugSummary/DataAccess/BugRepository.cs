@@ -18,7 +18,7 @@ namespace DataAccess
 
         public override IEnumerable<Bug> GetAllFiltered()
         {
-            return Context.Bugs.ToList().Where(criteria);
+            return Context.Bugs.ToList().Where();
         }
 
         public IEnumerable<Bug> GetAllByUser(User user)
