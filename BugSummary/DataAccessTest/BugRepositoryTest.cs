@@ -500,6 +500,143 @@ namespace DataAccessTest
                 () => _bugRepository.Update(testerUser, updatedBug), "The user is not assigned to the Project the bug belongs to."
             );
         }
+        [TestMethod]
+        public void FixBugTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                    {
+                        developerUser
+                    }
+            };
+            Project projectTester2 = new Project()
+            {
+                Id = 2,
+                Name = "Semester 2021",
+                Users = new List<User>
+                    {
+                        developerUser
+                    }
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Projects.Add(projectTester);
+                developerUser.Projects.Add(projectTester);
+                context.Projects.Add(projectTester2);
+                developerUser.Projects.Add(projectTester2);
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+
+            _bugRepository.FixBug(developerUser, bug.Id);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.Include("Fixer").Include("Project").First();
+                User fixer = databaseBug.Fixer;
+                developerUser.Projects = null;
+                fixer.FixedBugs = null;
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(developerUser, fixer);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+                Assert.AreEqual(BugState.Done, databaseBug.State);
+            }
+        }
+
+        [TestMethod]
+        public void FixInvalidBugTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+
+            TestExceptionUtils.Throws<InexistentBugException>(
+                () => _bugRepository.FixBug(developerUser, bug.Id), "The entered bug does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void FixBugFromOtherProjectTest()
+        {
+            User developerUser = new User
+            {
+                Id = 1,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(projectTester);
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+                () => _bugRepository.FixBug(developerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
+            );
+        }
+
 
         [TestMethod]
         public void FixAlreadyFixedBugTest()
