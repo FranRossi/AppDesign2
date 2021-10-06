@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -62,7 +63,10 @@ namespace DataAccess
 
         public User Get(int id)
         {
-            return Context.Users.Include("FixedBugs").FirstOrDefault(u => u.Id == id);
+            User result = Context.Users.Include("FixedBugs").FirstOrDefault(u => u.Id == id);
+            if (result == null)
+                throw new InexistentUserException();
+            return result;
         }
     }
 }

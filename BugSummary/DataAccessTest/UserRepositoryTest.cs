@@ -2,13 +2,17 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using DataAccess;
+using DataAccess.Exceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestUtilities;
 using Utilities.Comparers;
+using Utilities.CustomExceptions;
+
 namespace DataAccessTest
 {
     [TestClass]
@@ -362,6 +366,15 @@ namespace DataAccessTest
             bug.Project = null;
             ComparisonResult deepComparisonResult = compareLogic.Compare(expected, user);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetInvalidUserById()
+        {
+            TestExceptionUtils.Throws<InexistentUserException>(
+                 () => _userRepository.Get(1), "The entered user does not exist."
+             );
+            ;
         }
     }
 }
