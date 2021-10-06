@@ -105,7 +105,7 @@ namespace WebApiTest
         }
 
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
+        /*[DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]
         public void GetBugsForUser(string token)
         {
@@ -135,7 +135,7 @@ namespace WebApiTest
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.AreEqual(bugsExpected, bugsResult);
             CollectionAssert.AreEqual((ICollection)bugsExpected, (System.Collections.ICollection)bugsResult, new BugComparer());
-        }
+        }*/
 
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
         [DataTestMethod]

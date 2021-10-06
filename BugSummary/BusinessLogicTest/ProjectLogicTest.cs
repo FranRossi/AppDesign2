@@ -284,8 +284,8 @@ namespace BusinessLogicTest
             Assert.AreEqual(project, receivedProject);
             Assert.AreEqual(companyName, receivedCompanyName);
             Assert.AreEqual(path, receivedPath);
-         }
-      
+        }
+
         public void GetAllProjects()
         {
             Bug bug1 = new Bug
@@ -331,7 +331,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
 
-            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
             IEnumerable<Project> projectResult = projectLogic.GetAll();
 
 
@@ -378,7 +378,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
 
-            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
             IEnumerable<Project> projectResult = projectLogic.GetAll();
 
 

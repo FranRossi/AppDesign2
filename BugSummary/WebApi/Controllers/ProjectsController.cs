@@ -22,6 +22,14 @@ namespace WebApi.Controllers
             _projects = projects;
         }
 
+        [HttpPost]
+        public IActionResult Post([FromBody] ProjectModel model)
+        {
+            _projects.Add(model.ToEntity());
+            return Ok();
+        }
+
+
         [HttpPost("{id}")]
         public IActionResult Post(int id, [FromBody] ProjectModel model)
         {
@@ -56,6 +64,7 @@ namespace WebApi.Controllers
             _projects.AddBugsFromFile(path, companyName);
             return Ok();
         }
+
         [HttpGet]
         public IActionResult Get()
         {
