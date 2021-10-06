@@ -10,7 +10,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("projects")]
     [ExceptionFilter]
     [AuthorizationWithParameterFilter(RoleType.Admin)]
     public class ProjectsController : ControllerBase
@@ -30,8 +30,8 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpPost("{id}")]
-        public IActionResult Post(int id, [FromBody] ProjectModel model)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] ProjectModel model)
         {
             _projects.Update(id, model.ToEntity());
             return Ok();
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("bugs")]
         public IActionResult Post([FromBody] string path, [FromQuery] string companyName)
         {
             _projects.AddBugsFromFile(path, companyName);
