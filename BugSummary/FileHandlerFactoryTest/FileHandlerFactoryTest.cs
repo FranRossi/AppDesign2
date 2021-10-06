@@ -40,10 +40,9 @@ namespace FileHandlerFactoryTest
             IFileReaderStrategy expectedStrategy = new Company2Reader();
             string companyName = "non existent company";
 
-            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
-                () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name"
+            TestExceptionUtils.Throws<CompanyIsNotRegisteredException>(
+                () => factory.GetStrategy(companyName), "The entered company is not registered on the API"
             );
-            IFileReaderStrategy strategy = factory.GetStrategy(companyName);
         }
     }
 }
