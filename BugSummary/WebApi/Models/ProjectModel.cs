@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using CustomExceptions;
+using Domain;
 
 namespace WebApi.Models
 {
@@ -8,6 +9,8 @@ namespace WebApi.Models
 
         public Project ToEntity()
         {
+            if (Name == null)
+                throw new ProjectModelMissingFieldException();
             return new()
             {
                 Name = Name

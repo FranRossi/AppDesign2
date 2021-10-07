@@ -3,7 +3,7 @@ using Utilities.CustomExceptions;
 
 namespace CustomExceptions
 {
-    public class BugModelMissingFieldException : DataAccessException
+    public class BugModelMissingFieldException : ModelMissingFieldsException
     {
         public BugModelMissingFieldException()
         {
