@@ -138,6 +138,7 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
         }
+        
 
         [TestMethod]
         public void GetInvalidBug()
@@ -266,8 +267,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin,
-                Projects = new List<Project>()
+                Role = RoleType.Admin
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -302,7 +302,36 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
-
+        
+        [TestMethod]
+        public void AdminAddBugFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = null
+            };
+            Bug newBug = new Bug()
+            {
+                Id = 1,
+                ProjectId = 1
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<InexistentProjectException>(
+                () => _bugRepository.Add(newUser,newBug), "The entered project does not exist."
+            );
+        }
+        
         [TestMethod]
         public void TesterAddsBugWithoutNewProject()
         {
@@ -601,6 +630,61 @@ namespace DataAccessTest
                 ComparisonResult deepComparisonResult = compareLogic.Compare(updatedBug, databaseBug);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
+        }
+        
+        [TestMethod]
+        public void AdminUpdateBugFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = null
+            };
+            Bug newBug = new Bug()
+            {
+                Id = 1,
+                ProjectId = 1
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<InexistentProjectException>(
+                () => _bugRepository.Update(newUser,newBug), "The entered project does not exist."
+            );
+        }
+        
+        [TestMethod]
+        public void AdminUpdateBugFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = null
+            };
+            int projectId = 1;
+            int budId = 1;
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<InexistentProjectException>(
+                () => _bugRepository.Update(newUser,budId), "The entered project does not exist."
+            );
         }
 
         [TestMethod]
