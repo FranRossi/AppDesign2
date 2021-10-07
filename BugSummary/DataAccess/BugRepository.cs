@@ -24,17 +24,16 @@ namespace DataAccess
             return listBugForUser;
         }
 
-        public void Add(User userToCreateBug, Bug newBug)
+        public void Add(User user, Bug newBug)
         {
-            Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
-            if (userProject == null)
+            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == newBug.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Add(newBug);
         }
 
-        public void Update(User testerUser, Bug updatedBug)
+        public void Update(User user, Bug updatedBug)
         {
-            if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
+            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == updatedBug.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
@@ -57,22 +56,22 @@ namespace DataAccess
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
-            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == bugFromDb.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Remove(bugFromDb);
         }
 
-        public void Fix(User developerUser, int bugId)
+        public void Fix(User user, int bugId)
         {
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (bugFromDb.State == BugState.Fixed)
                 throw new BugAlreadyFixedException();
-            if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == bugFromDb.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             bugFromDb.State = BugState.Fixed;
-            bugFromDb.FixerId = developerUser.Id;
+            bugFromDb.FixerId = user.Id;
             Context.Bugs.Update(bugFromDb);
 
         }

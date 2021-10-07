@@ -420,58 +420,6 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, (ICollection)bugsDataBase, new BugComparer());
             }
         }
-        
-        [TestMethod]
-        public void GetAllBugsFilteredByAdmin()
-        {
-            Bug oldBug = new Bug
-            {
-                Id = 1,
-                Name = "Bug1",
-                Description = "Bug en el servidor",
-                Version = "1.4",
-                State = BugState.Active,
-            };
-            User testerUser = new User
-            {
-                Id = 2,
-                FirstName = "Juan",
-                LastName = "Rodriguez",
-                Password = "pepe1234",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Admin,
-            };
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                Project projectTester = new Project()
-                {
-                    Id = 1,
-                    Name = "Semester 2021"
-                };
-                context.Projects.Add(projectTester);
-                oldBug.ProjectId = 1;
-                context.Add(oldBug);
-                context.SaveChanges();
-            }
-
-            List<Bug> bugsExpected = new List<Bug>();
-            bugsExpected.Add(oldBug);
-            BugSearchCriteria criteria = new BugSearchCriteria()
-            {
-                Name = "Bug1",
-                State = BugState.Active,
-                ProjectId = 1,
-                Id = 1
-            };
-            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(testerUser, criteria.MatchesCriteria);
-
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                Assert.AreEqual(1, bugsDataBase.Count());
-                CollectionAssert.AreEqual(bugsExpected, (ICollection)bugsDataBase, new BugComparer());
-            }
-        }
 
 
         [TestMethod]
@@ -999,7 +947,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester
+                Role = RoleType.Admin
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -1009,7 +957,6 @@ namespace DataAccessTest
                     Name = "Semester 2021",
                 };
                 context.Projects.Add(projectTester);
-                adminUser.Projects.Add(projectTester);
                 Bug oldBug = new Bug
                 {
                     Id = 1,
@@ -1024,7 +971,6 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
             int bugID = 1;
-
 
             _bugRepository.Delete(adminUser, bugID);
             _bugRepository.Save();
