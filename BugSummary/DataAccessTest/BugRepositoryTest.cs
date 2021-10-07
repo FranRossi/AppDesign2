@@ -254,6 +254,54 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
+        
+        [TestMethod]
+        public void AddNewBugByAdmin()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = new List<Project>()
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+            };
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug);
+
+            _bugRepository.Add(adminUser, newBug);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                List<Bug> bugsDataBase = context.Bugs.ToList();
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
+        }
 
         [TestMethod]
         public void TesterAddsBugWithoutNewProject()
@@ -350,6 +398,58 @@ namespace DataAccessTest
                 };
                 context.Projects.Add(projectTester);
                 testerUser.Projects.Add(projectTester);
+                oldBug.ProjectId = 1;
+                context.Add(oldBug);
+                context.SaveChanges();
+            }
+
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(oldBug);
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                Name = "Bug1",
+                State = BugState.Active,
+                ProjectId = 1,
+                Id = 1
+            };
+            IEnumerable<Bug> bugsDataBase = _bugRepository.GetAllFiltered(testerUser, criteria.MatchesCriteria);
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, (ICollection)bugsDataBase, new BugComparer());
+            }
+        }
+        
+        [TestMethod]
+        public void GetAllBugsFilteredByAdmin()
+        {
+            Bug oldBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            User testerUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021"
+                };
+                context.Projects.Add(projectTester);
                 oldBug.ProjectId = 1;
                 context.Add(oldBug);
                 context.SaveChanges();
@@ -483,6 +583,67 @@ namespace DataAccessTest
                 ProjectId = 2
             };
             _bugRepository.Update(testerUser, updatedBug);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.FirstOrDefault(u => u.Id == updatedBug.Id);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(updatedBug, databaseBug);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+        
+        [TestMethod]
+        public void AdminUpdateBugTest()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021"
+                };
+                Project projectTester2 = new Project()
+                {
+                    Id = 2,
+                    Name = "Semester 2021"
+                };
+                context.Projects.Add(projectTester);
+                context.Projects.Add(projectTester2);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1
+                };
+                context.Add(oldBug);
+                context.SaveChanges();
+            }
+
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug Nuevo",
+                Version = "1.5",
+                State = BugState.Fixed,
+                ProjectId = 2
+            };
+            _bugRepository.Update(adminUser, updatedBug);
             _bugRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
@@ -818,6 +979,54 @@ namespace DataAccessTest
 
 
             _bugRepository.Delete(testerUser, bugID);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.FirstOrDefault(p => p.Id == bugID);
+                Assert.AreEqual(null, databaseBug);
+            }
+        }
+        
+        [TestMethod]
+        public void AdminDeleteBug()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                adminUser.Projects.Add(projectTester);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1,
+                    Project = projectTester
+                };
+                context.Add(oldBug);
+                context.SaveChanges();
+            }
+            int bugID = 1;
+
+
+            _bugRepository.Delete(adminUser, bugID);
             _bugRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
