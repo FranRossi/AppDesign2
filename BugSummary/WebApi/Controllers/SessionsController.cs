@@ -6,7 +6,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("sessions")]
     public class SessionsController : ControllerBase
     {
         private readonly ISessionLogic _sessionLogic;

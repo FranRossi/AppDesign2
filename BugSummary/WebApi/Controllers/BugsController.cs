@@ -23,23 +23,23 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{bugId}")]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Tester,RoleType.Developer})]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer })]
         public IActionResult Get([FromHeader] string token, int bugId)
         {
             var bug = _bugs.Get(token, bugId);
             return Ok(BugModel.ToModel(bug));
         }
 
-        [HttpPut]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
-        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, [FromQuery] int bugId)
+        [HttpPut("{bugId}")]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
+        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, int bugId)
         {
             _bugs.Update(token, bug.ToEntityWithID(bugId));
             return Ok();
         }
 
         [HttpPost]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
         public IActionResult Post([FromHeader] string token, [FromBody] BugModel bug)
         {
             _bugs.Add(token, bug.ToEntity());
@@ -47,23 +47,23 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{bugId}")]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Tester})]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
         public IActionResult Delete(int bugId, [FromHeader] string token)
         {
             _bugs.Delete(token, bugId);
             return Ok();
         }
 
-        [HttpPut("{bugId}")]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Developer})]
-        public IActionResult Put([FromHeader] string token, int bugId)
+        [HttpPatch("{bugId}")]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Developer })]
+        public IActionResult Patch([FromHeader] string token, int bugId)
         {
             _bugs.FixBug(token, bugId);
             return Ok();
         }
 
         [HttpGet]
-        [AuthorizationWithParameterFilter(new[]{RoleType.Tester, RoleType.Developer})]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer })]
         public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
         {
             var bugs = _bugs.GetAllFiltered(token, criteria);

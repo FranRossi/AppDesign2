@@ -21,7 +21,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebApi", Version = "v1"}); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" }); });
             var factory = new ServiceFactory(services);
             factory.AddCustomServices();
             factory.AddDbContextService(Configuration.GetConnectionString("BugDB"));
