@@ -109,6 +109,13 @@ namespace WebApiTest.FiltersTest
             TestException(exception, 400);
         }
 
+        [TestMethod]
+        public void ModelMissingFieldsExceptionTest()
+        {
+            ModelMissingFieldsException exception = new ModelMissingFieldsException();
+            TestException(exception, 400);
+        }
+
         private void TestException(Exception exception, int statusCode)
         {
             ModelStateDictionary modelState = new ModelStateDictionary();

@@ -22,7 +22,8 @@ namespace FileHandler
 
         public IEnumerable<Project> GetProjectFromFile(string path)
         {
-            string file = File.ReadAllText(@path);
+            string rawFile = File.ReadAllText(@path);
+            string file = rawFile.Replace("\n", "").Replace("\r", "");
             List<Project> projects = new List<Project>();
             int chunkSize = GetTotalLength();
             if (file.Length % chunkSize != 0)

@@ -15,27 +15,19 @@ namespace WebApi.Filters
             int statusCode = 500;
             string exceptionMessage = "";
 
-            if (context.Exception is LoginException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is ProjectNameIsNotUniqueException || context.Exception is UsernameIsNotUniqueException)
+            if (context.Exception is ProjectNameIsNotUniqueException || context.Exception is UsernameIsNotUniqueException)
             {
                 statusCode = 409;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is DomainValidationException || context.Exception is DataAccessException)
+            else if (context.Exception is LoginException || context.Exception is DomainValidationException
+                || context.Exception is DataAccessException || context.Exception is CompanyIsNotRegisteredException)
             {
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is CompanyIsNotRegisteredException)
-            {
-                statusCode = 403;
-                exceptionMessage = context.Exception.Message;
-            }
-            else if (context.Exception is XmlException || context.Exception is InvalidCompany2BugFileException)
+            else if (context.Exception is ModelMissingFieldsException || context.Exception is XmlException
+                || context.Exception is InvalidCompany2BugFileException)
             {
                 statusCode = 400;
                 exceptionMessage = context.Exception.Message;
