@@ -163,7 +163,6 @@ namespace WebApiTest
         [TestMethod]
         public void GetBugsForUser()
         {
-
             IEnumerable<Project> projects = new List<Project>()
             {
                 new Project

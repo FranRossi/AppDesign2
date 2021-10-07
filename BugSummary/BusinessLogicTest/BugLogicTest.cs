@@ -20,11 +20,11 @@ namespace BusinessLogicTest
     [ExcludeFromCodeCoverage]
     public class BugLogicTest
     {
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+
         [TestMethod]
-        public void GetBug(string token)
+        public void GetBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             User testerUser = new User
             {
                 Id = 1,
@@ -70,11 +70,11 @@ namespace BusinessLogicTest
             Assert.AreEqual(0, new BugComparer().Compare(newBug, receivedBug));
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+
         [TestMethod]
-        public void AddBug(string token)
+        public void AddBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
             {
@@ -127,10 +127,10 @@ namespace BusinessLogicTest
         }
 
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void GetBugsFilteredForUser(string token)
+        [TestMethod]
+        public void GetBugsFilteredForUser()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             User testerUser = new User
             {
                 Id = 1,
@@ -188,10 +188,10 @@ namespace BusinessLogicTest
         }
 
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void UpdateValidBug(string token)
+        [TestMethod]
+        public void UpdateValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             Bug updatedBug = new Bug
             {
                 Id = 1,
@@ -221,11 +221,11 @@ namespace BusinessLogicTest
             Assert.AreEqual(updatedBug, sentBugToBeUpdated);
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+
         [TestMethod]
-        public void UpdateInvalidBug(string token)
+        public void UpdateInvalidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             User tester = null;
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
@@ -250,10 +250,11 @@ namespace BusinessLogicTest
 
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void DeleteValidBug(string token)
+
+        [TestMethod]
+        public void DeleteValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             User tester = null;
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
@@ -275,10 +276,11 @@ namespace BusinessLogicTest
             Assert.AreEqual(bugId, receivedBugId);
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void DeleteInvalidProject(string token)
+
+        [TestMethod]
+        public void DeleteInvalidProject()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             User tester = null;
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(tester);
@@ -293,11 +295,11 @@ namespace BusinessLogicTest
                 () => bugLogic.Delete(token, bugId), "The entered bug does not exist."
             );
         }
-
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void FixValidBug(string token)
+        
+        [TestMethod]
+        public void FixValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int bugId = 1;
             User user = new User { UserName = "Pepe" };
             int receivedId = -1;
