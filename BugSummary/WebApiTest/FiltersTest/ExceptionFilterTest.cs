@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
 using CustomExceptions;
+using System.Xml;
 
 namespace WebApiTest.FiltersTest
 {
@@ -98,7 +99,7 @@ namespace WebApiTest.FiltersTest
         public void XmlExceptionTest()
         {
             XmlException exception = new XmlException();
-            TestException(exception, 403);
+            TestException(exception, 400);
         }
 
         private void TestException(Exception exception, int statusCode)

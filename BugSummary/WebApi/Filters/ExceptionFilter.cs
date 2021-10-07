@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Utilities.CustomExceptions;
 using CustomExceptions;
+using System.Xml;
 
 namespace WebApi.Filters
 {
@@ -32,6 +33,11 @@ namespace WebApi.Filters
             else if (context.Exception is CompanyIsNotRegisteredException)
             {
                 statusCode = 403;
+                exceptionMessage = context.Exception.Message;
+            }
+            else if (context.Exception is XmlException)
+            {
+                statusCode = 400;
                 exceptionMessage = context.Exception.Message;
             }
 
