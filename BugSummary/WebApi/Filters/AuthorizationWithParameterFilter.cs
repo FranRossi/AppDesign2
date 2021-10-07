@@ -50,7 +50,7 @@ namespace WebApi.Filters
 
         private string GetMessageByRole(RoleType[] roles)
         {
-            string baseMessage = "Authentication failed: please log in as: \n ";
+            string baseMessage = "Authentication failed: please log in as: \n";
             foreach (var role in roles)
             {
                 baseMessage += "- " + _messageMap[role] + "\n";

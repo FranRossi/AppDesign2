@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
 using Utilities.Comparers;
 using Utilities.Criterias;
+using Utilities.CustomExceptions;
 
 namespace DataAccessTest
 {
@@ -96,6 +97,49 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
         }
+        
+        [TestMethod]
+        public void GetBugByAdmin()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+                bug.ProjectId = 1;
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            int bugId = 1;
+            Bug bugDataBase = _bugRepository.Get(adminUser, bugId);
+
+            Assert.IsNotNull(bugDataBase);
+            Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
+        }
+        
 
         [TestMethod]
         public void GetInvalidBug()
@@ -212,7 +256,83 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
+        
+        [TestMethod]
+        public void AddNewBugByAdmin()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+            };
+            Bug newBug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            List<Bug> bugsExpected = new List<Bug>();
+            bugsExpected.Add(newBug);
 
+            _bugRepository.Add(adminUser, newBug);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                List<Bug> bugsDataBase = context.Bugs.ToList();
+                Assert.AreEqual(1, bugsDataBase.Count());
+                CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
+            }
+        }
+        
+        [TestMethod]
+        public void AdminAddBugFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = null
+            };
+            Bug newBug = new Bug()
+            {
+                Id = 1,
+                ProjectId = 1
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<InexistentProjectException>(
+                () => _bugRepository.Add(newUser,newBug), "The entered project does not exist."
+            );
+        }
+        
         [TestMethod]
         public void TesterAddsBugWithoutNewProject()
         {
@@ -451,6 +571,96 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
+        
+        [TestMethod]
+        public void AdminUpdateBugTest()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021"
+                };
+                Project projectTester2 = new Project()
+                {
+                    Id = 2,
+                    Name = "Semester 2021"
+                };
+                context.Projects.Add(projectTester);
+                context.Projects.Add(projectTester2);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1
+                };
+                context.Add(oldBug);
+                context.SaveChanges();
+            }
+
+            Bug updatedBug = new Bug
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug Nuevo",
+                Version = "1.5",
+                State = BugState.Fixed,
+                ProjectId = 2
+            };
+            _bugRepository.Update(adminUser, updatedBug);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.FirstOrDefault(u => u.Id == updatedBug.Id);
+                CompareLogic compareLogic = new CompareLogic();
+                ComparisonResult deepComparisonResult = compareLogic.Compare(updatedBug, databaseBug);
+                Assert.IsTrue(deepComparisonResult.AreEqual);
+            }
+        }
+        
+        [TestMethod]
+        public void AdminUpdateBugFromInvalidProject()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                Projects = null
+            };
+            Bug newBug = new Bug()
+            {
+                Id = 1,
+                ProjectId = 1
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.SaveChanges();
+            }
+            TestExceptionUtils.Throws<InexistentProjectException>(
+                () => _bugRepository.Add(newUser,newBug), "The entered project does not exist."
+            );
+        }
 
         [TestMethod]
         public void UpdateInexistentBugTest()
@@ -475,16 +685,22 @@ namespace DataAccessTest
                     testerUser
                 }
             };
-            testerUser.Projects.Add(projectTester);
-            Bug updatedBug = new Bug
+            using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Id = 1,
-                Name = "BugNuevo",
-                Description = "Bug en el cliente",
-                Version = "1.5",
-                State = BugState.Fixed,
-                ProjectId = 1
-            };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+                testerUser.Projects.Add(projectTester);
+            }
+
+            Bug updatedBug = new Bug
+                {
+                    Id = 1,
+                    Name = "BugNuevo",
+                    Description = "Bug en el cliente",
+                    Version = "1.5",
+                    State = BugState.Fixed,
+                    ProjectId = 1
+                };
             TestExceptionUtils.Throws<InexistentBugException>(
                                 () => _bugRepository.Update(testerUser, updatedBug), "The entered bug does not exist."
             );
@@ -776,6 +992,52 @@ namespace DataAccessTest
 
 
             _bugRepository.Delete(testerUser, bugID);
+            _bugRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Bug databaseBug = context.Bugs.FirstOrDefault(p => p.Id == bugID);
+                Assert.AreEqual(null, databaseBug);
+            }
+        }
+        
+        [TestMethod]
+        public void AdminDeleteBug()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                Bug oldBug = new Bug
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "Bug en el servidor",
+                    Version = "1.4",
+                    State = BugState.Active,
+                    ProjectId = 1,
+                    Project = projectTester
+                };
+                context.Add(oldBug);
+                context.SaveChanges();
+            }
+            int bugID = 1;
+
+            _bugRepository.Delete(adminUser, bugID);
             _bugRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
