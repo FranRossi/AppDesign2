@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using TestUtilities;
+using Utilities.CustomExceptions;
 
 namespace FileHandlerTest
 {
@@ -61,9 +62,9 @@ namespace FileHandlerTest
             string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company2Reader();
-            TestExceptionUtils.Throws<XmlException>(
+            TestExceptionUtils.Throws<InvalidCompany2BugFileException>(
                 () => companyReader.GetProjectFromFile(txtPath),
-                "Unexpected end of file has occurred. The following elements are not closed: Bug, Bugs, Empresa1. Line 16, position 32."
+                "Unexpected end of file has occurred. Please check file structure and retry."
             );
         }
 
