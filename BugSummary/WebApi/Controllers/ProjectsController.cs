@@ -44,15 +44,15 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{projectId}/users/{userId}")]
-        public IActionResult Post(int userId, int projectId)
+        [HttpPost("{projectId}/users")]
+        public IActionResult Post(int projectId ,[FromBody]int userId)
         {
             _projects.AssignUserToProject(userId, projectId);
             return Ok();
         }
 
-        [HttpDelete("{projectId}/users/{userId}")]
-        public IActionResult Delete(int userId, int projectId)
+        [HttpDelete("{projectId}/users")]
+        public IActionResult Delete(int projectId, [FromBody]int userId)
         {
             _projects.DissociateUserFromProject(userId, projectId);
             return Ok();
