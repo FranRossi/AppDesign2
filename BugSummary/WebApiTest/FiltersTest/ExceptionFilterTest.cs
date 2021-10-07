@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utilities.CustomExceptions;
 using WebApi.Filters;
 using CustomExceptions;
+using System.Xml;
 
 namespace WebApiTest.FiltersTest
 {
@@ -92,6 +93,20 @@ namespace WebApiTest.FiltersTest
         {
             CompanyIsNotRegisteredException exception = new CompanyIsNotRegisteredException();
             TestException(exception, 403);
+        }
+
+        [TestMethod]
+        public void XmlExceptionTest()
+        {
+            XmlException exception = new XmlException();
+            TestException(exception, 400);
+        }
+
+        [TestMethod]
+        public void InvalidCompany2BugFileExceptionTest()
+        {
+            InvalidCompany2BugFileException exception = new InvalidCompany2BugFileException();
+            TestException(exception, 400);
         }
 
         private void TestException(Exception exception, int statusCode)

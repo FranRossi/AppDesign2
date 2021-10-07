@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using Utilities.CustomExceptions;
 
 namespace FileHandler
 {
@@ -24,8 +25,10 @@ namespace FileHandler
             string file = File.ReadAllText(@path);
             List<Project> projects = new List<Project>();
             int chunkSize = GetTotalLength();
-            IEnumerable<string> splittedString = Split(file, chunkSize);
+            if (file.Length % chunkSize != 0)
+                throw new InvalidCompany2BugFileException();
 
+            IEnumerable<string> splittedString = Split(file, chunkSize);
             foreach (string entry in splittedString)
             {
                 int index = 0;

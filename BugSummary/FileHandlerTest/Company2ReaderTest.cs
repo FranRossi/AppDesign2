@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using TestUtilities;
+using Utilities.CustomExceptions;
 
 namespace FileHandlerTest
 {
@@ -49,6 +51,21 @@ namespace FileHandlerTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void InvalidFileStructure()
+        {
+            string fileName = "empresa2_3.txt";
+            string debugPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
+            string path = debugPath.Substring(0, debugPath.IndexOf("FileHandlerTest\\bin\\Debug"));
+            string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
+
+            IFileReaderStrategy companyReader = new Company2Reader();
+            TestExceptionUtils.Throws<InvalidCompany2BugFileException>(
+                () => companyReader.GetProjectFromFile(txtPath),
+                "Unexpected end of file has occurred. Please check file structure and retry."
+            );
         }
 
         private Bug GetFirstBug()
