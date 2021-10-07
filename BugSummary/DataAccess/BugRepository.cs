@@ -6,6 +6,7 @@ using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
+using Utilities.CustomExceptions;
 
 namespace DataAccess
 {
@@ -26,6 +27,9 @@ namespace DataAccess
 
         public void Add(User user, Bug newBug)
         {
+            Project projectFromDb = Context.Projects.FirstOrDefault(u => u.Id == newBug.ProjectId);
+            if (projectFromDb == null)
+                throw new InexistentProjectException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == newBug.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Add(newBug);
@@ -33,6 +37,9 @@ namespace DataAccess
 
         public void Update(User user, Bug updatedBug)
         {
+            Project projectFromDb = Context.Projects.FirstOrDefault(u => u.Id == updatedBug.ProjectId);
+            if (projectFromDb == null)
+                throw new InexistentProjectException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == updatedBug.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);

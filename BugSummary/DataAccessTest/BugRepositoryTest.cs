@@ -633,7 +633,6 @@ namespace DataAccessTest
             }
         }
         
-        
         [TestMethod]
         public void AdminUpdateBugFromInvalidProject()
         {
@@ -686,16 +685,22 @@ namespace DataAccessTest
                     testerUser
                 }
             };
-            testerUser.Projects.Add(projectTester);
-            Bug updatedBug = new Bug
+            using (var context = new BugSummaryContext(this._contextOptions))
             {
-                Id = 1,
-                Name = "BugNuevo",
-                Description = "Bug en el cliente",
-                Version = "1.5",
-                State = BugState.Fixed,
-                ProjectId = 1
-            };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+                testerUser.Projects.Add(projectTester);
+            }
+
+            Bug updatedBug = new Bug
+                {
+                    Id = 1,
+                    Name = "BugNuevo",
+                    Description = "Bug en el cliente",
+                    Version = "1.5",
+                    State = BugState.Fixed,
+                    ProjectId = 1
+                };
             TestExceptionUtils.Throws<InexistentBugException>(
                                 () => _bugRepository.Update(testerUser, updatedBug), "The entered bug does not exist."
             );
