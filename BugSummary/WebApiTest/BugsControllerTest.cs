@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogicInterface;
+using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TestUtilities;
 using Utilities.Comparers;
 using Utilities.Criterias;
 using WebApi.Controllers;
@@ -46,6 +48,102 @@ namespace WebApiTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedBug, bug);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoId()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoName()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoDescription()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Version = "1.4",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoVersion()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                State = BugState.Active,
+                ProjectId = 1,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoState()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                ProjectId = 1,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoProjectId()
+        {
+            BugModel bugToCompare = new BugModel
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            TestExceptionUtils.Throws<BugModelMissingFieldException>(
+                () => bugToCompare.ToEntity(), "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+            );
         }
 
         [TestMethod]
@@ -313,6 +411,8 @@ namespace WebApiTest
             Assert.AreEqual(bug, receivedBug);
             Assert.AreEqual(token, receivedToken);
         }
+
+
 
     }
 }
