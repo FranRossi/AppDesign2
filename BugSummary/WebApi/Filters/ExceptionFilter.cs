@@ -35,7 +35,7 @@ namespace WebApi.Filters
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
             }
-            else if (context.Exception is XmlException)
+            else if (context.Exception is XmlException || context.Exception is InvalidCompany2BugFileException)
             {
                 statusCode = 400;
                 exceptionMessage = context.Exception.Message;
