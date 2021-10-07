@@ -68,32 +68,5 @@ namespace WebApiTest
             Assert.AreEqual(id, receivedId);
             Assert.AreEqual(expectedResult, response);
         }
-
-        [TestMethod]
-        public void UserToModelTest()
-        {
-            User expectedUser = new User
-            {
-                Id = 0,
-                FirstName = "Pepe",
-                LastName = "Perez",
-                Password = "pepe1234",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Tester
-            };
-            UserModel userToCompare = new UserModel
-            {
-                FirstName = "Pepe",
-                LastName = "Perez",
-                UserName = "pp",
-                Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
-            };
-            UserModel model = UserModel.ToModel(expectedUser);
-            CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(userToCompare, model);
-            Assert.IsTrue(deepComparisonResult.AreEqual);
-        }
     }
 }
