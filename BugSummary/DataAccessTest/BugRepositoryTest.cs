@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using CustomExceptions;
 using DataAccess;
@@ -18,6 +19,7 @@ using Utilities.Criterias;
 namespace DataAccessTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class BugRepositoryTest
     {
 

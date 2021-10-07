@@ -3,11 +3,13 @@ using DataAccessInterface;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using Utilities.Authentication;
 using Utilities.CustomExceptions;
 namespace BusinessLogicTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SessionLogicTest
     {
         [TestMethod]

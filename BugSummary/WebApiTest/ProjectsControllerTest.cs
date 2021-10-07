@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Utilities.Comparers;
 using WebApi.Controllers;
 using WebApi.Models;
@@ -17,6 +18,7 @@ namespace WebApiTest
     {
 
         [TestMethod]
+        [ExcludeFromCodeCoverage]
         public void AddValidProject()
         {
             ProjectModel projectToAdd = new ProjectModel

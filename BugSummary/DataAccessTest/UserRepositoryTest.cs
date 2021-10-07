@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DataAccess;
 using Domain;
@@ -15,6 +16,7 @@ using Utilities.CustomExceptions;
 namespace DataAccessTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class UserRepositoryTest
     {
         private readonly DbConnection _connection;

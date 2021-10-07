@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -15,6 +16,7 @@ using TestUtilities;
 namespace FileHandlerTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class Company1ReaderTest
     {
 

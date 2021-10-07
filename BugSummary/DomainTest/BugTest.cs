@@ -3,10 +3,12 @@ using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DomainTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class BugTest
     {
         [TestMethod]

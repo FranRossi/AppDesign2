@@ -5,12 +5,14 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using WebApi.Controllers;
 using WebApi.Models;
 
 namespace WebApiTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class UsersControllerTest
     {
         [TestMethod]

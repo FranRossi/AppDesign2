@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ using WebApi.Filters;
 namespace WebApiTest.FiltersTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class AuthorizationWithParameterFilterTest
     {
         [DataRow(RoleType.Admin)]

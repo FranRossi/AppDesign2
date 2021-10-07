@@ -2,12 +2,14 @@ using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
 using Utilities.CustomExceptions;
 
 namespace FileHandlerFactoryTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class FileHandlerFactoryTest
     {
         [TestMethod]

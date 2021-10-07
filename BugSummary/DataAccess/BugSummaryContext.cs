@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccess
 {
+    [ExcludeFromCodeCoverage]
     public class BugSummaryContext : DbContext
     {
         public DbSet<User> Users { get; set; }

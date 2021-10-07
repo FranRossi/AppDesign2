@@ -6,12 +6,14 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
 using Utilities.CustomExceptions;
 
 namespace BusinessLogicTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class UserLogicTest
     {
         [TestMethod]
