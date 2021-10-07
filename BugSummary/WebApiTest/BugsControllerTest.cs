@@ -23,11 +23,11 @@ namespace WebApiTest
     [ExcludeFromCodeCoverage]
     public class BugsControllerTest
     {
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+
         [TestMethod]
-        public void AddValidBug(string token)
+        public void AddValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             BugModel bug = new BugModel
             {
                 Id = 1,
@@ -54,11 +54,11 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+
         [TestMethod]
-        public void GetValidBug(string token)
+        public void GetValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int bugId = 1;
             Bug bugOnDataBase = new Bug
             {
@@ -83,10 +83,10 @@ namespace WebApiTest
             Assert.AreEqual(0, new BugComparer().Compare(bugOnDataBase, receivedBug));
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void GetBugsFilteredForUser(string token)
+        [TestMethod]
+        public void GetBugsFilteredForUser()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             IEnumerable<Bug> bugsExpected = new List<Bug>()
             {
                 new Bug()
@@ -123,12 +123,11 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
+        
         [TestMethod]
-        public void UpdateValidBug(string token)
+        public void UpdateValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int bugId = 1;
             BugModel bug = new BugModel
             {
@@ -156,10 +155,10 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-        [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]
-        [DataTestMethod]
-        public void DeleteValidBug(string token)
+        [TestMethod]
+        public void DeleteValidBug()
         {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int id = 1;
             int receivedId = -1;
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
