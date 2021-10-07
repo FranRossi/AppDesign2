@@ -1,0 +1,1 @@
+Para poder usar la aplicacion se necesita agregar en el appsettings.json el string de conexion a la base de datos.
