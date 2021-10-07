@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{bugId}")]
-        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer })]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer, RoleType.Admin })]
         public IActionResult Get([FromHeader] string token, int bugId)
         {
             var bug = _bugs.Get(token, bugId);
@@ -31,15 +31,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{bugId}")]
-        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
-        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, int bugId)
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Admin })]
+        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, int bugId )
         {
             _bugs.Update(token, bug.ToEntityWithID(bugId));
             return Ok();
         }
 
         [HttpPost]
-        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Admin })]
         public IActionResult Post([FromHeader] string token, [FromBody] BugModel bug)
         {
             _bugs.Add(token, bug.ToEntity());
@@ -47,7 +47,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{bugId}")]
-        [AuthorizationWithParameterFilter(new[] { RoleType.Tester })]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Admin })]
         public IActionResult Delete(int bugId, [FromHeader] string token)
         {
             _bugs.Delete(token, bugId);
