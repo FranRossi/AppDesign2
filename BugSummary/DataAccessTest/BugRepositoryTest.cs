@@ -120,6 +120,14 @@ namespace DataAccessTest
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+                bug.ProjectId = 1;
                 context.Add(bug);
                 context.SaveChanges();
             }
