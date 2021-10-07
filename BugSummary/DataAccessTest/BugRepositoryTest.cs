@@ -96,6 +96,40 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
         }
+        
+        [TestMethod]
+        public void GetBugByAdmin()
+        {
+            User adminUser = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Rodriguez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            Bug bug = new Bug
+            {
+                Id = 1,
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(bug);
+                context.SaveChanges();
+            }
+
+            int bugId = 1;
+            Bug bugDataBase = _bugRepository.Get(adminUser, bugId);
+
+            Assert.IsNotNull(bugDataBase);
+            Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
+        }
 
         [TestMethod]
         public void GetInvalidBug()
