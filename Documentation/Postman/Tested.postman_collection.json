@@ -1,0 +1,5474 @@
+{
+	"info": {
+		"_postman_id": "a91dbee9-bb91-429e-b0d8-9719a506acbb",
+		"name": "Tested",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "bugs",
+			"item": [
+				{
+					"name": "AddBug",
+					"item": [
+						{
+							"name": "AddBug",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 6,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:09:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: Invalid project",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": -1,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: Invalid project",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": -1,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:08:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "59"
+										}
+									],
+									"cookie": [],
+									"body": "The user is not assigned to the Project the bug belongs to."
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: name too long",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1 a                                                                                             nombre largo\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: name too long",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1 a                                                                                             nombre largo\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "38"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:22:47 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Bug's name must be under 60 characters"
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: Description too long",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en servers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                fin desc\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: Description too long",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en servers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                fin desc\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:25:21 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "46"
+										}
+									],
+									"cookie": [],
+									"body": "Bug's description must be under 150 characters"
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: Version too long",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4222222222\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: Version too long",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4222222222\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "41"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:26:03 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Bug's version must be under 10 characters"
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: Incorrect bug state",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": -1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: Incorrect bug state",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": -1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "43"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:29:07 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Bug's state must be active (1) or fixed (0)"
+								}
+							]
+						},
+						{
+							"name": "AddBug Error: Missing fields",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:30:18 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:30:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n\n    \"version\": \"1.4\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:30:54 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n\n    \"projectId\": 2,\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:31:06 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n\n    \"id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:31:17 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug1\",\n    \"description\": \"Bloqueante en server\",\n    \"state\": 1,\n    \"version\": \"1.4\",\n    \"projectId\": 2\n\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:31:35 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								},
+								{
+									"name": "AddBug Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:31:53 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetBugs",
+					"item": [
+						{
+							"name": "GetBugs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs?Name=&State=2&ProjectId=6&Id=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "Name",
+											"value": ""
+										},
+										{
+											"key": "State",
+											"value": "2"
+										},
+										{
+											"key": "ProjectId",
+											"value": "6"
+										},
+										{
+											"key": "Id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GetBugs",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs?Name=Error en el envío de correo&State=1&ProjectId=&Id=",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "Name",
+													"value": "Error en el envío de correo"
+												},
+												{
+													"key": "State",
+													"value": "1"
+												},
+												{
+													"key": "ProjectId",
+													"value": ""
+												},
+												{
+													"key": "Id",
+													"value": ""
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:08:14 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"name\": \"Error en el envío de correo\",\n        \"description\": \"El error se produce cuando el usuario no tiene un correo asignado\",\n        \"state\": 1,\n        \"version\": \"1.0\",\n        \"projectId\": 2,\n        \"id\": 1\n    },\n    {\n        \"name\": \"Error en el envío de correo\",\n        \"description\": \"El error se produce cuando el usuario no tiene un correo asignado\",\n        \"state\": 1,\n        \"version\": \"1.0\",\n        \"projectId\": 2,\n        \"id\": 3\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "GetBugs from user without project",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs?Name=Error en el envío de correo&State=1&ProjectId=&Id=3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "Name",
+											"value": "Error en el envío de correo"
+										},
+										{
+											"key": "State",
+											"value": "1"
+										},
+										{
+											"key": "ProjectId",
+											"value": ""
+										},
+										{
+											"key": "Id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GetBugs from user without project",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs?Name=Error en el envío de correo&State=1&ProjectId=&Id=3",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "Name",
+													"value": "Error en el envío de correo"
+												},
+												{
+													"key": "State",
+													"value": "1"
+												},
+												{
+													"key": "ProjectId",
+													"value": ""
+												},
+												{
+													"key": "Id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:02:41 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "[]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetBug",
+					"item": [
+						{
+							"name": "GetBug",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "13",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GetBug",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:04:51 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "168"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"name\": \"Error en el envío de correo\",\n    \"description\": \"El error se produce cuando el usuario no tiene un correo asignado\",\n    \"state\": 1,\n    \"version\": \"1.0\",\n    \"projectId\": 2,\n    \"id\": 1\n}"
+								}
+							]
+						},
+						{
+							"name": "GetBug Error: User not assigned to project",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "13",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GetBug Error: User not assigned to project",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:03:51 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "59"
+										}
+									],
+									"cookie": [],
+									"body": "The user is not assigned to the Project the bug belongs to."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "UpdateBug",
+					"item": [
+						{
+							"name": "UpdateBug",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "iFIk27iJ2UiRuGe4XG9tR4rorQ/TJP3k"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"BugUpdate\",\n    \"description\": \"new desc\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 4,\n    \"id\": 33\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "19"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UpdateBug",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 2,\n    \"id\": 33\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:15:43 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "UpdateBug Error: User does not belong to project",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 7,\n    \"id\": 33\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "19"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UpdateBug Error: User does not belong to project",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 1,\n    \"id\": 33\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "59"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:16:51 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "The user is not assigned to the Project the bug belongs to."
+								}
+							]
+						},
+						{
+							"name": "UpdateBug Error: User is not a tester or admin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 1,\n    \"id\": 33\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UpdateBug Error: User is not a tester",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 1,\n    \"id\": 33\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:17:49 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "52"
+										}
+									],
+									"cookie": [],
+									"body": "Authentication failed: please log in as: \n - Tester\n"
+								}
+							]
+						},
+						{
+							"name": "UpdateBug Error: Inexistent bug",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 6,\n    \"id\": 33\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "-23"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UpdateBug Error: Inexistent bug",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bug2\",\n    \"description\": \"Bloqueante en cliente\",\n    \"state\": 1,\n    \"version\": \"2.0\",\n    \"projectId\": 2,\n    \"id\": 33\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "-23"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:19:29 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										}
+									],
+									"cookie": [],
+									"body": "The entered bug does not exist."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "DeleteBug",
+					"item": [
+						{
+							"name": "DeleteBug",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "13",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DeleteBug",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:42:12 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "DeleteBug Error: Inexistent bug",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "-1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DeleteBug Error: Inexistent bug",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:48:09 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "The entered bug does not exist."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "FixBug",
+					"item": [
+						{
+							"name": "FixBug",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "bNhN1JiJ2UiTzhA+U5O6QbDIvURUnaCY"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "14",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "FixBug",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "5",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:55:13 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "FixBug Error: Bug already fixed",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "14",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "FixBug",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "2",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:53:42 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										}
+									],
+									"cookie": [],
+									"body": "The bug you are trying to fix is already fixed."
+								}
+							]
+						},
+						{
+							"name": "FixBug Error: Invalid role",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "2",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "FixBug Error: Invalid role",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "token",
+												"value": "80SQ3jSJ2UgRIF9wAKfgS5yK5e5ytui8"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "2",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:55:55 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "55"
+										}
+									],
+									"cookie": [],
+									"body": "Authentication failed: please log in as: \n - Developer\n"
+								}
+							]
+						},
+						{
+							"name": "FixBug Error: Inexistent bug",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "-1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "FixBug Error: Inexistent bug",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "-1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:59:06 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "The entered bug does not exist."
+								}
+							]
+						},
+						{
+							"name": "FixBug Error: User isn't assigned to the projectc",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bugs/:bugId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bugs",
+										":bugId"
+									],
+									"variable": [
+										{
+											"key": "bugId",
+											"value": "17",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "FixBug Error: User isn't assigned to the projectc",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "token",
+												"value": "nAxJMTaJ2UgsDoB1nmj0RpesQKAMDk7F"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bugs/:bugId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bugs",
+												":bugId"
+											],
+											"variable": [
+												{
+													"key": "bugId",
+													"value": "6",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "59"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 03:02:17 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "The user is not assigned to the Project the bug belongs to."
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "AddProject",
+					"item": [
+						{
+							"name": "AddProject",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Proyecto10\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddProject",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Proyecto5\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:20:08 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AddProject Error: project already added",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Proyecto10\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddProject Error: project already added",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Proyecto1\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:21:47 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "73"
+										}
+									],
+									"cookie": [],
+									"body": "The project name chosen was already taken, please enter a different name."
+								}
+							]
+						},
+						{
+							"name": "AddProject Error: name too long",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Proyecto destinado a realizar un trabajo\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddProject Error: name too long",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Proyecto destinado a realizar un trabajo\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:22:17 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										}
+									],
+									"cookie": [],
+									"body": "Project's name must be under 30 characters"
+								}
+							]
+						},
+						{
+							"name": "AddProject Error: Missing fields",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddProject Error: Missing fields",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "33"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:22:36 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> Name."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "UpdateProject",
+					"item": [
+						{
+							"name": "UpdateProject",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Nombre del proyecto\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "UpdateProject Error: Name too long",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"New name is too long for the specification\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "UpdateProject Error: Inexistent project",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"New name\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "13434",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "DeleteProject",
+					"item": [
+						{
+							"name": "DeleteProject",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "DeleteProject Error: Inexistent project",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1324234",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "AssignUserToProject",
+					"item": [
+						{
+							"name": "AssignUserToProject",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "6",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "7",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AssignUserToProject",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "2",
+													"description": "(Required) "
+												},
+												{
+													"key": "userId",
+													"value": "3",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:52:05 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AssignUserToProject Error: User must be Developer or Tester",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "5",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AssignUserToProject Error: User must be Developer or Tester",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "2",
+													"description": "(Required) "
+												},
+												{
+													"key": "userId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:52:20 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "55"
+										}
+									],
+									"cookie": [],
+									"body": "Project asingnees must either be Developers or Testers."
+								}
+							]
+						},
+						{
+							"name": "AssignUserToProject Error: Inexistent project",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "-1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AssignUserToProject Error: Inexistent project",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "-1",
+													"description": "(Required) "
+												},
+												{
+													"key": "userId",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:52:45 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "35"
+										}
+									],
+									"cookie": [],
+									"body": "The entered project does not exist."
+								}
+							]
+						},
+						{
+							"name": "AssignUserToProject Error: Inexistent user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "5",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AssignUserToProject Error: Inexistent user",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "2",
+													"description": "(Required) "
+												},
+												{
+													"key": "userId",
+													"value": "-1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "32"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 02:53:03 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "The entered user does not exist."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "DissociateUserFromProject",
+					"item": [
+						{
+							"name": "DissociateUserFromProject",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "6",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "7",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DissociateUserFromProject",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "2",
+													"description": "(Required) "
+												},
+												{
+													"key": "userId",
+													"value": "3",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 03:01:09 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "DissociateUserFromProject Non associated user and project",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "3",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "7",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId"
+												},
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "DissociateUserFromProject Error: Inexistent user exception",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "7",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId"
+												},
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "DissociateUserFromProject Error: Inexistent project exception",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "3",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "-1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:projectId/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":projectId",
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "projectId"
+												},
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "AddBugsFromFile",
+					"item": [
+						{
+							"name": "AddBugsFromFile Empresa1",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa1_1.XML\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa2_1.txt\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddBugsFromFile Empresa2",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa2_1.txt\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "Empresa2"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 04:35:37 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa1 Error: Wrong structure",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa1_1Broken.XML\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa2 Error: Wrong structure",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa2_1Broken.txt\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa1 Error: Wrong Format",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa2_1.txt\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa2 Error: Wrong format",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa1_1.XML\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa2 Error: Unexistent company",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa1_1.XML\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa inexistente",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa inexistente"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddBugsFromFile Empresa2 Error: Unexistent project",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"D:\\\\onedrive\\\\Escritorio\\\\Acceso_rapido\\\\Pruebas\\\\empresa1_1InexistentCompany.XML\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/bugs?companyName=Empresa1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										"bugs"
+									],
+									"query": [
+										{
+											"key": "companyName",
+											"value": "Empresa1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eiusmod ea\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/bugs?companyName=eiusmod ea",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												"bugs"
+											],
+											"query": [
+												{
+													"key": "companyName",
+													"value": "eiusmod ea"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetBugCountPerProject",
+					"item": [
+						{
+							"name": "GetBugCountPerProject",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "GetBugCountPerProject Error: No token",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "AddUser",
+					"item": [
+						{
+							"name": "AddTester",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Lionel\",\n    \"lastName\": \"Messi\",\n    \"userName\": \"leoMessi\",\n    \"password\": \"1234\",\n    \"email\": \"messi@gmail.com\",\n    \"role\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddTester",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"alberto\",\n    \"lastName\": \"rodriguez\",\n    \"userName\": \"ar234\",\n    \"password\": \"1234\",\n    \"email\": \"albertito@gmail.com\",\n    \"role\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 12:49:03 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AddAdmin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Luis\",\n    \"lastName\": \"Suarez\",\n    \"userName\": \"lucho\",\n    \"password\": \"pass233424\",\n    \"email\": \"luissuarez@gmail.com\",\n    \"role\": 3\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"userName\": \"<string>\",\n    \"password\": \"<string>\",\n    \"email\": \"<string>\",\n    \"role\": \"<integer>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "AddDeveloper",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Alfonso\",\n    \"lastName\": \"Davies\",\n    \"userName\": \"daviesAlfonso\",\n    \"password\": \"pass\",\n    \"email\": \"alf@gmail.com\",\n    \"role\": 2\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddDeveloper",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"Pedro\",\n    \"lastName\": \"Sanches\",\n    \"userName\": \"pedrosanchez\",\n    \"password\": \"pass\",\n    \"email\": \"pedrosanchez@gmail.com\",\n    \"role\": 2\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:16:39 GMT"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "AddUser Error: No token sent",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "hola",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"maria\",\n    \"lastName\": \"gonzales\",\n    \"userName\": \"mgonzales\",\n    \"password\": \"1234\",\n    \"email\": \"mgonzales@gmail.com\",\n    \"role\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddUser Error: No token sent",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "hola",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"maria\",\n    \"lastName\": \"gonzales\",\n    \"userName\": \"mgonzales\",\n    \"password\": \"1234\",\n    \"email\": \"mgonzales@gmail.com\",\n    \"role\": 0\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "26"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:18:13 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Please send a valid token."
+								}
+							]
+						},
+						{
+							"name": "AddUser Error: Invalid token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "hola",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"maria\",\n    \"lastName\": \"gonzales\",\n    \"userName\": \"mgonzales\",\n    \"password\": \"1234\",\n    \"email\": \"mgonzales@gmail.com\",\n    \"role\": 0\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddUser Error: Invalid token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "hola",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"maria\",\n    \"lastName\": \"gonzales\",\n    \"userName\": \"mgonzales\",\n    \"password\": \"1234\",\n    \"email\": \"mgonzales@gmail.com\",\n    \"role\": 0\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "51"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:18:33 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Authentication failed: please log in as: \n - Admin\n"
+								}
+							]
+						},
+						{
+							"name": "AddDeveloper Error: Invalid email",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Juana\",\n    \"lastName\": \"Perez\",\n    \"userName\": \"perezj\",\n    \"password\": \"mysecretpass\",\n    \"email\": null,\n    \"role\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AddDeveloper Error: Invalid email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "token",
+												"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\": \"Juana\",\n    \"lastName\": \"Perez\",\n    \"userName\": \"perezj\",\n    \"password\": \"mysecretpass\",\n    \"email\": null,\n    \"role\": 1\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "81"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Microsoft-IIS/10.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "ASP.NET"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 07 Oct 2021 13:18:54 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "LoginAdmin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"lucho\",\n    \"password\": \"pass233424\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/sessions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"sessions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"<string>\",\n    \"password\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Sessions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Sessions"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "LoginTester",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"ar234\",\n    \"password\": \"1234\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/sessions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"sessions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"<string>\",\n    \"password\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Sessions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Sessions"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Login Error: InvalidUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"not a user\",\n    \"password\": \"pass\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/sessions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"sessions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"<string>\",\n    \"password\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Sessions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Sessions"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "LoginDeveloper",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"francob\",\n    \"password\": \"pass\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/sessions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"sessions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"<string>\",\n    \"password\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Sessions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Sessions"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "GetFixedBugCount",
+					"item": [
+						{
+							"name": "GetFixedBugCount",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "2C2EkxWJ2UjeQSZLmu/LRZ1MpgwmbcNW",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		}
+	]
+}
