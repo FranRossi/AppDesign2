@@ -82,7 +82,7 @@ namespace DataAccess
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
-            if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
+            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == bugFromDb.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             return bugFromDb;
 
