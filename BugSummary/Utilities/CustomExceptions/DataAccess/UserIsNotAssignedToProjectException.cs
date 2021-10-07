@@ -3,9 +3,9 @@ using Utilities.CustomExceptions;
 
 namespace CustomExceptions
 {
-    public class ProjectDoesntBelongToUserException : DataAccessException
+    public class UserIsNotAssignedToProjectException : DataAccessException
     {
-        public ProjectDoesntBelongToUserException()
+        public UserIsNotAssignedToProjectException()
         {
             this.messageToDisplay = "The user is not assigned to the Project the bug belongs to.";
         }

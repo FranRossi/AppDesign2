@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         [AuthorizationWithParameterFilter(new[] { RoleType.Developer })]
         public IActionResult Patch([FromHeader] string token, int bugId)
         {
-            _bugs.FixBug(token, bugId);
+            _bugs.Fix(token, bugId);
             return Ok();
         }
 

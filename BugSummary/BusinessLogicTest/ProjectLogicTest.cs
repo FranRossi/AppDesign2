@@ -343,14 +343,14 @@ namespace BusinessLogicTest
                 Name = "Bug2",
                 Description = "Bug en el servidor 22",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
             };
             Bug bug3 = new Bug
             {
                 Name = "Bug3",
                 Description = "Bug en el servidor 232",
                 Version = "3.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
             };
             Project project1 = new Project
             {
@@ -397,14 +397,14 @@ namespace BusinessLogicTest
                 Name = "Bug2",
                 Description = "Bug en el servidor 22",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
             };
             Bug bug3 = new Bug
             {
                 Name = "Bug3",
                 Description = "Bug en el servidor 232",
                 Version = "3.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
             };
             Project project1 = new Project
             {

@@ -64,9 +64,9 @@ namespace DomainTest
         {
             Bug newBug = new Bug
             {
-                State = BugState.Done
+                State = BugState.Fixed
             };
-            Assert.AreEqual(BugState.Done, newBug.State);
+            Assert.AreEqual(BugState.Fixed, newBug.State);
         }
 
         [TestMethod]

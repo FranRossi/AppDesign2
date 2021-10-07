@@ -299,7 +299,7 @@ namespace WebApiTest
             int receivedBug = -1;
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             string receivedToken = "";
-            mock.Setup(m => m.FixBug(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
+            mock.Setup(m => m.Fix(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
             {
                 receivedBug = sentBug;
                 receivedToken = sentToken;

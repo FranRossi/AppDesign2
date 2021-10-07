@@ -28,14 +28,14 @@ namespace DataAccess
         {
             Project userProject = userToCreateBug.Projects.Find(p => p.Id == newBug.ProjectId);
             if (userProject == null)
-                throw new ProjectDoesntBelongToUserException();
+                throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Add(newBug);
         }
 
         public void Update(User testerUser, Bug updatedBug)
         {
             if (testerUser.Projects.Find(p => p.Id == updatedBug.ProjectId) == null)
-                throw new ProjectDoesntBelongToUserException();
+                throw new UserIsNotAssignedToProjectException();
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == updatedBug.Id);
             if (bugFromDb != null)
             {
@@ -58,20 +58,20 @@ namespace DataAccess
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
-                throw new ProjectDoesntBelongToUserException();
+                throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Remove(bugFromDb);
         }
 
-        public void FixBug(User developerUser, int bugId)
+        public void Fix(User developerUser, int bugId)
         {
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
-            if (bugFromDb.State == BugState.Done)
+            if (bugFromDb.State == BugState.Fixed)
                 throw new BugAlreadyFixedException();
             if (developerUser.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
-                throw new ProjectDoesntBelongToUserException();
-            bugFromDb.State = BugState.Done;
+                throw new UserIsNotAssignedToProjectException();
+            bugFromDb.State = BugState.Fixed;
             bugFromDb.FixerId = developerUser.Id;
             Context.Bugs.Update(bugFromDb);
 
@@ -83,7 +83,7 @@ namespace DataAccess
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (user.Projects.Find(p => p.Id == bugFromDb.ProjectId) == null)
-                throw new ProjectDoesntBelongToUserException();
+                throw new UserIsNotAssignedToProjectException();
             return bugFromDb;
 
         }

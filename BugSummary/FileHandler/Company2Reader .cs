@@ -52,7 +52,7 @@ namespace FileHandler
                 index += _descriptionLength;
                 bug.Version = entry.Substring(index, _versionLength).TrimEnd();
                 index += _versionLength;
-                bug.State = (entry.Substring(index, _stateLength).TrimEnd() == "Activo") ? BugState.Active : BugState.Done;
+                bug.State = (entry.Substring(index, _stateLength).TrimEnd() == "Activo") ? BugState.Active : BugState.Fixed;
                 project.Bugs.Add(bug);
             }
             return projects;

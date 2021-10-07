@@ -70,7 +70,7 @@ namespace WebApiTest.FiltersTest
         [TestMethod]
         public void ProjectDoesntBelongToUserExceptionTest()
         {
-            ProjectDoesntBelongToUserException exception = new ProjectDoesntBelongToUserException();
+            UserIsNotAssignedToProjectException exception = new UserIsNotAssignedToProjectException();
             TestException(exception, 403);
         }
 
