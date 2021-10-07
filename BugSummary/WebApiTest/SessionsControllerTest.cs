@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -11,6 +12,7 @@ namespace WebApiTest
     public class SessionsControllerTest
     {
         [TestMethod]
+        [ExcludeFromCodeCoverage]
         public void AuthenticateValidUser()
         {
             string username = "someUsername";

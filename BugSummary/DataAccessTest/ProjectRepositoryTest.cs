@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DataAccess;
 using Domain;
@@ -16,6 +17,7 @@ namespace DataAccessTest
 {
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ProjectRepositoryTest
     {
         private readonly DbConnection _connection;

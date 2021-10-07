@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
 using CustomExceptions;
 using DataAccess;
@@ -16,6 +17,7 @@ using Utilities.Criterias;
 namespace BusinessLogicTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class BugLogicTest
     {
         [DataRow("1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL")]

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
@@ -7,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DomainTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class UserTest
     {
         [TestMethod]

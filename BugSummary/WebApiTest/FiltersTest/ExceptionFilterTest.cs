@@ -12,10 +12,12 @@ using Utilities.CustomExceptions;
 using WebApi.Filters;
 using CustomExceptions;
 using System.Xml;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebApiTest.FiltersTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ExceptionFilterTest
     {
         [TestMethod]

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestUtilities
 {
+    [ExcludeFromCodeCoverage]
     public class TestExceptionUtils
     {
         public static void Throws<TException>(Action action, string message)

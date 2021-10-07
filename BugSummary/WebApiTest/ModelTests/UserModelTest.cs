@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BusinessLogicInterface;
 using CustomExceptions;
@@ -19,6 +20,7 @@ namespace WebApiTest
 {
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class UserModelTest
     {
         [TestMethod]
