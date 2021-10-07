@@ -2,7 +2,7 @@
 {
     public enum BugState
     {
-        Done = 0,
+        Fixed = 0,
         Active = 1
     }
 }

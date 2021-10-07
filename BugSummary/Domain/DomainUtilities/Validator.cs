@@ -11,7 +11,7 @@ namespace Domain.DomainUtilities
 
         public static bool CorrectBugState(BugState value)
         {
-            return value == BugState.Active || value == BugState.Done;
+            return value == BugState.Active || value == BugState.Fixed;
         }
 
         public static bool CheckValueIsNull(string value)

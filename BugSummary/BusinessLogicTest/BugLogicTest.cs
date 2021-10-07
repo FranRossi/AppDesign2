@@ -196,7 +196,7 @@ namespace BusinessLogicTest
                 Name = "BugNuevo",
                 Description = "Bug en el cliente",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 1
             };
             User tester = null;
@@ -234,7 +234,7 @@ namespace BusinessLogicTest
                 Name = "BugNuevo",
                 Description = "Bug en el cliente",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 1
             };
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
@@ -301,7 +301,7 @@ namespace BusinessLogicTest
             int receivedId = -1;
             User receivedUser = null;
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.FixBug(It.IsAny<User>(), It.IsAny<int>()))
+            mockBugRepository.Setup(mr => mr.Fix(It.IsAny<User>(), It.IsAny<int>()))
                 .Callback((User user, int bug) =>
                 {
                     receivedUser = user;
@@ -313,7 +313,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            bugLogic.FixBug(token, bugId);
+            bugLogic.Fix(token, bugId);
 
             mockBugRepository.VerifyAll();
             Assert.AreEqual(bugId, receivedId);

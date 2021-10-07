@@ -16,7 +16,7 @@ namespace DataAccessInterface
 
         void Delete(User testerUser, int bugId);
 
-        void FixBug(User developerUser, int bugId);
+        void Fix(User developerUser, int bugId);
 
         void Save();
 

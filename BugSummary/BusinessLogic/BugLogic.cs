@@ -35,10 +35,10 @@ namespace BusinessLogic
             _bugRepository.Save();
         }
 
-        public void FixBug(string token, int bugId)
+        public void Fix(string token, int bugId)
         {
             User userByToken = _userLogic.Get(token);
-            _bugRepository.FixBug(userByToken, bugId);
+            _bugRepository.Fix(userByToken, bugId);
             _bugRepository.Save();
         }
 
@@ -46,7 +46,7 @@ namespace BusinessLogic
         {
             UserLogic userLogic = new UserLogic(_userRepository);
             User userByToken = userLogic.Get(token);
-            _bugRepository.Delete(userByToken,bugId);
+            _bugRepository.Delete(userByToken, bugId);
             _bugRepository.Save();
         }
 
@@ -54,7 +54,7 @@ namespace BusinessLogic
         {
             UserLogic userLogic = new UserLogic(_userRepository);
             User userByToken = userLogic.Get(token);
-            Bug dataBaseBug =_bugRepository.Get(userByToken,bugId);
+            Bug dataBaseBug = _bugRepository.Get(userByToken, bugId);
             return dataBaseBug;
         }
 

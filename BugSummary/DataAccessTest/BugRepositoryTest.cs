@@ -154,7 +154,7 @@ namespace DataAccessTest
             }
 
             int bugId = 1;
-            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+            TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
                 () => _bugRepository.Get(testerUser, bugId), "The user is not assigned to the Project the bug belongs to."
             );
         }
@@ -265,11 +265,11 @@ namespace DataAccessTest
                 Name = "BugNuevo",
                 Description = "Bug Nuevo",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 2
             };
 
-            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+            TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
                 () => _bugRepository.Add(testerUser, updatedBug), "The user is not assigned to the Project the bug belongs to."
             );
         }
@@ -435,7 +435,7 @@ namespace DataAccessTest
                 Name = "BugNuevo",
                 Description = "Bug Nuevo",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 2
             };
             _bugRepository.Update(testerUser, updatedBug);
@@ -480,7 +480,7 @@ namespace DataAccessTest
                 Name = "BugNuevo",
                 Description = "Bug en el cliente",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 1
             };
             TestExceptionUtils.Throws<InexistentBugException>(
@@ -544,11 +544,11 @@ namespace DataAccessTest
                 Name = "BugNuevo",
                 Description = "Bug Nuevo",
                 Version = "1.5",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 2
             };
 
-            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+            TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
                 () => _bugRepository.Update(testerUser, updatedBug), "The user is not assigned to the Project the bug belongs to."
             );
         }
@@ -604,7 +604,7 @@ namespace DataAccessTest
             }
 
 
-            _bugRepository.FixBug(developerUser, bug.Id);
+            _bugRepository.Fix(developerUser, bug.Id);
             _bugRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
@@ -616,7 +616,7 @@ namespace DataAccessTest
                 CompareLogic compareLogic = new CompareLogic();
                 ComparisonResult deepComparisonResult = compareLogic.Compare(developerUser, fixer);
                 Assert.IsTrue(deepComparisonResult.AreEqual);
-                Assert.AreEqual(BugState.Done, databaseBug.State);
+                Assert.AreEqual(BugState.Fixed, databaseBug.State);
             }
         }
 
@@ -645,7 +645,7 @@ namespace DataAccessTest
             };
 
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => _bugRepository.FixBug(developerUser, bug.Id), "The entered bug does not exist."
+                () => _bugRepository.Fix(developerUser, bug.Id), "The entered bug does not exist."
             );
         }
 
@@ -684,8 +684,8 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
 
-            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
-                () => _bugRepository.FixBug(developerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
+            TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
+                () => _bugRepository.Fix(developerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
             );
         }
 
@@ -710,7 +710,7 @@ namespace DataAccessTest
                 Name = "Bug1",
                 Description = "Bug en el servidor",
                 Version = "1.4",
-                State = BugState.Done,
+                State = BugState.Fixed,
                 ProjectId = 1
             };
             Project projectTester = new Project()
@@ -726,7 +726,7 @@ namespace DataAccessTest
             }
 
             TestExceptionUtils.Throws<BugAlreadyFixedException>(
-                () => _bugRepository.FixBug(developerUser, bug.Id), "The bug you are trying to fix is already fixed."
+                () => _bugRepository.Fix(developerUser, bug.Id), "The bug you are trying to fix is already fixed."
             );
         }
 
@@ -835,7 +835,7 @@ namespace DataAccessTest
                 context.Add(bug);
                 context.SaveChanges();
             }
-            TestExceptionUtils.Throws<ProjectDoesntBelongToUserException>(
+            TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
                 () => _bugRepository.Delete(testerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
             );
         }

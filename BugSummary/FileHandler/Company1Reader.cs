@@ -26,7 +26,7 @@ namespace FileHandler
                 Name = (string)x.Element("Nombre"),
                 Description = (string)x.Element("Descripcion"),
                 Version = (string)x.Element("Version"),
-                State = ((string)x.Element("Estado") == "Activo") ? BugState.Active : BugState.Done
+                State = ((string)x.Element("Estado") == "Activo") ? BugState.Active : BugState.Fixed
             }).ToList();
 
             project.Bugs = bugs;

@@ -4,7 +4,7 @@
     {
         public BugNameLengthIncorrectException()
         {
-            messageToDisplay = "Bug's name must be under 30 characters";
+            messageToDisplay = "Bug's name must be under 60 characters";
         }
     }
 }
