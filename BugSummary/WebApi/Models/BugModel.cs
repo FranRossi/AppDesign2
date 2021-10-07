@@ -67,12 +67,12 @@ namespace WebApi.Models
 
         private void ValidateFields()
         {
-            bool allFieldsExist = Id > 1;
+            bool allFieldsExist = Id > 0;
             allFieldsExist &= Name != null;
             allFieldsExist &= Description != null;
             allFieldsExist &= State == BugState.Active || State == BugState.Fixed;
             allFieldsExist &= Version != null;
-            allFieldsExist &= ProjectId > 1;
+            allFieldsExist &= ProjectId > 0;
             if (!allFieldsExist)
                 throw new BugModelMissingFieldException();
         }
