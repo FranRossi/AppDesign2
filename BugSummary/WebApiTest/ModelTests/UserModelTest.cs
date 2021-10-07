@@ -80,7 +80,6 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
-                FirstName = "Pepe",
                 LastName = "Rodriquez",
                 UserName = "pepito",
                 Password = "pass1.4",

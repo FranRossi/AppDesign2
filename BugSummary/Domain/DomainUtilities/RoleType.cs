@@ -3,8 +3,8 @@
     public enum RoleType
     {
         Invalid = -1,
-        Tester = 0,
-        Developer = 1,
-        Admin = 2
+        Tester = 1,
+        Developer = 2,
+        Admin = 3
     }
 }

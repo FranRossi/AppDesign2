@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using CustomExceptions;
+using Domain;
 using Domain.DomainUtilities;
 
 namespace WebApi.Models
@@ -14,6 +15,7 @@ namespace WebApi.Models
 
         public User ToEntity()
         {
+            ValidateFields();
             return new()
             {
                 FirstName = FirstName,
@@ -35,6 +37,18 @@ namespace WebApi.Models
             model.Role = user.Role;
 
             return model;
+        }
+
+        private void ValidateFields()
+        {
+            bool allFieldsExist = FirstName != null;
+            allFieldsExist &= LastName != null;
+            allFieldsExist &= Email != null;
+            allFieldsExist &= Password != null;
+            allFieldsExist &= UserName != null;
+            allFieldsExist &= Role == RoleType.Admin || Role == RoleType.Developer || Role == RoleType.Developer;
+            if (!allFieldsExist)
+                throw new UserModelMissingFieldException();
         }
     }
 }
