@@ -102,6 +102,13 @@ namespace WebApiTest.FiltersTest
             TestException(exception, 400);
         }
 
+        [TestMethod]
+        public void InvalidCompany2BugFileExceptionTest()
+        {
+            InvalidCompany2BugFileException exception = new InvalidCompany2BugFileException();
+            TestException(exception, 400);
+        }
+
         private void TestException(Exception exception, int statusCode)
         {
             ModelStateDictionary modelState = new ModelStateDictionary();
