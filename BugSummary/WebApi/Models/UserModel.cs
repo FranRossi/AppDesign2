@@ -46,7 +46,7 @@ namespace WebApi.Models
             allFieldsExist &= Email != null;
             allFieldsExist &= Password != null;
             allFieldsExist &= UserName != null;
-            allFieldsExist &= Role == RoleType.Admin || Role == RoleType.Developer || Role == RoleType.Developer;
+            allFieldsExist &= Role == RoleType.Admin || Role == RoleType.Tester || Role == RoleType.Developer;
             if (!allFieldsExist)
                 throw new UserModelMissingFieldException();
         }
