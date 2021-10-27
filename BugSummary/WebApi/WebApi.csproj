@@ -9,14 +9,14 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BusinessLogicInterface\BusinessLogicInterface.csproj"/>
-        <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\Factory\Factory.csproj"/>
-        <ProjectReference Include="..\Utilities\Utilities.csproj"/>
+        <ProjectReference Include="..\BusinessLogicInterface\BusinessLogicInterface.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Factory\Factory.csproj" />
+        <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
 
 </Project>

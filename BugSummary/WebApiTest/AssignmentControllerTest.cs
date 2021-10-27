@@ -27,6 +27,12 @@ namespace WebApiTest
         [TestMethod]
         public void AddValidAssignment()
         {
+            Project projectTest = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>()
+            };
             Assignment newAssignment = new Assignment
             {
                 Id = 1,
@@ -51,7 +57,5 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-
-        
     }
 }
