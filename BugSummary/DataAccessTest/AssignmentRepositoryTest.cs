@@ -76,7 +76,7 @@ namespace DataAccessTest
 
             using (var context = new BugSummaryContext(this._contextOptions))
             {
-                List<Bug> assigmentsDataBase = context.Bugs.ToList();
+                List<Assignment> assigmentsDataBase = context.Assignments.ToList();
                 Assert.AreEqual(1, assigmentsDataBase.Count());
                 CollectionAssert.AreEqual(assignmentsExpected, assigmentsDataBase, new AssignmentComparer());
             }

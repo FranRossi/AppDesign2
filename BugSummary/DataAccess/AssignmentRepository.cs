@@ -8,5 +8,10 @@ namespace DataAccess
         {
             Context = bugSummaryContext;
         }
+
+        public void Add(Assignment assignment)
+        {
+            Context.Assignments.Add(assignment);
+        }
     }
 }
