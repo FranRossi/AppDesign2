@@ -821,9 +821,9 @@ namespace DataAccessTest
                 context.Add(bug);
                 context.SaveChanges();
             }
+            int fixingTime = 4;
 
-
-            _bugRepository.Fix(developerUser, bug.Id);
+            _bugRepository.Fix(developerUser, bug.Id, fixingTime);
             _bugRepository.Save();
 
             using (var context = new BugSummaryContext(this._contextOptions))
@@ -864,7 +864,7 @@ namespace DataAccessTest
             };
 
             TestExceptionUtils.Throws<InexistentBugException>(
-                () => _bugRepository.Fix(developerUser, bug.Id), "The entered bug does not exist."
+                () => _bugRepository.Fix(developerUser, bug.Id, 21), "The entered bug does not exist."
             );
         }
 
