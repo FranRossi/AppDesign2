@@ -68,7 +68,7 @@ namespace DataAccess
             Context.Bugs.Remove(bugFromDb);
         }
 
-        public void Fix(User user, int bugId)
+        public void Fix(User user, int bugId, int fixingTime)
         {
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
