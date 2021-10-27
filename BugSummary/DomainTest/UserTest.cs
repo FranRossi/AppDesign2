@@ -92,6 +92,49 @@ namespace DomainTest
         }
 
         [TestMethod]
+        public void CreateDeveloperHourlyRate()
+        {
+            User newUser = new User
+            {
+                Role = RoleType.Developer,
+                HourlyRate = 212
+            };
+            Assert.AreEqual(212, newUser.HourlyRate);
+        }
+
+        [TestMethod]
+        public void CreateTesterHourlyRate()
+        {
+            User newUser = new User
+            {
+                Role = RoleType.Tester,
+                HourlyRate = 12
+            };
+            Assert.AreEqual(12, newUser.HourlyRate);
+        }
+
+        [TestMethod]
+        public void CreateAdminCheckHourlyRate()
+        {
+            User newUser = new User
+            {
+                Role = RoleType.Admin,
+                HourlyRate = 435
+            };
+            Assert.AreEqual(0, newUser.HourlyRate);
+        }
+
+        [ExpectedException(typeof(InvalidUserHourlyRateException))]
+        [TestMethod]
+        public void CreateInvalidHourlyRate()
+        {
+            User newUser = new User
+            {
+                HourlyRate = -13,
+            };
+        }
+
+        [TestMethod]
         public void CreateId()
         {
             User newUser = new User

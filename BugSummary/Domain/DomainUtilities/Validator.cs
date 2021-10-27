@@ -35,5 +35,10 @@ namespace Domain.DomainUtilities
         {
             return value == RoleType.Developer;
         }
+
+        public static bool ValidateHourlyRate(int value)
+        {
+            return value > 0;
+        }
     }
 }

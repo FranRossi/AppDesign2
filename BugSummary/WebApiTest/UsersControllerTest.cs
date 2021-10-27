@@ -25,7 +25,8 @@ namespace WebApiTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                Role = RoleType.Developer,
+                HourlyRate = 241
             };
             User expectedUser = new User
             {
@@ -35,7 +36,8 @@ namespace WebApiTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin
+                HourlyRate = 241,
+                Role = RoleType.Developer
             };
             Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
             User receivedUser = null;

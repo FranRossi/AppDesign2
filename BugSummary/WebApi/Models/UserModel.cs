@@ -12,6 +12,7 @@ namespace WebApi.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public RoleType Role { get; set; }
+        public int HourlyRate { get; set; }
 
         public User ToEntity()
         {
@@ -23,7 +24,8 @@ namespace WebApi.Models
                 UserName = UserName,
                 Password = Password,
                 Email = Email,
-                Role = Role
+                Role = Role,
+                HourlyRate = HourlyRate
             };
         }
 
@@ -35,6 +37,7 @@ namespace WebApi.Models
             model.Email = user.Email;
             model.UserName = user.UserName;
             model.Role = user.Role;
+            model.HourlyRate = user.HourlyRate;
 
             return model;
         }
