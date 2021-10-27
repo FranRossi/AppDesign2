@@ -34,10 +34,10 @@ namespace BusinessLogic
             _bugRepository.Save();
         }
 
-        public void Fix(string token, int bugId)
+        public void Fix(string token, int bugId, int fixingTime)
         {
             User userByToken = _userLogic.Get(token);
-            _bugRepository.Fix(userByToken, bugId);
+            _bugRepository.Fix(userByToken, bugId, fixingTime);
             _bugRepository.Save();
         }
 

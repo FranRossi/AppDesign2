@@ -79,6 +79,7 @@ namespace DataAccess
                 throw new UserIsNotAssignedToProjectException();
             bugFromDb.State = BugState.Fixed;
             bugFromDb.FixerId = user.Id;
+            bugFromDb.FixingTime = fixingTime;
             Context.Bugs.Update(bugFromDb);
 
         }
