@@ -73,8 +73,8 @@ namespace Domain
             set
             {
                 ValidateRole(value);
-                SetAdminHourlyRate();
                 _role = value;
+                SetAdminHourlyRate();
             }
         }
 

@@ -30,7 +30,8 @@ namespace DataAccess
             Project projectFromDb = Context.Projects.FirstOrDefault(u => u.Id == newBug.ProjectId);
             if (projectFromDb == null)
                 throw new InexistentProjectException();
-            if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == newBug.ProjectId) != null))
+            if (!(user.
+                RoleType.Admin || user.Projects.Find(p => p.Id == newBug.ProjectId) != null))
                 throw new UserIsNotAssignedToProjectException();
             Context.Bugs.Add(newBug);
         }
