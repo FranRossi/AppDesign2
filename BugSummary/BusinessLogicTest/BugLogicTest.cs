@@ -75,7 +75,6 @@ namespace BusinessLogicTest
         public void AddBug()
         {
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
-            Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
             {
                 Id = 1,
