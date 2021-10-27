@@ -13,6 +13,7 @@ namespace Domain
         private string _pass;
         private RoleType _role;
         private string _userName;
+        private int _hourlyRate;
 
         public int Id { get; set; }
 
@@ -72,7 +73,18 @@ namespace Domain
             set
             {
                 ValidateRole(value);
+                SetAdminHourlyRate();
                 _role = value;
+            }
+        }
+
+        public int HourlyRate
+        {
+            get => _hourlyRate;
+            set
+            {
+                ValidateHourlyRate(value);
+                _hourlyRate = value;
             }
         }
 
@@ -86,13 +98,11 @@ namespace Domain
                 throw new UserPropertyIsNullException();
         }
 
-
         private void ValidateEmail(string email)
         {
             if (!Validator.ValidateEmailFormat(email))
                 throw new EmailIsIncorrectException();
         }
-
 
         private void ValidateRole(RoleType value)
         {
@@ -100,11 +110,23 @@ namespace Domain
                 throw new UserRoleIncorrectException();
         }
 
+        private void ValidateHourlyRate(int value)
+        {
+            if (!Validator.ValidateHourlyRate(value))
+                throw new InvalidUserHourlyRateException();
+        }
+
         public int GetFixedBugCount()
         {
             if (FixedBugs == null)
                 return 0;
             return FixedBugs.Count;
+        }
+
+        private void SetAdminHourlyRate()
+        {
+            if (_role == RoleType.Admin)
+                _hourlyRate = -1;
         }
     }
 }
