@@ -96,8 +96,8 @@ namespace DomainTest
         {
             User newUser = new User
             {
-                HourlyRate = 212,
-                Role = RoleType.Developer
+                Role = RoleType.Developer,
+                HourlyRate = 212
             };
             Assert.AreEqual(212, newUser.HourlyRate);
         }
@@ -107,8 +107,8 @@ namespace DomainTest
         {
             User newUser = new User
             {
-                HourlyRate = 12,
-                Role = RoleType.Tester
+                Role = RoleType.Tester,
+                HourlyRate = 12
             };
             Assert.AreEqual(12, newUser.HourlyRate);
         }
@@ -118,10 +118,10 @@ namespace DomainTest
         {
             User newUser = new User
             {
-                HourlyRate = 435,
-                Role = RoleType.Admin
+                Role = RoleType.Admin,
+                HourlyRate = 435
             };
-            Assert.AreEqual(-1, newUser.HourlyRate);
+            Assert.AreEqual(0, newUser.HourlyRate);
         }
 
         [ExpectedException(typeof(InvalidUserHourlyRateException))]

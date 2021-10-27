@@ -74,7 +74,6 @@ namespace Domain
             {
                 ValidateRole(value);
                 _role = value;
-                SetAdminHourlyRate();
             }
         }
 
@@ -83,8 +82,13 @@ namespace Domain
             get => _hourlyRate;
             set
             {
-                ValidateHourlyRate(value);
-                _hourlyRate = value;
+                if (_role == RoleType.Admin)
+                    _hourlyRate = 0;
+                else
+                {
+                    ValidateHourlyRate(value);
+                    _hourlyRate = value;
+                }
             }
         }
 
@@ -123,10 +127,5 @@ namespace Domain
             return FixedBugs.Count;
         }
 
-        private void SetAdminHourlyRate()
-        {
-            if (_role == RoleType.Admin)
-                _hourlyRate = -1;
-        }
     }
 }

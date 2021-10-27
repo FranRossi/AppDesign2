@@ -57,8 +57,8 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                HourlyRate = -1,
                 Role = RoleType.Admin,
+                HourlyRate = 0,
                 Projects = new List<Project>()
             };
             _userRepository.Add(newUser);
