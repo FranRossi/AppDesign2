@@ -9,10 +9,8 @@ namespace DomainTest
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class TaskTest
+    public class AssignmentTest
     {
-        // Tarea:  se  requiere  que  ahora  los  proyectos  tengan  una  lista  de  tareas  donde  cada  tarea  tiene  un 
-        // nombre, un costo por hora en $ y una duración en horas. 
         [TestMethod]
         public void CreateId()
         {
