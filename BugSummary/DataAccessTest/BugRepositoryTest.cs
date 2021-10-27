@@ -97,7 +97,7 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
         }
-        
+
         [TestMethod]
         public void GetBugByAdmin()
         {
@@ -139,7 +139,7 @@ namespace DataAccessTest
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
         }
-        
+
 
         [TestMethod]
         public void GetInvalidBug()
@@ -256,7 +256,7 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
-        
+
         [TestMethod]
         public void AddNewBugByAdmin()
         {
@@ -286,7 +286,8 @@ namespace DataAccessTest
                 Name = "Bug1",
                 Description = "Bug en el servidor",
                 Version = "1.4",
-                State = BugState.Active,
+                State = BugState.Fixed,
+                FixingTime = 12,
                 Project = new Project(),
                 ProjectId = 1
             };
@@ -303,7 +304,7 @@ namespace DataAccessTest
                 CollectionAssert.AreEqual(bugsExpected, bugsDataBase, new BugComparer());
             }
         }
-        
+
         [TestMethod]
         public void AdminAddBugFromInvalidProject()
         {
@@ -329,10 +330,10 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
             TestExceptionUtils.Throws<InexistentProjectException>(
-                () => _bugRepository.Add(newUser,newBug), "The entered project does not exist."
+                () => _bugRepository.Add(newUser, newBug), "The entered project does not exist."
             );
         }
-        
+
         [TestMethod]
         public void TesterAddsBugWithoutNewProject()
         {
@@ -571,7 +572,7 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
-        
+
         [TestMethod]
         public void AdminUpdateBugTest()
         {
@@ -632,7 +633,7 @@ namespace DataAccessTest
                 Assert.IsTrue(deepComparisonResult.AreEqual);
             }
         }
-        
+
         [TestMethod]
         public void AdminUpdateBugFromInvalidProject()
         {
@@ -658,7 +659,7 @@ namespace DataAccessTest
                 context.SaveChanges();
             }
             TestExceptionUtils.Throws<InexistentProjectException>(
-                () => _bugRepository.Add(newUser,newBug), "The entered project does not exist."
+                () => _bugRepository.Add(newUser, newBug), "The entered project does not exist."
             );
         }
 
@@ -693,14 +694,14 @@ namespace DataAccessTest
             }
 
             Bug updatedBug = new Bug
-                {
-                    Id = 1,
-                    Name = "BugNuevo",
-                    Description = "Bug en el cliente",
-                    Version = "1.5",
-                    State = BugState.Fixed,
-                    ProjectId = 1
-                };
+            {
+                Id = 1,
+                Name = "BugNuevo",
+                Description = "Bug en el cliente",
+                Version = "1.5",
+                State = BugState.Fixed,
+                ProjectId = 1
+            };
             TestExceptionUtils.Throws<InexistentBugException>(
                                 () => _bugRepository.Update(testerUser, updatedBug), "The entered bug does not exist."
             );
@@ -1000,7 +1001,7 @@ namespace DataAccessTest
                 Assert.AreEqual(null, databaseBug);
             }
         }
-        
+
         [TestMethod]
         public void AdminDeleteBug()
         {
