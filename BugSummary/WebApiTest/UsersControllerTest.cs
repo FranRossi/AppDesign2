@@ -25,8 +25,8 @@ namespace WebApiTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                HourlyRate = 241,
-                Role = RoleType.Developer
+                Role = RoleType.Developer,
+                HourlyRate = 241
             };
             User expectedUser = new User
             {
