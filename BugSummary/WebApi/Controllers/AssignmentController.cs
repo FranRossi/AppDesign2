@@ -24,9 +24,9 @@ namespace WebApi.Controllers
         
         [HttpPost]
         [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
-        public IActionResult Post([FromBody] Assignment assignment)
+        public IActionResult Post([FromBody] AssignmentModel assignment)
         {
-            _assignments.Add( assignment);
+            _assignments.Add(assignment.ToEntity());
             return Ok();
         }
         

@@ -10,9 +10,6 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestUtilities;
-using Utilities.Comparers;
-using Utilities.Criterias;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -27,18 +24,13 @@ namespace WebApiTest
         [TestMethod]
         public void AddValidAssignment()
         {
-            Project projectTest = new Project()
+            AssignmentModel newAssignment = new AssignmentModel
             {
                 Id = 1,
-                Name = "Semester 2021",
-                Users = new List<User>()
-            };
-            Assignment newAssignment = new Assignment
-            {
-                Id = 1,
-                Name = "Bug1",
-                Project = projectTest,
-                ProjectId = 1
+                Name = "Bug2021",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1,
             };
             Mock<IAssignmentLogic> mock = new Mock<IAssignmentLogic>(MockBehavior.Strict);
             Assignment receivedAssignment = null;
@@ -53,7 +45,7 @@ namespace WebApiTest
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
             CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(newAssignment, receivedAssignment);
+            ComparisonResult deepComparisonResult = compareLogic.Compare(newAssignment.ToEntity(), receivedAssignment);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 

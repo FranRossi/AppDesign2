@@ -1,19 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using BusinessLogicInterface;
 using CustomExceptions;
 using Domain;
-using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.Criterias;
-using WebApi.Controllers;
 using WebApi.Models;
 
 namespace WebApiTest
@@ -29,7 +20,7 @@ namespace WebApiTest
             Assignment assignment = new Assignment
             {
                 Id = 1,
-                Name = "Bug1",
+                Name = "Task",
                Duration = 2,
                HourlyRate = 25,
                ProjectId = 1,
@@ -37,7 +28,7 @@ namespace WebApiTest
             AssignmentModel assignmentModel = new AssignmentModel
             {
                 Id = 1,
-                Name = "Bug1",
+                Name = "Task",
                 Duration = 2,
                 HourlyRate = 25,
                 ProjectId = 1,
@@ -54,13 +45,13 @@ namespace WebApiTest
         {
              AssignmentModel assignmentModel = new AssignmentModel
             {
-                Name = "Bug1",
+                Name = "Task",
                 Duration = 2,
                 HourlyRate = 25,
                 ProjectId = 1,
             };
             TestExceptionUtils.Throws<AssignmentModelMissingFieldException>(
-                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, Hourly, ProjectId."
+                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId."
             );
         }
 
@@ -75,7 +66,7 @@ namespace WebApiTest
                 ProjectId = 1,
             };
             TestExceptionUtils.Throws<AssignmentModelMissingFieldException>(
-                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, Hourly, ProjectId."
+                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId."
             );
         }
 
@@ -85,12 +76,12 @@ namespace WebApiTest
             AssignmentModel assignmentModel = new AssignmentModel
             {
                 Id = 1,
-                Name = "Bug1",
+                Name = "Task",
                 HourlyRate = 25,
                 ProjectId = 1,
             };
             TestExceptionUtils.Throws<AssignmentModelMissingFieldException>(
-                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, Hourly, ProjectId."
+                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId."
             );
         }
 
@@ -100,12 +91,12 @@ namespace WebApiTest
             AssignmentModel assignmentModel = new AssignmentModel
             {
                 Id = 1,
-                Name = "Bug1",
+                Name = "Task",
                 Duration = 2,
                 ProjectId = 1,
             };
             TestExceptionUtils.Throws<AssignmentModelMissingFieldException>(
-                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, Hourly, ProjectId."
+                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId."
             );
         }
         
@@ -116,12 +107,12 @@ namespace WebApiTest
             AssignmentModel assignmentModel = new AssignmentModel
             {
                 Id = 1,
-                Name = "Bug1",
+                Name = "Task",
                 Duration = 2,
                 HourlyRate = 25
             };
             TestExceptionUtils.Throws<AssignmentModelMissingFieldException>(
-                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, Hourly, ProjectId."
+                () => assignmentModel.ToEntity(), "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId."
             );
         }
         
