@@ -35,6 +35,7 @@ namespace WebApiTest
                 Description = "ImportanteBug",
                 State = BugState.Active,
                 Version = "2",
+                FixingTime = 0,
                 ProjectId = 1,
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
@@ -123,7 +124,7 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-        
+
         [TestMethod]
         public void UpdateValidBug()
         {
