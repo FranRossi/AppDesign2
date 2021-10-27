@@ -70,6 +70,28 @@ namespace DomainTest
             };
             Assert.AreEqual(2, newAssignment.ProjectId);
         }
+        
+        
+        [ExpectedException(typeof(AssignmentNameLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyAssignmentNameLengthIsCorrect()
+        {
+            string name = "Semester2021Semester2021Semester2021Semester2021";
+            Assignment newAssignment = new Assignment
+            {
+                Name = name
+            };
+        }
+        
+        [ExpectedException(typeof(AssignmentIdLengthIncorrectException))]
+        [TestMethod]
+        public void VerifyAssignmentIdLengthIsInCorrect()
+        {
+            Assignment newAssignment = new Assignment
+            {
+                Id = 12345
+            };
+        }
    
     }
 }
