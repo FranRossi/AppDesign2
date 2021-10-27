@@ -947,6 +947,7 @@ namespace DataAccessTest
             TestExceptionUtils.Throws<BugAlreadyFixedException>(
                 () => _bugRepository.Fix(developerUser, bug.Id), "The bug you are trying to fix is already fixed."
             );
+
         }
 
         [TestMethod]
