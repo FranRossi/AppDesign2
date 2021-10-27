@@ -76,7 +76,7 @@ namespace DomainTest
         [TestMethod]
         public void VerifyAssignmentNameLengthIsCorrect()
         {
-            string name = "Semester2021Semester2021Semester2021Semester2021";
+            string name = "Semester20Semester20Semester20Semester20Semester20Semester20PassingOver60";
             Assignment newAssignment = new Assignment
             {
                 Name = name
