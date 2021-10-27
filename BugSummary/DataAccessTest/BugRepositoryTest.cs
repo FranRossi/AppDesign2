@@ -904,7 +904,7 @@ namespace DataAccessTest
             }
 
             TestExceptionUtils.Throws<UserIsNotAssignedToProjectException>(
-                () => _bugRepository.Fix(developerUser, bug.Id), "The user is not assigned to the Project the bug belongs to."
+                () => _bugRepository.Fix(developerUser, bug.Id, 23), "The user is not assigned to the Project the bug belongs to."
             );
         }
 
@@ -945,7 +945,7 @@ namespace DataAccessTest
             }
 
             TestExceptionUtils.Throws<BugAlreadyFixedException>(
-                () => _bugRepository.Fix(developerUser, bug.Id), "The bug you are trying to fix is already fixed."
+                () => _bugRepository.Fix(developerUser, bug.Id, 23), "The bug you are trying to fix is already fixed."
             );
 
         }
