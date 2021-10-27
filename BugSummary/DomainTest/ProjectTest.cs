@@ -79,6 +79,46 @@ namespace DomainTest
         }
 
         [TestMethod]
+        public void AddMultipleTasks()
+        {
+            List<Assignment> assignmentsExpected = new List<Assignment>()
+            {
+                new Assignment
+                {
+                    Id = 1,
+                    Name = "Ass1",
+                    Project = new Project() { }
+                },
+                new Assignment
+                {
+                    Id = 2,
+                    Name = "Ass2",
+                    Project = new Project() { }
+                }
+            };
+            Project newProject = new Project
+            {
+                Assignments = new List<Assignment>()
+                {
+                    new Assignment
+                    {
+                        Id = 1,
+                        Name = "Ass1",
+                        Project = new Project() { }
+                    },
+                    new Assignment
+                    {
+                        Id = 2,
+                        Name = "Ass2",
+                        Project = new Project() { }
+                    }
+                }
+            };
+            Assert.AreEqual(2, newProject.Assignments.Count());
+            CollectionAssert.AreEqual(assignmentsExpected, newProject.Assignments, new AssignmentComparer());
+        }
+        
+        [TestMethod]
         public void AddMultipleBugs()
         {
             List<Bug> bugsExpected = new List<Bug>()

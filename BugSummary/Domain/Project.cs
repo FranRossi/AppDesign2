@@ -24,6 +24,7 @@ namespace Domain
 
         public List<Bug> Bugs { get; set; }
         public List<User> Users { get; set; }
+        public List<Assignment> Assignments { get; set; }
 
         private void ValidateName(string nameToValidate)
         {
