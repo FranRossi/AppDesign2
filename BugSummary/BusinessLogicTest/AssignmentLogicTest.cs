@@ -39,7 +39,7 @@ namespace BusinessLogicTest
             });
             mockAssignmentRepository.Setup(mr => mr.Save());
 
-            AssigmentLogic assigmentLogic = new AssigmentLogic(mockAssignmentRepository.Object);
+            AssignmentLogic assigmentLogic = new AssignmentLogic(mockAssignmentRepository.Object);
             assigmentLogic.Add(newAssignment);
 
             mockAssignmentRepository.VerifyAll();

@@ -1,8 +1,9 @@
-﻿using Domain;
+﻿using DataAccessInterface;
+using Domain;
 
 namespace DataAccess
 {
-    public class AssignmentRepository : BaseRepository<Assignment>
+    public class AssignmentRepository : BaseRepository<Assignment>, IAssignmentRepository
     {
         public AssignmentRepository(BugSummaryContext bugSummaryContext)
         {
