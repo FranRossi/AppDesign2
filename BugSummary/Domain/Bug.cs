@@ -57,7 +57,6 @@ namespace Domain
             }
         }
 
-
         public BugState State
         {
             get => _state;
@@ -80,6 +79,7 @@ namespace Domain
             }
         }
         public int? FixerId { get; set; }
+        public int FixingTime { get; set; }
 
 
         private void ValidateName(string nameToValidate)
