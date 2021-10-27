@@ -1,5 +1,7 @@
-﻿using System.Data.Common;
+﻿using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using DataAccess;
 using Domain;
 using Domain.DomainUtilities;
@@ -8,6 +10,8 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities.Comparers;
+
 namespace DataAccessTest
 {
 
@@ -39,6 +43,43 @@ namespace DataAccessTest
         public void CleanUp()
         {
             this._bugSummaryContext.Database.EnsureDeleted();
+        }
+        
+        [TestMethod]
+        public void AddNewAssignment()
+        {
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                Project projectTester = new Project()
+                {
+                    Id = 1,
+                    Name = "Semester 2021",
+                    Users = new List<User>()
+                };
+                context.Projects.Add(projectTester);
+                context.SaveChanges();
+            };
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Bug1",
+                Duration = 2,
+                HourlyRate = 25,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            List<Assignment> assignmentsExpected = new List<Assignment>();
+            assignmentsExpected.Add(assignment);
+
+            _assignmentRepository.Add(assignment);
+            _assignmentRepository.Save();
+
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                List<Bug> assigmentsDataBase = context.Bugs.ToList();
+                Assert.AreEqual(1, assigmentsDataBase.Count());
+                CollectionAssert.AreEqual(assignmentsExpected, assigmentsDataBase, new AssignmentComparer());
+            }
         }
         
     }
