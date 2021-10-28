@@ -14,6 +14,7 @@ namespace WebApi.Models
         public string Version { get; set; }
         public int ProjectId { get; set; }
         public int Id { get; set; }
+        public int FixingTime { get; set; }
 
         public Bug ToEntity()
         {
@@ -24,7 +25,8 @@ namespace WebApi.Models
                 Description = Description,
                 State = State,
                 Version = Version,
-                ProjectId = ProjectId
+                ProjectId = ProjectId,
+                FixingTime = FixingTime
             };
         }
 

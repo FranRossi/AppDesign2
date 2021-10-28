@@ -35,6 +35,7 @@ namespace WebApiTest
                 Description = "ImportanteBug",
                 State = BugState.Active,
                 Version = "2",
+                FixingTime = 0,
                 ProjectId = 1,
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
@@ -123,7 +124,7 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
-        
+
         [TestMethod]
         public void UpdateValidBug()
         {
@@ -184,14 +185,17 @@ namespace WebApiTest
             int receivedBug = -1;
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             string receivedToken = "";
-            mock.Setup(m => m.Fix(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
+            int fixingTime = 2;
+            int receivedFixingTime = -1;
+            mock.Setup(m => m.Fix(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Callback((string sentToken, int sentBug, int sentFixingTime) =>
             {
                 receivedBug = sentBug;
                 receivedToken = sentToken;
+                receivedFixingTime = sentFixingTime;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Patch(token, bug);
+            IActionResult result = controller.Patch(token, bug, fixingTime);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));

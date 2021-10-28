@@ -295,7 +295,7 @@ namespace BusinessLogicTest
                 () => bugLogic.Delete(token, bugId), "The entered bug does not exist."
             );
         }
-        
+
         [TestMethod]
         public void FixValidBug()
         {
@@ -304,12 +304,15 @@ namespace BusinessLogicTest
             User user = new User { UserName = "Pepe" };
             int receivedId = -1;
             User receivedUser = null;
+            int time = 21;
+            int receivedFixingTime = -1;
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Fix(It.IsAny<User>(), It.IsAny<int>()))
-                .Callback((User user, int bug) =>
+            mockBugRepository.Setup(mr => mr.Fix(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Callback((User user, int bug, int fixingTime) =>
                 {
                     receivedUser = user;
                     receivedId = bug;
+                    receivedFixingTime = fixingTime;
                 }); ;
             mockBugRepository.Setup(mr => mr.Save());
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
@@ -317,11 +320,12 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            bugLogic.Fix(token, bugId);
+            bugLogic.Fix(token, bugId, time);
 
             mockBugRepository.VerifyAll();
             Assert.AreEqual(bugId, receivedId);
             Assert.AreEqual(user, receivedUser);
+            Assert.AreEqual(time, receivedFixingTime);
         }
     }
 }

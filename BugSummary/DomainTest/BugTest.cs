@@ -130,6 +130,16 @@ namespace DomainTest
             Assert.AreEqual(23, newBug.FixerId);
         }
 
+        [TestMethod]
+        public void CreateFixingTimeTest()
+        {
+            Bug newBug = new Bug
+            {
+                FixingTime = 23
+            };
+            Assert.AreEqual(23, newBug.FixingTime);
+        }
+
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
