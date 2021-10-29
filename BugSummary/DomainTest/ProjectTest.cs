@@ -309,7 +309,7 @@ namespace DomainTest
         public void DurationEmptyProject()
         {
             Project newProject = new Project();
-            Assert.AreEqual(0, newProject.Duration());
+            Assert.AreEqual(0, newProject.CalculateDuration());
         }
 
         [TestMethod]
@@ -358,7 +358,71 @@ namespace DomainTest
                     }
                 }
             };
-            Assert.AreEqual(22, newProject.Duration());
+            Assert.AreEqual(22, newProject.CalculateDuration());
+        }
+
+        [TestMethod]
+        public void EmptyProjectCost()
+        {
+            Project newProject = new Project();
+            Assert.AreEqual(0, newProject.CalculateCost());
+        }
+
+        [TestMethod]
+        public void ProjectCost()
+        {
+            Project newProject = new Project
+            {
+                Bugs = new List<Bug>()
+                {
+                    new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Fixed,
+                        FixingTime = 12,
+                        Fixer = new User() {
+                            Role = RoleType.Developer,
+                            HourlyRate = 2
+                        }
+                    },
+                    new Bug
+                    {
+                        Id = 2,
+                        Name = "Bug2",
+                        Description = "Bug en el cliente",
+                        Version = "1.4",
+                        State = BugState.Fixed,
+                        FixingTime = 3,
+                        Fixer = new User() {
+                            Role = RoleType.Developer,
+                            HourlyRate = 4
+                        }
+                    }
+                },
+                Assignments = new List<Assignment>()
+                {
+                    new Assignment
+                    {
+                        Id = 1,
+                        Name = "Ass1",
+                        Project = new Project() { },
+                        Duration = 1,
+                        HourlyRate = 4
+                    },
+                    new Assignment
+                    {
+                        Id = 2,
+                        Name = "Ass2",
+                        Project = new Project() { },
+                        Duration = 6,
+                        HourlyRate = 3
+                    }
+                }
+            };
+            Assert.AreEqual(58, newProject.CalculateCost());
         }
 
     }

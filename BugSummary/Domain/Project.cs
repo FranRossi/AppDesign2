@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 
@@ -52,7 +53,7 @@ namespace Domain
                 Users.Remove(newUser);
         }
 
-        public int Duration()
+        public int CalculateDuration()
         {
             int duration = 0;
             if (Bugs != null)
@@ -62,6 +63,18 @@ namespace Domain
                 foreach (Assignment assignment in Assignments)
                     duration += (int)assignment.Duration;
             return duration;
+        }
+
+        public int CalculateCost()
+        {
+            int cost = 0;
+            if (Bugs != null)
+                foreach (Bug bug in Bugs)
+                    cost += bug.FixingTime * bug.GetFixerHourlyRate();
+            if (Assignments != null)
+                foreach (Assignment assignment in Assignments)
+                    cost += (int)assignment.Duration * assignment.HourlyRate;
+            return cost;
         }
     }
 }
