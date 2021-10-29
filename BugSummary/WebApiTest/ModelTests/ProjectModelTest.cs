@@ -53,6 +53,7 @@ namespace WebApiTest
             );
         }
 
+        [TestMethod]
         public void ProjectBugCountToEntityTest()
         {
             IEnumerable<Project> projects = new List<Project>()
@@ -60,7 +61,16 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> {
+                            new Bug {
+                                FixingTime = 3,
+                                Fixer = new User
+                                {
+                                    Role = RoleType.Developer,
+                                    HourlyRate = 2
+                                }
+                            }, new Bug(), new Bug(),
+                        }
                     },
                 new Project
                     {
@@ -70,7 +80,16 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project C",
-                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                        Bugs = new List<Bug> {
+                            new Bug {
+                                FixingTime = 1,
+                                Fixer = new User
+                                {
+                                    Role = RoleType.Developer,
+                                    HourlyRate = 12
+                                }
+                            },
+                            new Bug() }
                     }
             };
             IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
@@ -78,17 +97,23 @@ namespace WebApiTest
                 new ProjectBugCountModel
                 {
                     Name = "Project A",
-                    BugCount = 3
+                    BugCount = 3,
+                    Duration = 3,
+                    Cost = 6
                 },
                 new ProjectBugCountModel
                 {
-                        Name = "Project B",
-                        BugCount = 0
+                   Name = "Project B",
+                   BugCount = 0,
+                   Duration = 0,
+                   Cost = 0
                 },
                 new ProjectBugCountModel
                 {
                     Name = "Project C",
-                    BugCount = 2
+                    BugCount = 2,
+                    Duration = 1,
+                    Cost = 12
                 }
             };
 
