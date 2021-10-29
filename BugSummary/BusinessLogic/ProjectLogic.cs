@@ -4,6 +4,7 @@ using Domain;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
+using System;
 using System.Collections.Generic;
 
 namespace BusinessLogic
@@ -61,6 +62,12 @@ namespace BusinessLogic
         public IEnumerable<Project> GetAll()
         {
             return _projectRepository.GetAll();
+        }
+
+        public int GetDuration(int id)
+        {
+            Project projectFromDB = _projectRepository.Get(id);
+            return projectFromDB.Duration();
         }
     }
 }
