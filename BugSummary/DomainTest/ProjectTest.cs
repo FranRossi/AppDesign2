@@ -56,7 +56,7 @@ namespace DomainTest
 
             Assert.AreEqual(1, newProject.Bugs.Count());
         }
-        
+
         [TestMethod]
         public void CreateListOfAssignments()
         {
@@ -66,7 +66,7 @@ namespace DomainTest
                 {
                     new Assignment
                     {
-                        Id = 1, 
+                        Id = 1,
                         Name = "Bug1",
                         Duration = 2,
                         HourlyRate = 25,
@@ -117,7 +117,7 @@ namespace DomainTest
             Assert.AreEqual(2, newProject.Assignments.Count());
             CollectionAssert.AreEqual(assignmentsExpected, newProject.Assignments, new AssignmentComparer());
         }
-        
+
         [TestMethod]
         public void AddMultipleBugs()
         {
@@ -303,6 +303,62 @@ namespace DomainTest
             {
                 Name = name
             };
+        }
+
+        [TestMethod]
+        public void DurationEmptyProject()
+        {
+            Project newProject = new Project();
+            Assert.AreEqual(0, newProject.Duration());
+        }
+
+        [TestMethod]
+        public void DurationProject()
+        {
+            Project newProject = new Project
+            {
+                Bugs = new List<Bug>()
+                {
+                    new Bug
+                    {
+                        Id = 1,
+                        Name = "Bug1",
+                        Description = "Bug en el servidor",
+                        Version = "1.4",
+                        State = BugState.Fixed,
+                        FixingTime = 12,
+                        Project = new Project() { }
+                    },
+                    new Bug
+                    {
+                        Id = 2,
+                        Name = "Bug2",
+                        Description = "Bug en el cliente",
+                        Version = "1.4",
+                        State = BugState.Fixed,
+                        FixingTime = 3,
+                        Project = new Project() { }
+                    }
+                },
+                Assignments = new List<Assignment>()
+                {
+                    new Assignment
+                    {
+                        Id = 1,
+                        Name = "Ass1",
+                        Project = new Project() { },
+                        Duration = 1
+                    },
+                    new Assignment
+                    {
+                        Id = 2,
+                        Name = "Ass2",
+                        Project = new Project() { },
+                        Duration = 6
+                    }
+                }
+            };
+            Assert.AreEqual(22, newProject.Duration());
         }
 
     }
