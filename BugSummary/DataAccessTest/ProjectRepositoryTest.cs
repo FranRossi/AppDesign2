@@ -738,5 +738,86 @@ namespace DataAccessTest
                () => _projectRepository.AddBugsFromFile(new List<Project> { newProject }), "The entered project does not exist."
             );
         }
+
+        [TestMethod]
+        public void GetProjectById()
+        {
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Active,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                FixingTime = 13,
+                State = BugState.Fixed,
+            };
+            Assignment assignment1 = new Assignment
+            {
+                Id = 1,
+                Name = "Test domain",
+                Duration = 2,
+                HourlyRate = 25,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Assignment assignment2 = new Assignment
+            {
+                Id = 2,
+                Name = "Create prototypes",
+                Duration = 34,
+                HourlyRate = 32,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = null,
+                Assignments = new List<Assignment> { assignment1, assignment2 }
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(project1);
+                context.SaveChanges();
+                context.Add(new Project
+                {
+                    Name = "New Project 2023",
+                    Id = 2,
+                    Bugs = new List<Bug> { bug3 },
+                    Users = null
+                });
+                context.SaveChanges();
+
+            }
+
+            Project projectFromDataBase = _projectRepository.Get(project1.Id);
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectFromDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetInexistentProjectById()
+        {
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => _projectRepository.Get(1), "The entered project does not exist."
+            );
+        }
     }
 }

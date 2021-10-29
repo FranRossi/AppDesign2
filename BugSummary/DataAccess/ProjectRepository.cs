@@ -89,5 +89,13 @@ namespace DataAccess
                 }
             }
         }
+
+        public Project Get(int projectId)
+        {
+            Project projectFromDB = Context.Projects.Include("Assignments").Include("Bugs").FirstOrDefault(p => p.Id == projectId);
+            if (projectFromDB == null)
+                throw new InexistentProjectException();
+            return projectFromDB;
+        }
     }
 }

@@ -45,14 +45,14 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("{projectId}/users")]
-        public IActionResult Post(int projectId ,[FromBody]int userId)
+        public IActionResult Post(int projectId, [FromBody] int userId)
         {
             _projects.AssignUserToProject(userId, projectId);
             return Ok();
         }
 
         [HttpDelete("{projectId}/users")]
-        public IActionResult Delete(int projectId, [FromBody]int userId)
+        public IActionResult Delete(int projectId, [FromBody] int userId)
         {
             _projects.DissociateUserFromProject(userId, projectId);
             return Ok();
@@ -70,6 +70,13 @@ namespace WebApi.Controllers
         {
             IEnumerable<Project> result = _projects.GetAll();
             return Ok(ProjectBugCountModel.ToModel(result));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            int result = _projects.GetDuration(id);
+            return Ok(result);
         }
     }
 }

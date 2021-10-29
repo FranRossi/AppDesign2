@@ -20,5 +20,7 @@ namespace DataAccessInterface
         void AddBugsFromFile(IEnumerable<Project> newProject);
 
         void Save();
+
+        Project Get(int projectId);
     }
 }

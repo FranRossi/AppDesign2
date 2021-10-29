@@ -12,7 +12,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [ExceptionFilter]
-    [Route("bugs")]
+    [Route("assignments")]
     public class AssignmentController : ControllerBase
     {
         private readonly IAssignmentLogic _assignments;
@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         {
             _assignments = assignments;
         }
-        
+
         [HttpPost]
         [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         public IActionResult Post([FromBody] AssignmentModel assignment)
@@ -29,6 +29,6 @@ namespace WebApi.Controllers
             _assignments.Add(assignment.ToEntity());
             return Ok();
         }
-        
+
     }
 }

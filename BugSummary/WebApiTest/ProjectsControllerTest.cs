@@ -4,10 +4,8 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Utilities.Comparers;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -195,6 +193,29 @@ namespace WebApiTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetProjectDuration()
+        {
+            int duration = 45;
+            int sentId = 4;
+            int receivedId = -1;
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+
+            mock.Setup(m => m.GetDuration(It.IsAny<int>())).Callback((int id) =>
+            {
+                receivedId = id;
+            }).Returns(duration);
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Get(sentId);
+            OkObjectResult okResult = result as OkObjectResult;
+            int durationResult = (int)okResult.Value;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.AreEqual(duration, durationResult);
         }
 
     }
