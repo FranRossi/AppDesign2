@@ -24,7 +24,7 @@ namespace DataAccess
 
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.Include("Bugs").ToList();
+            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").ToList();
         }
 
         public void Update(Project updatedProject)
@@ -38,7 +38,6 @@ namespace DataAccess
             else
                 throw new InexistentProjectException();
         }
-
 
         public void Delete(int projectId)
         {
@@ -88,14 +87,6 @@ namespace DataAccess
                     Context.Bugs.Add(newBug);
                 }
             }
-        }
-
-        public Project Get(int projectId)
-        {
-            Project projectFromDB = Context.Projects.Include("Assignments").Include("Bugs").FirstOrDefault(p => p.Id == projectId);
-            if (projectFromDB == null)
-                throw new InexistentProjectException();
-            return projectFromDB;
         }
     }
 }
