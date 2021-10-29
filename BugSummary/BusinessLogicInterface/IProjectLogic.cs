@@ -16,7 +16,9 @@ namespace BusinessLogicInterface
         public void DissociateUserFromProject(int userId, int projectId);
 
         public void AddBugsFromFile(string path, string companyName);
-      
+
         public IEnumerable<Project> GetAll();
+
+        int GetDuration(int id);
     }
 }
