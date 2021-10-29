@@ -51,5 +51,17 @@ namespace Domain
             if (Users != null)
                 Users.Remove(newUser);
         }
+
+        public int Duration()
+        {
+            int duration = 0;
+            if (Bugs != null)
+                foreach (Bug bug in Bugs)
+                    duration += bug.FixingTime;
+            if (Assignments != null)
+                foreach (Assignment assignment in Assignments)
+                    duration += (int)assignment.Duration;
+            return duration;
+        }
     }
 }
