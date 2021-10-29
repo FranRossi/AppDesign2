@@ -12,7 +12,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [ExceptionFilter]
-    [Route("bugs")]
+    [Route("assignments")]
     public class AssignmentController : ControllerBase
     {
         private readonly IAssignmentLogic _assignments;
