@@ -202,5 +202,29 @@ namespace DomainTest
             };
 
         }
+
+        [TestMethod]
+        public void GetInvalidFixeHourlyRate()
+        {
+            Bug newBug = new Bug();
+
+            Assert.AreEqual(0, newBug.GetFixerHourlyRate());
+        }
+
+        [TestMethod]
+        public void GetFixeHourlyRate()
+        {
+            Bug newBug = new Bug
+            {
+                Fixer = new User
+                {
+                    Role = RoleType.Developer,
+                    HourlyRate = 23
+                }
+            };
+
+            Assert.AreEqual(23, newBug.GetFixerHourlyRate());
+        }
+
     }
 }
