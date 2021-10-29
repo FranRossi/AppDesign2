@@ -1,5 +1,6 @@
 ﻿using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
+using System;
 
 namespace Domain
 {
@@ -118,5 +119,11 @@ namespace Domain
                 throw new InvalidBugSolverRoleException();
         }
 
+        public int GetFixerHourlyRate()
+        {
+            if (Fixer != null)
+                return Fixer.HourlyRate;
+            return 0;
+        }
     }
 }
