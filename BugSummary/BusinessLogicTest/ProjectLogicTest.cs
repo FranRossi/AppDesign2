@@ -441,7 +441,7 @@ namespace BusinessLogicTest
             {
                 Name = "Project 01"
             };
-            int expectedDuration = newProject.Duration();
+            int expectedDuration = newProject.CalculateDuration();
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<int>()))
                 .Callback((int id) =>
                 {

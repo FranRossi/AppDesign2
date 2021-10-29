@@ -67,7 +67,7 @@ namespace BusinessLogic
         public int GetDuration(int id)
         {
             Project projectFromDB = _projectRepository.Get(id);
-            return projectFromDB.Duration();
+            return projectFromDB.CalculateDuration();
         }
     }
 }
