@@ -18,7 +18,5 @@ namespace BusinessLogicInterface
         public void AddBugsFromFile(string path, string companyName);
 
         public IEnumerable<Project> GetAll();
-
-        int GetDuration(int id);
     }
 }

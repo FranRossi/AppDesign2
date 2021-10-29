@@ -71,12 +71,5 @@ namespace WebApi.Controllers
             IEnumerable<Project> result = _projects.GetAll();
             return Ok(ProjectBugCountModel.ToModel(result));
         }
-
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            int result = _projects.GetDuration(id);
-            return Ok(result);
-        }
     }
 }

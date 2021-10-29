@@ -430,41 +430,5 @@ namespace BusinessLogicTest
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)projectsExpected, (ICollection)projectResult, new ProjectComparer());
         }
-
-        [TestMethod]
-        public void GetValidProjectDuration()
-        {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int sentId = 1;
-            int receivedId = -1;
-            Project newProject = new Project
-            {
-                Name = "Project 01"
-            };
-            int expectedDuration = newProject.CalculateDuration();
-            mockUserRepository.Setup(mr => mr.Get(It.IsAny<int>()))
-                .Callback((int id) =>
-                {
-                    receivedId = id;
-                }).Returns(newProject);
-
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
-            int duration = _projectLogic.GetDuration(sentId);
-
-            Assert.AreEqual(expectedDuration, duration);
-        }
-
-        [TestMethod]
-        public void GetInvalidProjectDuration()
-        {
-            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            int id = 1;
-            mockUserRepository.Setup(mr => mr.Get(It.IsAny<int>())).Throws(new InexistentProjectException());
-
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
-            TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _projectLogic.GetDuration(id), "The entered project does not exist."
-            );
-        }
     }
 }
