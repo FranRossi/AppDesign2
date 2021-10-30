@@ -25,21 +25,34 @@
           <div class="text-center text-muted mb-4">
             <small>Register user's credentials</small>
           </div>
-          <form role="form">
+          <form (ngSubmit)="onCreateAccount()" #f="ngForm">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Name" type="text">
+                <input
+                  class="form-control"
+                  placeholder="Name"
+                  type="text"
+                  ngModel
+                  name="name"
+                  required
+                  #name="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter a name!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-tie-bow"></i></span>
                 </div>
-                <input class="form-control" placeholder="Lastname" type="text">
+                <input
+                  class="form-control"
+                  placeholder="Lastname"
+                  type="text"
+                  ngModel
+                  name="lastName">
               </div>
             </div>
             <div class="form-group">
@@ -47,45 +60,89 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email">
+                <input
+                  class="form-control"
+                  placeholder="Email"
+                  type="email"
+                  ngModel
+                  name="email"
+                  required
+                  email
+                  #email="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                 </div>
-                <input class="form-control" placeholder="Username" type="text">
+                <input
+                  class="form-control"
+                  placeholder="Username"
+                  type="text"
+                  ngModel
+                  name="username"
+                  required
+                  #userName="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!userName.valid && userName.touched">Please enter a username!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password">
+                <input
+                  class="form-control"
+                  placeholder="Password"
+                  type="password"
+                  ngModel
+                  name="password"
+                  required
+                  #pass="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!pass.valid && pass.touched">Please enter a password!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-briefcase-24"></i></span>
                 </div>
-                <input class="form-control" placeholder="HourlyRate" type="number">
+                <input
+                  class="form-control"
+                  placeholder="HourlyRate"
+                  type="number"
+                  ngModel
+                  name="hourlyRate"
+                  required
+                  #hourlyRate="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!hourlyRate.valid && hourlyRate.touched">Please enter an Hourly Rate!</span>
             </div>
             <div class="form-group">
               <label  for="FormSelect">User's Role</label>
               <div class="input-group input-group-alternative">
-                <select class="form-control selectpicker" data-style="btn btn-link" id="FormSelect">
+                <select
+                  class="form-control selectpicker"
+                  data-style="btn btn-link"
+                  id="FormSelect"
+                  ngModel
+                  name="role"
+                  required
+                  #role="ngModel">
                   <option>Admin</option>
                   <option>Developer</option>
                   <option>Tester</option>
                 </select>
               </div>
+              <span class="text-sm" *ngIf="!role.valid && role.touched">Please select a role!</span>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary mt-4">Create account</button>
+              <button
+                type="submit"
+                class="btn btn-primary mt-4"
+                [disabled]="!f.valid">Create account</button>
             </div>
           </form>
         </div>
