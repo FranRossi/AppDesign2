@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
+import {DashboardComponent} from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +10,13 @@ import {NgForm} from '@angular/forms';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('formSignIn') signInForm: NgForm;
+  token: string; // guardarlo en el local storage
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    if (this.token != null) {
+     window.location.href = 'http://localhost:4200/#/dashboard';
+    }
   }
   ngOnDestroy() {
   }
@@ -21,7 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     console.log(userCredentials);
     this.http.post('http://localhost:5000/sessions', userCredentials,
       {responseType: 'text'}).subscribe(responseData => {
+        this.token = responseData; // guardarlo en el local storage
       console.log(responseData);
+      this.ngOnInit();
+      this.token = '';
     });
  }
+
 }

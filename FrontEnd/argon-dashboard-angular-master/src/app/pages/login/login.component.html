@@ -30,19 +30,36 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                 </div>
-                <input class="form-control" placeholder="Username" name="username" type="text" ngModel="">
+                <input
+                  class="form-control"
+                  placeholder="Username"
+                  name="username"
+                  type="text"
+                  ngModel
+                  required
+                  #username="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!username.valid && username.touched">Please enter a username!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" name="password" type="password" ngModel="">
+                <input
+                  class="form-control"
+                  placeholder="Password"
+                  name="password"
+                  type="password"
+                  ngModel
+                  required
+                  #pass="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!pass.valid && pass.touched">Please enter a password!</span>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4">Sign in</button>
+              <button type="submit" class="btn btn-primary my-4" >Sign in</button>
+              <a *ngIf=" token != '' " loadDashBoard()></a>
             </div>
           </form>
         </div>
