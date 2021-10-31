@@ -1,10 +1,12 @@
 ﻿using BusinessLogicInterface;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("sessions")]
     public class SessionsController : ControllerBase
