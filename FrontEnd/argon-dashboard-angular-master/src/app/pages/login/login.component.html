@@ -24,13 +24,13 @@
           <div class="text-center text-muted mb-4">
             <small>Sign in with credentials</small>
           </div>
-          <form role="form">
+          <form (ngSubmit)="onSignIn()" #formSignIn="ngForm">
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                 </div>
-                <input class="form-control" placeholder="Username" type="text">
+                <input class="form-control" placeholder="Username" name="username" type="text" ngModel="">
               </div>
             </div>
             <div class="form-group">
@@ -38,11 +38,11 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password">
+                <input class="form-control" placeholder="Password" name="password" type="password" ngModel="">
               </div>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary my-4">Sign in</button>
+              <button type="submit" class="btn btn-primary my-4">Sign in</button>
             </div>
           </form>
         </div>
