@@ -4,11 +4,13 @@ using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("projects")]
     [ExceptionFilter]

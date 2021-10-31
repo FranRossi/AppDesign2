@@ -1,7 +1,8 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
 import {DashboardComponent} from '../dashboard/dashboard.component';
+import {catchError} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +11,11 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('formSignIn') signInForm: NgForm;
-  token: string; // guardarlo en el local storage
+  receivedToken = false;
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    if (this.token != null) {
+    if (localStorage.getItem('userToken') != null) {
      window.location.href = 'http://localhost:4200/#/dashboard';
     }
   }
@@ -24,13 +25,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSignIn() {
     const userCredentials = this.signInForm.value;
     console.log(userCredentials);
-    this.http.post('http://localhost:5000/sessions', userCredentials,
-      {responseType: 'text'}).subscribe(responseData => {
-        this.token = responseData; // guardarlo en el local storage
-      console.log(responseData);
+    this.http.post ('http://localhost:5000/sessions', userCredentials, {responseType: 'text'})
+      .subscribe(responseData => {
+        localStorage.setItem('userToken', responseData);
+        this.receivedToken = true;
       this.ngOnInit();
-      this.token = '';
     });
  }
-
 }

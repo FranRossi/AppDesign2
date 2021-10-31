@@ -59,7 +59,7 @@
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-primary my-4" >Sign in</button>
-              <a *ngIf=" token != '' " loadDashBoard()></a>
+              <a *ngIf="receivedToken" loadDashBoard()></a>
             </div>
           </form>
         </div>
