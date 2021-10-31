@@ -8,7 +8,7 @@ import {ProjectModel} from './projectModel';
   styleUrls: ['./tables.component.scss']
 })
 export class TablesComponent implements OnInit {
-  loadedProjects: ProjectModel[];
+  loadedProjects: ProjectModel[] = [];
   headersProject: HttpHeaders;
   constructor(private http: HttpClient) { }
 
