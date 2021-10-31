@@ -112,7 +112,13 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody *ngIf="loadedProjects.length >= 1">
+            <p *ngIf="!isFetching && loadedProjects.length < 1">
+              There are not project currently on the system. Please add a new one first.
+            </p>
+            <p *ngIf="isFetching">
+              Loading...
+            </p>
+            <tbody *ngIf="loadedProjects.length >= 1 && !isFetching">
               <tr *ngFor="let project of loadedProjects">
                 <th scope="row">
                   <div class="media align-items-center">
