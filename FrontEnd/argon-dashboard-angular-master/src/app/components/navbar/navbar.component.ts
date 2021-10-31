@@ -35,6 +35,6 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     localStorage.removeItem('userToken');
-    window.location.href = 'http://localhost:4200/#/login';
+    // window.location.href = 'http://localhost:4200/#/login';
   }
 }
