@@ -20,6 +20,6 @@ export class ProjectsService {
 
   deleteProject() {
     this.setHeader();
-    return this.http.delete('http://localhost:5000/projects/7', { headers: this.headersProject }).subscribe();
+    return this.http.delete('http://localhost:5000/projects/9', { headers: this.headersProject });
   }
 }
