@@ -26,9 +26,9 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  onDelete(){
-    this.projectService.deleteProject().subscribe(response => {
-      this.ngOnInit();
+  onDelete(projectName: string) {
+    this.projectService.deleteProject().subscribe(() => {
+      this.loadedProjects = this.loadedProjects.filter(model => model.name !== projectName);
     });
   }
 }
