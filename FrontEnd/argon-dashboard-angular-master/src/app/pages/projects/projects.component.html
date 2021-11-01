@@ -99,9 +99,14 @@
             <p *ngIf="!isFetching && loadedProjects.length < 1">
               There are not project currently on the system. Please add a new one first.
             </p>
-            <p *ngIf="isFetching">
+            <p *ngIf="isFetching && !error">
               Loading...
             </p>
+            <div class="alert alert-danger" *ngIf="error">
+              <h2 >An error Occurred getting Projects!</h2>
+              <p>{{error}}</p>
+              <button class="btn btn-danger" (click)="onHandleError()">OK</button>
+            </div>
             <tbody *ngIf="loadedProjects.length >= 1 && !isFetching">
               <tr *ngFor="let project of loadedProjects">
                 <th scope="row">

@@ -12,6 +12,7 @@ import {ProjectModel} from './projectModel';
 export class ProjectsComponent implements OnInit {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
+  error = null;
   constructor(private http: HttpClient, private projectService: ProjectsService) { }
 
   ngOnInit() {
@@ -23,12 +24,21 @@ export class ProjectsComponent implements OnInit {
     this.projectService.getAllProjects().subscribe(responseData => {
       this.isFetching = false;
       this.loadedProjects = responseData;
+    }, error => {
+      this.isFetching = false;
+      this.error = error.message;
     });
   }
 
   onDelete(projectName: string) {
     this.projectService.deleteProject().subscribe(() => {
       this.loadedProjects = this.loadedProjects.filter(model => model.name !== projectName);
+    }, error => {
+      this.error = error.message;
     });
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 }
