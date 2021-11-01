@@ -8,8 +8,8 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                  <span class="h2 font-weight-bold mb-0">350,897</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Add Proyect</h5>
+                  <span class="h2 font-weight-bold mb-0">{{loadedProjects.length}}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -17,10 +17,6 @@
                   </div>
                 </div>
               </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
         </div>
@@ -29,7 +25,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Add Bug</h5>
                   <span class="h2 font-weight-bold mb-0">2,356</span>
                 </div>
                 <div class="col-auto">
@@ -38,10 +34,6 @@
                   </div>
                 </div>
               </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                <span class="text-nowrap">Since last week</span>
-              </p>
             </div>
           </div>
         </div>
@@ -59,10 +51,6 @@
                   </div>
                 </div>
               </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                <span class="text-nowrap">Since yesterday</span>
-              </p>
             </div>
           </div>
         </div>
@@ -80,10 +68,6 @@
                   </div>
                 </div>
               </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
         </div>
@@ -109,7 +93,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Users</th>
                 <th scope="col">Completion</th>
-                <th scope="col"></th>
+                <th scope="col">Edit</th>
               </tr>
             </thead>
             <p *ngIf="!isFetching && loadedProjects.length < 1">
@@ -170,9 +154,8 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Edit</a>
+                      <a class="dropdown-item" (click)="onDelete()">Delete</a>
                     </div>
                   </div>
                 </td>
@@ -224,7 +207,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Users</th>
                 <th scope="col">Completion</th>
-                <th scope="col"></th>
+                <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody *ngIf="loadedProjects.length >= 1">
@@ -282,9 +265,8 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Edit</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Delete</a>
                     </div>
                   </div>
                 </td>

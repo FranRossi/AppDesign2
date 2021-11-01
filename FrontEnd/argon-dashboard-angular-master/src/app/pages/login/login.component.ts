@@ -14,9 +14,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private loginService: LoginService) {}
 
   ngOnInit() {
-    if (localStorage.getItem('userToken') != null) {
-     window.location.href = 'http://localhost:4200/#/dashboard';
-    }
   }
   ngOnDestroy() {
   }
@@ -26,7 +23,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginService.loginUser(userCredentials).subscribe(responseData => {
       localStorage.setItem('userToken', responseData);
       this.receivedToken = true;
-      this.ngOnInit();
+      console.log(responseData);
+      this.loadDashboard();
     });
+  }
+
+  private loadDashboard() {
+    if (this.receivedToken) {
+     window.location.href = 'http://localhost:4200/#/dashboard';
+    }
   }
 }

@@ -25,4 +25,9 @@ export class ProjectsComponent implements OnInit {
       this.loadedProjects = responseData;
     });
   }
+
+  onDelete(){
+    this.projectService.deleteProject();
+    this.ngOnInit();
+  }
 }
