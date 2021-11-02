@@ -11,7 +11,7 @@ export class ProjectsService {
 
   getAllProjects() {
     this.setHeader();
-    return this.http.get<[ProjectModel]>('http://localhost:5000/projects', { headers: this.headersProject });
+    return this.http.get<[ProjectModel]>('http://localhost:5000/projects', {headers : this.headersProject});
   }
 
   private setHeader() {
@@ -20,6 +20,6 @@ export class ProjectsService {
 
   deleteProject() {
     this.setHeader();
-    return this.http.delete('http://localhost:5000/projects/10', { headers: this.headersProject });
+    return this.http.delete('http://localhost:5000/projects/10', {headers : this.headersProject});
   }
 }

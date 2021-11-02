@@ -58,7 +58,7 @@
               <span class="text-sm" *ngIf="!pass.valid && pass.touched">Please enter a password!</span>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4" >Sign in</button>
+              <button type="submit" class="btn btn-primary my-4" [disabled]="!formSignIn.valid">Sign in</button>
             </div>
           </form>
         </div>
