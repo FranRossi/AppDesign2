@@ -168,17 +168,20 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug()},
+                        Users = new List<User>{}
                     },
                 new Project
                     {
                         Name = "Project B",
-                        Bugs = new List<Bug> {  }
+                        Bugs = new List<Bug> {  },
+                        Users = new List<User>{}
                     },
                 new Project
                     {
                         Name = "Project C",
-                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                        Bugs = new List<Bug> { new Bug(), new Bug() },
+                        Users = new List<User>{}
                     }
             };
             IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModel(projects);

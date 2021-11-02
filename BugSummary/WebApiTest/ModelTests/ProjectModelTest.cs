@@ -123,7 +123,8 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
+                        Users = new List<User> {}
                     }
             };
             IEnumerable<ProjectModel> expectedModel = new List<ProjectModel>()
@@ -131,7 +132,9 @@ namespace WebApiTest
                 new ProjectModel
                 {
                     Name = "Project A",
-                    BugCount = 3
+                    BugCount = 3,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel() },
+                    Users = new List<UserModel> {}
                 }
             };
 
