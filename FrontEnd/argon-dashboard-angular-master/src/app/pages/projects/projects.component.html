@@ -8,13 +8,15 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Add Proyect</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Add Project</h5>
                   <span class="h2 font-weight-bold mb-0">{{loadedProjects.length}}</span>
                 </div>
                 <div class="col-auto">
+                  <a routerLinkActive="active" [routerLink]="['/add-project']" >
                   <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
+                    <i class="fas fa-plus"></i>
                   </div>
+                  </a>
                 </div>
               </div>
             </div>
@@ -26,11 +28,11 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Add Bug</h5>
-                  <span class="h2 font-weight-bold mb-0">2,356</span>
+                  <span class="h2 font-weight-bold mb-0"></span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                    <i class="fas fa-chart-pie"></i>
+                    <i class="fas fa-plus"></i>
                   </div>
                 </div>
               </div>
@@ -123,25 +125,18 @@
                   {{ project.bugCount }}
                 </td>
                 <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> pending
+                  <span *ngIf="project.bugCount == 0 " class="badge badge-dot mr-4">
+                    <i class="bg-success"></i> No bugs
+                  </span>
+                  <span *ngIf="project.bugCount > 0" class="badge badge-dot mr-4">
+                    <i class="bg-warning"></i> Bugs pending
                   </span>
                 </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
+                <td *ngIf="project.users.length > 0">
+                  There are {{ project.users.length}} Users on this Project
+                </td>
+                <td *ngIf="project.users.length == 0">
+                  There aren't any Users on this project
                 </td>
                 <td>
                   <div class="d-flex align-items-center">
@@ -160,7 +155,7 @@
                     </a>
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
                       <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                      <a class="dropdown-item" (click)="onDelete(project.name)">Delete</a>
+                      <a class="dropdown-item" (click)="onDelete(project.id)">Delete</a>
                     </div>
                   </div>
                 </td>
@@ -215,8 +210,8 @@
                 <th scope="col">Edit</th>
               </tr>
             </thead>
-            <tbody *ngIf="loadedProjects.length >= 1">
-            <tr *ngFor="let project of loadedProjects">
+            <tbody *ngIf="loadedProjects.length >= 1 && !isFetching">
+            <tr *ngFor="let project of loadedProjects" >
               <th scope="row">
                 <div class="media align-items-center">
                   <a href="javascript:void(0)" class="avatar rounded-circle mr-3">

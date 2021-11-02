@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
 import {ProjectModel} from './projectModel';
@@ -9,14 +9,20 @@ import {ProjectModel} from './projectModel';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
   error = null;
   constructor(private http: HttpClient, private projectService: ProjectsService) { }
 
   ngOnInit() {
-    this.getProjects();
+    if (this.loadedProjects.length === 0) {
+      this.getProjects();
+    }
+  }
+
+  ngOnDestroy() {
+    this.loadedProjects = [];
   }
 
   private getProjects() {
@@ -30,9 +36,9 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  onDelete(projectName: string) {
+  onDelete(projectId: number) {
     this.projectService.deleteProject().subscribe(() => {
-      this.loadedProjects = this.loadedProjects.filter(model => model.name !== projectName);
+      this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId);
     }, error => {
       this.error = error.message;
     });

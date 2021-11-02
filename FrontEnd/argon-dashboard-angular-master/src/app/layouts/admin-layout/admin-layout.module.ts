@@ -10,6 +10,7 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { ProjectsComponent } from '../../pages/projects/projects.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ProjectAddComponent} from '../../pages/projects/project/addProject/addProject.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     DashboardComponent,
     UserProfileComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    ProjectAddComponent
   ]
 })
 
