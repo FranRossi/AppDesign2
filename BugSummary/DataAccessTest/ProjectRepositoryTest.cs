@@ -126,7 +126,8 @@ namespace DataAccessTest
                     Name = "New Project 2022",
                     Id = 1,
                     Bugs = new List<Bug> { bug1, bug2 },
-                    Users = null
+                    Users = new List<User>{},
+                    Assignments = new List<Assignment>{}
                 });
                 context.SaveChanges();
                 context.Add(new Project
@@ -134,7 +135,8 @@ namespace DataAccessTest
                     Name = "New Project 2023",
                     Id = 2,
                     Bugs = new List<Bug> { bug3 },
-                    Users = null
+                    Users = new List<User>{},
+                    Assignments = new List<Assignment>{}
                 });
                 context.SaveChanges();
 
@@ -145,14 +147,16 @@ namespace DataAccessTest
                 Name = "New Project 2022",
                 Id = 1,
                 Bugs = new List<Bug> { bug1, bug2 },
-                Users = null
+                Users = new List<User>{},
+                Assignments = new List<Assignment>{}
             });
             projectsExpected.Add(new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
                 Bugs = new List<Bug> { bug3 },
-                Users = null
+                Users = new List<User>{},
+                Assignments = new List<Assignment>{}
             });
 
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();

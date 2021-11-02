@@ -1,4 +1,5 @@
-﻿using CustomExceptions;
+﻿using System.Text.Json.Serialization;
+using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
 
@@ -9,7 +10,7 @@ namespace WebApi.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
+        public string Password { internal get; set; }
         public string Email { get; set; }
         public RoleType Role { get; set; }
         public int HourlyRate { get; set; }
