@@ -24,7 +24,7 @@ namespace DataAccess
 
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.Include("Bugs").ToList();
+            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").ToList();
         }
 
         public void Update(Project updatedProject)
