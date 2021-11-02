@@ -53,42 +53,56 @@ namespace WebApiTest
             );
         }
 
+        [TestMethod]
         public void ProjectBugCountToEntityTest()
         {
             IEnumerable<Project> projects = new List<Project>()
             {
                 new Project
                     {
+                        Id = 1,
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), },
+                        Users = new List<User>{new User(), new User(), new User()}
+                        
                     },
                 new Project
                     {
+                        Id = 2,
                         Name = "Project B",
-                        Bugs = new List<Bug> {  }
+                        Bugs = new List<Bug> {  },
+                        Users = new List<User>{}
                     },
                 new Project
                     {
+                        Id = 3,
                         Name = "Project C",
-                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                        Bugs = new List<Bug> { new Bug(), new Bug() },
+                        Users = new List<User>{new User(), new User()}
                     }
             };
             IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
             {
                 new ProjectBugCountModel
                 {
+                    Id = 1,
                     Name = "Project A",
-                    BugCount = 3
+                    Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), },
+                    Users = new List<User>{new User(), new User(), new User()}
                 },
                 new ProjectBugCountModel
                 {
-                        Name = "Project B",
-                        BugCount = 0
+                    Id = 2,
+                    Name = "Project B",
+                    Bugs = new List<Bug> {  },
+                    Users = new List<User>{}
                 },
                 new ProjectBugCountModel
                 {
+                    Id = 3,
                     Name = "Project C",
-                    BugCount = 2
+                    Bugs = new List<Bug> { new Bug(), new Bug() },
+                    Users = new List<User>{new User(), new User()}
                 }
             };
 

@@ -7,6 +7,9 @@ namespace WebApi.Models
     {
         public string Name { get; set; }
         public int BugCount { get; set; }
+        public int Id { get; set; }
+        public List<Bug> Bugs { get; set; }
+        public List<User> Users { get; set; }
 
         public static IEnumerable<ProjectBugCountModel> ToModel(IEnumerable<Project> projects)
         {
