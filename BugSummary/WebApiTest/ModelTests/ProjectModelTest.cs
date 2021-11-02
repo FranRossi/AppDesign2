@@ -62,7 +62,7 @@ namespace WebApiTest
                     {
                         Id = 1,
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), },
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
                         Users = new List<User>{new User(), new User(), new User()}
                         
                     },
@@ -70,8 +70,8 @@ namespace WebApiTest
                     {
                         Id = 2,
                         Name = "Project B",
-                        Bugs = new List<Bug> {  },
-                        Users = new List<User>{}
+                        Bugs = new List<Bug> { },
+                        Users = new List<User>{ }
                     },
                 new Project
                     {
@@ -87,22 +87,25 @@ namespace WebApiTest
                 {
                     Id = 1,
                     Name = "Project A",
-                    Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), },
-                    Users = new List<User>{new User(), new User(), new User()}
+                    BugCount = 3,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel(), },
+                    Users = new List<UserModel>{new UserModel(), new UserModel(), new UserModel()}
                 },
                 new ProjectBugCountModel
                 {
                     Id = 2,
                     Name = "Project B",
-                    Bugs = new List<Bug> {  },
-                    Users = new List<User>{}
+                    BugCount = 0,
+                    Bugs = new List<BugModel> {},
+                    Users = new List<UserModel>{}
                 },
                 new ProjectBugCountModel
                 {
                     Id = 3,
                     Name = "Project C",
-                    Bugs = new List<Bug> { new Bug(), new Bug() },
-                    Users = new List<User>{new User(), new User()}
+                    BugCount = 2,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel() },
+                    Users = new List<UserModel>{new UserModel(), new UserModel()}
                 }
             };
 
