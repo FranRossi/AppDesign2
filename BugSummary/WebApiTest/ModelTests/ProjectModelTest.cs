@@ -27,7 +27,7 @@ namespace WebApiTest
         [TestMethod]
         public void ProjectToEntityTest()
         {
-            ProjectModel projectModel = new ProjectModel
+            ProjectAddModel projectModel = new ProjectAddModel
             {
                 Name = "New Project 2022"
             };
@@ -45,7 +45,7 @@ namespace WebApiTest
         [TestMethod]
         public void InvalidModelToEntityNoId()
         {
-            ProjectModel bugToCompare = new ProjectModel
+            ProjectAddModel bugToCompare = new ProjectAddModel
             {
             };
             TestExceptionUtils.Throws<ProjectModelMissingFieldException>(
@@ -81,9 +81,9 @@ namespace WebApiTest
                         Users = new List<User>{new User(), new User()}
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
+            IEnumerable<ProjectModel> expectedModel = new List<ProjectModel>()
             {
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                     Id = 1,
                     Name = "Project A",
@@ -91,7 +91,7 @@ namespace WebApiTest
                     Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel(), },
                     Users = new List<UserModel>{new UserModel(), new UserModel(), new UserModel()}
                 },
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                     Id = 2,
                     Name = "Project B",
@@ -99,7 +99,7 @@ namespace WebApiTest
                     Bugs = new List<BugModel> {},
                     Users = new List<UserModel>{}
                 },
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                     Id = 3,
                     Name = "Project C",
@@ -109,7 +109,7 @@ namespace WebApiTest
                 }
             };
 
-            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -126,16 +126,16 @@ namespace WebApiTest
                         Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
+            IEnumerable<ProjectModel> expectedModel = new List<ProjectModel>()
             {
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                     Name = "Project A",
                     BugCount = 3
                 }
             };
 
-            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);

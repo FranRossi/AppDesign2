@@ -21,7 +21,7 @@ namespace WebApiTest
         [ExcludeFromCodeCoverage]
         public void AddValidProject()
         {
-            ProjectModel projectToAdd = new ProjectModel
+            ProjectAddModel projectToAdd = new ProjectAddModel
             {
                 Name = "New Project 2022"
             };
@@ -46,7 +46,7 @@ namespace WebApiTest
         [TestMethod]
         public void UpdateValidProject()
         {
-            ProjectModel projectToUpdate = new ProjectModel
+            ProjectAddModel projectToUpdate = new ProjectAddModel
             {
                 Name = "New Project 2023"
             };
@@ -181,14 +181,14 @@ namespace WebApiTest
                         Bugs = new List<Bug> { new Bug(), new Bug() }
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModel(projects);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.GetAll()).Returns(projects);
             ProjectsController controller = new ProjectsController(mock.Object);
 
             IActionResult result = controller.Get();
             OkObjectResult okResult = result as OkObjectResult;
-            IEnumerable<ProjectBugCountModel> projectResult = okResult.Value as IEnumerable<ProjectBugCountModel>;
+            IEnumerable<ProjectModel> projectResult = okResult.Value as IEnumerable<ProjectModel>;
 
             mock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
