@@ -10,6 +10,8 @@ namespace WebApi.Models
         public int Id { get; set; }
         public IEnumerable<BugModel> Bugs { get; set; }
         public IEnumerable<UserModel> Users { get; set; }
+        public int Duration { get; set; }
+        public int Cost { get; set; }
 
         public static IEnumerable<ProjectModel> ToModel(IEnumerable<Project> projects)
         {
@@ -22,6 +24,8 @@ namespace WebApi.Models
                 model.BugCount = project.Bugs.Count;
                 model.Bugs = BugModel.ToModelList(project.Bugs);
                 model.Users = ToModelListUsers(project.Users);
+                model.Duration = project.CalculateDuration();
+                model.Cost = project.CalculateCost();
                 modelList.Add(model);
             }
 
