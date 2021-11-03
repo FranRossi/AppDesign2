@@ -13,7 +13,7 @@ namespace WebApi.Filters
         public void OnException(ExceptionContext context)
         {
             int statusCode = 500;
-            string exceptionMessage = "";
+            string exceptionMessage = context.Exception.Message;
 
             if (context.Exception is ProjectNameIsNotUniqueException || context.Exception is UsernameIsNotUniqueException)
             {

@@ -27,7 +27,7 @@ namespace WebApiTest
         [TestMethod]
         public void ProjectToEntityTest()
         {
-            ProjectModel projectModel = new ProjectModel
+            ProjectAddModel projectModel = new ProjectAddModel
             {
                 Name = "New Project 2022"
             };
@@ -45,7 +45,7 @@ namespace WebApiTest
         [TestMethod]
         public void InvalidModelToEntityNoId()
         {
-            ProjectModel bugToCompare = new ProjectModel
+            ProjectAddModel bugToCompare = new ProjectAddModel
             {
             };
             TestExceptionUtils.Throws<ProjectModelMissingFieldException>(
@@ -54,12 +54,13 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void ProjectBugCountToEntityTest()
+        public void ProjectModelToEntityTest()
         {
             IEnumerable<Project> projects = new List<Project>()
             {
                 new Project
                     {
+                        Id = 1,
                         Name = "Project A",
                         Bugs = new List<Bug> {
                             new Bug {
@@ -70,15 +71,19 @@ namespace WebApiTest
                                     HourlyRate = 2
                                 }
                             }, new Bug(), new Bug(),
-                        }
+                        },
+                        Users = new List<User>{new User(), new User(), new User() }
                     },
                 new Project
                     {
+                        Id = 2,
                         Name = "Project B",
-                        Bugs = new List<Bug> {  }
+                        Bugs = new List<Bug> { },
+                        Users = new List<User>{ }
                     },
                 new Project
                     {
+                        Id = 3,
                         Name = "Project C",
                         Bugs = new List<Bug> {
                             new Bug {
@@ -89,35 +94,45 @@ namespace WebApiTest
                                     HourlyRate = 12
                                 }
                             },
-                            new Bug() }
+                            new Bug() },
+                        Users = new List<User>{new User(), new User() }
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
+            IEnumerable<ProjectModel> expectedModel = new List<ProjectModel>()
             {
-                new ProjectBugCountModel
+                new ProjectModel
                 {
+                    Id = 1,
                     Name = "Project A",
                     BugCount = 3,
                     Duration = 3,
-                    Cost = 6
+                    Cost = 6,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel(), },
+                    Users = new List<UserModel>{new UserModel(), new UserModel(), new UserModel()}
                 },
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                    Name = "Project B",
                    BugCount = 0,
                    Duration = 0,
-                   Cost = 0
+                   Cost = 0,
+                   Id = 2,
+                   Bugs = new List<BugModel> {},
+                   Users = new List<UserModel>{}
                 },
-                new ProjectBugCountModel
+                new ProjectModel
                 {
+                    Id = 3,
                     Name = "Project C",
                     BugCount = 2,
                     Duration = 1,
-                    Cost = 12
+                    Cost = 12,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel() },
+                    Users = new List<UserModel>{new UserModel(), new UserModel()}
                 }
             };
 
-            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -131,19 +146,22 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
+                        Users = new List<User> {}
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = new List<ProjectBugCountModel>()
+            IEnumerable<ProjectModel> expectedModel = new List<ProjectModel>()
             {
-                new ProjectBugCountModel
+                new ProjectModel
                 {
                     Name = "Project A",
-                    BugCount = 3
+                    BugCount = 3,
+                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel() },
+                    Users = new List<UserModel> {}
                 }
             };
 
-            IEnumerable<ProjectBugCountModel> model = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);

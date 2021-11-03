@@ -4,11 +4,13 @@ using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("projects")]
     [ExceptionFilter]
@@ -23,17 +25,17 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] ProjectModel model)
+        public IActionResult Post([FromBody] ProjectAddModel addModel)
         {
-            _projects.Add(model.ToEntity());
+            _projects.Add(addModel.ToEntity());
             return Ok();
         }
 
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProjectModel model)
+        public IActionResult Put(int id, [FromBody] ProjectAddModel addModel)
         {
-            _projects.Update(id, model.ToEntity());
+            _projects.Update(id, addModel.ToEntity());
             return Ok();
         }
 
@@ -69,7 +71,7 @@ namespace WebApi.Controllers
         public IActionResult Get()
         {
             IEnumerable<Project> result = _projects.GetAll();
-            return Ok(ProjectBugCountModel.ToModel(result));
+            return Ok(ProjectModel.ToModel(result));
         }
     }
 }

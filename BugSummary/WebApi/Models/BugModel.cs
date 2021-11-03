@@ -59,10 +59,10 @@ namespace WebApi.Models
 
         public static IEnumerable<BugModel> ToModelList(IEnumerable<Bug> bugsToModel)
         {
-            IEnumerable<BugModel> models = new List<BugModel>();
+            List<BugModel> models = new List<BugModel>();
             foreach (var bug in bugsToModel)
             {
-                models = models.Append(ToModel(bug));
+                models.Add(ToModel(bug));
             }
             return models;
         }

@@ -1,0 +1,52 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <!-- Table -->
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+              <div class="card bg-secondary shadow border-0">
+                <div class="card-body px-lg-5 py-lg-5">
+                  <div class="text-center text-muted mb-4">
+                    <small>Enter Project's name</small>
+                  </div>
+                  <form (ngSubmit)="onCreateProject()" #f="ngForm">
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        <input
+                          class="form-control"
+                          placeholder="Name"
+                          type="text"
+                          ngModel
+                          name="name"
+                          required
+                          #name="ngModel">
+                      </div>
+<!--                      <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter a name!</span>-->
+                    </div>
+                    <div class="text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-primary mt-4"
+                        [disabled]="!f.valid">Create Project
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+
