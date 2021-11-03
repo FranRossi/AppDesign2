@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {AddProjectService} from './addProject.service';
 
 
 @Component({
@@ -11,18 +12,29 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export class ProjectAddComponent {
   @ViewChild('f') createProjectForm: NgForm;
-  headersProject: HttpHeaders;
+  projectAddedCorrectly = false;
+  error = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private addProjectService: AddProjectService) {
   }
-  onCreateProject(){
+
+  onCreateProject() {
     const projectName = this.createProjectForm.value;
-    this.setHeader();
-    this.http.post('http://localhost:5000/projects', projectName, {headers : this.headersProject}).subscribe(() => console.log("AddedProject"));
-    this.createProjectForm.reset();
+    this.addProjectService.addProject(projectName).subscribe({
+      next: () => {
+        this.projectAddedCorrectly = true;
+        this.createProjectForm.reset();
+      },
+      error: (e) => {
+        this.error = e.message;
+        console.log(e);
+      }
+    });
   }
-  private setHeader() {
-    this.headersProject = new HttpHeaders().append('token', localStorage.getItem('userToken'));
+
+  onHandleCreateProjectResponse() {
+    this.error = null;
+    this.projectAddedCorrectly = false;
   }
 
 }

@@ -27,20 +27,22 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   private getProjects() {
     this.isFetching = true;
-    this.projectService.getAllProjects().subscribe(responseData => {
-      this.isFetching = false;
-      this.loadedProjects = responseData;
-    }, error => {
-      this.isFetching = false;
-      this.error = error.message;
+    this.projectService.getAllProjects().subscribe({
+      next: (responseData) => {
+          this.isFetching = false;
+          this.loadedProjects = responseData;
+        },
+      error: (e) => {
+          this.isFetching = false;
+          this.error = e.message;
+        }
     });
   }
 
   onDelete(projectId: number) {
-    this.projectService.deleteProject().subscribe(() => {
-      this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId);
-    }, error => {
-      this.error = error.message;
+    this.projectService.deleteProject().subscribe({
+      next: () => {this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); },
+      error: (e) => {this.error = e.message; }
     });
   }
 
