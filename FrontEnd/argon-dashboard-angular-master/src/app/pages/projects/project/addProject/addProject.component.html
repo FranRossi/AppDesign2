@@ -38,7 +38,7 @@
                       <button
                         type="submit"
                         class="btn btn-primary mt-4"
-                        [disabled]="!f.valid && !error">Create Project
+                        [disabled]="!f.valid && !error && !projectAddedCorrectly">Create Project
                       </button>
                     </div>
                   </form>
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="text-center">
-      <div class="alert alert-danger" *ngIf="!error && projectAddedCorrectly">
+      <div class="alert alert-success" *ngIf="!error && projectAddedCorrectly">
         <h2 >A Project has been created!</h2>
         <p>{{error}}</p>
         <button class="btn btn-success" (click)="onHandleCreateProjectResponse()">OK</button>
