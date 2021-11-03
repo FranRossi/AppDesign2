@@ -34,7 +34,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         },
       error: (e) => {
           this.isFetching = false;
-          this.error = e.message;
+          this.error = e.status + " " + e.statusText;
         }
     });
   }
@@ -42,7 +42,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   onDelete(projectId: number) {
     this.projectService.deleteProject().subscribe({
       next: () => {this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); },
-      error: (e) => {this.error = e.message; }
+      error: (e) => {this.error = e.status + " " + e.statusText; }
     });
   }
 

@@ -26,7 +26,7 @@ export class ProjectAddComponent {
         this.createProjectForm.reset();
       },
       error: (e) => {
-        this.error = e.message;
+        this.error = e.status + " " + e.statusText;
         console.log(e);
       }
     });

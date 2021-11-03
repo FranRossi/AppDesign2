@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginService.loginUser(userCredentials).subscribe(responseData => {
       localStorage.setItem('userToken', responseData);
       this.receivedToken = true;
-      console.log(responseData);
       this.loadDashboard();
     });
   }

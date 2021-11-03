@@ -32,13 +32,13 @@
                           required
                           #name="ngModel">
                       </div>
-<!--                      <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter a name!</span>-->
+                      <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter a project name!</span>
                     </div>
                     <div class="text-center">
                       <button
                         type="submit"
                         class="btn btn-primary mt-4"
-                        [disabled]="!f.valid">Create Project
+                        [disabled]="!f.valid && !error">Create Project
                       </button>
                     </div>
                   </form>
