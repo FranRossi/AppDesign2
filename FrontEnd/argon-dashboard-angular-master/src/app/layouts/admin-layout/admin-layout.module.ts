@@ -11,6 +11,7 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { ProjectsComponent } from '../../pages/projects/projects.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectAddComponent} from '../../pages/projects/project/addProject/addProject.component';
+import {ProjectEditComponent} from '../../pages/projects/project/editProject/editProject.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -26,7 +27,8 @@ import {ProjectAddComponent} from '../../pages/projects/project/addProject/addPr
     DashboardComponent,
     UserProfileComponent,
     ProjectsComponent,
-    ProjectAddComponent
+    ProjectAddComponent,
+    ProjectEditComponent
   ]
 })
 

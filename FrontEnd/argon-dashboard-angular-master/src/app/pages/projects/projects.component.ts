@@ -13,12 +13,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
   error = null;
+  isEditing = false;
   constructor(private http: HttpClient, private projectService: ProjectsService) { }
 
   ngOnInit() {
-    if (this.loadedProjects.length === 0) {
-      this.getProjects();
-    }
+    // if (this.loadedProjects.length === 0) {
+    //   this.getProjects();
+    // }
+    this.getProjects();
   }
 
   ngOnDestroy() {
@@ -48,5 +50,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   onHandleError() {
     this.error = null;
+  }
+
+  onEdit(){
+    this.isEditing = true;
   }
 }
