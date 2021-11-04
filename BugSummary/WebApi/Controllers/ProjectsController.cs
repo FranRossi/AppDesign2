@@ -71,7 +71,7 @@ namespace WebApi.Controllers
         public IActionResult Get()
         {
             IEnumerable<Project> result = _projects.GetAll();
-            return Ok(ProjectModel.ToModel(result));
+            return Ok(ProjectModel.ToModelList(result));
         }
     }
 }

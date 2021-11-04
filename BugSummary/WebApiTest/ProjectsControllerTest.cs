@@ -182,7 +182,7 @@ namespace WebApiTest
                         Users = new List<User>{}
                     }
             };
-            IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModel(projects);
+            IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModelList(projects);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.GetAll()).Returns(projects);
             ProjectsController controller = new ProjectsController(mock.Object);
@@ -190,6 +190,33 @@ namespace WebApiTest
             IActionResult result = controller.Get();
             OkObjectResult okResult = result as OkObjectResult;
             IEnumerable<ProjectModel> projectResult = okResult.Value as IEnumerable<ProjectModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
+        [TestMethod]
+        public void GetProjectById()
+        {
+            Project projectExpected = new Project
+            {
+                Id = 1,
+                Name = "Project A",
+                Bugs = new List<Bug> {new Bug(), new Bug(), new Bug()},
+                Users = new List<User> { }
+            };
+       
+            ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.Get(It.IsAny<int>())).Returns(projectExpected);
+            ProjectsController controller = new ProjectsController(mock.Object);
+
+            IActionResult result = controller.Get();
+            OkObjectResult okResult = result as OkObjectResult;
+            ProjectModel projectResult = okResult.Value as ProjectModel;
 
             mock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);

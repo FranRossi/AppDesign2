@@ -13,7 +13,7 @@ namespace WebApi.Models
         public int Duration { get; set; }
         public int Cost { get; set; }
 
-        public static IEnumerable<ProjectModel> ToModel(IEnumerable<Project> projects)
+        public static IEnumerable<ProjectModel> ToModelList(IEnumerable<Project> projects)
         {
             List<ProjectModel> modelList = new List<ProjectModel>();
             foreach (Project project in projects)
