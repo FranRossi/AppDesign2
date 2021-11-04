@@ -1,11 +1,10 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ProjectModel} from '../../../../models/projectModel';
-import {BugModel} from '../../../../models/bugModel';
-import {UserModel} from '../../../../models/userModel';
 import {EditProjectService} from './editProject.service';
 import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -20,7 +19,7 @@ export class ProjectEditComponent implements OnInit{
   project: ProjectModel = null;
   projectId: string;
   isFetching = false;
-  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -61,6 +60,10 @@ export class ProjectEditComponent implements OnInit{
 
   onHandleError() {
     this.error = null;
+  }
+
+  open(content) {
+    this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
   }
 
 }
