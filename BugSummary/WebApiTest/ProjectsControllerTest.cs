@@ -201,9 +201,10 @@ namespace WebApiTest
         [TestMethod]
         public void GetProjectById()
         {
+            int projectId = 1;
             Project projectExpected = new Project
             {
-                Id = 1,
+                Id = projectId,
                 Name = "Project A",
                 Bugs = new List<Bug> {new Bug(), new Bug(), new Bug()},
                 Users = new List<User> { }
@@ -214,7 +215,7 @@ namespace WebApiTest
             mock.Setup(r => r.Get(It.IsAny<int>())).Returns(projectExpected);
             ProjectsController controller = new ProjectsController(mock.Object);
 
-            IActionResult result = controller.Get();
+            IActionResult result = controller.Get(projectId);
             OkObjectResult okResult = result as OkObjectResult;
             ProjectModel projectResult = okResult.Value as ProjectModel;
 

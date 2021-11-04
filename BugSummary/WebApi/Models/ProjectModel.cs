@@ -18,18 +18,23 @@ namespace WebApi.Models
             List<ProjectModel> modelList = new List<ProjectModel>();
             foreach (Project project in projects)
             {
-                ProjectModel model = new ProjectModel();
-                model.Id = project.Id;
-                model.Name = project.Name;
-                model.BugCount = project.Bugs.Count;
-                model.Bugs = BugModel.ToModelList(project.Bugs);
-                model.Users = ToModelListUsers(project.Users);
-                model.Duration = project.CalculateDuration();
-                model.Cost = project.CalculateCost();
+                ProjectModel model = ToModel(project);
                 modelList.Add(model);
             }
-
             return modelList;
+        }
+        
+        public static ProjectModel ToModel(Project project)
+        {
+            ProjectModel model = new ProjectModel();
+            model.Id = project.Id;
+            model.Name = project.Name;
+            model.BugCount = project.Bugs.Count;
+            model.Bugs = BugModel.ToModelList(project.Bugs);
+            model.Users = ToModelListUsers(project.Users);
+            model.Duration = project.CalculateDuration();
+            model.Cost = project.CalculateCost();
+            return model;
         }
         
         private static IEnumerable<UserModel> ToModelListUsers(IEnumerable<User> usersToModel)

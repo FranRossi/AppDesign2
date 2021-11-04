@@ -73,5 +73,12 @@ namespace WebApi.Controllers
             IEnumerable<Project> result = _projects.GetAll();
             return Ok(ProjectModel.ToModelList(result));
         }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            Project result = _projects.Get(id);
+            return Ok(ProjectModel.ToModel(result));
+        }
     }
 }
