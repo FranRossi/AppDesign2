@@ -18,7 +18,10 @@ namespace WebApi.Models
             List<ProjectModel> modelList = new List<ProjectModel>();
             foreach (Project project in projects)
             {
-                ProjectModel model = ToModel(project);
+                ProjectModel model = new ProjectModel();
+                model.Id = project.Id;
+                model.Name = project.Name;
+                model.BugCount = project.Bugs.Count;
                 modelList.Add(model);
             }
             return modelList;

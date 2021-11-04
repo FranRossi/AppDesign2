@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
 import {ProjectListModel} from '../../models/projectListModel';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   loadedProjects: ProjectListModel[] = [];
   error = null;
   isEditing = false;
-  constructor(private http: HttpClient, private projectService: ProjectsService) { }
+  constructor(private http: HttpClient, private projectService: ProjectsService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getProjects();
@@ -40,7 +41,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   onDelete(projectId: number) {
     this.projectService.deleteProject(projectId).subscribe({
-      next: () => {this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); },
+      next: () => {this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); this.modalService.dismissAll(); },
       error: (e) => {this.error = e.status + " " + e.statusText; }
     });
   }
@@ -51,5 +52,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   onEdit(){
     this.isEditing = true;
+  }
+
+  open(content) {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
   }
 }

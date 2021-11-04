@@ -23,4 +23,8 @@ export class EditProjectService {
   private setHeader() {
     this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }
+
+  deleteUserFromProject(projectId: number, userId: number) {
+    return this.http.delete(this.endpoint + `${projectId}` + '/users/' + `${userId}`,{headers: this.headersProject});
+  }
 }

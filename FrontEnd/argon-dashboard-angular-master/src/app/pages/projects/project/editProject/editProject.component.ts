@@ -51,6 +51,14 @@ export class ProjectEditComponent implements OnInit{
     });
   }
 
+  onDeleteUser(projectId: number, userId: number){
+    this.editService.deleteUserFromProject(projectId, userId).subscribe({
+      next: () => {this.project.users = this.project.users.filter(model => model.id !== projectId); },
+      error: (e) => {this.error = e.status + " " + e.statusText;
+    }
+    });
+  }
+
   onHandleError() {
     this.error = null;
   }

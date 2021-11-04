@@ -5,6 +5,6 @@ export interface ProjectModel {
   name: string;
   bugCount: number;
   id: number;
-  bugs: [BugModel];
-  users: [UserModel];
+  bugs: BugModel[];
+  users: UserModel[];
 }
