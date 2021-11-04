@@ -55,13 +55,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
+              "buildOptimizer": true
             },
             "development": {
              "buildOptimizer": false,
@@ -90,7 +84,7 @@
               "browserTarget": "argon-dashboard-angular:build:development"
             }
           },
-          "defaultConfiguration": "production",
+          "defaultConfiguration": "production"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
