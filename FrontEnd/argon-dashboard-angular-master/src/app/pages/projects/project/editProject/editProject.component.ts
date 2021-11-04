@@ -2,6 +2,8 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {ProjectModel} from '../../projectModel';
+import {BugModel} from './bugModel';
+import {UserModel} from '../../../user-profile/userModel';
 
 
 @Component({
@@ -10,23 +12,27 @@ import {ProjectModel} from '../../projectModel';
   styleUrls: ['./editProject.component.scss']
 })
 
-export class ProjectEditComponent {
+export class ProjectEditComponent implements OnInit{
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   error = null;
   @Input() project: ProjectModel;
+  bugs: BugModel [];
+  users: UserModel [];
   constructor(private http: HttpClient) {
   }
 
-  onEdit() {
-    const newName = this.editNameForm.value;
-    console.log("Llego al edit con este valor : " + newName);
+  ngOnInit() {
+    this.bugs = this.project.bugs;
+    this.users = this.project.users;
+  }
 
+  onEditName() {
+    const newName: string = this.editNameForm.value;
     const headers = new HttpHeaders().append('token', localStorage.getItem('userToken'));
     this.http.put(`http://localhost:5000/projects/${this.project.id}`, newName, {headers: headers})
       .subscribe(responseData => {
-      this.editNameForm.reset();
-      console.log("Se edito bien el nombre");
-      this.project.name = newName;
+        this.project.name = this.editNameForm.value.name;
+        this.editNameForm.reset();
     });
   }
   onCreateProject() {

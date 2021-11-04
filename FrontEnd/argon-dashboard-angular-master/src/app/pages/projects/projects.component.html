@@ -154,15 +154,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-<!--                      <a-->
-<!--                        class="dropdown-item"-->
-<!--                        (click)="onEdit()"-->
-<!--                        routerLinkActive="active" [routerLink]="['/edit-project']">-->
-<!--                        Edit-->
                         <app-edit-project [project]="project"></app-edit-project>
-<!--                      </a>-->
-
-<!--                      <a class="dropdown-item" (click)="onDelete(project.id)">Delete</a>-->
                     </div>
                   </div>
                 </td>
