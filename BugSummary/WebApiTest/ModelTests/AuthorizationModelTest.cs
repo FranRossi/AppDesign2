@@ -1,19 +1,24 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WebApi.Models;
 
-[TestClass]
-[ExcludeFromCodeCoverage]
-public class AuthorizationModelTest
+namespace WebApiTest
 {
-    [TestMethod]
-    public void CreateModel()
+    [TestClass]
+    [ExcludeFromCodeCoverage]
+    public class AuthorizationModelTest
     {
-        AuthorizationModel model = new AuthorizationModel
+        [TestMethod]
+        public void CreateModel()
         {
-           token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX",
-           rol = 3
-        };
-        Assert.IsNotNull(model);
+            AuthorizationModel model = new AuthorizationModel
+            {
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX",
+                Role = RoleType.Admin
+            };
+            Assert.IsNotNull(model);
+        }
+
     }
-    
 }
