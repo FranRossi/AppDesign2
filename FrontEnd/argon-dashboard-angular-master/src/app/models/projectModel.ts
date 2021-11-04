@@ -1,5 +1,5 @@
-import {UserModel} from '../user-profile/userModel';
-import {BugModel} from './project/editProject/bugModel';
+import {UserModel} from './userModel';
+import {BugModel} from './bugModel';
 
 export interface ProjectModel {
   name: string;

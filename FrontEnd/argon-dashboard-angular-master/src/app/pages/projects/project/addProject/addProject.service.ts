@@ -14,6 +14,6 @@ export class AddProjectService {
   }
 
   private setHeader() {
-    this.headersProject = new HttpHeaders().append('token', localStorage.getItem('userToken'));
+    this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }
 }

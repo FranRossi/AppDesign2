@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
-import {ProjectModel} from './projectModel';
+import {ProjectModel} from '../../models/projectModel';
 
 
 @Component({

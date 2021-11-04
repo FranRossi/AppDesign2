@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {ProjectModel} from '../../projectModel';
-import {BugModel} from './bugModel';
-import {UserModel} from '../../../user-profile/userModel';
+import {ProjectModel} from '../../../../models/projectModel';
+import {BugModel} from '../../../../models/bugModel';
+import {UserModel} from '../../../../models/userModel';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class ProjectEditComponent implements OnInit{
 
   onEditName() {
     const newName: string = this.editNameForm.value;
-    const headers = new HttpHeaders().append('token', localStorage.getItem('userToken'));
+    const headers = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
     this.http.put(`http://localhost:5000/projects/${this.project.id}`, newName, {headers: headers})
       .subscribe(responseData => {
         this.project.name = this.editNameForm.value.name;

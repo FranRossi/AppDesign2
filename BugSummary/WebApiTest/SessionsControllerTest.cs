@@ -56,7 +56,7 @@ namespace WebApiTest
             };
             string mockedTokenResponse = null;
             RoleType role = RoleType.Admin;
-            AuthorizationModel modelExpected = AuthorizationModel.ToModel(mockedTokenResponse, role);
+            AuthorizationModel modelExpected = AuthorizationModel.ToModel(mockedTokenResponse , role);
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
             mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
             SessionsController controller = new SessionsController(mock.Object);
