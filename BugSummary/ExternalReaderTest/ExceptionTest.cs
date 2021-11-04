@@ -28,7 +28,7 @@ namespace ExternalReaderTest
         public void CreateParameterException()
         {
             ExternalReaderException newException = new ParameterException();
-            string expectedMessage = "Invalid parameters, please check types and verify not to leave any empty";
+            string expectedMessage = "Invalid parameters, please check types and make sure not to leave any empty fields.";
 
             Assert.AreEqual(expectedMessage, newException.Message);
         }
