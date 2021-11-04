@@ -256,15 +256,12 @@ namespace DataAccessTest
                 context.SaveChanges();
 
             }
-            List<Project> projectsExpected = new List<Project>();
-            projectsExpected.Add(project1);
 
             int projectId = 1;
-            List<Project> projectsDataBase = this._projectRepository.Get(projectId).ToList();
-
-            Assert.AreEqual(1, projectsDataBase.Count());
+            Project projectDataBase = this._projectRepository.Get(projectId);
+            
             CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
+            ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 

@@ -88,5 +88,10 @@ namespace DataAccess
                 }
             }
         }
+
+        public Project Get(int projectId)
+        {
+            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").FirstOrDefault(p => p.Id == projectId);
+        }
     }
 }
