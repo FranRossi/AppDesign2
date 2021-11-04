@@ -5,6 +5,7 @@ import {ProjectModel} from '../../../../models/projectModel';
 import {BugModel} from '../../../../models/bugModel';
 import {UserModel} from '../../../../models/userModel';
 import {EditProjectService} from './editProject.service';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -16,15 +17,17 @@ import {EditProjectService} from './editProject.service';
 export class ProjectEditComponent implements OnInit{
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   error = null;
-  @Input() project: ProjectModel;
+  project: ProjectModel = null;
+  projectId: string;
   bugs: BugModel [];
   users: UserModel [];
-  constructor(private http: HttpClient, private editService: EditProjectService) {
+  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.bugs = this.project.bugs;
-    this.users = this.project.users;
+    this.route.params.subscribe((params) => this.projectId = params['id']);
+    // this.bugs = this.project.bugs;
+    // this.users = this.project.users;
   }
 
   onEditName() {

@@ -2,8 +2,7 @@ import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
 import {LoginService} from './login.service';
-import {map} from 'rxjs/operators';
-import {AuthModel} from '../../models/authModel';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,7 @@ import {AuthModel} from '../../models/authModel';
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('formSignIn') signInForm: NgForm;
   receivedToken = false;
-  constructor(private http: HttpClient, private loginService: LoginService) {}
+  constructor(private http: HttpClient, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
   }
@@ -33,8 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loadDashboard() {
+
     if (this.receivedToken) {
-     window.location.href = 'http://localhost:4200/#/dashboard';
+      this.router.navigate(['/dashboard']);
     }
   }
 }

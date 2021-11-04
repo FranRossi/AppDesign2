@@ -17,9 +17,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private projectService: ProjectsService) { }
 
   ngOnInit() {
-    // if (this.loadedProjects.length === 0) {
-    //   this.getProjects();
-    // }
     this.getProjects();
   }
 

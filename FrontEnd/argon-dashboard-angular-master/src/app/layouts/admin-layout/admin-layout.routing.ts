@@ -11,5 +11,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'projects',         component: ProjectsComponent },
     { path: 'add-project',         component: ProjectAddComponent },
-    { path: 'projects/id',         component: ProjectEditComponent}
+    { path: 'projects/:id',         component: ProjectEditComponent}
 ];

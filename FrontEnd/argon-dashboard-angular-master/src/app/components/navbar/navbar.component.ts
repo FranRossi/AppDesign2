@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem('userToken');
+    sessionStorage.removeItem('userToken');
+    sessionStorage.removeItem('userRole');
   }
 }
