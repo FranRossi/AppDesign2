@@ -7,6 +7,7 @@ namespace WebApi.Models
 {
     public class UserModel
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
@@ -14,6 +15,7 @@ namespace WebApi.Models
         public string Email { get; set; }
         public RoleType Role { get; set; }
         public int HourlyRate { get; set; }
+        
 
         public User ToEntity()
         {
@@ -33,6 +35,7 @@ namespace WebApi.Models
         public static UserModel ToModel(User user)
         {
             UserModel model = new UserModel();
+            model.Id = user.Id;
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;

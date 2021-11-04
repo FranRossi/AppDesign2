@@ -108,7 +108,6 @@ namespace DataAccessTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Developer,
                 HourlyRate = 34,
-                Projects = new List<Project>()
             };
             Bug bug1 = new Bug
             {
@@ -132,40 +131,19 @@ namespace DataAccessTest
                 FixingTime = 13,
                 Fixer = newUser,
                 State = BugState.Fixed,
-            };
-            Assignment assignment1 = new Assignment
-            {
-                Id = 1,
-                Name = "Test domain",
-                Duration = 2,
-                HourlyRate = 25,
-                Project = new Project(),
-                ProjectId = 1
-            };
-            Assignment assignment2 = new Assignment
-            {
-                Id = 2,
-                Name = "Create prototypes",
-                Duration = 34,
-                HourlyRate = 32,
-                Project = new Project(),
-                ProjectId = 1
+                ProjectId = 2,
             };
             Project project1 = new Project
             {
                 Name = "New Project 2022",
                 Id = 1,
                 Bugs = new List<Bug> { bug1, bug2 },
-                Users = new List<User>(),
-                Assignments = new List<Assignment> { assignment1, assignment2 }
             };
             Project project2 = new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
                 Bugs = new List<Bug> { bug3 },
-                Users = new List<User> { newUser },
-                Assignments = new List<Assignment>()
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {

@@ -93,7 +93,6 @@
                 <th scope="col">Project</th>
                 <th scope="col">Bugs</th>
                 <th scope="col">Status</th>
-                <th scope="col">Users</th>
                 <th scope="col">Delete</th>
               </tr>
             </thead>
@@ -133,21 +132,11 @@
                     <i class="bg-warning"></i> Bugs pending
                   </span>
                 </td>
-                <td *ngIf="project.users.length > 0">
-                  There are {{ project.users.length}} Users on this Project
-                </td>
-                <td *ngIf="project.users.length == 0">
-                  There aren't any Users on this project
-                </td>
-<!--                <td class="text-right">-->
-<!--                  <div ngbDropdown placement="bottom-right">-->
-<!--                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>-->
-<!--                      <i class="fas fa-ellipsis-v"></i>-->
-<!--                    </a>-->
-<!--                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">-->
-<!--                        <app-edit-project [project]="project"></app-edit-project>-->
-<!--                    </div>-->
-<!--                  </div>-->
+<!--                <td *ngIf="project.users.length > 0">-->
+<!--                  There are {{ project.users.length}} Users on this Project-->
+<!--                </td>-->
+<!--                <td *ngIf="project.users.length == 0">-->
+<!--                  There aren't any Users on this project-->
 <!--                </td>-->
                 <td>
                   <a class="icon rounded-circle" (click)="onDelete(project.id)">

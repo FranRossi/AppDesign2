@@ -19,15 +19,27 @@ export class ProjectEditComponent implements OnInit{
   error = null;
   project: ProjectModel = null;
   projectId: string;
-  bugs: BugModel [];
-  users: UserModel [];
+  isFetching = false;
   constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => this.projectId = params['id']);
-    // this.bugs = this.project.bugs;
-    // this.users = this.project.users;
+    this.getProjectById();
+  }
+
+  private getProjectById(){
+    this.isFetching = true;
+    this.editService.getProjectById(this.projectId).subscribe({
+      next: (responseData) => {
+        this.isFetching = false;
+        this.project = responseData;
+      },
+      error: (e) => {
+        this.isFetching = false;
+        this.error = e.status + " " + e.statusText;
+      }
+    });
   }
 
   onEditName() {
@@ -39,7 +51,7 @@ export class ProjectEditComponent implements OnInit{
     });
   }
 
-  onHandleCreateProjectResponse() {
+  onHandleError() {
     this.error = null;
   }
 

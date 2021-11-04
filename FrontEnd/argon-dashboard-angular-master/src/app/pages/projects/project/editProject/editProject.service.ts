@@ -1,6 +1,7 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
 import {Injectable} from '@angular/core';
+import {ProjectModel} from '../../../../models/projectModel';
 
 @Injectable({providedIn: 'root'})
 export class EditProjectService {
@@ -13,6 +14,10 @@ export class EditProjectService {
 
   editProjectName(newName: string, projectId: string ) {
     return this.http.put(this.endpoint + projectId, newName, {headers: this.headersProject});
+  }
+
+  getProjectById(projectId: string ) {
+    return this.http.get<ProjectModel>(this.endpoint + projectId, {headers: this.headersProject});
   }
 
   private setHeader() {

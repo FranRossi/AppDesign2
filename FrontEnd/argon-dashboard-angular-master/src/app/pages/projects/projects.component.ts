@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
-import {ProjectModel} from '../../models/projectModel';
+import {ProjectListModel} from '../../models/projectListModel';
 
 
 @Component({
@@ -11,7 +11,7 @@ import {ProjectModel} from '../../models/projectModel';
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   isFetching = false;
-  loadedProjects: ProjectModel[] = [];
+  loadedProjects: ProjectListModel[] = [];
   error = null;
   isEditing = false;
   constructor(private http: HttpClient, private projectService: ProjectsService) { }
