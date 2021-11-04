@@ -28,8 +28,10 @@ namespace WebApiTest
             RoleType role = RoleType.Admin;
             AuthorizationModel modelExpected = AuthorizationModel.ToModel(mockedTokenResponse, role);
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
-            mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(modelExpected);
+            mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
             SessionsController controller = new SessionsController(mock.Object);
+            mock.Setup(m => m.GetRoleByToken(It.IsAny<string>())).Returns(role);
+            
 
             IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;
@@ -56,8 +58,9 @@ namespace WebApiTest
             RoleType role = RoleType.Admin;
             AuthorizationModel modelExpected = AuthorizationModel.ToModel(mockedTokenResponse, role);
             Mock<ISessionLogic> mock = new Mock<ISessionLogic>(MockBehavior.Strict);
-            mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(modelExpected);
+            mock.Setup(m => m.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(mockedTokenResponse);
             SessionsController controller = new SessionsController(mock.Object);
+            mock.Setup(m => m.GetRoleByToken(It.IsAny<string>())).Returns(role);
 
             IActionResult result = controller.Post(loginModel);
             OkObjectResult createdResult = result as OkObjectResult;

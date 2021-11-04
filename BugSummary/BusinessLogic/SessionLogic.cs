@@ -37,7 +37,6 @@ namespace BusinessLogic
             {
                 throw new LoginException();
             }
-
             return token;
         }
 
