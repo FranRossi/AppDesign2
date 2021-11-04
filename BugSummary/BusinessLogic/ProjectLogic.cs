@@ -63,5 +63,10 @@ namespace BusinessLogic
         {
             return _projectRepository.GetAll();
         }
+        
+        public Project Get(int projectId)
+        {
+            return _projectRepository.Get(projectId);
+        }
     }
 }
