@@ -84,7 +84,7 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Card tables</h3>
+          <h3 class="mb-0">Projects</h3>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -94,8 +94,7 @@
                 <th scope="col">Bugs</th>
                 <th scope="col">Status</th>
                 <th scope="col">Users</th>
-                <th scope="col">Completion</th>
-                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
               </tr>
             </thead>
             <p *ngIf="!isFetching && loadedProjects.length < 1">
@@ -113,8 +112,10 @@
               <tr *ngFor="let project of loadedProjects">
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+                    <a
+                      class="icon rounded-circle"
+                      routerLinkActive="active" [routerLink]="['/projects/id']">
+                      <i class="fas fa-arrow-circle-right"></i>
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ project.name }}</span>
@@ -138,25 +139,20 @@
                 <td *ngIf="project.users.length == 0">
                   There aren't any Users on this project
                 </td>
+<!--                <td class="text-right">-->
+<!--                  <div ngbDropdown placement="bottom-right">-->
+<!--                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>-->
+<!--                      <i class="fas fa-ellipsis-v"></i>-->
+<!--                    </a>-->
+<!--                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">-->
+<!--                        <app-edit-project [project]="project"></app-edit-project>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </td>-->
                 <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">60%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                        <app-edit-project [project]="project"></app-edit-project>
-                    </div>
-                  </div>
+                  <a class="icon rounded-circle" (click)="onDelete(project.id)">
+                    <i class="fas fas fa-minus-circle"></i>
+                  </a>
                 </td>
               </tr>
             </tbody>
