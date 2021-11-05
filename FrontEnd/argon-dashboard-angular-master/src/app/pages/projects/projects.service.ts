@@ -20,6 +20,11 @@ export class ProjectsService {
     return this.http.delete(this.endpoint + `/${projectId}` , {headers : this.headersProject});
   }
 
+  addProject(projectName: any) {
+    this.setHeader();
+    return this.http.post(this.endpoint, projectName, {headers : this.headersProject});
+  }
+
   private setHeader() {
     this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }

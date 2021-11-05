@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
 import {ProjectListModel} from '../../models/projectListModel';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import {NgForm} from '@angular/forms';
 
 
 @Component({
@@ -11,10 +12,10 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
+  @ViewChild('createProjectForm') createProjectForm: NgForm;
   isFetching = false;
   loadedProjects: ProjectListModel[] = [];
   error = null;
-  isEditing = false;
   constructor(private http: HttpClient, private projectService: ProjectsService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -50,11 +51,25 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.error = null;
   }
 
-  onEdit(){
-    this.isEditing = true;
+  onCreate() {
+    const projectName = this.createProjectForm.value;
+    console.log(projectName);
+    this.projectService.addProject(projectName).subscribe({
+      next: () => {
+        this.createProjectForm.reset();
+      },
+      error: (e) => {
+        this.error = e.status + " " + e.statusText;
+        console.log(e);
+      }
+    });
   }
 
-  open(content) {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+  open(content, type, modalDimension) {
+   if (type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true })
+    } else {
+      this.modalService.open(content,{ centered: true })
+    }
   }
 }
