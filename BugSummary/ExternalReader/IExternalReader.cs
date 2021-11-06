@@ -10,6 +10,5 @@ namespace ExternalReader
     {
         IEnumerable<Parameter> GetParameters();
         IEnumerable<ProjectModel> GetProjectsFromFile(IEnumerable<Parameter> parameters);
-
     }
 }
