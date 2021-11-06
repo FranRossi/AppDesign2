@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Company3JSONReader\Company3JSONReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ExternalReader">
       <HintPath>..\..\ExternalReader.dll</HintPath>
     </Reference>
