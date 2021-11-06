@@ -270,7 +270,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
             Mock<IFileReaderStrategy> mockReader = new Mock<IFileReaderStrategy>(MockBehavior.Strict);
-            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(projects)
+            mockReader.Setup(mf => mf.GetProjectsFromFile(It.IsAny<string>())).Returns(projects)
                 .Callback((string sentPath) => { receivedPath = sentPath; });
             mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(mockReader.Object)
                 .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });
@@ -310,7 +310,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
             Mock<IFileReaderStrategy> mockReader = new Mock<IFileReaderStrategy>(MockBehavior.Strict);
-            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(projects)
+            mockReader.Setup(mf => mf.GetProjectsFromFile(It.IsAny<string>())).Returns(projects)
                 .Callback((string sentPath) => { receivedPath = sentPath; });
             mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(mockReader.Object)
                 .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });

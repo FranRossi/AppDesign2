@@ -12,7 +12,7 @@ namespace FileHandler
 {
     public class Company1Reader : IFileReaderStrategy
     {
-        public IEnumerable<Project> GetProjectFromFile(string path)
+        public IEnumerable<Project> GetProjectsFromFile(string path)
         {
             XDocument doc = XDocument.Load(path);
 

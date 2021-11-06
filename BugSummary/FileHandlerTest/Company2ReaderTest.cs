@@ -30,7 +30,7 @@ namespace FileHandlerTest
             string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company2Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(txtPath);
+            IEnumerable<Project> result = companyReader.GetProjectsFromFile(txtPath);
 
             IEnumerable<Project> expectedResult = new List<Project> { GetFirstProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -47,7 +47,7 @@ namespace FileHandlerTest
             string txtPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company2Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(txtPath);
+            IEnumerable<Project> result = companyReader.GetProjectsFromFile(txtPath);
 
             IEnumerable<Project> expectedResult = new List<Project> { GetFirstProyect(), GetFourthProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -65,7 +65,7 @@ namespace FileHandlerTest
 
             IFileReaderStrategy companyReader = new Company2Reader();
             TestExceptionUtils.Throws<InvalidCompany2BugFileException>(
-                () => companyReader.GetProjectFromFile(txtPath),
+                () => companyReader.GetProjectsFromFile(txtPath),
                 "Unexpected end of file has occurred. Please check file structure and retry."
             );
         }

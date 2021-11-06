@@ -54,7 +54,7 @@ namespace BusinessLogic
         public void AddBugsFromFile(string path, string companyName)
         {
             IFileReaderStrategy readerStrategy = readerFactory.GetStrategy(companyName);
-            IEnumerable<Project> parsedProject = readerStrategy.GetProjectFromFile(path);
+            IEnumerable<Project> parsedProject = readerStrategy.GetProjectsFromFile(path);
             _projectRepository.AddBugsFromFile(parsedProject);
             _projectRepository.Save();
         }

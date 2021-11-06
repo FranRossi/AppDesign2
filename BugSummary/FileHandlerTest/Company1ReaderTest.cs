@@ -29,7 +29,7 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectsFromFile(xmlPath);
 
             IEnumerable<Project> expectedResult = new List<Project>() { GetFirstProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -46,7 +46,7 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectsFromFile(xmlPath);
 
             IEnumerable<Project> expectedResult = new List<Project>() { GetSecondProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -64,7 +64,7 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<Project> result = companyReader.GetProjectsFromFile(xmlPath);
 
             IEnumerable<Project> expectedResult = new List<Project>() { GetThirdProyect() };
             CompareLogic compareLogic = new CompareLogic();
@@ -82,7 +82,7 @@ namespace FileHandlerTest
 
             IFileReaderStrategy companyReader = new Company1Reader();
             TestExceptionUtils.Throws<XmlException>(
-                () => companyReader.GetProjectFromFile(xmlPath),
+                () => companyReader.GetProjectsFromFile(xmlPath),
                 "Unexpected end of file has occurred. The following elements are not closed: Bug, Bugs, Empresa1. Line 16, position 32."
             );
         }
