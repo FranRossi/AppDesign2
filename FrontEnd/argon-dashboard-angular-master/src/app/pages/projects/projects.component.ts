@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
 import {ProjectListModel} from '../../models/projectListModel';
@@ -12,7 +12,6 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
-  @ViewChild('createProjectForm') createProjectForm: NgForm;
   isFetching = false;
   loadedProjects: ProjectListModel[] = [];
   error = null;
@@ -51,15 +50,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.error = null;
   }
 
-  onCreate() {
-    const projectName = this.createProjectForm.value;
-    console.log(projectName);
+  onCreate(form: NgForm) {
+    const projectName = form.value;
+    form.reset();
+    this.modalService.dismissAll();
     this.projectService.addProject(projectName).subscribe({
-      next: () => {
-        this.createProjectForm.reset();
-      },
+      next: () => {this.getProjects(); },
       error: (e) => {
-        this.error = e.status + " " + e.statusText;
+        this.error = e.status + ' ' + e.statusText;
         console.log(e);
       }
     });
@@ -67,9 +65,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   open(content, type, modalDimension) {
    if (type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true })
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
     } else {
-      this.modalService.open(content,{ centered: true })
+      this.modalService.open(content, { centered: true });
     }
   }
+
 }
