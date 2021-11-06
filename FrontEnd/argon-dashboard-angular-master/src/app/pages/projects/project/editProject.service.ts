@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {Injectable} from '@angular/core';
-import {ProjectModel} from '../../../../models/projectModel';
+import {ProjectModel} from '../../../models/projectModel';
 
 @Injectable({providedIn: 'root'})
 export class EditProjectService {
