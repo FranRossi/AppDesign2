@@ -36,7 +36,7 @@ export class ProjectEditComponent implements OnInit{
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.status + " " + e.statusText;
+        this.error = e.status + ' ' + e.statusText;
       }
     });
   }
@@ -53,7 +53,7 @@ export class ProjectEditComponent implements OnInit{
   onDeleteUser(projectId: number, userId: number){
     this.editService.deleteUserFromProject(projectId, userId).subscribe({
       next: () => {this.project.users = this.project.users.filter(model => model.id !== projectId); },
-      error: (e) => {this.error = e.status + " " + e.statusText;
+      error: (e) => {this.error = e.status + ' ' + e.statusText;
     }
     });
   }
@@ -64,6 +64,14 @@ export class ProjectEditComponent implements OnInit{
 
   open(content) {
     this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+  }
+
+  onDeleteBug(projectId: number, bugId: number){
+    this.editService.deleteBug(projectId, bugId).subscribe({
+      next: () => {this.project.bugs = this.project.bugs.filter(model => model.id !== projectId); },
+      error: (e) => {this.error = e.status + ' ' + e.statusText;
+      }
+    });
   }
 
 }

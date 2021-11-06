@@ -6,18 +6,18 @@ import {ProjectModel} from '../../../models/projectModel';
 @Injectable({providedIn: 'root'})
 export class EditProjectService {
   headersProject: HttpHeaders;
-  endpoint = environment.webApi_origin + '/projects/';
+  endpoint = environment.webApi_origin ;
 
   constructor(private http: HttpClient) {
     this.setHeader();
   }
 
   editProjectName(newName: string, projectId: string ) {
-    return this.http.put(this.endpoint + projectId, newName, {headers: this.headersProject});
+    return this.http.put(this.endpoint + '/projects/' + projectId, newName, {headers: this.headersProject});
   }
 
   getProjectById(projectId: string ) {
-    return this.http.get<ProjectModel>(this.endpoint + projectId, {headers: this.headersProject});
+    return this.http.get<ProjectModel>(this.endpoint + '/projects/' + projectId, {headers: this.headersProject});
   }
 
   private setHeader() {
@@ -25,6 +25,10 @@ export class EditProjectService {
   }
 
   deleteUserFromProject(projectId: number, userId: number) {
-    return this.http.delete(this.endpoint + `${projectId}` + '/users/' + `${userId}`,{headers: this.headersProject});
+    return this.http.delete(this.endpoint + '/projects/' + `${projectId}` + '/users/' + `${userId}`, {headers: this.headersProject});
+  }
+
+  deleteBug(projectId: number, bugId: number) {
+    return this.http.delete(this.endpoint + '/bugs/' + `${bugId}`, {headers: this.headersProject});
   }
 }
