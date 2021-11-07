@@ -72,5 +72,41 @@ namespace BusinessLogic
         {
             return _externalReaderImporter.GetExternalReadersInfo();
         }
+
+        public void AddBugsFromExternalReader(string pathToExternalReader, IEnumerable<Parameter> parameters)
+        {
+            IExternalReader externalReader = _externalReaderImporter.GetExternalReader(pathToExternalReader);
+            IEnumerable<ProjectModel> projects = externalReader.GetProjectsFromFile(parameters);
+            IEnumerable<Project> parsedProjects = ParseProjectModels(projects);
+            _projectRepository.AddBugsFromFile(parsedProjects);
+            _projectRepository.Save();
+        }
+
+        private IEnumerable<Project> ParseProjectModels(IEnumerable<ProjectModel> projects)
+        {
+            List<Project> parsedProjects = new List<Project>();
+            foreach (ProjectModel project in projects)
+            {
+                List<Bug> parsedBugs = new List<Bug>();
+                foreach (BugModel bug in project.Bugs)
+                {
+                    Bug newBug = new Bug
+                    {
+                        Name = bug.Name,
+                        State = (Domain.DomainUtilities.BugState)(int)bug.State,
+                        Description = bug.Description,
+                        Version = bug.Version
+                    };
+                    parsedBugs.Add(newBug);
+                }
+                Project newProject = new Project
+                {
+                    Name = project.Name,
+                    Bugs = parsedBugs
+                };
+                parsedProjects.Add(newProject);
+            }
+            return parsedProjects;
+        }
     }
 }

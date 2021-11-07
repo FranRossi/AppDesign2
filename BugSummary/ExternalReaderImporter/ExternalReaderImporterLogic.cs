@@ -9,6 +9,11 @@ namespace ExternalReaderImporter
 {
     public class ExternalReaderImporterLogic : IExternalReaderImporter
     {
+        public IExternalReader GetExternalReader(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo()
         {
             List<Tuple<string, IEnumerable<Parameter>>> availableImporters = new List<Tuple<string, IEnumerable<Parameter>>>();
