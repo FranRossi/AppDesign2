@@ -52,7 +52,7 @@ export class ProjectEditComponent implements OnInit{
 
   onDeleteUser(projectId: number, userId: number) {
     this.editService.deleteUserFromProject(projectId, userId).subscribe({
-      next: () => {this.project.users = this.project.users.filter(model => model.id !== projectId); this.modalService.dismissAll(); },
+      next: () => {this.project.users = this.project.users.filter(model => model.id !== userId); this.modalService.dismissAll(); },
       error: (e) => {this.error = e.status + ' ' + e.statusText;
     }
     });
