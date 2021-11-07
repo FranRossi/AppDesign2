@@ -49,10 +49,10 @@ namespace WebApiTest
             string path = "somePath";
             BugReaderModel model = new BugReaderModel
             {
-                Path = path
+                FileName = path
             };
 
-            Assert.AreEqual(path, model.Path);
+            Assert.AreEqual(path, model.FileName);
         }
 
     }

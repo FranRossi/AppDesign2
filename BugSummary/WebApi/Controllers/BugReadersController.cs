@@ -35,7 +35,7 @@ namespace WebApi.Controllers
         [HttpPost("bugs")]
         public IActionResult Post([FromBody] BugReaderModel readerModel)
         {
-            _projects.AddBugsFromExternalReader(readerModel.Path, readerModel.Parameters);
+            _projects.AddBugsFromExternalReader(readerModel.FileName, readerModel.Parameters);
             return Ok();
         }
     }

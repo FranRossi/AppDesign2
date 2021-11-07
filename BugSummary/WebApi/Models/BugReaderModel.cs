@@ -8,7 +8,7 @@ namespace WebApi.Models
 {
     public class BugReaderModel
     {
-        public string Path { get; set; }
+        public string FileName { get; set; }
         public IEnumerable<Parameter> Parameters { get; set; }
     }
 }

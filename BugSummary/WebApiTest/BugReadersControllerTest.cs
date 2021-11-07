@@ -70,7 +70,7 @@ namespace WebApiTest
             string path = "somePath";
             BugReaderModel model = new BugReaderModel
             {
-                Path = path
+                FileName = path
             };
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             IEnumerable<Parameter> receivedParameters = null;
@@ -83,7 +83,7 @@ namespace WebApiTest
             });
             BugReadersController controller = new BugReadersController(mock.Object);
 
-            IActionResult result = controller.Post(new BugReaderModel { Path = path, Parameters = parameters });
+            IActionResult result = controller.Post(new BugReaderModel { FileName = path, Parameters = parameters });
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));
