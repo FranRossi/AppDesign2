@@ -15,7 +15,7 @@ namespace WebApiTest
 
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class BugInfoModelTest
+    public class BugReadersInfoModelTest
     {
         [TestMethod]
         public void ToModelTestTwoTuple()
@@ -39,21 +39,21 @@ namespace WebApiTest
                 tuple1,
                 tuple2
             };
-            IEnumerable<BugInfoModel> expectedModel = new List<BugInfoModel>()
+            IEnumerable<BugReaderInfoModel> expectedModel = new List<BugReaderInfoModel>()
             {
-                new BugInfoModel
+                new BugReaderInfoModel
                 {
                     Name = "Empresa2",
                     Parameters = parameters2,
                 },
-                new BugInfoModel
+                new BugReaderInfoModel
                 {
                     Name = "Empresa1",
                     Parameters = parameters1,
                 }
             };
 
-            IEnumerable<BugInfoModel> model = BugInfoModel.ToModel(bugReadersInfo);
+            IEnumerable<BugReaderInfoModel> model = BugReaderInfoModel.ToModel(bugReadersInfo);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -73,16 +73,16 @@ namespace WebApiTest
             {
                 tuple2
             };
-            IEnumerable<BugInfoModel> expectedModel = new List<BugInfoModel>()
+            IEnumerable<BugReaderInfoModel> expectedModel = new List<BugReaderInfoModel>()
             {
-                new BugInfoModel
+                new BugReaderInfoModel
                 {
                     Name = "Empresa1",
                     Parameters = parameters1,
                 }
             };
 
-            IEnumerable<BugInfoModel> model = BugInfoModel.ToModel(bugReadersInfo);
+            IEnumerable<BugReaderInfoModel> model = BugReaderInfoModel.ToModel(bugReadersInfo);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -92,9 +92,9 @@ namespace WebApiTest
         public void ToModelTestEmpty()
         {
             IEnumerable<Tuple<string, IEnumerable<Parameter>>> bugReadersInfo = new List<Tuple<string, IEnumerable<Parameter>>>();
-            IEnumerable<BugInfoModel> expectedModel = new List<BugInfoModel>();
+            IEnumerable<BugReaderInfoModel> expectedModel = new List<BugReaderInfoModel>();
 
-            IEnumerable<BugInfoModel> model = BugInfoModel.ToModel(bugReadersInfo);
+            IEnumerable<BugReaderInfoModel> model = BugReaderInfoModel.ToModel(bugReadersInfo);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
