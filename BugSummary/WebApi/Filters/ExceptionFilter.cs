@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Utilities.CustomExceptions;
 using CustomExceptions;
 using System.Xml;
+using ExternalReader;
 
 namespace WebApi.Filters
 {
@@ -21,7 +22,8 @@ namespace WebApi.Filters
                 exceptionMessage = context.Exception.Message;
             }
             else if (context.Exception is LoginException || context.Exception is DomainValidationException
-                || context.Exception is DataAccessException || context.Exception is CompanyIsNotRegisteredException)
+                || context.Exception is DataAccessException || context.Exception is CompanyIsNotRegisteredException
+                || context.Exception is ExternalReaderException)
             {
                 statusCode = 403;
                 exceptionMessage = context.Exception.Message;
