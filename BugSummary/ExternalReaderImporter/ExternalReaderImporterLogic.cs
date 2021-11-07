@@ -9,9 +9,17 @@ namespace ExternalReaderImporter
 {
     public class ExternalReaderImporterLogic : IExternalReaderImporter
     {
-        public IExternalReader GetExternalReader(string path)
+        public IExternalReader GetExternalReader(string name)
         {
-            throw new NotImplementedException();
+            IExternalReader provider = null;
+            string projectPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
+            string fullPath = projectPath + "\\ExternalReaderAssemblies\\" + name;
+            FileInfo dllFile = new FileInfo(fullPath);
+            Assembly assembly = Assembly.LoadFile(dllFile.FullName);
+            foreach (Type type in assembly.GetTypes())
+                if (typeof(IExternalReader).IsAssignableFrom(type))
+                    provider = (IExternalReader)Activator.CreateInstance(type);
+            return provider;
         }
 
         public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo()
