@@ -31,5 +31,12 @@ namespace WebApi.Controllers
             IEnumerable<Tuple<string, IEnumerable<Parameter>>> result = _projects.GetExternalReadersInfo();
             return Ok(BugReaderInfoModel.ToModel(result));
         }
+
+        [HttpPost("bugs")]
+        public IActionResult Post([FromBody] BugReaderModel readerModel)
+        {
+            _projects.AddBugsFromExternalReader(readerModel.Path, readerModel.Parameters);
+            return Ok();
+        }
     }
 }
