@@ -1,5 +1,6 @@
 using ExternalReader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities.CustomExceptions;
 
 namespace ExternalReaderTest
 {
@@ -29,6 +30,15 @@ namespace ExternalReaderTest
         {
             ExternalReaderException newException = new ParameterException();
             string expectedMessage = "Invalid parameters, please check types and make sure not to leave any empty fields.";
+
+            Assert.AreEqual(expectedMessage, newException.Message);
+        }
+
+        [TestMethod]
+        public void InexistentExternalReaderException()
+        {
+            InexistentExternalReaderException newException = new InexistentExternalReaderException();
+            string expectedMessage = "The entered external reader file name does not exist, contact the admin to add it.";
 
             Assert.AreEqual(expectedMessage, newException.Message);
         }
