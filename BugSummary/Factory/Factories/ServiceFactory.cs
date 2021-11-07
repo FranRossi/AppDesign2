@@ -3,6 +3,8 @@ using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
+using ExternalReaderImporter;
+using ExternalReaderImporterInterface;
 using FileHandlerFactory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,7 @@ namespace Factory.Factories
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
             services.AddScoped<IBugLogic, BugLogic>();
+            services.AddScoped<IExternalReaderImporter, ExternalReaderImporterLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IBugRepository, BugRepository>();
         }
