@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExternalReaderImporterInterface\ExternalReaderImporterInterface.csproj" />
+    <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
 </Project>

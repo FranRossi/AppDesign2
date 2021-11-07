@@ -32,6 +32,10 @@ namespace Company3JSONReader
             {
                 throw new UnableToReadException();
             }
+            catch (FileNotFoundException)
+            {
+                throw new UnableToReadException();
+            }
 
             return result;
         }

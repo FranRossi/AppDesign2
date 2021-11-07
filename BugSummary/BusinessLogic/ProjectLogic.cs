@@ -73,9 +73,9 @@ namespace BusinessLogic
             return _externalReaderImporter.GetExternalReadersInfo();
         }
 
-        public void AddBugsFromExternalReader(string pathToExternalReader, IEnumerable<Parameter> parameters)
+        public void AddBugsFromExternalReader(string externalReaderName, IEnumerable<Parameter> parameters)
         {
-            IExternalReader externalReader = _externalReaderImporter.GetExternalReader(pathToExternalReader);
+            IExternalReader externalReader = _externalReaderImporter.GetExternalReader(externalReaderName);
             IEnumerable<ProjectModel> projects = externalReader.GetProjectsFromFile(parameters);
             IEnumerable<Project> parsedProjects = ParseProjectModels(projects);
             _projectRepository.AddBugsFromFile(parsedProjects);

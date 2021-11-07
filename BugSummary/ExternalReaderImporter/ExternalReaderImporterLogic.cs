@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Utilities.CustomExceptions;
 
 namespace ExternalReaderImporter
 {
@@ -12,14 +13,21 @@ namespace ExternalReaderImporter
         public IExternalReader GetExternalReader(string name)
         {
             IExternalReader provider = null;
-            string projectPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
-            string fullPath = projectPath + "\\ExternalReaderAssemblies\\" + name;
-            FileInfo dllFile = new FileInfo(fullPath);
-            Assembly assembly = Assembly.LoadFile(dllFile.FullName);
-            foreach (Type type in assembly.GetTypes())
-                if (typeof(IExternalReader).IsAssignableFrom(type))
-                    provider = (IExternalReader)Activator.CreateInstance(type);
-            return provider;
+            try
+            {
+                string projectPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName);
+                string fullPath = projectPath + "\\ExternalReaderAssemblies\\" + name;
+                FileInfo dllFile = new FileInfo(fullPath);
+                Assembly assembly = Assembly.LoadFile(dllFile.FullName);
+                foreach (Type type in assembly.GetTypes())
+                    if (typeof(IExternalReader).IsAssignableFrom(type))
+                        provider = (IExternalReader)Activator.CreateInstance(type);
+                return provider;
+            }
+            catch (FileNotFoundException)
+            {
+                throw new InexistentExternalReaderException();
+            }
         }
 
         public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo()
