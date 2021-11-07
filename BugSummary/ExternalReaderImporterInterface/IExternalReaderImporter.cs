@@ -10,5 +10,6 @@ namespace ExternalReaderImporterInterface
     public interface IExternalReaderImporter
     {
         IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo();
+        IExternalReader GetExternalReader(string path);
     }
 }
