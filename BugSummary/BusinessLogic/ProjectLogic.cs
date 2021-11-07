@@ -1,6 +1,8 @@
 ﻿using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
+using ExternalReader;
+using ExternalReaderImporterInterface;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
@@ -12,11 +14,13 @@ namespace BusinessLogic
     public class ProjectLogic : IProjectLogic
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IExternalReaderImporter _externalReaderImporter;
         public ReaderFactory readerFactory { private get; set; }
 
-        public ProjectLogic(IProjectRepository projectRepository)
+        public ProjectLogic(IProjectRepository projectRepository, IExternalReaderImporter externalReaderImporter)
         {
             _projectRepository = projectRepository;
+            _externalReaderImporter = externalReaderImporter;
             readerFactory = new ReaderFactory();
         }
 
@@ -62,6 +66,11 @@ namespace BusinessLogic
         public IEnumerable<Project> GetAll()
         {
             return _projectRepository.GetAll();
+        }
+
+        public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetImportersInfo()
+        {
+            return _externalReaderImporter.GetExternalReadersInfo();
         }
     }
 }

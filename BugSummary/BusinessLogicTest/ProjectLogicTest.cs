@@ -436,7 +436,7 @@ namespace BusinessLogicTest
         }
 
         [TestMethod]
-        public void GetAllImportersInfo()
+        public void GetAllExternalReaderInfo()
         {
             IEnumerable<Parameter> parameters = new List<Parameter> {
                 new Parameter{
@@ -452,7 +452,7 @@ namespace BusinessLogicTest
                 tuple2
             };
             Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
-            mockImporter.Setup(mr => mr.GetImportersInfo()).Returns(mockedResult);
+            mockImporter.Setup(mr => mr.GetExternalReadersInfo()).Returns(mockedResult);
 
 
             ProjectLogic projectLogic = new ProjectLogic(null, mockImporter.Object);
