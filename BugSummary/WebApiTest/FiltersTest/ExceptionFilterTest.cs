@@ -13,6 +13,7 @@ using WebApi.Filters;
 using CustomExceptions;
 using System.Xml;
 using System.Diagnostics.CodeAnalysis;
+using ExternalReader;
 
 namespace WebApiTest.FiltersTest
 {
@@ -117,6 +118,15 @@ namespace WebApiTest.FiltersTest
             ModelMissingFieldsException exception = new ModelMissingFieldsException();
             TestException(exception, 400);
         }
+
+        [TestMethod]
+        public void ExternalReaderExceptionTest()
+        {
+            ExternalReaderException exception = new ExternalReaderException();
+            TestException(exception, 403);
+        }
+
+
 
         private void TestException(Exception exception, int statusCode)
         {
