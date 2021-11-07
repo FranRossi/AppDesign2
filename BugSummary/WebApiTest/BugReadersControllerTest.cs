@@ -54,5 +54,42 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+        [TestMethod]
+        public void AddBugsFromExternalReader()
+        {
+            IEnumerable<Parameter> parameters = new List<Parameter> {
+                new Parameter{
+                    Name="Path",
+                    Type = ParameterType.String
+                },
+                new Parameter{
+                    Name="Password",
+                    Type = ParameterType.String
+                }
+            };
+            string path = "somePath";
+            BugReaderModel model = new BugReaderModel
+            {
+                Path = path
+            };
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            IEnumerable<Parameter> receivedParameters = null;
+            string receivedPath = "";
+
+            mock.Setup(m => m.AddBugsFromExternalReader(It.IsAny<string>(), It.IsAny<IEnumerable<Parameter>>())).Callback((string sentPath, IEnumerable<Parameter> sentParameters) =>
+            {
+                receivedParameters = sentParameters;
+                receivedPath = sentPath;
+            });
+            BugReadersController controller = new BugReadersController(mock.Object);
+
+            IActionResult result = controller.Post(new BugReaderModel { Path = path, Parameters = parameters });
+
+            mock.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.AreEqual(parameters, receivedParameters);
+            Assert.AreEqual(path, receivedPath);
+        }
+
     }
 }
