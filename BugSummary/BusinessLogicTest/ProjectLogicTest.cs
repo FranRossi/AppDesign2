@@ -8,6 +8,7 @@ using ExternalReaderImporterInterface;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -460,6 +461,68 @@ namespace BusinessLogicTest
 
             mockImporter.VerifyAll();
             Assert.AreEqual(result, mockedResult);
+        }
+
+        [TestMethod]
+        public void ImportBugsExternalReaderTest()
+        {
+            BugModel newBug1 = new BugModel
+            {
+                Name = "Bug1",
+                State = (ExternalReader.BugState)BugState.Active,
+                Description = "Desc",
+                Version = "2.2"
+            };
+            BugModel newBug2 = new BugModel
+            {
+                Name = "Bug3",
+                State = (ExternalReader.BugState)BugState.Active,
+                Description = "Desc",
+                Version = "1.3"
+            };
+            IEnumerable<BugModel> expectedBugs = new List<BugModel> { newBug1, newBug2 };
+            ProjectModel newProject = new ProjectModel
+            {
+                Name = "Proyecto",
+                Bugs = expectedBugs
+            };
+
+            IEnumerable<Parameter> parameters = new List<Parameter> { new Parameter { Name = "Parameter" } };
+            IEnumerable<Parameter> receivedParameters = null;
+            string receivedPath = "";
+            string path = "somePath";
+            Mock<IExternalReader> mockExternalReader = new Mock<IExternalReader>(MockBehavior.Strict);
+            mockExternalReader.Setup(mr => mr.GetProjectsFromFile(It.IsAny<IEnumerable<Parameter>>())).Returns(new List<ProjectModel> { newProject })
+                 .Callback((IEnumerable<Parameter> sentParameters) => { receivedParameters = sentParameters; });
+            Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
+            mockImporter.Setup(mr => mr.GetExternalReader(It.IsAny<string>())).Returns(mockExternalReader.Object)
+                 .Callback((string sentPath) => { receivedPath = sentPath; });
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            IEnumerable<Project> receivedProjects = null;
+            IEnumerable<Project> projects = new List<Project> {
+                new Project
+                {
+                    Name = "Proyecto",
+                    Bugs = new List<Bug>
+                    {
+                        new Bug{ Name = "Bug1",State = BugState.Active,Description = "Desc", Version = "2.2"},
+                        new Bug{ Name = "Bug3",State = BugState.Active,Description = "Desc", Version = "1.3"},
+                    }
+                }
+            };
+            mockUserRepository.Setup(mr => mr.AddBugsFromFile(It.IsAny<IEnumerable<Project>>()))
+               .Callback((IEnumerable<Project> sentProject) => { receivedProjects = sentProject; });
+            mockUserRepository.Setup(mr => mr.Save());
+
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, mockImporter.Object);
+            projectLogic.AddBugsFromExternalReader(path, parameters);
+
+            mockImporter.VerifyAll();
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projects, receivedProjects);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+            Assert.AreEqual(parameters, receivedParameters);
+            Assert.AreEqual(path, receivedPath);
         }
     }
 }
