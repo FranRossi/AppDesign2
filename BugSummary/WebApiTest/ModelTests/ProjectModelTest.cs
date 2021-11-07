@@ -132,7 +132,7 @@ namespace WebApiTest
                 }
             };
 
-            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModelList(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -161,7 +161,7 @@ namespace WebApiTest
                 }
             };
 
-            IEnumerable<ProjectModel> model = ProjectModel.ToModel(projects);
+            IEnumerable<ProjectModel> model = ProjectModel.ToModelList(projects);
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);

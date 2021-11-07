@@ -12,8 +12,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import {AuthInterceptorService} from './auth-interceptor.service';
-import {ProjectAddComponent} from './pages/projects/project/addProject/addProject.component';
 
 
 @NgModule({

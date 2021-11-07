@@ -13,7 +13,7 @@ namespace WebApi.Models
         public int Duration { get; set; }
         public int Cost { get; set; }
 
-        public static IEnumerable<ProjectModel> ToModel(IEnumerable<Project> projects)
+        public static IEnumerable<ProjectModel> ToModelList(IEnumerable<Project> projects)
         {
             List<ProjectModel> modelList = new List<ProjectModel>();
             foreach (Project project in projects)
@@ -22,14 +22,22 @@ namespace WebApi.Models
                 model.Id = project.Id;
                 model.Name = project.Name;
                 model.BugCount = project.Bugs.Count;
-                model.Bugs = BugModel.ToModelList(project.Bugs);
-                model.Users = ToModelListUsers(project.Users);
-                model.Duration = project.CalculateDuration();
-                model.Cost = project.CalculateCost();
                 modelList.Add(model);
             }
-
             return modelList;
+        }
+        
+        public static ProjectModel ToModel(Project project)
+        {
+            ProjectModel model = new ProjectModel();
+            model.Id = project.Id;
+            model.Name = project.Name;
+            model.BugCount = project.Bugs.Count;
+            model.Bugs = BugModel.ToModelList(project.Bugs);
+            model.Users = ToModelListUsers(project.Users);
+            model.Duration = project.CalculateDuration();
+            model.Cost = project.CalculateCost();
+            return model;
         }
         
         private static IEnumerable<UserModel> ToModelListUsers(IEnumerable<User> usersToModel)

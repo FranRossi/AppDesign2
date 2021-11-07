@@ -7,7 +7,8 @@ namespace CustomExceptions
     {
         public UserModelMissingFieldException()
         {
-            this.messageToDisplay = "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role.";
+            this.messageToDisplay = "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role.";
+
         }
     }
 }

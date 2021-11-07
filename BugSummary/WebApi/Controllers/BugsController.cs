@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BusinessLogicInterface;
-using Domain;
+﻿using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Utilities.Criterias;

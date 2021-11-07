@@ -430,5 +430,49 @@ namespace BusinessLogicTest
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)projectsExpected, (ICollection)projectResult, new ProjectComparer());
         }
+        
+        [TestMethod]
+        public void GetProjectById()
+        {
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Fixed,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                State = BugState.Fixed,
+            };
+            Project projectExpected = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2, bug3 },
+                Users = null
+            };
+            
+            Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.Get(It.IsAny<int>())).Returns(projectExpected);
+
+            int projectId = 1;
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            Project projectResult = projectLogic.Get(projectId);
+
+
+            mockBugRepository.VerifyAll();
+            Assert.AreEqual( 0, new ProjectComparer().Compare(projectExpected, projectResult));
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace DataAccess
 
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").ToList();
+            return Context.Projects.Include("Bugs.Fixer").ToList();
         }
 
         public void Update(Project updatedProject)
@@ -87,6 +87,11 @@ namespace DataAccess
                     Context.Bugs.Add(newBug);
                 }
             }
+        }
+
+        public Project Get(int projectId)
+        {
+            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").FirstOrDefault(p => p.Id == projectId);
         }
     }
 }
