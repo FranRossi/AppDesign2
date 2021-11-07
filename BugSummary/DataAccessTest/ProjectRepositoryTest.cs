@@ -108,6 +108,75 @@ namespace DataAccessTest
                 Email = "pepe@gmail.com",
                 Role = RoleType.Developer,
                 HourlyRate = 34,
+            };
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Active,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                FixingTime = 13,
+                Fixer = newUser,
+                State = BugState.Fixed,
+                ProjectId = 2,
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+            };
+            Project project2 = new Project
+            {
+                Name = "New Project 2023",
+                Id = 2,
+                Bugs = new List<Bug> { bug3 },
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(project1);
+                context.Add(project2);
+                context.SaveChanges();
+
+            }
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(project1);
+            projectsExpected.Add(project2);
+
+            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
+
+            Assert.AreEqual(2, projectsDataBase.Count());
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
+        [TestMethod]
+        public void GetProjectByIdFromRepository()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                HourlyRate = 34,
                 Projects = new List<Project>()
             };
             Bug bug1 = new Bug
@@ -159,30 +228,18 @@ namespace DataAccessTest
                 Users = new List<User>(),
                 Assignments = new List<Assignment> { assignment1, assignment2 }
             };
-            Project project2 = new Project
-            {
-                Name = "New Project 2023",
-                Id = 2,
-                Bugs = new List<Bug> { bug3 },
-                Users = new List<User> { newUser },
-                Assignments = new List<Assignment>()
-            };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
                 context.Add(project1);
-                context.Add(project2);
                 context.SaveChanges();
 
             }
-            List<Project> projectsExpected = new List<Project>();
-            projectsExpected.Add(project1);
-            projectsExpected.Add(project2);
 
-            List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
-
-            Assert.AreEqual(2, projectsDataBase.Count());
+            int projectId = 1;
+            Project projectDataBase = this._projectRepository.Get(projectId);
+            
             CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
+            ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 

@@ -21,9 +21,9 @@ namespace WebApiTest
             {
                 Id = 1,
                 Name = "Task",
-               Duration = 2,
-               HourlyRate = 25,
-               ProjectId = 1,
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
             };
             AssignmentModel assignmentModel = new AssignmentModel
             {

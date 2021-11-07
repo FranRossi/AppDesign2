@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.OpenApi.Any;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -52,8 +53,8 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{projectId}/users")]
-        public IActionResult Delete(int projectId, [FromBody] int userId)
+        [HttpDelete("{projectId}/users/{userId}")]
+        public IActionResult Delete(int projectId, int userId)
         {
             _projects.DissociateUserFromProject(userId, projectId);
             return Ok();
@@ -70,6 +71,13 @@ namespace WebApi.Controllers
         public IActionResult Get()
         {
             IEnumerable<Project> result = _projects.GetAll();
+            return Ok(ProjectModel.ToModelList(result));
+        }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            Project result = _projects.Get(id);
             return Ok(ProjectModel.ToModel(result));
         }
     }

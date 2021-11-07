@@ -24,5 +24,7 @@ namespace BusinessLogicInterface
         public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo();
 
         public void AddBugsFromExternalReader(string externalReaderFileName, IEnumerable<Parameter> parameters);
+      
+        public Project Get(int projectId);
     }
 }
