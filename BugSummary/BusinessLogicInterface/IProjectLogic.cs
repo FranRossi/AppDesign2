@@ -1,4 +1,6 @@
 ﻿using Domain;
+using ExternalReader;
+using System;
 using System.Collections.Generic;
 
 namespace BusinessLogicInterface
@@ -18,5 +20,7 @@ namespace BusinessLogicInterface
         public void AddBugsFromFile(string path, string companyName);
 
         public IEnumerable<Project> GetAll();
+
+        public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo();
     }
 }

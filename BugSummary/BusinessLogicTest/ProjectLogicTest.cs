@@ -456,7 +456,7 @@ namespace BusinessLogicTest
 
 
             ProjectLogic projectLogic = new ProjectLogic(null, mockImporter.Object);
-            IEnumerable<Tuple<string, IEnumerable<Parameter>>> result = projectLogic.GetImportersInfo();
+            IEnumerable<Tuple<string, IEnumerable<Parameter>>> result = projectLogic.GetExternalReadersInfo();
 
             mockImporter.VerifyAll();
             Assert.AreEqual(result, mockedResult);

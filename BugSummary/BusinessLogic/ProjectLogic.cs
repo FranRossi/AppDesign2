@@ -68,7 +68,7 @@ namespace BusinessLogic
             return _projectRepository.GetAll();
         }
 
-        public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetImportersInfo()
+        public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo()
         {
             return _externalReaderImporter.GetExternalReadersInfo();
         }
