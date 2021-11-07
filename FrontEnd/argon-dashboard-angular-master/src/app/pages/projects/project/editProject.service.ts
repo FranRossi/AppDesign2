@@ -31,4 +31,9 @@ export class EditProjectService {
   deleteBug(projectId: number, bugId: number) {
     return this.http.delete(this.endpoint + '/bugs/' + `${bugId}`, {headers: this.headersProject});
   }
+
+  addUserToProject(projectId: number, userId: number) {
+    return this.http.post(this.endpoint + '/projects/' + `${projectId}` + '/users', userId, {headers: this.headersProject});
+
+  }
 }

@@ -50,9 +50,9 @@ export class ProjectEditComponent implements OnInit{
     });
   }
 
-  onDeleteUser(projectId: number, userId: number){
+  onDeleteUser(projectId: number, userId: number) {
     this.editService.deleteUserFromProject(projectId, userId).subscribe({
-      next: () => {this.project.users = this.project.users.filter(model => model.id !== projectId); },
+      next: () => {this.project.users = this.project.users.filter(model => model.id !== projectId); this.modalService.dismissAll(); },
       error: (e) => {this.error = e.status + ' ' + e.statusText;
     }
     });
@@ -62,14 +62,30 @@ export class ProjectEditComponent implements OnInit{
     this.error = null;
   }
 
-  open(content) {
-    this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+  open(content, type, modalDimension) {
+    if (type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+    } else {
+      this.modalService.open(content, { centered: true });
+    }
   }
 
   onDeleteBug(projectId: number, bugId: number){
     this.editService.deleteBug(projectId, bugId).subscribe({
       next: () => {this.project.bugs = this.project.bugs.filter(model => model.id !== projectId); },
       error: (e) => {this.error = e.status + ' ' + e.statusText;
+      }
+    });
+  }
+
+  onAddUser(form: NgForm) {
+    const userId = form.value.userId;
+    form.reset();
+    this.modalService.dismissAll();
+    this.editService.addUserToProject(this.project.id, userId).subscribe({
+      next: () => {this.getProjectById(); },
+      error: (e) => {
+        this.error = e.status + ' ' + e.statusText;
       }
     });
   }
