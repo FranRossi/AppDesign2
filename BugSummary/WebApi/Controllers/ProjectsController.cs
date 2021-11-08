@@ -32,7 +32,6 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProjectAddModel addModel)
         {

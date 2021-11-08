@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company3JSONReaderTest", "Company3JSONReaderTest\Company3JSONReaderTest.csproj", "{B73DD622-B35E-4D3C-A99A-51681B92FBCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company3JSONReader", "Company3JSONReader\Company3JSONReader.csproj", "{4FB4A340-59C2-4430-98D0-64330F76C287}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B73DD622-B35E-4D3C-A99A-51681B92FBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73DD622-B35E-4D3C-A99A-51681B92FBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73DD622-B35E-4D3C-A99A-51681B92FBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73DD622-B35E-4D3C-A99A-51681B92FBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB4A340-59C2-4430-98D0-64330F76C287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB4A340-59C2-4430-98D0-64330F76C287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB4A340-59C2-4430-98D0-64330F76C287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB4A340-59C2-4430-98D0-64330F76C287}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2AC0B0D-E65E-4A69-AAD1-1133764DA7E6}
+	EndGlobalSection
+EndGlobal

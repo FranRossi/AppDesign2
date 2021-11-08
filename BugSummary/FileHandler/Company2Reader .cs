@@ -20,7 +20,7 @@ namespace FileHandler
         private const int _versionLength = 10;
         private const int _stateLength = 10;
 
-        public IEnumerable<Project> GetProjectFromFile(string path)
+        public IEnumerable<Project> GetProjectsFromFile(string path)
         {
             string rawFile = File.ReadAllText(@path);
             string file = rawFile.Replace("\n", "").Replace("\r", "");

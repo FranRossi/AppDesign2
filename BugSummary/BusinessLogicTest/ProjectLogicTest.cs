@@ -3,17 +3,22 @@ using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
+using ExternalReader;
+using ExternalReaderImporterInterface;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
 using Utilities.Comparers;
 using Utilities.CustomExceptions;
+using BugState = Domain.DomainUtilities.BugState;
 
 namespace BusinessLogicTest
 {
@@ -37,7 +42,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             projectLogic.Add(projectToAdd);
 
             mockUserRepository.VerifyAll();
@@ -54,7 +59,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Add(It.IsAny<Project>())).Throws(new ProjectNameIsNotUniqueException());
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
                 () => projectLogic.Add(projectToAdd), "The project name chosen was already taken, please enter a different name."
             );
@@ -77,7 +82,7 @@ namespace BusinessLogicTest
                 }); ;
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             _projectLogic.Update(id, updatedProject);
 
             mockUserRepository.Verify(mock => mock.Update(It.IsAny<Project>()), Times.Once());
@@ -97,7 +102,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>())).Throws(new InexistentProjectException());
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object, null);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _sessionLogic.Update(id, updatedProject), "The entered project does not exist."
             );
@@ -116,7 +121,7 @@ namespace BusinessLogicTest
                 });
             mockUserRepository.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             _projectLogic.Delete(projectId);
 
             mockUserRepository.Verify(mock => mock.Delete(It.IsAny<int>()), Times.Once());
@@ -130,7 +135,7 @@ namespace BusinessLogicTest
             int id = 1;
             mockUserRepository.Setup(mr => mr.Delete(It.IsAny<int>())).Throws(new InexistentProjectException());
 
-            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic _sessionLogic = new ProjectLogic(mockUserRepository.Object, null);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _sessionLogic.Delete(id), "The entered project does not exist."
             );
@@ -152,7 +157,7 @@ namespace BusinessLogicTest
                 });
             mockProject.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             _projectLogic.AssignUserToProject(userId, projectId);
 
             mockProject.Verify(mock => mock.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
@@ -168,7 +173,7 @@ namespace BusinessLogicTest
             int userId = -11;
             mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             TestExceptionUtils.Throws<InexistentUserException>(
                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered user does not exist."
             );
@@ -182,7 +187,7 @@ namespace BusinessLogicTest
             int userId = -11;
             mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
             );
@@ -196,7 +201,7 @@ namespace BusinessLogicTest
             int userId = -11;
             mockProject.Setup(mr => mr.AssignUserToProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InvalidProjectAssigneeRoleException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             TestExceptionUtils.Throws<InvalidProjectAssigneeRoleException>(
                () => _projectLogic.AssignUserToProject(userId, projectId), "Project asingnees must either be Developers or Testers."
             );
@@ -218,7 +223,7 @@ namespace BusinessLogicTest
                 });
             mockProject.Setup(mr => mr.Save());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             _projectLogic.DissociateUserFromProject(userId, projectId);
 
             mockProject.Verify(mock => mock.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
@@ -234,7 +239,7 @@ namespace BusinessLogicTest
             int userId = -11;
             mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentUserException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             TestExceptionUtils.Throws<InexistentUserException>(
                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered user does not exist."
             );
@@ -248,7 +253,7 @@ namespace BusinessLogicTest
             int userId = -1;
             mockProject.Setup(mr => mr.DissociateUserFromProject(It.IsAny<int>(), It.IsAny<int>())).Throws(new InexistentProjectException());
 
-            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object);
+            ProjectLogic _projectLogic = new ProjectLogic(mockProject.Object, null);
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectLogic.DissociateUserFromProject(userId, projectId), "The entered project does not exist."
             );
@@ -270,7 +275,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
             Mock<IFileReaderStrategy> mockReader = new Mock<IFileReaderStrategy>(MockBehavior.Strict);
-            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(projects)
+            mockReader.Setup(mf => mf.GetProjectsFromFile(It.IsAny<string>())).Returns(projects)
                 .Callback((string sentPath) => { receivedPath = sentPath; });
             mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(mockReader.Object)
                 .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });
@@ -280,7 +285,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             projectLogic.readerFactory = mockReaderFactory.Object;
             projectLogic.AddBugsFromFile(path, companyName);
 
@@ -310,7 +315,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             Mock<ReaderFactory> mockReaderFactory = new Mock<ReaderFactory>(MockBehavior.Strict);
             Mock<IFileReaderStrategy> mockReader = new Mock<IFileReaderStrategy>(MockBehavior.Strict);
-            mockReader.Setup(mf => mf.GetProjectFromFile(It.IsAny<string>())).Returns(projects)
+            mockReader.Setup(mf => mf.GetProjectsFromFile(It.IsAny<string>())).Returns(projects)
                 .Callback((string sentPath) => { receivedPath = sentPath; });
             mockReaderFactory.Setup(mf => mf.GetStrategy(It.IsAny<string>())).Returns(mockReader.Object)
                 .Callback((string sentCompanyName) => { receivedCompanyName = sentCompanyName; });
@@ -320,7 +325,7 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
 
-            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, null);
             projectLogic.readerFactory = mockReaderFactory.Object;
             projectLogic.AddBugsFromFile(path, companyName);
 
@@ -376,7 +381,7 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
 
-            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
             IEnumerable<Project> projectResult = projectLogic.GetAll();
 
 
@@ -423,12 +428,101 @@ namespace BusinessLogicTest
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.GetAll()).Returns(projectsExpected);
 
-            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
             IEnumerable<Project> projectResult = projectLogic.GetAll();
 
 
             mockBugRepository.VerifyAll();
             CollectionAssert.AreEqual((ICollection)projectsExpected, (ICollection)projectResult, new ProjectComparer());
+        }
+
+        [TestMethod]
+        public void GetAllExternalReaderInfo()
+        {
+            IEnumerable<Parameter> parameters = new List<Parameter> {
+                new Parameter{
+                    Name="Path",
+                    Type = ParameterType.String
+                }
+            };
+            Tuple<string, IEnumerable<Parameter>> tuple2 = Tuple.Create("Empresa1", parameters);
+            Tuple<string, IEnumerable<Parameter>> tuple1 = Tuple.Create("Empresa2", parameters);
+            IEnumerable<Tuple<string, IEnumerable<Parameter>>> mockedResult = new List<Tuple<string, IEnumerable<Parameter>>>
+            {
+                tuple1,
+                tuple2
+            };
+            Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
+            mockImporter.Setup(mr => mr.GetExternalReadersInfo()).Returns(mockedResult);
+
+
+            ProjectLogic projectLogic = new ProjectLogic(null, mockImporter.Object);
+            IEnumerable<Tuple<string, IEnumerable<Parameter>>> result = projectLogic.GetExternalReadersInfo();
+
+            mockImporter.VerifyAll();
+            Assert.AreEqual(result, mockedResult);
+        }
+
+        [TestMethod]
+        public void ImportBugsExternalReaderTest()
+        {
+            BugModel newBug1 = new BugModel
+            {
+                Name = "Bug1",
+                State = (ExternalReader.BugState)BugState.Active,
+                Description = "Desc",
+                Version = "2.2"
+            };
+            BugModel newBug2 = new BugModel
+            {
+                Name = "Bug3",
+                State = (ExternalReader.BugState)BugState.Active,
+                Description = "Desc",
+                Version = "1.3"
+            };
+            IEnumerable<BugModel> expectedBugs = new List<BugModel> { newBug1, newBug2 };
+            ProjectModel newProject = new ProjectModel
+            {
+                Name = "Proyecto",
+                Bugs = expectedBugs
+            };
+
+            IEnumerable<Parameter> parameters = new List<Parameter> { new Parameter { Name = "Parameter" } };
+            IEnumerable<Parameter> receivedParameters = null;
+            string receivedPath = "";
+            string path = "somePath";
+            Mock<IExternalReader> mockExternalReader = new Mock<IExternalReader>(MockBehavior.Strict);
+            mockExternalReader.Setup(mr => mr.GetProjectsFromFile(It.IsAny<IEnumerable<Parameter>>())).Returns(new List<ProjectModel> { newProject })
+                 .Callback((IEnumerable<Parameter> sentParameters) => { receivedParameters = sentParameters; });
+            Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
+            mockImporter.Setup(mr => mr.GetExternalReader(It.IsAny<string>())).Returns(mockExternalReader.Object)
+                 .Callback((string sentPath) => { receivedPath = sentPath; });
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            IEnumerable<Project> receivedProjects = null;
+            IEnumerable<Project> projects = new List<Project> {
+                new Project
+                {
+                    Name = "Proyecto",
+                    Bugs = new List<Bug>
+                    {
+                        new Bug{ Name = "Bug1",State = BugState.Active,Description = "Desc", Version = "2.2"},
+                        new Bug{ Name = "Bug3",State = BugState.Active,Description = "Desc", Version = "1.3"},
+                    }
+                }
+            };
+            mockUserRepository.Setup(mr => mr.AddBugsFromFile(It.IsAny<IEnumerable<Project>>()))
+               .Callback((IEnumerable<Project> sentProject) => { receivedProjects = sentProject; });
+            mockUserRepository.Setup(mr => mr.Save());
+
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, mockImporter.Object);
+            projectLogic.AddBugsFromExternalReader(path, parameters);
+
+            mockImporter.VerifyAll();
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(projects, receivedProjects);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+            Assert.AreEqual(parameters, receivedParameters);
+            Assert.AreEqual(path, receivedPath);
         }
         
         [TestMethod]
