@@ -104,31 +104,19 @@ namespace WebApiTest
                 {
                     Id = 1,
                     Name = "Project A",
-                    BugCount = 3,
-                    Duration = 3,
-                    Cost = 6,
-                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel(), },
-                    Users = new List<UserModel>{new UserModel(), new UserModel(), new UserModel()}
+                    BugCount = 3
                 },
                 new ProjectModel
                 {
                    Name = "Project B",
                    BugCount = 0,
-                   Duration = 0,
-                   Cost = 0,
                    Id = 2,
-                   Bugs = new List<BugModel> {},
-                   Users = new List<UserModel>{}
                 },
                 new ProjectModel
                 {
                     Id = 3,
                     Name = "Project C",
                     BugCount = 2,
-                    Duration = 1,
-                    Cost = 12,
-                    Bugs = new List<BugModel> { new BugModel(), new BugModel() },
-                    Users = new List<UserModel>{new UserModel(), new UserModel()}
                 }
             };
 
@@ -155,9 +143,7 @@ namespace WebApiTest
                 new ProjectModel
                 {
                     Name = "Project A",
-                    BugCount = 3,
-                    Bugs = new List<BugModel> { new BugModel(), new BugModel(), new BugModel() },
-                    Users = new List<UserModel> {}
+                    BugCount = 3
                 }
             };
 

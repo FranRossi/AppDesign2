@@ -26,7 +26,7 @@ namespace WebApi.Models
             }
             return modelList;
         }
-        
+
         public static ProjectModel ToModel(Project project)
         {
             ProjectModel model = new ProjectModel();
@@ -39,7 +39,7 @@ namespace WebApi.Models
             model.Cost = project.CalculateCost();
             return model;
         }
-        
+
         private static IEnumerable<UserModel> ToModelListUsers(IEnumerable<User> usersToModel)
         {
             List<UserModel> models = new List<UserModel>();
@@ -48,6 +48,6 @@ namespace WebApi.Models
                 models.Add(UserModel.ToModel(user));
             }
             return models;
-        } 
+        }
     }
 }

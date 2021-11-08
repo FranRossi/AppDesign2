@@ -524,7 +524,7 @@ namespace BusinessLogicTest
             Assert.AreEqual(parameters, receivedParameters);
             Assert.AreEqual(path, receivedPath);
         }
-        
+
         [TestMethod]
         public void GetProjectById()
         {
@@ -556,17 +556,17 @@ namespace BusinessLogicTest
                 Bugs = new List<Bug> { bug1, bug2, bug3 },
                 Users = null
             };
-            
+
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
             mockBugRepository.Setup(mr => mr.Get(It.IsAny<int>())).Returns(projectExpected);
 
             int projectId = 1;
-            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object);
+            ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
             Project projectResult = projectLogic.Get(projectId);
 
 
             mockBugRepository.VerifyAll();
-            Assert.AreEqual( 0, new ProjectComparer().Compare(projectExpected, projectResult));
+            Assert.AreEqual(0, new ProjectComparer().Compare(projectExpected, projectResult));
         }
     }
 }
