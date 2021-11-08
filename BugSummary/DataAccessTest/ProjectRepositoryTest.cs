@@ -163,7 +163,7 @@ namespace DataAccessTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
+
         [TestMethod]
         public void GetProjectByIdFromRepository()
         {
@@ -237,7 +237,7 @@ namespace DataAccessTest
 
             int projectId = 1;
             Project projectDataBase = this._projectRepository.Get(projectId);
-            
+
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);

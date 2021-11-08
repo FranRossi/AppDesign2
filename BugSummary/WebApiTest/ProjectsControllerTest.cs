@@ -197,7 +197,7 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-        
+
         [TestMethod]
         public void GetProjectById()
         {
@@ -206,10 +206,10 @@ namespace WebApiTest
             {
                 Id = projectId,
                 Name = "Project A",
-                Bugs = new List<Bug> {new Bug(), new Bug(), new Bug()},
-                Users = new List<User> { }
+                Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
+                Users = new List<User> { new User(), new User(), }
             };
-       
+
             ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.Get(It.IsAny<int>())).Returns(projectExpected);

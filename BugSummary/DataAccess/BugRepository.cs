@@ -37,7 +37,7 @@ namespace DataAccess
 
         public void Update(User user, Bug updatedBug)
         {
-            Project projectFromDb = Context.Projects.FirstOrDefault(u => u.Id == updatedBug.ProjectId);
+            Project projectFromDb = Context.Projects.FirstOrDefault(p => p.Id == updatedBug.ProjectId);
             if (projectFromDb == null)
                 throw new InexistentProjectException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == updatedBug.ProjectId) != null))
