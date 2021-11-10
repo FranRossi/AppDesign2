@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Injectable} from '@angular/core';
 import {ProjectModel} from '../../../models/projectModel';
+import {BugModel} from '../../../models/bugModel';
 
 @Injectable({providedIn: 'root'})
 export class EditProjectService {
@@ -28,12 +29,16 @@ export class EditProjectService {
     return this.http.delete(this.endpoint + '/projects/' + `${projectId}` + '/users/' + `${userId}`, {headers: this.headersProject});
   }
 
-  deleteBug(projectId: number, bugId: number) {
+  deleteBug(bugId: number) {
     return this.http.delete(this.endpoint + '/bugs/' + `${bugId}`, {headers: this.headersProject});
   }
 
   addUserToProject(projectId: number, userId: number) {
     return this.http.post(this.endpoint + '/projects/' + `${projectId}` + '/users', userId, {headers: this.headersProject});
 
+  }
+
+  addBugToProject(bug: BugModel) {
+    return this.http.post(this.endpoint + '/bugs', bug, {headers: this.headersProject});
   }
 }

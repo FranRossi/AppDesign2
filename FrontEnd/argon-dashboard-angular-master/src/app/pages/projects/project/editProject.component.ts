@@ -5,6 +5,7 @@ import {ProjectModel} from '../../../models/projectModel';
 import {EditProjectService} from './editProject.service';
 import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {BugModel} from '../../../models/bugModel';
 
 
 @Component({
@@ -13,7 +14,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./editProject.component.scss']
 })
 
-export class ProjectEditComponent implements OnInit{
+export class ProjectEditComponent implements OnInit {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   error = null;
   project: ProjectModel = null;
@@ -27,7 +28,7 @@ export class ProjectEditComponent implements OnInit{
     this.getProjectById();
   }
 
-  private getProjectById(){
+  private getProjectById() {
     this.isFetching = true;
     this.editService.getProjectById(this.projectId).subscribe({
       next: (responseData) => {
@@ -70,9 +71,10 @@ export class ProjectEditComponent implements OnInit{
     }
   }
 
-  onDeleteBug(projectId: number, bugId: number){
-    this.editService.deleteBug(projectId, bugId).subscribe({
-      next: () => {this.project.bugs = this.project.bugs.filter(model => model.id !== projectId); },
+  onDeleteBug( bugId: number) {
+    this.modalService.dismissAll();
+    this.editService.deleteBug(bugId).subscribe({
+      next: () => {this.project.bugs = this.project.bugs.filter(model => model.id !== bugId); },
       error: (e) => {this.error = e.status + ' ' + e.statusText;
       }
     });
@@ -83,6 +85,21 @@ export class ProjectEditComponent implements OnInit{
     form.reset();
     this.modalService.dismissAll();
     this.editService.addUserToProject(this.project.id, userId).subscribe({
+      next: () => {this.getProjectById(); },
+      error: (e) => {
+        this.error = e.status + ' ' + e.statusText;
+      }
+    });
+  }
+
+  onAddBug(AddBugForm: NgForm) {
+    const bug: BugModel = AddBugForm.value;
+    bug.projectId = this.project.id;
+    bug.id = 1;
+    AddBugForm.reset();
+    this.modalService.dismissAll();
+    console.log(bug);
+    this.editService.addBugToProject(bug).subscribe({
       next: () => {this.getProjectById(); },
       error: (e) => {
         this.error = e.status + ' ' + e.statusText;
