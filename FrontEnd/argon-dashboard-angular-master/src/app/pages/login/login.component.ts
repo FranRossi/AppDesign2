@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loadDashboard() {
 
     if (this.receivedToken) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/admin']);
     }
   }
 }
