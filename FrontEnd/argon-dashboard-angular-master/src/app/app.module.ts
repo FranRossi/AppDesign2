@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.component';
+import { BugsComponent } from './pages/bugs/bugs.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.com
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    TesterLayoutComponent
+    TesterLayoutComponent,
+    BugsComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
