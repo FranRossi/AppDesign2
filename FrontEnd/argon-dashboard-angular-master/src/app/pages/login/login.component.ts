@@ -32,9 +32,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loadDashboard() {
-
     if (this.receivedToken) {
-      this.router.navigate(['/admin']);
+      const role: string = this.convertRoleNumberToString();
+      console.log(role);
+      this.router.navigate([role]);
     }
+  }
+
+  private convertRoleNumberToString() {
+    const role = sessionStorage.getItem('userRole');
+    const roleString: string = role === '3' ? 'admin' : (role === '2' ? 'developer' : 'tester');
+    return roleString;
   }
 }
