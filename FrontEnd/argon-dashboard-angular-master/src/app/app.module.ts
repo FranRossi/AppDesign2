@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.component';
 import { BugsComponent } from './pages/bugs/bugs.component';
+import { BugComponent } from './pages/bugs/bug/bug.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { BugsComponent } from './pages/bugs/bugs.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    TesterLayoutComponent
+    TesterLayoutComponent,
+    BugComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}

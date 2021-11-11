@@ -166,6 +166,7 @@
               <th scope="col">State</th>
               <th scope="col">Project</th>
               <th scope="col">Fixing Time</th>
+              <th scope="col">Delete</th>
             </tr>
             </thead>
             <p *ngIf="!isFetching && loadedBugs.length == 0">
@@ -203,6 +204,9 @@
                 <span *ngIf="bug.state == 2" class="badge badge-dot mr-4">
                     <i class="bg-warning"></i> Active
                   </span>
+              </td>
+              <td >
+                {{ bug.fixingTime }}
               </td>
               <td>
                 <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')" >
