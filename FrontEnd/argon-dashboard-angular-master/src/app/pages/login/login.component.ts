@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const userCredentials = this.signInForm.value;
     this.loginService.loginUser(userCredentials)
       .subscribe(responseData => {
-        console.log(responseData);
       sessionStorage.setItem('userToken', responseData.token);
       sessionStorage.setItem('userRole', responseData.role.toString());
       this.receivedToken = true;
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loadDashboard() {
     if (this.receivedToken) {
       const role: string = this.convertRoleNumberToString();
-      console.log(role);
       this.router.navigate([role]);
     }
   }

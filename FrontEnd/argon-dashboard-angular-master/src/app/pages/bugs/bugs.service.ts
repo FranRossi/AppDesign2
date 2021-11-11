@@ -21,9 +21,8 @@ export class BugsService {
     return this.http.delete(this.endpoint + `/${bugId}` , {headers : this.headersProject});
   }
 
-  addBug(bugModel: BugModel) {
-    this.setHeader();
-    return this.http.post(this.endpoint, bugModel, {headers : this.headersProject});
+  addBug(bug: BugModel) {
+    return this.http.post(this.endpoint, bug, {headers: this.headersProject});
   }
 
   private setHeader() {

@@ -13,16 +13,16 @@ export class EditProjectService {
     this.setHeader();
   }
 
+  private setHeader() {
+    this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
+  }
+
   editProjectName(newName: string, projectId: string ) {
     return this.http.put(this.endpoint + '/projects/' + projectId, newName, {headers: this.headersProject});
   }
 
   getProjectById(projectId: string ) {
     return this.http.get<ProjectModel>(this.endpoint + '/projects/' + projectId, {headers: this.headersProject});
-  }
-
-  private setHeader() {
-    this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }
 
   deleteUserFromProject(projectId: number, userId: number) {
@@ -35,7 +35,6 @@ export class EditProjectService {
 
   addUserToProject(projectId: number, userId: number) {
     return this.http.post(this.endpoint + '/projects/' + `${projectId}` + '/users', userId, {headers: this.headersProject});
-
   }
 
   addBugToProject(bug: BugModel) {

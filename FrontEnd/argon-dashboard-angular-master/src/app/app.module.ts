@@ -30,8 +30,7 @@ import { BugsComponent } from './pages/bugs/bugs.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    TesterLayoutComponent,
-    BugsComponent
+    TesterLayoutComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}

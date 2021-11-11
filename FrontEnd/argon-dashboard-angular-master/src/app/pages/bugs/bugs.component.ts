@@ -30,6 +30,7 @@ export class BugsComponent implements OnInit {
       next: (responseData) => {
         this.isFetching = false;
         this.loadedBugs = responseData;
+        console.log(responseData);
       },
       error: (e) => {
         this.isFetching = false;
@@ -50,10 +51,11 @@ export class BugsComponent implements OnInit {
   }
 
   onCreate(form: NgForm) {
-    const projectName = form.value;
+    const bug: BugModel = form.value;
+    bug.id = 1;
     form.reset();
     this.modalService.dismissAll();
-    this.bugService.addBug(projectName).subscribe({
+    this.bugService.addBug(bug).subscribe({
       next: () => {this.getBugs(); },
       error: (e) => {
         this.error = e.status + ' ' + e.statusText;
