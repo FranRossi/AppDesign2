@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {TesterLayoutRoutes} from './tester-layout.routing';
 import {HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from 'ngx-clipboard';
+import {BugsComponent} from '../../pages/bugs/bugs.component';
 
 
 @NgModule({
@@ -19,6 +20,8 @@ import {ClipboardModule} from 'ngx-clipboard';
     NgbModule,
     ClipboardModule
   ],
-  declarations: []
+  declarations: [
+    BugsComponent
+  ]
 })
 export class TesterLayoutModule { }
