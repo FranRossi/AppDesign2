@@ -59,7 +59,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       next: () => {this.getProjects(); },
       error: (e) => {
         this.error = e.status + ' ' + e.statusText;
-        console.log(e);
       }
     });
   }

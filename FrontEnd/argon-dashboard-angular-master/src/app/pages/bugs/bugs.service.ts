@@ -14,14 +14,17 @@ export class BugsService {
   }
 
   getAllBugs() {
+    this.setHeader();
     return this.http.get<[BugModel]>(this.endpoint, {headers : this.headersProject});
   }
 
   deleteBug(bugId: number) {
+    this.setHeader();
     return this.http.delete(this.endpoint + `/${bugId}` , {headers : this.headersProject});
   }
 
   addBug(bug: BugModel) {
+    this.setHeader();
     return this.http.post(this.endpoint, bug, {headers: this.headersProject});
   }
 
