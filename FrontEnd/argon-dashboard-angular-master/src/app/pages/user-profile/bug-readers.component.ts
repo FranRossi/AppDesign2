@@ -6,11 +6,11 @@ import { ParameterModel } from 'src/app/models/parameterModel';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  selector: 'app-bug-readers',
+  templateUrl: './bug-readers.component.html',
+  styleUrls: ['./bug-readers.component.scss']
 })
-export class UserProfileComponent implements OnInit {
+export class BugReadersComponent implements OnInit {
   isFetching = false;
   loadedBugReadersInfo: BugReaderInfoModel[] = [];
   loadedBugReader: BugReaderInfoModel = null;
