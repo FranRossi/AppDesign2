@@ -6,7 +6,7 @@ import {BugModel} from '../../../models/bugModel';
 @Injectable({providedIn: 'root'})
 export class BugService {
   headersProject: HttpHeaders;
-  endpoint = environment.webApi_origin + '/bugs';
+  endpoint = environment.webApi_origin + '/bugs/';
 
   constructor(private http: HttpClient) {
     this.setHeader();
@@ -18,7 +18,7 @@ export class BugService {
 
   editBug(bugUpdate: BugModel, bugId: string) {
     this.setHeader();
-    return this.http.put(this.endpoint + '/projects/' + bugId, bugUpdate, {headers: this.headersProject});
+    return this.http.put(this.endpoint  + bugId, bugUpdate, {headers: this.headersProject});
   }
 
   getBugById(bugId: string ) {

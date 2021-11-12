@@ -8,10 +8,10 @@ import {BugService} from './bug.service';
 
 @Component({
   selector: 'app-bug',
-  templateUrl: './bug.component.html',
-  styleUrls: ['./bug.component.scss']
+  templateUrl: './bug-edit.component.html',
+  styleUrls: ['./bug-edit.component.scss']
 })
-export class BugComponent implements OnInit {
+export class BugEditComponent implements OnInit {
 
   @ViewChild('f') editBugForm: NgForm;
   error = null;
@@ -32,6 +32,7 @@ export class BugComponent implements OnInit {
       next: (responseData) => {
         this.isFetching = false;
         this.bug = responseData;
+        console.log(responseData);
       },
       error: (e) => {
         this.isFetching = false;

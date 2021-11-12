@@ -31,7 +31,6 @@ export class BugsComponent implements OnInit {
       next: (responseData) => {
         this.isFetching = false;
         this.loadedBugs = responseData;
-        console.log(responseData);
       },
       error: (e) => {
         this.isFetching = false;
