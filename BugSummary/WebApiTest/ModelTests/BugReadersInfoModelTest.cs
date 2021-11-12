@@ -43,12 +43,12 @@ namespace WebApiTest
             {
                 new BugReaderInfoModel
                 {
-                    Name = "Empresa2",
+                    FileName = "Empresa2",
                     Parameters = parameters2,
                 },
                 new BugReaderInfoModel
                 {
-                    Name = "Empresa1",
+                    FileName = "Empresa1",
                     Parameters = parameters1,
                 }
             };
@@ -77,7 +77,7 @@ namespace WebApiTest
             {
                 new BugReaderInfoModel
                 {
-                    Name = "Empresa1",
+                    FileName = "Empresa1",
                     Parameters = parameters1,
                 }
             };

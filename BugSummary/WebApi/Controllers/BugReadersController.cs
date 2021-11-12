@@ -32,7 +32,7 @@ namespace WebApi.Controllers
             return Ok(BugReaderInfoModel.ToModel(result));
         }
 
-        [HttpPost("bugs")]
+        [HttpPost]
         public IActionResult Post([FromBody] BugReaderModel readerModel)
         {
             _projects.AddBugsFromExternalReader(readerModel.FileName, readerModel.Parameters);
