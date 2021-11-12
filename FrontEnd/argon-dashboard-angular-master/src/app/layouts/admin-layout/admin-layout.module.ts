@@ -7,7 +7,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
+import { BugReadersComponent } from '../../pages/user-profile/bug-readers.component';
 import { ProjectsComponent } from '../../pages/projects/projects.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
@@ -23,7 +23,7 @@ import {ProjectEditComponent} from '../../pages/projects/project/editProject.com
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
+    BugReadersComponent,
     ProjectsComponent,
     ProjectEditComponent
   ]
