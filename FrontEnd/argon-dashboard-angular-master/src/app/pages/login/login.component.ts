@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
-    sessionStorage.clear();
+    //sessionStorage.clear();
   }
   ngOnDestroy() {
   }
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loadDashboard() {
     if (this.receivedToken) {
       const role: string = this.convertRoleNumberToString();
-      this.router.navigate([role]);
+      this.router.navigate([role], { replaceUrl: true });
     }
   }
 

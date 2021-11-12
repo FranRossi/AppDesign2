@@ -1,8 +1,8 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectsService} from './projects.service';
 import {ProjectListModel} from '../../models/projectListModel';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 
 
@@ -23,6 +23,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.loadedProjects = [];
+    this.error = null;
   }
 
   private getProjects() {

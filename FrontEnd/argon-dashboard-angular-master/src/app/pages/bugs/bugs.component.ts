@@ -22,6 +22,7 @@ export class BugsComponent implements OnInit {
 
   ngOnDestroy() {
     this.loadedBugs = [];
+    this.error = null;
   }
 
   private getBugs() {
