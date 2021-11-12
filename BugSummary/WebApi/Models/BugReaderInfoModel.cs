@@ -8,7 +8,7 @@ namespace WebApi.Models
 {
     public class BugReaderInfoModel
     {
-        public string Name { get; set; }
+        public string FileName { get; set; }
         public IEnumerable<Parameter> Parameters { get; set; }
 
         public static IEnumerable<BugReaderInfoModel> ToModel(IEnumerable<Tuple<string, IEnumerable<Parameter>>> bugReaderInfo)
@@ -18,7 +18,7 @@ namespace WebApi.Models
             {
                 BugReaderInfoModel model = new BugReaderInfoModel();
                 model.Parameters = bugInfo.Item2;
-                model.Name = bugInfo.Item1;
+                model.FileName = bugInfo.Item1;
                 modelList.Add(model);
             }
 
