@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
+    //sessionStorage.clear();
   }
   ngOnDestroy() {
   }
@@ -23,7 +24,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const userCredentials = this.signInForm.value;
     this.loginService.loginUser(userCredentials)
       .subscribe(responseData => {
-        console.log(responseData);
       sessionStorage.setItem('userToken', responseData.token);
       sessionStorage.setItem('userRole', responseData.role.toString());
       this.receivedToken = true;
@@ -32,9 +32,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loadDashboard() {
-
     if (this.receivedToken) {
-      this.router.navigate(['/dashboard']);
+      const role: string = this.convertRoleNumberToString();
+      this.router.navigate([role], { replaceUrl: true });
     }
+  }
+
+  private convertRoleNumberToString() {
+    const role = sessionStorage.getItem('userRole');
+    const roleString: string = role === '3' ? 'admin' : (role === '2' ? 'developer' : 'tester');
+    return roleString;
   }
 }

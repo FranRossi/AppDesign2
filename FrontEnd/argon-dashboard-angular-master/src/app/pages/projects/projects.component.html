@@ -76,6 +76,7 @@
         <div class="card-header border-0">
           <h3 class="mb-0">Projects</h3>
         </div>
+<!--    TODO - Cambiar a un componente aparte que sea una tabla generica -->
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
@@ -87,7 +88,7 @@
               </tr>
             </thead>
             <p *ngIf="!isFetching && loadedProjects.length < 1">
-              There are not project currently on the system. Please add a new one first.
+              There are not projects currently on the system. Please add a new one first.
             </p>
             <p *ngIf="isFetching && !error">
               Loading...
@@ -103,7 +104,7 @@
                   <div class="media align-items-center">
                     <a
                       class="icon rounded-circle"
-                      routerLinkActive="active" [routerLink]="['/projects', project.id]">
+                      routerLinkActive="active" [routerLink]="[project.id]">
                       <i class="fas fa-arrow-circle-right"></i>
                     </a>
                     <div class="media-body">

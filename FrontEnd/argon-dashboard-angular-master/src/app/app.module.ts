@@ -12,6 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.component';
+import { BugsComponent } from './pages/bugs/bugs.component';
+import { BugComponent } from './pages/bugs/bug/bug.component';
 
 
 @NgModule({
@@ -27,8 +30,9 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
-    // Aca irian tester Component y Developer Component
+    AuthLayoutComponent,
+    TesterLayoutComponent,
+    BugComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
@@ -11,7 +11,6 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { ProjectsComponent } from '../../pages/projects/projects.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
-// import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [

@@ -6,6 +6,11 @@ import { ProjectsComponent } from '../../pages/projects/projects.component';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
 
 export const AdminLayoutRoutes: Routes = [
+    {
+      path: '',
+      redirectTo: 'dashboard',
+      pathMatch: 'full',
+    },
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'projects',         component: ProjectsComponent },

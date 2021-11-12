@@ -8,11 +8,13 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
-    { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/projects', title: 'Projects',  icon:'ni-bullet-list-67 text-red', class: '' },
-    { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
+    { path: 'dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '3,2,1' },
+    { path: 'user-profile', title: 'User profile',  icon: 'ni-single-02 text-yellow', class: '3' },
+    { path: 'projects', title: 'Projects',  icon: 'ni-bullet-list-67 text-red', class: '3' },
+   // { path: 'login', title: 'Login',  icon: 'ni-key-25 text-info', class: '3,2,1' },
+    { path: 'register', title: 'Register',  icon: 'ni-circle-08 text-pink', class: '3' },
+    { path: 'bugs', title: 'Bugs',  icon: 'ni-circle-08 text-pink', class: '2,1' }
+
 ];
 
 @Component({
@@ -28,7 +30,7 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems = ROUTES.filter(menuItem => menuItem.class.includes(sessionStorage.getItem('userRole')));
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });

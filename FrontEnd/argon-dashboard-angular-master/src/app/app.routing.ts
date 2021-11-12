@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import {TesterLayoutComponent} from './layouts/tester-layout/tester-layout.component';
 
 const routes: Routes = [
   {
@@ -12,12 +13,21 @@ const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   }, {
-    path: '',
+    path: 'admin',
     component: AdminLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
+        loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),
+      }
+    ]
+  }, {
+    path: 'tester',
+    component: TesterLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('src/app/layouts/tester-layout/tester-layout.module').then(m => m.TesterLayoutModule),
       }
     ]
   }, {
@@ -30,6 +40,7 @@ const routes: Routes = [
       }
     ]
   }, {
+  // TODO - Hacer una pagina not found
     path: '**',
     redirectTo: 'login'
   }
