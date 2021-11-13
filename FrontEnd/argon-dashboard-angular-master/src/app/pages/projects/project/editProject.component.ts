@@ -17,7 +17,9 @@ import {BugModel} from '../../../models/bugModel';
 export class ProjectEditComponent implements OnInit {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   error = null;
-  success = null;
+  successUser = null;
+  successBug = null;
+  successProject = null;
   project: ProjectModel = null;
   projectId: string;
   isFetching = false;
@@ -62,11 +64,11 @@ export class ProjectEditComponent implements OnInit {
         next: () => {
         this.project.name = this.editNameForm.value.name;
         this.error = null;
-        this.success = "Name changed correctly!";
+        this.successProject = "Name changed correctly!";
         this.editNameForm.reset();
         },
         error: (e) => {
-          this.success = null;
+          this.successProject = null;
           this.error = e.error;
         }
     });
@@ -77,11 +79,11 @@ export class ProjectEditComponent implements OnInit {
     this.editService.deleteBug(bugId).subscribe({
       next: () => {
         this.error = null;
-        this.success = "Bug deleted correctly!";
-        this.project.bugs = this.project.bugs.filter(model => model.id !== bugId); 
+        this.successBug = "Bug deleted correctly!";
+        this.project.bugs = this.project.bugs.filter(model => model.id !== bugId);
       },
       error: (e) => {
-        this.success = null;
+        this.successBug = null;
         this.error = e.error;
       }
     });
@@ -92,13 +94,13 @@ export class ProjectEditComponent implements OnInit {
     this.editService.addUserToProject(this.project.id, userId).subscribe({
       next: () => {
         this.error = null;
-        this.success = "User added correctly!";
+        this.successUser = "User added correctly!";
         form.reset();
         this.modalService.dismissAll();
-        this.getProjectById(); 
+        this.getProjectById();
       },
       error: (e) => {
-        this.success = null;
+        this.successUser = null;
         this.error = e.error;
       }
     });
@@ -109,12 +111,12 @@ export class ProjectEditComponent implements OnInit {
     this.editService.deleteUserFromProject(projectId, userId).subscribe({
       next: () => {
         this.error = null;
-        this.success = "User deleted correctly!";
-        this.project.users = this.project.users.filter(model => model.id !== userId); 
-        this.modalService.dismissAll(); 
+        this.successUser = "User deleted correctly!";
+        this.project.users = this.project.users.filter(model => model.id !== userId);
+        this.modalService.dismissAll();
       },
       error: (e) => {
-        this.success = null;
+        this.successUser = null;
         this.error = e.error;
     }
     });
@@ -127,13 +129,13 @@ export class ProjectEditComponent implements OnInit {
     this.editService.addBugToProject(bug).subscribe({
       next: () => {
         this.error = null;
-        this.success = "Bug added correctly!";
+        this.successBug = "Bug added correctly!";
         AddBugForm.reset();
         this.modalService.dismissAll();
-        this.getProjectById(); 
+        this.getProjectById();
       },
       error: (e) => {
-        this.success = null;
+        this.successBug = null;
         this.error = e.error;
       }
     });
