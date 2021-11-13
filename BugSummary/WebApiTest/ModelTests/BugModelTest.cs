@@ -29,7 +29,6 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-
             };
             BugModel bugToCompare = new BugModel
             {

@@ -19,7 +19,7 @@ namespace WebApi.Models
         public Bug ToEntity()
         {
             ValidateFields();
-            return new()
+            return new Bug
             {
                 Name = Name,
                 Description = Description,
@@ -33,7 +33,7 @@ namespace WebApi.Models
         public Bug ToEntityWithID(int id)
         {
             ValidateFields();
-            return new()
+            return new Bug
             {
                 Id = id,
                 Name = Name,
@@ -46,7 +46,7 @@ namespace WebApi.Models
 
         public static BugModel ToModel(Bug bugEntity)
         {
-            return new()
+            return new BugModel
             {
                 Id = bugEntity.Id,
                 Name = bugEntity.Name,

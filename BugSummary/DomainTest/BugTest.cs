@@ -140,6 +140,15 @@ namespace DomainTest
             Assert.AreEqual(23, newBug.FixingTime);
         }
 
+        [TestMethod]
+        public void CreateInvalidFixingTimeTest()
+        {
+            TestExceptionUtils.Throws<InvalidBugFixingTimeException>(
+                () => new Bug { FixingTime = -2 }, "Bug fixing time should not be negative."
+            );
+
+        }
+
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
