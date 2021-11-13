@@ -9,6 +9,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { BugReadersComponent } from '../../pages/user-profile/bug-readers.component';
 import { ProjectsComponent } from '../../pages/projects/projects.component';
+import { RegisterComponent } from '../../pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
 
@@ -25,7 +26,8 @@ import {ProjectEditComponent} from '../../pages/projects/project/editProject.com
     DashboardComponent,
     BugReadersComponent,
     ProjectsComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    RegisterComponent
   ]
 })
 

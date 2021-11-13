@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {RegisterService} from './register.service';
 
 @Component({
   selector: 'app-register',
@@ -8,16 +9,29 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('f') createAccountForm: NgForm;
-
-  constructor(private http: HttpClient) { }
+  error = null;
+  constructor(private http: HttpClient, private registerService: RegisterService) { }
 
   ngOnInit() {
   }
 
-  onCreateAccount() {
-    const values = this.createAccountForm.value;
-    this.http.post('http://localhost:5000/users', values);
-    this.createAccountForm.reset();
+  onCreateAccount(RegisterForm: NgForm) {
+    const userData = RegisterForm.value;
+    userData.role = parseInt(userData.role);
+    this.registerService.addUser(userData)
+    .subscribe({
+      next: () => {
+        console.log('ez');
+        this.cleanForm(RegisterForm); 
+      },
+      error: (e) => {
+        this.error = e.status + ' ' + e.statusText;
+        console.log(e);
+      }
+    });
+  }
+
+  private cleanForm(RegisterForm: NgForm){
+    RegisterForm.reset();
   }
 }

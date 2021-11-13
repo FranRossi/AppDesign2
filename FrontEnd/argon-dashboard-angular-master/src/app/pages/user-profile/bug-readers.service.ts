@@ -9,7 +9,7 @@ import {NgForm} from '@angular/forms';
 
 export class BugReaderService {
   @ViewChild('formSignIn') signInForm: NgForm;
-  headersProject: HttpHeaders;
+  headers: HttpHeaders;
   endpoint = environment.webApi_origin + '/bugReaders';
 
   constructor(private http: HttpClient) {
@@ -17,15 +17,15 @@ export class BugReaderService {
   }
 
   getAllBugReaders() {
-    return this.http.get<[BugReaderInfoModel]>(this.endpoint, {headers : this.headersProject});
+    return this.http.get<[BugReaderInfoModel]>(this.endpoint, {headers : this.headers});
   }
   
   readBugs(parameters: BugReaderInfoModel) {
     this.setHeader();
-    return this.http.post(this.endpoint, parameters, {headers : this.headersProject});
+    return this.http.post(this.endpoint, parameters, {headers : this.headers});
   }
 
   private setHeader() {
-    this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
+    this.headers = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }
 }
