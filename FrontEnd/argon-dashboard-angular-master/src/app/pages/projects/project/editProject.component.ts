@@ -6,6 +6,7 @@ import {EditProjectService} from './editProject.service';
 import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
+import {AssignmentModel} from '../../../models/assignmentModel';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ProjectEditComponent implements OnInit {
   successUser = null;
   successBug = null;
   successProject = null;
+  successAssignment = null;
   project: ProjectModel = null;
   projectId: string;
   isFetching = false;
@@ -141,4 +143,21 @@ export class ProjectEditComponent implements OnInit {
     });
   }
 
+  onAddAssignment(createAssignmentForm: NgForm) {
+    const assignment: AssignmentModel = createAssignmentForm.value;
+    assignment.projectId = this.project.id;
+    assignment.id = 1;
+    this.editService.addAssignmentToProject(assignment).subscribe({
+      next: () => {
+        this.error = null;
+        this.successAssignment = 'Assignment added correctly!';
+        createAssignmentForm.reset();
+        this.modalService.dismissAll();
+      },
+      error: (e) => {
+        this.successAssignment = null;
+        this.error = e.error;
+      }
+    });
+  }
 }
