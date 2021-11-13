@@ -145,6 +145,14 @@
                 [disabled]="!RegisterForm.valid">Register user</button>
             </div>
           </form>
+          <div class="text-center">
+            <div class="alert alert-success" role="alert" *ngIf="success">
+              {{success}}
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="error">
+              {{error}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

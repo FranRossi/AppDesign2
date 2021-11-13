@@ -8,12 +8,10 @@ import {RegisterService} from './register.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   error = null;
+  success = null;
   constructor(private http: HttpClient, private registerService: RegisterService) { }
-
-  ngOnInit() {
-  }
 
   onCreateAccount(RegisterForm: NgForm) {
     const userData = RegisterForm.value;
@@ -21,17 +19,19 @@ export class RegisterComponent implements OnInit {
     this.registerService.addUser(userData)
     .subscribe({
       next: () => {
-        console.log('ez');
-        this.cleanForm(RegisterForm); 
+        this.error = null;
+        this.success='User correctly registered!'; 
       },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
-        console.log(e);
+        this.success = null;
+        this.error = e.error;
       }
     });
   }
 
   private cleanForm(RegisterForm: NgForm){
     RegisterForm.reset();
+    this.error = null;
+    this.success = null;
   }
 }
