@@ -32,7 +32,6 @@ export class BugEditComponent implements OnInit {
       next: (responseData) => {
         this.isFetching = false;
         this.bug = responseData;
-        console.log(responseData);
       },
       error: (e) => {
         this.isFetching = false;
@@ -42,18 +41,18 @@ export class BugEditComponent implements OnInit {
   }
 
   onEditBug() {
-    console.log(this.editBugForm);
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
     console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;
+        this.editBugForm.resetForm();
       });
   }
 
   private updateBugFromForm(updatedBug: BugModel) {
-    updatedBug.id = updatedBug.id.toString() === '' ? this.bug.id : updatedBug.id;
+    updatedBug.id = this.bug.id;
     updatedBug.name = updatedBug.name === '' ? this.bug.name : updatedBug.name;
     updatedBug.projectId = updatedBug.projectId.toString() === '' ? this.bug.projectId : updatedBug.projectId;
     updatedBug.version = updatedBug.version === '' ? this.bug.version : updatedBug.version;

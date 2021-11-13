@@ -14,6 +14,7 @@ export class BugsComponent implements OnInit {
   isFetching = false;
   loadedBugs: BugModel[] = [];
   error = null;
+
   constructor(private http: HttpClient, private bugService: BugsService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -71,5 +72,4 @@ export class BugsComponent implements OnInit {
       this.modalService.open(content, { centered: true });
     }
   }
-
 }
