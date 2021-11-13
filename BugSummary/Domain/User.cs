@@ -116,7 +116,7 @@ namespace Domain
 
         private void ValidateHourlyRate(int value)
         {
-            if (!Validator.ValidateHourlyRate(value))
+            if (!Validator.ValidateGreaterThanZero(value))
                 throw new InvalidUserHourlyRateException();
         }
 
