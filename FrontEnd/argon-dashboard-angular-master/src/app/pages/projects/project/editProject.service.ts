@@ -18,26 +18,32 @@ export class EditProjectService {
   }
 
   editProjectName(newName: string, projectId: string ) {
+    this.setHeader();
     return this.http.put(this.endpoint + '/projects/' + projectId, newName, {headers: this.headersProject});
   }
 
   getProjectById(projectId: string ) {
+    this.setHeader();
     return this.http.get<ProjectModel>(this.endpoint + '/projects/' + projectId, {headers: this.headersProject});
   }
 
   deleteUserFromProject(projectId: number, userId: number) {
+    this.setHeader();
     return this.http.delete(this.endpoint + '/projects/' + `${projectId}` + '/users/' + `${userId}`, {headers: this.headersProject});
   }
 
   deleteBug(bugId: number) {
+    this.setHeader();
     return this.http.delete(this.endpoint + '/bugs/' + `${bugId}`, {headers: this.headersProject});
   }
 
   addUserToProject(projectId: number, userId: number) {
+    this.setHeader();
     return this.http.post(this.endpoint + '/projects/' + `${projectId}` + '/users', userId, {headers: this.headersProject});
   }
 
   addBugToProject(bug: BugModel) {
+    this.setHeader();
     return this.http.post(this.endpoint + '/bugs', bug, {headers: this.headersProject});
   }
 }

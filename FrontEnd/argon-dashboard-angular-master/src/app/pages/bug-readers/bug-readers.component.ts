@@ -15,6 +15,7 @@ export class BugReadersComponent implements OnInit {
   loadedBugReadersInfo: BugReaderInfoModel[] = [];
   loadedBugReader: BugReaderInfoModel = null;
   error = null;
+  success = null;
   selectedIndex: number = null;
 
 
@@ -29,18 +30,18 @@ export class BugReadersComponent implements OnInit {
     this.loadedBugReader = this.loadedBugReadersInfo[index];
   }
 
-
   private getReaders() {
     this.isFetching = true;
     this.bugReaderService.getAllBugReaders().subscribe({
       next: (responseData) => {
           this.isFetching = false;
           this.loadedBugReadersInfo = responseData;
-          console.log(this.loadedBugReadersInfo);
+          this.error = null;
         },
       error: (e) => {
           this.isFetching = false;
-          this.error = e.status + " " + e.statusText;
+          this.success = null;
+          this.error = e.error;
         }
     });
   }
@@ -50,12 +51,13 @@ export class BugReadersComponent implements OnInit {
     this.loadParameterValues(values);
     this.bugReaderService.readBugs(this.loadedBugReader).subscribe({
       next: () => {
-        console.log('ez');
+        this.error = null;
+        this.success = "Bugs added correctly!"
         this.cleanForm(BugReaderForm); 
       },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
-        console.log(e);
+        this.success = null;
+        this.error = e.error;
       }
     });
     

@@ -15,6 +15,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   isFetching = false;
   loadedProjects: ProjectListModel[] = [];
   error = null;
+  success = null;
   constructor(private http: HttpClient, private projectService: ProjectsService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -35,15 +36,24 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         },
       error: (e) => {
           this.isFetching = false;
-          this.error = e.status + " " + e.statusText;
+          this.success = null;
+          this.error = e.error;
         }
     });
   }
 
   onDelete(projectId: number) {
     this.projectService.deleteProject(projectId).subscribe({
-      next: () => {this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); this.modalService.dismissAll(); },
-      error: (e) => {this.error = e.status + " " + e.statusText; }
+      next: () => {
+        this.error = null;
+        this.success = 'Project deleted correctly!';
+        this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); 
+        this.modalService.dismissAll(); 
+      },
+      error: (e) => {
+        this.success = null;
+        this.error = e.error;
+      }
     });
   }
 
@@ -53,12 +63,17 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   onCreate(form: NgForm) {
     const projectName = form.value;
-    form.reset();
-    this.modalService.dismissAll();
     this.projectService.addProject(projectName).subscribe({
-      next: () => {this.getProjects(); },
+      next: () => {
+        this.getProjects(); 
+        this.error = null;
+        this.success = 'Project deleted correctly!';
+        this.modalService.dismissAll();
+        form.reset();
+      },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
+        this.success = null;
+        this.error = e.error;
       }
     });
   }

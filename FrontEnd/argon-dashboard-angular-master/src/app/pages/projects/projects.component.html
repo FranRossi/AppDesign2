@@ -49,6 +49,11 @@
                                         Create Project
                                       </button>
                                     </div>
+                                    <div class="text-center">
+                                      <div class="alert alert-danger" role="alert" *ngIf="error">
+                                        {{error}}
+                                      </div>
+                                    </div>
                                   </form>
                                 </div>
                               </div>
@@ -93,11 +98,6 @@
             <p *ngIf="isFetching && !error">
               Loading...
             </p>
-            <div class="alert alert-danger" *ngIf="error">
-              <h2 >An error Occurred getting Projects!</h2>
-              <p>{{error}}</p>
-              <button class="btn btn-danger" (click)="onHandleError()">OK</button>
-            </div>
             <tbody *ngIf="loadedProjects.length >= 1 && !isFetching">
               <tr *ngFor="let project of loadedProjects">
                 <th scope="row">
@@ -155,6 +155,11 @@
               </tr>
             </tbody>
           </table>
+          <div class="text-center">
+            <div class="alert alert-success" role="alert" *ngIf="success">
+              {{success}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

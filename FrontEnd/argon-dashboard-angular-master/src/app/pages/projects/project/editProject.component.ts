@@ -17,6 +17,7 @@ import {BugModel} from '../../../models/bugModel';
 export class ProjectEditComponent implements OnInit {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   error = null;
+  success = null;
   project: ProjectModel = null;
   projectId: string;
   isFetching = false;
@@ -42,23 +43,6 @@ export class ProjectEditComponent implements OnInit {
     });
   }
 
-  onEditName() {
-    const newName: string = this.editNameForm.value;
-    this.editService.editProjectName(newName, this.project.id.toString())
-      .subscribe(responseData => {
-        this.project.name = this.editNameForm.value.name;
-        this.editNameForm.reset();
-    });
-  }
-
-  onDeleteUser(projectId: number, userId: number) {
-    this.editService.deleteUserFromProject(projectId, userId).subscribe({
-      next: () => {this.project.users = this.project.users.filter(model => model.id !== userId); this.modalService.dismissAll(); },
-      error: (e) => {this.error = e.status + ' ' + e.statusText;
-    }
-    });
-  }
-
   onHandleError() {
     this.error = null;
   }
@@ -71,24 +55,68 @@ export class ProjectEditComponent implements OnInit {
     }
   }
 
+  onEditName() {
+    const newName: string = this.editNameForm.value;
+    this.editService.editProjectName(newName, this.project.id.toString())
+      .subscribe({
+        next: () => {
+        this.project.name = this.editNameForm.value.name;
+        this.error = null;
+        this.success = "Name changed correctly!";
+        this.editNameForm.reset();
+        },
+        error: (e) => {
+          this.success = null;
+          this.error = e.error;
+        }
+    });
+  }
+
   onDeleteBug( bugId: number) {
     this.modalService.dismissAll();
     this.editService.deleteBug(bugId).subscribe({
-      next: () => {this.project.bugs = this.project.bugs.filter(model => model.id !== bugId); },
-      error: (e) => {this.error = e.status + ' ' + e.statusText;
+      next: () => {
+        this.error = null;
+        this.success = "Bug deleted correctly!";
+        this.project.bugs = this.project.bugs.filter(model => model.id !== bugId); 
+      },
+      error: (e) => {
+        this.success = null;
+        this.error = e.error;
       }
     });
   }
 
   onAddUser(form: NgForm) {
     const userId = form.value.userId;
-    form.reset();
-    this.modalService.dismissAll();
     this.editService.addUserToProject(this.project.id, userId).subscribe({
-      next: () => {this.getProjectById(); },
+      next: () => {
+        this.error = null;
+        this.success = "User added correctly!";
+        form.reset();
+        this.modalService.dismissAll();
+        this.getProjectById(); 
+      },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
+        this.success = null;
+        this.error = e.error;
       }
+    });
+  }
+
+
+  onDeleteUser(projectId: number, userId: number) {
+    this.editService.deleteUserFromProject(projectId, userId).subscribe({
+      next: () => {
+        this.error = null;
+        this.success = "User deleted correctly!";
+        this.project.users = this.project.users.filter(model => model.id !== userId); 
+        this.modalService.dismissAll(); 
+      },
+      error: (e) => {
+        this.success = null;
+        this.error = e.error;
+    }
     });
   }
 
@@ -96,13 +124,17 @@ export class ProjectEditComponent implements OnInit {
     const bug: BugModel = AddBugForm.value;
     bug.projectId = this.project.id;
     bug.id = 1;
-    AddBugForm.reset();
-    this.modalService.dismissAll();
-    console.log(bug);
     this.editService.addBugToProject(bug).subscribe({
-      next: () => {this.getProjectById(); },
+      next: () => {
+        this.error = null;
+        this.success = "Bug added correctly!";
+        AddBugForm.reset();
+        this.modalService.dismissAll();
+        this.getProjectById(); 
+      },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
+        this.success = null;
+        this.error = e.error;
       }
     });
   }

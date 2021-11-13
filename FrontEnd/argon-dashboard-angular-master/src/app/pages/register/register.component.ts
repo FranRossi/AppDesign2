@@ -28,10 +28,4 @@ export class RegisterComponent {
       }
     });
   }
-
-  private cleanForm(RegisterForm: NgForm){
-    RegisterForm.reset();
-    this.error = null;
-    this.success = null;
-  }
 }
