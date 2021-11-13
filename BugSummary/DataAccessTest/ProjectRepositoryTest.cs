@@ -253,7 +253,7 @@ namespace DataAccessTest
             Project updatedProject = new Project
             {
                 Id = 1,
-                Name = "Proyect 2344"
+                Name = "Proyect 23423454"
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -278,11 +278,34 @@ namespace DataAccessTest
         {
             Project updatedProject = new Project
             {
-                Name = "Proyect 2344"
+                Name = "Proyect 234234"
             };
 
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.Update(updatedProject), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void UpdateAlreadyUsedProjectNameTest()
+        {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            Project updatedProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+               () => _projectRepository.Update(updatedProject), "The project name chosen was already taken, please enter a different name."
             );
         }
 

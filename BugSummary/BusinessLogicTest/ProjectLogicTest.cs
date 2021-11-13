@@ -66,6 +66,22 @@ namespace BusinessLogicTest
         }
 
         [TestMethod]
+        public void UpdateAlreadyAddedProject()
+        {
+            Project projectToAdd = new Project
+            {
+                Name = "New Project 2022"
+            };
+            Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Update(It.IsAny<Project>())).Throws(new ProjectNameIsNotUniqueException());
+
+            ProjectLogic projectLogic = new ProjectLogic(mockUserRepository.Object, null);
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+                () => projectLogic.Update(1, projectToAdd), "The project name chosen was already taken, please enter a different name."
+            );
+        }
+
+        [TestMethod]
         public void UpdateValidProject()
         {
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
