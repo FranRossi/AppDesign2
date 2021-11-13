@@ -25,7 +25,7 @@
           <div class="text-center text-muted mb-4">
             <small>Register user's credentials</small>
           </div>
-          <form (ngSubmit)="onCreateAccount()" #f="ngForm">
+          <form (ngSubmit)="onCreateAccount(RegisterForm)" #RegisterForm="ngForm">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
@@ -131,9 +131,9 @@
                   name="role"
                   required
                   #role="ngModel">
-                  <option>Admin</option>
-                  <option>Developer</option>
-                  <option>Tester</option>
+                  <option ngValue = '3'>Admin</option>
+                  <option ngValue = '2'>Developer</option>
+                  <option ngValue = '1'>Tester</option>
                 </select>
               </div>
               <span class="text-sm" *ngIf="!role.valid && role.touched">Please select a role!</span>
@@ -142,9 +142,17 @@
               <button
                 type="submit"
                 class="btn btn-primary mt-4"
-                [disabled]="!f.valid">Create account</button>
+                [disabled]="!RegisterForm.valid">Register user</button>
             </div>
           </form>
+          <div class="text-center">
+            <div class="alert alert-success" role="alert" *ngIf="success">
+              {{success}}
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="error">
+              {{error}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
