@@ -29,6 +29,8 @@ namespace DataAccess
 
         public void Update(Project updatedProject)
         {
+            if (Context.Projects.Any(p => p.Name == updatedProject.Name))
+                throw new ProjectNameIsNotUniqueException();
             Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Id == updatedProject.Id);
             if (projectFromDB != null)
             {
