@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('formSignIn') signInForm: NgForm;
   receivedToken = false;
+  error = null;
   constructor(private http: HttpClient, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
@@ -23,11 +24,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSignIn() {
     const userCredentials = this.signInForm.value;
     this.loginService.loginUser(userCredentials)
-      .subscribe(responseData => {
-      sessionStorage.setItem('userToken', responseData.token);
-      sessionStorage.setItem('userRole', responseData.role.toString());
-      this.receivedToken = true;
-      this.loadDashboard();
+      .subscribe({
+        next: (responseData) => {
+          sessionStorage.setItem('userToken', responseData.token);
+          sessionStorage.setItem('userRole', responseData.role.toString());
+          this.receivedToken = true;
+          this.loadDashboard();
+        },
+        error: (e) => {
+          this.error = e.error;
+        }
     });
   }
 

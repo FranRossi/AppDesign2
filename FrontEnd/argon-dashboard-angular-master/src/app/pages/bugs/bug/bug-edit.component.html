@@ -116,8 +116,8 @@
             </div>
           </form>
           <div class="text-center">
-            <div class="alert alert-danger" role="alert">
-              pi
+            <div class="alert alert-danger" role="alert" *ngif="error">
+              {{error}}
             </div>
           </div>
         </div>

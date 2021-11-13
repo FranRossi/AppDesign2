@@ -273,11 +273,6 @@
             <p *ngIf="isFetching && !error">
               Loading...
             </p>
-            <div class="alert alert-danger" *ngIf="error">
-              <h2 >An error Occurred getting Bugs!</h2>
-              <p>{{error}}</p>
-              <button class="btn btn-danger" (click)="onHandleError()">OK</button>
-            </div>
             <tbody *ngIf="loadedBugs.length >= 1 && !isFetching">
             <tr *ngFor="let bug of loadedBugs">
               <th scope="row">
