@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-lg-7 col-md-10">
         <h1  *ngIf="!isFetching && !error" class="display-2 text-white">{{project.name}}</h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
+        <p class="text-white mt-0 mb-5">This is your project's page. You can manage your projects</p>
         <form (ngSubmit)="onEditName()" #formEditNameProject="ngForm">
           <div class="input-group input-group-alternative">
             <input
@@ -29,85 +29,22 @@
       </div>
     </div>
   </div>
-</div>
-
-
-<!-- Page content -->
-<div class="container-fluid mt--7">
-  <div class="row align-items-center">
-    <div class="col align-items-center">
-      <div class="card bg-secondary shadow">
-        <div class="text-center">
-          <div class="alert alert-success" role="alert" *ngIf="success">
-            {{success}}
-          </div>
-        </div>
-        <!-- Users -->
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col">Users</th>
-              <th scope="col">Role</th>
-              <th scope="col">Disassociate</th>
-            </tr>
-            </thead>
-            <p *ngIf="isFetching && !error">
-              Loading...
-            </p>
-            <tbody *ngIf="!isFetching && project.users.length >=1">
-            <tr *ngFor="let user of project.users">
-              <th scope="row">
-                <div class="media align-items-center">
-                  <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                    <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
-                  </a>
-                  <div class="media-body">
-                    <span class="mb-0 text-sm">{{ user.firstName }}</span>
-                  </div>
-                </div>
-              </th>
-              <td>
-                {{ user.role }}
-              </td>
-              <td class="text-right">
-                <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">
-                  <i class="fas fas fa-minus-circle"></i>
-                  <div class="col-md-4">
-                    <ng-template #classic2 let-c="close" let-d="dismiss">
-                      <div class="modal-content bg-gradient-danger">
-                        <div class="modal-header">
-                          <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-                            <span aria-hidden="true">×</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="py-3 text-center">
-                            <i class="ni ni-bell-55 ni-3x"></i>
-                            <h4 class="heading mt-4">You should read this!</h4>
-                            <p>You are about to delete a user permanently, please confirm this action</p>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteUser(project.id, user.id)">Ok, delete it</button>
-                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </div>
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <div class="card-header bg-white border-0">
-            <div class="row align-items-center">
-              <a (click)="open(classic1, 'modal_mini', 'sm')" >
-                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                  <i class="fas fa-plus fa-align-center"></i>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Add User</h5>
+                <span class="h2 font-weight-bold mb-0"></span>
+              </div>
+              <div class="col-auto">
+                <a (click)="open(addUser, 'modal_mini', 'sm')" >
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-plus fa-align-center"></i>
                     <div class="col-md-4">
-                      <ng-template #classic1 let-modal let-c="close" let-d="dismiss" >
+                      <ng-template #addUser let-modal let-c="close" let-d="dismiss" >
                         <div class="modal-content">
                           <div class="modal-body p-0">
                             <div class="card bg-secondary shadow border-0">
@@ -137,7 +74,7 @@
                                       type="submit"
                                       class="btn btn-primary my-4"
                                       [disabled]="!AddUserForm.valid && !error">
-                                      Add user to project
+                                      Add user to {{project.name}}
                                     </button>
                                   </div>
                                 </form>
@@ -152,82 +89,23 @@
                         </div>
                       </ng-template>
                     </div>
-                </div>
-              </a>
-  
-              <div class="col-8">
-                <h3 class="mb-0">Add user</h3>
+                  </div>
+                </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>
-
-        <div class="card bg-secondary shadow">
-          
-              <!-- Bugs -->
-          <div class="table-responsive">
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-              <tr>
-                <th scope="col">Bugs</th>
-                <th scope="col">Status</th>
-                <th scope="col">Delete bug</th>
-              </tr>
-              </thead>
-              <tbody  *ngIf="!isFetching && project.bugs.length >=1">
-              <tr *ngFor="let bug of project.bugs">
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">{{ bug.name }}</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                    <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
-                      <i class="bg-success"></i> Bug fixed
-                    </span>
-                  <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
-                      <i class="bg-warning"></i> Bug active
-                    </span>
-                </td>
-                <td class="text-right">
-                  <a class="icon rounded-circle" id="deleteIcon" (click)="open(deleteBug, 'Notification', '')">
-                    <i class="fas fas fa-minus-circle"></i>
-                    <div class="col-md-4">
-                      <ng-template #deleteBug let-c="close" let-d="dismiss">
-                        <div class="modal-content bg-gradient-danger">
-                          <div class="modal-header">
-                            <h6 class="modal-title" >Your attention is required</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="py-3 text-center">
-                              <i class="ni ni-bell-55 ni-3x"></i>
-                              <h4 class="heading mt-4">You should read this!</h4>
-                              <p>You are about to delete a bug permanently, please confirm this action</p>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteBug(bug.id)">Ok, delete it</button>
-                            <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </div>
-                  </a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <div class="card-header bg-white border-0">
-              <div class="row align-items-center">
+      <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Add Bug</h5>
+                <span class="h2 font-weight-bold mb-0"></span>
+              </div>
+              <div class="col-auto">
                 <a (click)="open(addBug, 'modal_mini', 'sm')" >
                   <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
                     <i class="fas fa-plus fa-align-center"></i>
@@ -344,14 +222,287 @@
                     </div>
                   </div>
                 </a>
-  
-                <div class="col-8">
-                  <h3 class="mb-0">Add bug</h3>
-                </div>
+
               </div>
             </div>
+
           </div>
         </div>
       </div>
+      <div class="col-xl-4 col-lg-7">
+        <div class="card card-stats mb-4 mb-xl-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Add Assignment</h5>
+                <span class="h2 font-weight-bold mb-0"></span>
+              </div>
+              <div class="col-auto">
+                <a (click)="open(addAssignment, 'modal_mini', 'sm')" >
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-plus fa-align-center"></i>
+                    <div class="col-md-4">
+                      <ng-template #addAssignment let-modal let-c="close" let-d="dismiss" >
+                        <div class="modal-content">
+                          <div class="modal-body p-0">
+                            <div class="card bg-secondary shadow border-0">
+                              <div class="card-body px-lg-5 py-lg-5">
+                                <div class="text-center text-muted mb-4">
+                                  <small>Enter Assignment's info</small>
+                                </div>
+                                <form  (ngSubmit)="onAddAssignment(createAssignmentForm)" #createAssignmentForm="ngForm" >
+                                  <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                      </div>
+                                      <input
+                                        class="form-control"
+                                        placeholder="Name"
+                                        type="text"
+                                        ngModel
+                                        name="name"
+                                        required
+                                        #name="ngModel">
+                                    </div>
+                                    <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter a assignment name!</span>
+                                  </div>
+                                  <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-align-center"></i></span>
+                                      </div>
+                                      <input
+                                        class="form-control"
+                                        placeholder="Duration"
+                                        type="number"
+                                        ngModel
+                                        name="duration"
+                                        required
+                                        #duration="ngModel">
+                                    </div>
+                                    <span class="text-sm" *ngIf="!duration.valid && duration.touched">Please enter assignment's duration!</span>
+                                  </div>
+                                  <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                      </div>
+                                      <input
+                                        class="form-control"
+                                        placeholder="Hourly Rate"
+                                        type="number"
+                                        ngModel
+                                        name="HourlyRate"
+                                        required
+                                        #hourlyRate="ngModel">
+                                    </div>
+                                    <span class="text-sm" *ngIf="!hourlyRate.valid && hourlyRate.touched">Please enter assignment's hourly rate!</span>
+                                  </div>
+                                  <div class="text-center">
+                                    <button
+                                      type="submit"
+                                      class="btn btn-primary my-4"
+                                      *ngIf="!error && !successAssignment"
+                                      [disabled]="!createAssignmentForm.valid && !error">
+                                      Add Assignment to {{project.name}}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      data-dismiss="modal"
+                                      aria-label="Close"
+                                      (click)="d('Cross click')"
+                                      *ngIf="successAssignment || error">
+                                      <span aria-hidden="true">×</span>
+                                    </button>
+                                  </div>
+                                  <div class="text-center">
+                                    <div class="alert alert-danger" role="alert" *ngIf="error">
+                                      {{error}}
+                                    </div>
+                                  </div>
+                                  <div class="text-center">
+                                    <div class="alert alert-success" role="alert" *ngIf="successAssignment">
+                                      {{successAssignment}}
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row align-items-center">
+    <div class="col align-items-center">
+      <div class="card bg-secondary shadow">
+        <!-- Users -->
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Users</h3>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="alert alert-success" role="alert" *ngIf="successUser">
+            {{successUser}}
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Users</th>
+              <th scope="col">Role</th>
+              <th scope="col">Disassociate</th>
+            </tr>
+            </thead>
+            <p *ngIf="isFetching && !error">
+              Loading...
+            </p>
+            <tbody *ngIf="!isFetching && project.users.length >=1">
+            <tr *ngFor="let user of project.users">
+              <th scope="row">
+                <div class="media align-items-center">
+                  <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+                  </a>
+                  <div class="media-body">
+                    <span class="mb-0 text-sm">{{ user.firstName }}</span>
+                  </div>
+                </div>
+              </th>
+              <td>
+                {{ user.role }}
+              </td>
+              <td class="text-right">
+                <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">
+                  <i class="fas fas fa-minus-circle"></i>
+                  <div class="col-md-4">
+                    <ng-template #classic2 let-c="close" let-d="dismiss">
+                      <div class="modal-content bg-gradient-danger">
+                        <div class="modal-header">
+                          <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="py-3 text-center">
+                            <i class="ni ni-bell-55 ni-3x"></i>
+                            <h4 class="heading mt-4">You should read this!</h4>
+                            <p>You are about to delete a user permanently, please confirm this action</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteUser(project.id, user.id)">Ok, delete it</button>
+                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    <div class="col align-items-center">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Bugs</h3>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="alert alert-success" role="alert" *ngIf="successBug">
+            {{successBug}}
+          </div>
+        </div>
+        <!-- Bugs -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Bugs</th>
+              <th scope="col">Status</th>
+              <th scope="col">Delete bug</th>
+            </tr>
+            </thead>
+            <tbody  *ngIf="!isFetching && project.bugs.length >=1">
+            <tr *ngFor="let bug of project.bugs">
+              <th scope="row">
+                <div class="media align-items-center">
+                  <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+                  </a>
+                  <div class="media-body">
+                    <span class="mb-0 text-sm">{{ bug.name }}</span>
+                  </div>
+                </div>
+              </th>
+              <td>
+                    <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
+                      <i class="bg-success"></i> Bug fixed
+                    </span>
+                <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
+                      <i class="bg-warning"></i> Bug active
+                    </span>
+              </td>
+              <td class="text-right">
+                <a class="icon rounded-circle" id="deleteIcon" (click)="open(deleteBug, 'Notification', '')">
+                  <i class="fas fas fa-minus-circle"></i>
+                  <div class="col-md-4">
+                    <ng-template #deleteBug let-c="close" let-d="dismiss">
+                      <div class="modal-content bg-gradient-danger">
+                        <div class="modal-header">
+                          <h6 class="modal-title" >Your attention is required</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="py-3 text-center">
+                            <i class="ni ni-bell-55 ni-3x"></i>
+                            <h4 class="heading mt-4">You should read this!</h4>
+                            <p>You are about to delete a bug permanently, please confirm this action</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteBug(bug.id)">Ok, delete it</button>
+                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     </div>
   </div>

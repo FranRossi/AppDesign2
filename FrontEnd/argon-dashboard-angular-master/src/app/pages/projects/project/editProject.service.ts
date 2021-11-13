@@ -3,6 +3,7 @@ import {environment} from '../../../../environments/environment';
 import {Injectable} from '@angular/core';
 import {ProjectModel} from '../../../models/projectModel';
 import {BugModel} from '../../../models/bugModel';
+import {AssignmentModel} from '../../../models/assignmentModel';
 
 @Injectable({providedIn: 'root'})
 export class EditProjectService {
@@ -45,5 +46,10 @@ export class EditProjectService {
   addBugToProject(bug: BugModel) {
     this.setHeader();
     return this.http.post(this.endpoint + '/bugs', bug, {headers: this.headersProject});
+  }
+
+  addAssignmentToProject(assignment: AssignmentModel) {
+    this.setHeader();
+    return this.http.post(this.endpoint + '/assignments', assignment, {headers: this.headersProject});
   }
 }
