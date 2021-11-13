@@ -4,6 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {BugModel} from '../../models/bugModel';
 import {BugsService} from './bugs.service';
+import {BugCriteriaModel} from '../../models/bugCriteriaModel';
 
 @Component({
   selector: 'app-bugs',
@@ -29,6 +30,23 @@ export class BugsComponent implements OnInit {
   private getBugs() {
     this.isFetching = true;
     this.bugService.getAllBugs().subscribe({
+      next: (responseData) => {
+        this.isFetching = false;
+        this.loadedBugs = responseData;
+      },
+      error: (e) => {
+        this.isFetching = false;
+        this.error = e.status + ' ' + e.statusText;
+      }
+    });
+  }
+
+  private getBugsFiltered(filterForm: NgForm) {
+    this.isFetching = true;
+    const filters: BugCriteriaModel = filterForm.value;
+    filterForm.reset();
+    this.modalService.dismissAll();
+    this.bugService.getAllBugsFiltered(filters).subscribe({
       next: (responseData) => {
         this.isFetching = false;
         this.loadedBugs = responseData;
