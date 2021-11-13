@@ -16,9 +16,9 @@ export class BugService {
     this.headersProject = new HttpHeaders().append('token', sessionStorage.getItem('userToken'));
   }
 
-  editBug(bugUpdate: BugModel, bugId: string) {
+  editBug(bug: BugModel, bugId: string) {
     this.setHeader();
-    return this.http.put(this.endpoint  + bugId, bugUpdate, {headers: this.headersProject});
+    return this.http.put(this.endpoint  + bugId, bug, {headers: this.headersProject});
   }
 
   getBugById(bugId: string ) {

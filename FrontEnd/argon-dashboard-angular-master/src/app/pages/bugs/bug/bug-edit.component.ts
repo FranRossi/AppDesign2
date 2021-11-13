@@ -42,11 +42,25 @@ export class BugEditComponent implements OnInit {
   }
 
   onEditBug() {
-    const updatedBug: BugModel = this.editBugForm.value;
+    console.log(this.editBugForm);
+    let updatedBug: BugModel = this.editBugForm.value;
+    updatedBug = this.updateBugFromForm(updatedBug);
+    console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;
       });
+  }
+
+  private updateBugFromForm(updatedBug: BugModel) {
+    updatedBug.id = updatedBug.id.toString() === '' ? this.bug.id : updatedBug.id;
+    updatedBug.name = updatedBug.name === '' ? this.bug.name : updatedBug.name;
+    updatedBug.projectId = updatedBug.projectId.toString() === '' ? this.bug.projectId : updatedBug.projectId;
+    updatedBug.version = updatedBug.version === '' ? this.bug.version : updatedBug.version;
+    updatedBug.state = updatedBug.state.toString() === '' ? this.bug.state : updatedBug.state;
+    updatedBug.fixingTime = updatedBug.fixingTime.toString() === '' ? this.bug.fixingTime : updatedBug.fixingTime;
+    updatedBug.description = updatedBug.description === '' ? this.bug.description : updatedBug.description;
+    return updatedBug;
   }
 
   onHandleError() {

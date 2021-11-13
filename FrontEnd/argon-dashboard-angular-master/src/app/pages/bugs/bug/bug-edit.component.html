@@ -29,15 +29,28 @@
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                </div>
+                <input
+                  class="form-control"
+                  placeholder='Id: {{bug.id}}'
+                  type="number"
+                  ngModel
+                  name="id"
+                >
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
                 <input
                   class="form-control"
-                  placeholder='{{bug.name}}'
+                  placeholder='Name: {{bug.name}}'
                   type="text"
                   ngModel
-                  name="name"
-                  required>
+                  name="name">
               </div>
             </div>
             <div class="form-group mb-3">
@@ -47,11 +60,10 @@
                 </div>
                 <input
                   class="form-control"
-                  placeholder='{{bug.description}}'
+                  placeholder=' Description: {{bug.description}}'
                   type="text"
                   ngModel
-                  name="description"
-                  required>
+                  name="description">
               </div>
             </div>
             <div class="form-group">
@@ -61,10 +73,9 @@
                   data-style="btn btn-link"
                   ngModel
                   name="state"
-                  required
-                  type="number"
-                  #state="ngModel">
-                  <option value="" disabled selected hidden>{{bug.state}}</option>
+                  type="number">
+                  <option *ngIf="bug.state == 2" value="" disabled selected hidden>Bug's State: Active</option>
+                  <option *ngIf="bug.state == 1" value="" disabled selected hidden>Bug's State: Fixed</option>
                   <option [ngValue]="2">Active</option>
                   <option [ngValue]="1">Fixed</option>
                 </select>
@@ -77,11 +88,10 @@
                 </div>
                 <input
                   class="form-control"
-                  placeholder='{{bug.version}}'
+                  placeholder='Version: {{bug.version}}'
                   type="text"
                   ngModel
-                  name="version"
-                  required>
+                  name="version">
               </div>
             </div>
             <div class="form-group mb-3">
@@ -91,25 +101,23 @@
                 </div>
                 <input
                   class="form-control"
-                  placeholder='{{bug.fixingTime}}'
+                  placeholder='FixingTime: {{bug.fixingTime}}'
                   type="number"
                   ngModel
-                  name="fixingTime"
-                  required>
+                  name="fixingTime">
               </div>
             </div>
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                  <span class="input-group-text"><i class="fas fa-folder"></i></span>
                 </div>
                 <input
                   class="form-control"
-                  placeholder='{{bug.projectId}}'
+                  placeholder='Project Id: {{bug.projectId}}'
                   type="number"
                   ngModel
-                  name="projectId"
-                  required>
+                  name="projectId">
               </div>
             </div>
             <div class="text-center">
