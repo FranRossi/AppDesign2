@@ -4,6 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {BugModel} from '../../models/bugModel';
 import {BugsService} from './bugs.service';
+import {BugCriteriaModel} from '../../models/bugCriteriaModel';
 
 @Component({
   selector: 'app-bugs',
@@ -14,6 +15,7 @@ export class BugsComponent implements OnInit {
   isFetching = false;
   loadedBugs: BugModel[] = [];
   error = null;
+
   constructor(private http: HttpClient, private bugService: BugsService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -31,7 +33,23 @@ export class BugsComponent implements OnInit {
       next: (responseData) => {
         this.isFetching = false;
         this.loadedBugs = responseData;
-        console.log(responseData);
+      },
+      error: (e) => {
+        this.isFetching = false;
+        this.error = e.status + ' ' + e.statusText;
+      }
+    });
+  }
+
+  private getBugsFiltered(filterForm: NgForm) {
+    this.isFetching = true;
+    const filters: BugCriteriaModel = filterForm.value;
+    filterForm.reset();
+    this.modalService.dismissAll();
+    this.bugService.getAllBugsFiltered(filters).subscribe({
+      next: (responseData) => {
+        this.isFetching = false;
+        this.loadedBugs = responseData;
       },
       error: (e) => {
         this.isFetching = false;
@@ -72,5 +90,4 @@ export class BugsComponent implements OnInit {
       this.modalService.open(content, { centered: true });
     }
   }
-
 }

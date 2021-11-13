@@ -109,7 +109,7 @@
                                     <div class="form-group mb-3">
                                       <div class="input-group input-group-alternative">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                          <span class="input-group-text"><i class="fas fa-folder"></i></span>
                                         </div>
                                         <input
                                           class="form-control"
@@ -127,7 +127,7 @@
                                         type="submit"
                                         class="btn btn-primary my-4"
                                         [disabled]="!AddBugForm.valid && !error">
-                                        Add Bug to
+                                        Add Bug
                                       </button>
                                     </div>
                                   </form>
@@ -148,6 +148,7 @@
     </div>
   </div>
 </div>
+
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <!-- Table -->
@@ -155,7 +156,94 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Bugs</h3>
+          <div class="row">
+            <div class="col">
+              <h3 class="mb-0">Bugs</h3>
+            </div>
+            <div class=" col col-lg-1">
+              <a class="btn btn-sm btn-neutral"(click)="open(filterBugsList, 'modal_mini', 'sm')" >
+                Filters
+                  <div class="col-md-4">
+                    <ng-template #filterBugsList let-modal let-c="close" let-d="dismiss" >
+                      <div class="modal-content">
+                        <div class="modal-body p-0">
+                          <div class="card bg-secondary shadow border-0">
+                            <div class="card-body px-lg-5 py-lg-5">
+                              <div class="text-center text-muted mb-4">
+                                <small>Enter Bug's filters</small>
+                              </div>
+                              <form (ngSubmit)="getBugsFiltered(filterBugsListForm)" #filterBugsListForm="ngForm" >
+                                <div class="form-group mb-3">
+                                  <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-folder"></i></span>
+                                    </div>
+                                    <input
+                                      class="form-control"
+                                      placeholder="Id"
+                                      type="number"
+                                      ngModel
+                                      name="id">
+                                  </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                  <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                    </div>
+                                    <input
+                                      class="form-control"
+                                      placeholder="Name"
+                                      type="text"
+                                      ngModel
+                                      name="name">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group input-group-alternative">
+                                    <select
+                                      class="form-control selectpicker"
+                                      data-style="btn btn-link"
+                                      ngModel
+                                      name="state"
+                                      type="number">
+                                      <option value="" disabled selected hidden>Bug's State</option>
+                                      <option [ngValue]="2">Active</option>
+                                      <option [ngValue]="1">Fixed</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                  <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-folder"></i></span>
+                                    </div>
+                                    <input
+                                      class="form-control"
+                                      placeholder="Project Id"
+                                      type="number"
+                                      ngModel
+                                      name="projectId">
+                                  </div>
+                                </div>
+                                <div class="text-center">
+                                  <button
+                                    type="submit"
+                                    class="btn btn-primary my-4"
+                                    [disabled]="!filterBugsListForm.valid && !error">
+                                    Filter Bugs
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+              </a>
+            </div>
+          </div>
         </div>
         <!--    TODO - Cambiar a un componente aparte que sea una tabla generica -->
         <div class="table-responsive">
@@ -186,7 +274,7 @@
                 <div class="media align-items-center">
                   <a
                     class="icon rounded-circle"
-                    routerLinkActive="active" [routerLink]="['/projects', bug.id]">
+                    routerLinkActive="active" [routerLink]="[bug.id]">
                     <i class="fas fa-arrow-circle-right"></i>
                   </a>
                   <div class="media-body">
