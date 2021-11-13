@@ -8,7 +8,7 @@ using Utilities.Criterias;
 
 namespace BusinessLogic
 {
-    public class AssignmentLogic
+    public class AssignmentLogic : IAssignmentLogic
     {
         private IAssignmentRepository _assignmentRepository;
        

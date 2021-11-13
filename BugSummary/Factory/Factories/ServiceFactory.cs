@@ -30,6 +30,9 @@ namespace Factory.Factories
             services.AddScoped<IExternalReaderImporter, ExternalReaderImporterLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IBugRepository, BugRepository>();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IAssignmentLogic, AssignmentLogic>();
+
         }
 
         public void AddDbContextService(string connectionString)
