@@ -109,7 +109,7 @@ export class BugsComponent implements OnInit {
   }
 
   onFixBug(bugId, form: NgForm) {
-    const fixingTime: string = form.value;
+    const fixingTime: number = form.value.fixingTime;
     this.bugService.fixBug(bugId, fixingTime)
       .subscribe({
         next: () => {

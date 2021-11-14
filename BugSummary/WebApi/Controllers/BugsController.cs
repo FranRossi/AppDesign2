@@ -53,7 +53,7 @@ namespace WebApi.Controllers
 
         [HttpPatch("{bugId}")]
         [AuthorizationWithParameterFilter(new[] { RoleType.Developer })]
-        public IActionResult Patch([FromHeader] string token, int bugId, int fixingTime)
+        public IActionResult Patch([FromHeader] string token, int bugId, [FromBody] int fixingTime)
         {
             _bugs.Fix(token, bugId, fixingTime);
             return Ok();
