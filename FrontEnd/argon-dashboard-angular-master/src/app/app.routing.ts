@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import {TesterLayoutComponent} from './layouts/tester-layout/tester-layout.component';
+import {DeveloperLayoutComponent} from './layouts/developer-layout/developer-layout.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,16 @@ const routes: Routes = [
       }
     ]
   }, {
+    path: 'developer',
+    component: DeveloperLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('src/app/layouts/developer-layout/developer-layout.module').then(m => m.DeveloperLayoutModule),
+      }
+    ]
+  },
+  {
     path: '',
     component: AuthLayoutComponent,
     children: [
