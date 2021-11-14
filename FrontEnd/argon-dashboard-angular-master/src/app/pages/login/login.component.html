@@ -66,6 +66,11 @@
               </button>
             </div>
           </form>
+          <div class="text-center">
+            <div class="alert alert-danger" role="alert" *ngIf="error"> 
+              {{error}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

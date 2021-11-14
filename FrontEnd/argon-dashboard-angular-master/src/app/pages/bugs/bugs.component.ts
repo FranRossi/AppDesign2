@@ -15,6 +15,7 @@ export class BugsComponent implements OnInit {
   isFetching = false;
   loadedBugs: BugModel[] = [];
   error = null;
+  success = null;
 
   constructor(private http: HttpClient, private bugService: BugsService, private modalService: NgbModal) { }
 
@@ -36,7 +37,8 @@ export class BugsComponent implements OnInit {
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.status + ' ' + e.statusText;
+        this.success = null;
+        this.error = e.error;
       }
     });
   }
@@ -44,24 +46,33 @@ export class BugsComponent implements OnInit {
   private getBugsFiltered(filterForm: NgForm) {
     this.isFetching = true;
     const filters: BugCriteriaModel = filterForm.value;
-    filterForm.reset();
-    this.modalService.dismissAll();
     this.bugService.getAllBugsFiltered(filters).subscribe({
       next: (responseData) => {
+        filterForm.reset();
+        this.modalService.dismissAll();
         this.isFetching = false;
         this.loadedBugs = responseData;
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.status + ' ' + e.statusText;
+        this.success = null;
+        this.error = e.error;
       }
     });
   }
 
   onDelete(bugId: number) {
     this.bugService.deleteBug(bugId).subscribe({
-      next: () => {this.loadedBugs = this.loadedBugs.filter(model => model.id !== bugId); this.modalService.dismissAll(); },
-      error: (e) => {this.error = e.status + " " + e.statusText; }
+      next: () => {
+        this.loadedBugs = this.loadedBugs.filter(model => model.id !== bugId); 
+        this.modalService.dismissAll(); 
+        this.error= null;
+        this.success = "Bug deleted correctly!";
+      },
+      error: (e) => {
+        this.success = null;
+        this.error = e.error;
+      }
     });
   }
 
@@ -72,13 +83,17 @@ export class BugsComponent implements OnInit {
   onCreate(form: NgForm) {
     const bug: BugModel = form.value;
     bug.id = 1;
-    form.reset();
-    this.modalService.dismissAll();
     this.bugService.addBug(bug).subscribe({
-      next: () => {this.getBugs(); },
+      next: () => {
+        form.reset();
+        this.modalService.dismissAll();
+        this.getBugs(); 
+        this.error= null;
+        this.success = "Bug created correctly!";
+      },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
-        console.log(e);
+        this.success = null;
+        this.error = e.error;
       }
     });
   }
