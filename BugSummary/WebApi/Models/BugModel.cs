@@ -53,7 +53,8 @@ namespace WebApi.Models
                 Description = bugEntity.Description,
                 State = bugEntity.State,
                 Version = bugEntity.Version,
-                ProjectId = bugEntity.ProjectId
+                ProjectId = bugEntity.ProjectId,
+                FixingTime = bugEntity.FixingTime
             };
         }
 
