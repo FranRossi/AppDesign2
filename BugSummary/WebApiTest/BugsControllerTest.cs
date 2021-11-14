@@ -123,6 +123,43 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModels.First(), bugsResult.First());
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+        
+        [TestMethod]
+        public void GetBugsFilteredForUserOnlyBugState()
+        {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug()
+                {
+                    Id = 1,
+                    Name = "Bug2021",
+                    Description = "ImportanteBug",
+                    Project = new Project(),
+                    State = BugState.Active,
+                    Version = "2",
+                    ProjectId = 1,
+                }
+            };
+            IEnumerable<BugModel> expectedModels = BugModel.ToModelList(bugsExpected);
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                State = BugState.Active,
+            };
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.GetAllFiltered(It.IsAny<string>(), It.IsAny<BugSearchCriteria>())).Returns(bugsExpected);
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.GetAllFiltered(token, criteria);
+            OkObjectResult okResult = result as OkObjectResult;
+            IEnumerable<BugModel> bugsResult = okResult.Value as IEnumerable<BugModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModels.First(), bugsResult.First());
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
 
         [TestMethod]

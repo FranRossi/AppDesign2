@@ -37,13 +37,15 @@ export class BugsService {
   getAllBugsFiltered(filters: BugCriteriaModel) {
     this.setHeader();
     this.setBugsParamsFilter(filters);
+    console.log(filters);
     return this.http.get<[BugModel]>(this.endpoint, {headers : this.headersProject, params: this.bugsFilters});
   }
 
   private setBugsParamsFilter(filters: BugCriteriaModel) {
+    console.log(filters.state);
     this.bugsFilters = new HttpParams().append('Name', filters.name);
-    this.bugsFilters.append('Id', filters.id);
-    this.bugsFilters.append('State', filters.state);
-    this.bugsFilters.append('ProjectId', filters.projectId);
+    this.bugsFilters = this.bugsFilters.append('Id', filters.id.toString());
+    this.bugsFilters = this.bugsFilters.append('State', filters.state.toString());
+    this.bugsFilters = this.bugsFilters.append('ProjectId', filters.projectId.toString());
   }
 }
