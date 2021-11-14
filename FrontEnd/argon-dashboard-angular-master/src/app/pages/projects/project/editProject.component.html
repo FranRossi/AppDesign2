@@ -7,7 +7,9 @@
     <div class="row">
       <div class="col-lg-7 col-md-10">
         <h1  *ngIf="!isFetching && !error" class="display-2 text-white">{{project.name}}</h1>
-        <p class="text-white mt-0 mb-5">This is your project's page. You can manage your projects</p>
+        <p class="text-white mt-0 mb-5">This is your project's page. Where you can manage your projects</p>
+        <p class="text-white mt-0 mb-5">This project has a duration of: {{project.duration}} hours
+           This project has a cost of: ${{project.cost}}</p>
         <form (ngSubmit)="onEditName()" #formEditNameProject="ngForm">
           <div class="input-group input-group-alternative">
             <input
@@ -371,6 +373,7 @@
             <tr>
               <th scope="col">Users</th>
               <th scope="col">Role</th>
+              <th scope="col">HourlyRate</th>
               <th scope="col">Disassociate</th>
             </tr>
             </thead>
@@ -391,6 +394,9 @@
               </th>
               <td>
                 {{ user.role }}
+              </td>
+              <td>
+                ${{ user.hourlyRate }}
               </td>
               <td class="text-right">
                 <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">

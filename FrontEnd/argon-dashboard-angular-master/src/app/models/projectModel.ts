@@ -7,4 +7,6 @@ export interface ProjectModel {
   id: number;
   bugs: BugModel[];
   users: UserModel[];
+  duration: number;
+  cost: number;
 }
