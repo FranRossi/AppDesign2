@@ -52,8 +52,11 @@
                   placeholder="Lastname"
                   type="text"
                   ngModel
-                  name="lastName">
+                  required
+                  name="lastName"
+                  #lastName="ngModel">
               </div>
+              <span class="text-sm" *ngIf="!lastName.valid && lastName.touched">Please enter a lastname!</span>
             </div>
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
@@ -121,16 +124,15 @@
               <span class="text-sm" *ngIf="!hourlyRate.valid && hourlyRate.touched">Please enter an Hourly Rate!</span>
             </div>
             <div class="form-group">
-              <label  for="FormSelect">User's Role</label>
               <div class="input-group input-group-alternative">
                 <select
                   class="form-control selectpicker"
                   data-style="btn btn-link"
-                  id="FormSelect"
                   ngModel
                   name="role"
                   required
                   #role="ngModel">
+                  <option value="" disabled selected hidden>User's Role</option>
                   <option ngValue = '3'>Admin</option>
                   <option ngValue = '2'>Developer</option>
                   <option ngValue = '1'>Tester</option>

@@ -59,7 +59,8 @@
                   data-style="btn btn-link"
                   ngModel
                   name="state"
-                  type="number">
+                  type="number"
+                  #state = ngModel >
                   <option *ngIf="bug.state == 2" value="" disabled selected hidden>Bug's State: Active</option>
                   <option *ngIf="bug.state == 1" value="" disabled selected hidden>Bug's State: Fixed</option>
                   <option [ngValue]="2">Active</option>
@@ -106,7 +107,7 @@
                   name="projectId">
               </div>
             </div>
-            <div class="text-center">
+            <div class="text-center" *ngIf="role === 'tester'">
               <button
                 type="submit"
                 class="btn btn-primary my-4"
@@ -116,7 +117,7 @@
             </div>
           </form>
           <div class="text-center">
-            <div class="alert alert-danger" role="alert" *ngif="error">
+            <div class="alert alert-danger" role="alert" *ngIf="error">
               {{error}}
             </div>
           </div>

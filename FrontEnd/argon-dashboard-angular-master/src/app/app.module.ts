@@ -7,12 +7,14 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.component';
+import { DeveloperLayoutComponent } from './layouts/developer-layout/developer-layout.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.component';
+
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { TesterLayoutComponent } from './layouts/tester-layout/tester-layout.com
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    TesterLayoutComponent
+    TesterLayoutComponent,
+    DeveloperLayoutComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}

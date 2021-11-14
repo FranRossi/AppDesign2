@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
-import {BugService} from './bug.service';
+import {BugEditService} from './bug-edit.service';
 
 @Component({
   selector: 'app-bug',
@@ -18,12 +18,14 @@ export class BugEditComponent implements OnInit {
   bug: BugModel = null;
   bugId: string;
   isFetching = false;
-  constructor(private http: HttpClient, private bugService: BugService, private route: ActivatedRoute, private modalService: NgbModal) {
+  role = null;
+  constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => this.bugId = params['id']);
     this.getBugById();
+    this.role = sessionStorage.getItem('roleName');
   }
 
   private getBugById() {
@@ -43,7 +45,6 @@ export class BugEditComponent implements OnInit {
   onEditBug() {
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
-    console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;
@@ -73,5 +74,4 @@ export class BugEditComponent implements OnInit {
       this.modalService.open(content, { centered: true });
     }
   }
-
 }

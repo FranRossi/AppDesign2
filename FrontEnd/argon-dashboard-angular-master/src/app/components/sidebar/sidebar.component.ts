@@ -8,12 +8,12 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: 'dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '3,2,1' },
-    { path: 'bug-readers', title: 'Bugs reader',  icon: 'ni-single-02 text-yellow', class: '3' },
-    { path: 'projects', title: 'Projects',  icon: 'ni-bullet-list-67 text-red', class: '3' },
-   // { path: 'login', title: 'Login',  icon: 'ni-key-25 text-info', class: '3,2,1' },
-    { path: 'register', title: 'Register',  icon: 'ni-circle-08 text-pink', class: '3' },
-    { path: 'bugs', title: 'Bugs',  icon: 'ni-circle-08 text-pink', class: '2,1' }
+    { path: 'dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: 'admin,developer,tester' },
+    { path: 'bug-readers', title: 'Bugs reader',  icon: 'ni-single-02 text-yellow', class: 'admin' },
+    { path: 'projects', title: 'Projects',  icon: 'ni-bullet-list-67 text-red', class: 'admin' },
+   // { path: 'login', title: 'Login',  icon: 'ni-key-25 text-info', class: 'admin,developer,tester' },
+    { path: 'register', title: 'Register',  icon: 'ni-circle-08 text-pink', class: 'admin' },
+    { path: 'bugs', title: 'Bugs',  icon: 'ni-circle-08 text-pink', class: 'developer,tester' }
 
 ];
 
@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem.class.includes(sessionStorage.getItem('userRole')));
+    this.menuItems = ROUTES.filter(menuItem => menuItem.class.includes(sessionStorage.getItem('roleName')));
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });

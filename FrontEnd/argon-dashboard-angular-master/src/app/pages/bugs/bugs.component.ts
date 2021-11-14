@@ -16,11 +16,13 @@ export class BugsComponent implements OnInit {
   loadedBugs: BugModel[] = [];
   error = null;
   success = null;
+  role = null;
 
   constructor(private http: HttpClient, private bugService: BugsService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getBugs();
+    this.role = sessionStorage.getItem('roleName');
   }
 
   ngOnDestroy() {
@@ -51,6 +53,7 @@ export class BugsComponent implements OnInit {
         filterForm.reset();
         this.modalService.dismissAll();
         this.isFetching = false;
+        console.log(responseData);
         this.loadedBugs = responseData;
       },
       error: (e) => {
@@ -64,10 +67,10 @@ export class BugsComponent implements OnInit {
   onDelete(bugId: number) {
     this.bugService.deleteBug(bugId).subscribe({
       next: () => {
-        this.loadedBugs = this.loadedBugs.filter(model => model.id !== bugId); 
-        this.modalService.dismissAll(); 
-        this.error= null;
-        this.success = "Bug deleted correctly!";
+        this.loadedBugs = this.loadedBugs.filter(model => model.id !== bugId);
+        this.modalService.dismissAll();
+        this.error = null;
+        this.success = 'Bug deleted correctly!';
       },
       error: (e) => {
         this.success = null;
@@ -87,9 +90,9 @@ export class BugsComponent implements OnInit {
       next: () => {
         form.reset();
         this.modalService.dismissAll();
-        this.getBugs(); 
-        this.error= null;
-        this.success = "Bug created correctly!";
+        this.getBugs();
+        this.error = null;
+        this.success = 'Bug created correctly!';
       },
       error: (e) => {
         this.success = null;
@@ -104,5 +107,23 @@ export class BugsComponent implements OnInit {
     } else {
       this.modalService.open(content, { centered: true });
     }
+  }
+
+  onFixBug(bugId, form: NgForm) {
+    const fixingTime: number = form.value.fixingTime;
+    this.bugService.fixBug(bugId, fixingTime)
+      .subscribe({
+        next: () => {
+          form.reset();
+          this.modalService.dismissAll();
+          this.getBugs();
+          this.error = null;
+          this.success = 'Bug fixed correctly!';
+        },
+        error: (e) => {
+          this.success = null;
+          this.error = e.error;
+        }
+      });
   }
 }
