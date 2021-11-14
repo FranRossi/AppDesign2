@@ -27,7 +27,6 @@ namespace Factory.Factories
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
             services.AddScoped<IBugLogic, BugLogic>();
-            services.AddScoped<IExternalReaderImporter, ExternalReaderImporterLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IBugRepository, BugRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
@@ -38,6 +37,11 @@ namespace Factory.Factories
         public void AddDbContextService(string connectionString)
         {
             services.AddDbContext<BugSummaryContext>(options => options.UseSqlServer(connectionString));
+        }
+
+        public void AddDbExternalReaderService(string pathToFolder)
+        {
+            services.AddSingleton<IExternalReaderImporter>(new ExternalReaderImporterLogic(pathToFolder));
         }
     }
 }
