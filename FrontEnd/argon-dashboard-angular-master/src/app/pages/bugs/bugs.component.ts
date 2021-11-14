@@ -53,6 +53,7 @@ export class BugsComponent implements OnInit {
         filterForm.reset();
         this.modalService.dismissAll();
         this.isFetching = false;
+        console.log(responseData);
         this.loadedBugs = responseData;
       },
       error: (e) => {
