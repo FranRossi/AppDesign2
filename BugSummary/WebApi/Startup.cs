@@ -27,7 +27,8 @@ namespace WebApi
             var factory = new ServiceFactory(services);
             factory.AddCustomServices();
             factory.AddDbContextService(Configuration.GetConnectionString("BugDB"));
-            
+            factory.AddDbExternalReaderService(Configuration.GetConnectionString("ExternalReader"));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsApi",
@@ -53,11 +54,11 @@ namespace WebApi
             app.UseRouting();
             app.UseCors("CorsApi");
             //app.UseHttpsRedirection();
-           
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
         }
     }
 }
