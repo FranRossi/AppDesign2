@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 import {BugModel} from '../../../models/bugModel';
 
 @Injectable({providedIn: 'root'})
-export class BugService {
+export class BugEditService {
   headersProject: HttpHeaders;
   endpoint = environment.webApi_origin + '/bugs/';
 

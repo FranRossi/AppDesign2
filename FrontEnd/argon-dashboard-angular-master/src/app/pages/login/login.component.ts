@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private convertRoleNumberToString() {
     const role = sessionStorage.getItem('userRole');
     const roleString: string = role === '3' ? 'admin' : (role === '2' ? 'developer' : 'tester');
+    sessionStorage.setItem('roleName', roleString);
     return roleString;
   }
 }

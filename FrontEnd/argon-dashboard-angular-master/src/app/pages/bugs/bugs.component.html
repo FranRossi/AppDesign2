@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div class="row">
+      <div class="row" *ngIf="role ==='tester'">
         <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
@@ -264,7 +264,8 @@
               <th scope="col">State</th>
               <th scope="col">Project</th>
               <th scope="col">Fixing Time</th>
-              <th scope="col">Delete</th>
+              <th scope="col" *ngIf="role === 'tester'">Delete</th>
+              <th scope="col" *ngIf="role === 'developer'">Fix</th>
             </tr>
             </thead>
             <p *ngIf="!isFetching && loadedBugs.length == 0">
@@ -288,9 +289,6 @@
                 </div>
               </th>
               <td>
-                {{ bug.state }}
-              </td>
-              <td>
                   <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
                     <i class="bg-success"></i> Fixed
                   </span>
@@ -298,10 +296,13 @@
                     <i class="bg-warning"></i> Active
                   </span>
               </td>
+              <td>
+                {{ bug.projectId }}
+              </td>
               <td >
                 {{ bug.fixingTime }}
               </td>
-              <td>
+              <td *ngIf="role === 'tester'">
                 <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')" >
                   <i class="fas fas fa-minus-circle"></i>
                   <!--Confirmation-->
@@ -327,6 +328,59 @@
                         </div>
                       </div>
                     </ng-template>
+                  </div>
+                </a>
+              </td>
+              <td *ngIf="role === 'developer'">
+                <a (click)="open(fixBug, 'modal_mini', 'sm')" id="fixIcon" *ngIf="bug.state == 1">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-plus fa-align-center"></i>
+                    <div class="col-md-4">
+                      <ng-template #fixBug let-modal let-c="close" let-d="dismiss" >
+                        <div class="modal-content">
+                          <div class="modal-body p-0">
+                            <div class="card bg-secondary shadow border-0">
+                              <div class="card-body px-lg-5 py-lg-5">
+                                <div class="text-center text-muted mb-4">
+                                  <small>Enter Bug's fixing time</small>
+                                </div>
+                                <form (ngSubmit)="onFixBug(bug.id ,FixBugForm)" #FixBugForm="ngForm" >
+                                  <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                      </div>
+                                      <input
+                                        class="form-control"
+                                        placeholder="Fixing time"
+                                        type="number"
+                                        ngModel
+                                        name="fixingTime"
+                                        required
+                                        #fixingTime="ngModel">
+                                    </div>
+                                    <span class="text-sm" *ngIf="!fixingTime.valid && fixingTime.touched">Please enter Bug's fixing time!</span>
+                                  </div>
+                                  <div class="text-center">
+                                    <button
+                                      type="submit"
+                                      class="btn btn-primary my-4"
+                                      [disabled]="!FixBugForm.valid && !error">
+                                      Fix Bug
+                                    </button>
+                                  </div>
+                                </form>
+                                <div class="text-center">
+                                  <div class="alert alert-danger" role="alert" *ngIf="error">
+                                    {{error}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
                   </div>
                 </a>
               </td>
