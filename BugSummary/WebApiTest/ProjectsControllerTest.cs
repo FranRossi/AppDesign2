@@ -207,7 +207,8 @@ namespace WebApiTest
                 Id = projectId,
                 Name = "Project A",
                 Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
-                Users = new List<User> { new User(), new User(), }
+                Users = new List<User> { new User(), new User(), },
+                Assignments = new List<Assignment>{ new Assignment(), new Assignment()}
             };
 
             ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);

@@ -2,7 +2,7 @@
 
 export interface AssignmentModel {
   name: string;
-  description: string;
+  duration: number;
   projectId: number;
   id: number;
   hourlyRate: number;

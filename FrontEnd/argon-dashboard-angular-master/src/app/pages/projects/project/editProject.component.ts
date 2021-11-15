@@ -153,6 +153,7 @@ export class ProjectEditComponent implements OnInit {
         this.successAssignment = 'Assignment added correctly!';
         createAssignmentForm.reset();
         this.modalService.dismissAll();
+        this.getProjectById();
       },
       error: (e) => {
         this.successAssignment = null;

@@ -1,5 +1,7 @@
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using CustomExceptions;
 using Domain;
 using KellermanSoftware.CompareNetObjects;
@@ -116,6 +118,60 @@ namespace WebApiTest
             );
         }
         
+        [TestMethod]
+        public void AssignmentToModel()
+        {
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
+            };
+            AssignmentModel assignmentModel = new AssignmentModel
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1,
+            };
+            AssignmentModel model = AssignmentModel.ToModel(assignment);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(model, assignmentModel);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
+        [TestMethod]
+        public void AssignmentToModelList()
+        {
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
+            };
+            List<Assignment> assignmentsToModel = new List<Assignment>();
+            assignmentsToModel.Add(assignment);
+            AssignmentModel assignmentModel = new AssignmentModel
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1,
+            };
+            IEnumerable<AssignmentModel> models = new List<AssignmentModel>();
+            models = models.Append(assignmentModel);
+
+            IEnumerable<AssignmentModel> assignmentsConverted = AssignmentModel.ToModelList(assignmentsToModel);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(models.First(), assignmentsConverted.First());
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
     }
 }

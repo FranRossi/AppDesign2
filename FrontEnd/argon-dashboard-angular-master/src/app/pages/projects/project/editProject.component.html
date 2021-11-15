@@ -5,8 +5,8 @@
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
-      <div class="col-lg-7 col-md-10">
-        <h1  *ngIf="!isFetching && !error" class="display-2 text-white">{{project.name}}</h1>
+      <div class="col-lg-7 col-md-10" *ngIf="!isFetching && !error">
+        <h1   class="display-2 text-white">{{project.name}}</h1>
         <p class="text-white mt-0 mb-5">This is your project's page. Where you can manage your projects</p>
         <p class="text-white mt-0 mb-5">This project has a duration of: {{project.duration}} hours
            This project has a cost of: ${{project.cost}}</p>
@@ -351,80 +351,51 @@
 
 <!-- Page content -->
 <div class="container-fluid mt--7">
-  <div class="row align-items-center">
+  <div class="row">
     <div class="col align-items-center">
       <div class="card bg-secondary shadow">
-        <!-- Users -->
+        <!-- Assignments -->
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Users</h3>
+              <h3 class="mb-0">Assignments</h3>
             </div>
           </div>
         </div>
         <div class="text-center">
-          <div class="alert alert-success" role="alert" *ngIf="successUser">
-            {{successUser}}
+          <div class="alert alert-success" role="alert" *ngIf="successAssignment">
+            {{successAssignment}}
           </div>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>
-              <th scope="col">Users</th>
-              <th scope="col">Role</th>
+              <th scope="col">Name</th>
+              <th scope="col">Duration</th>
               <th scope="col">HourlyRate</th>
-              <th scope="col">Disassociate</th>
             </tr>
             </thead>
             <p *ngIf="isFetching && !error">
               Loading...
             </p>
-            <tbody *ngIf="!isFetching && project.users.length >=1">
-            <tr *ngFor="let user of project.users">
+            <tbody *ngIf="!isFetching && project.assignments.length >=1">
+            <tr *ngFor="let assignment of project.assignments">
               <th scope="row">
                 <div class="media align-items-center">
                   <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
                     <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
                   </a>
                   <div class="media-body">
-                    <span class="mb-0 text-sm">{{ user.firstName }}</span>
+                    <span class="mb-0 text-sm">{{ assignment.name }}</span>
                   </div>
                 </div>
               </th>
               <td>
-                {{ user.role }}
+                {{ assignment.duration }}
               </td>
               <td>
-                ${{ user.hourlyRate }}
-              </td>
-              <td class="text-right">
-                <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">
-                  <i class="fas fas fa-minus-circle"></i>
-                  <div class="col-md-4">
-                    <ng-template #classic2 let-c="close" let-d="dismiss">
-                      <div class="modal-content bg-gradient-danger">
-                        <div class="modal-header">
-                          <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-                            <span aria-hidden="true">×</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="py-3 text-center">
-                            <i class="ni ni-bell-55 ni-3x"></i>
-                            <h4 class="heading mt-4">You should read this!</h4>
-                            <p>You are about to delete a user permanently, please confirm this action</p>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteUser(project.id, user.id)">Ok, delete it</button>
-                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </div>
-                </a>
+                ${{ assignment.hourlyRate }}
               </td>
             </tr>
             </tbody>
@@ -510,5 +481,89 @@
         </div>
       </div>
     </div>
-    </div>
   </div>
+
+  <div class="row align-items-center" id="rowUserTable">
+    <div class="col align-items-center">
+      <div class="card bg-secondary shadow">
+        <!-- Users -->
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center" >
+            <div class="col-8">
+              <h3 class="mb-0">Users</h3>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="alert alert-success" role="alert" *ngIf="successUser">
+            {{successUser}}
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Users</th>
+              <th scope="col">Role</th>
+              <th scope="col">HourlyRate</th>
+              <th scope="col">Disassociate</th>
+            </tr>
+            </thead>
+            <p *ngIf="isFetching && !error">
+              Loading...
+            </p>
+            <tbody *ngIf="!isFetching && project.users.length >=1">
+            <tr *ngFor="let user of project.users">
+              <th scope="row">
+                <div class="media align-items-center">
+                  <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+                  </a>
+                  <div class="media-body">
+                    <span class="mb-0 text-sm">{{ user.firstName }}</span>
+                  </div>
+                </div>
+              </th>
+              <td>
+                {{ user.role }}
+              </td>
+              <td>
+                ${{ user.hourlyRate }}
+              </td>
+              <td class="text-right">
+                <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">
+                  <i class="fas fas fa-minus-circle"></i>
+                  <div class="col-md-4">
+                    <ng-template #classic2 let-c="close" let-d="dismiss">
+                      <div class="modal-content bg-gradient-danger">
+                        <div class="modal-header">
+                          <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="py-3 text-center">
+                            <i class="ni ni-bell-55 ni-3x"></i>
+                            <h4 class="heading mt-4">You should read this!</h4>
+                            <p>You are about to delete a user permanently, please confirm this action</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteUser(project.id, user.id)">Ok, delete it</button>
+                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

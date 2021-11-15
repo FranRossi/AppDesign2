@@ -127,7 +127,7 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void ProjectZeroBugCountToEntityTest()
+        public void ProjectZeroBugCountToModelTest()
         {
             IEnumerable<Project> projects = new List<Project>()
             {
@@ -152,5 +152,46 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+        
+        [TestMethod]
+        public void ProjectWithAssignmentsToModel()
+        {
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
+            };
+            List<Assignment> assignmentsToModel = new List<Assignment>();
+            assignmentsToModel.Add(assignment);
+
+            IEnumerable<AssignmentModel> assignmentsConverted = AssignmentModel.ToModelList(assignmentsToModel);
+            
+            Project project = new Project
+           {
+               Name = "Project A",
+               Bugs = new List<Bug>{},
+               Users = new List<User> { },
+               Assignments = assignmentsToModel,
+           };
+            ProjectModel expectedModel = new ProjectModel
+            {
+                Name = "Project A",
+                BugCount = 0,
+                Bugs = new List<BugModel>{},
+                Users = new List<UserModel>{},
+                Assignments = assignmentsConverted,
+                Cost = 50,
+                Duration = 2
+            };
+
+            ProjectModel model = ProjectModel.ToModel(project);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
     }
 }

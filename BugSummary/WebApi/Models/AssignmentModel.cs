@@ -10,7 +10,7 @@ namespace WebApi.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Duration { get; set; }
+        public double Duration { get; set; }
         public int HourlyRate { get; set; }
         public int ProjectId { get; set; }
 
@@ -40,5 +40,26 @@ namespace WebApi.Models
                 throw new AssignmentModelMissingFieldException();
         }
 
+        public static AssignmentModel ToModel(Assignment assignment)
+        {
+            return new AssignmentModel
+            {
+                Id = assignment.Id,
+                Name = assignment.Name,
+                HourlyRate = assignment.HourlyRate,
+                Duration = assignment.Duration,
+                ProjectId = assignment.ProjectId
+            };
+        }
+
+        public static IEnumerable<AssignmentModel> ToModelList(List<Assignment> assignmentsToModel)
+        {
+            List<AssignmentModel> models = new List<AssignmentModel>();
+            foreach (var assignment in assignmentsToModel)
+            {
+                models.Add(ToModel(assignment));
+            }
+            return models;
+        }
     }
 }
