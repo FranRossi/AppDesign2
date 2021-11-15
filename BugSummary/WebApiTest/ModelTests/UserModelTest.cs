@@ -42,6 +42,7 @@ namespace WebApiTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
+                FixedBugCount = 0
             };
             UserModel model = UserModel.ToModel(expectedUser);
             CompareLogic compareLogic = new CompareLogic();
@@ -91,7 +92,7 @@ namespace WebApiTest
                 () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
             );
         }
-        
+
         [TestMethod]
         public void InvalidModelToEntityNoFirstName()
         {
