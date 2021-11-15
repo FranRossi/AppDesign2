@@ -11,7 +11,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("users")]
-    [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
+
     [ExceptionFilter]
     public class UsersController : ControllerBase
     {
@@ -22,6 +22,7 @@ namespace WebApi.Controllers
             _users = users;
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPost]
         public IActionResult Post([FromBody] UserModel model)
         {
@@ -29,6 +30,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -36,6 +38,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin, RoleType.Tester, RoleType.Developer })]
         public IActionResult Get([FromHeader] string token)
         {
             IEnumerable<Project> projects = _users.GetProjects(token);

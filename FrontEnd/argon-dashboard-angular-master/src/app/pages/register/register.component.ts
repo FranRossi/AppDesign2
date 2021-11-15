@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {RegisterService} from './register.service';
+import {UsersService} from './users.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ import {RegisterService} from './register.service';
 export class RegisterComponent {
   error = null;
   success = null;
-  constructor(private http: HttpClient, private registerService: RegisterService) { }
+  constructor(private http: HttpClient, private registerService: UsersService) { }
 
   onCreateAccount(RegisterForm: NgForm) {
     const userData = RegisterForm.value;

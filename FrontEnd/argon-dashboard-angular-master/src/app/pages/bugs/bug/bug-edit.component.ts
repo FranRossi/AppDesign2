@@ -5,6 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
 import {BugEditService} from './bug-edit.service';
+import { UsersService } from '../../register/users.service';
+import { ProjectModel } from 'src/app/models/projectModel';
 
 @Component({
   selector: 'app-bug',
@@ -19,7 +21,9 @@ export class BugEditComponent implements OnInit {
   bugId: string;
   isFetching = false;
   role = null;
-  constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal) {
+  loadedProjects: ProjectModel[] = [];
+  selectedProjectName: string = null;
+  constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
@@ -32,13 +36,38 @@ export class BugEditComponent implements OnInit {
     this.isFetching = true;
     this.bugService.getBugById(this.bugId).subscribe({
       next: (responseData) => {
-        this.isFetching = false;
         this.bug = responseData;
+        this.getProjects();
       },
       error: (e) => {
-        this.isFetching = false;
         this.error = e.status + ' ' + e.statusText;
+      },
+      complete: () =>{
+        this.isFetching = false;
       }
+    });
+  }
+
+  private getProjects() {
+    this.isFetching = true;
+    this.userService.getUserProjects().subscribe({
+      next: (responseData) => {
+        this.loadedProjects = responseData;
+        this.getSelectedProjectName();
+      },
+      error: (e) => {
+        this.error = e.error;
+      },
+      complete: () =>{
+        this.isFetching = false;
+      }
+    });
+  }
+
+  private getSelectedProjectName(){
+    this.loadedProjects.forEach(project => {
+      if(project.id == this.bug.projectId)
+        this.selectedProjectName = project.name;
     });
   }
 
