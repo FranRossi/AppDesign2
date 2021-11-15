@@ -556,7 +556,6 @@ namespace DataAccessTest
                 context.Add(newUser2);
                 context.Add(newUser3);
                 context.SaveChanges();
-
             }
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser1);
