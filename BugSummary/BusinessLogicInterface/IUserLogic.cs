@@ -16,5 +16,7 @@ namespace BusinessLogicInterface
         int GetFixedBugCount(int id);
 
         IEnumerable<Project> GetProjects(string token);
+
+        IEnumerable<User> GetAll();
     }
 }

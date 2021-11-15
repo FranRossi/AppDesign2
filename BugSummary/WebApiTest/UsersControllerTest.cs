@@ -113,5 +113,59 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            IEnumerable<User> users = new List<User>()
+            {
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Pepe",
+                    LastName = "Perez",
+                    Password = "pepe1234",
+                    UserName = "pp",
+                    Email = "pepe@gmail.com",
+                    Role = RoleType.Tester,
+                    HourlyRate = 34,
+                },
+                new User
+                {
+                    Id = 2,
+                    FirstName = "Juan",
+                    LastName = "Gutierrez",
+                    Password = "juanoto",
+                    UserName = "llllllllllll",
+                    Email = "hola@gmail.com",
+                    Role = RoleType.Admin
+                },
+                new User
+                {
+                    Id = 3,
+                    FirstName = "Mario",
+                    LastName = "Kempes",
+                    Password = "marito24321",
+                    UserName = "pp",
+                    Email = "pepe@gmail.com",
+                    Role = RoleType.Developer,
+                    HourlyRate = 674,
+                }
+            };
+            IEnumerable<UserModel> expectedModel = UserModel.ToModelList(users);
+            Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.GetAll()).Returns(users);
+            UsersController controller = new UsersController(mock.Object);
+
+            IActionResult result = controller.Get();
+            OkObjectResult okResult = result as OkObjectResult;
+            IEnumerable<UserModel> userResult = okResult.Value as IEnumerable<UserModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, userResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
     }
 }
