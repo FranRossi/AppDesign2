@@ -37,5 +37,10 @@ namespace BusinessLogic
         {
             return _userRepository.GetProjects(token);
         }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _userRepository.GetAll();
+        }
     }
 }
