@@ -560,12 +560,11 @@ namespace DataAccessTest
             }
             List<User> userExpected = new List<User>();
             userExpected.Add(newUser1);
-            userExpected.Add(newUser1);
-            userExpected.Add(newUser1);
+            userExpected.Add(newUser2);
+            userExpected.Add(newUser3);
 
-            List<Project> usersDataBase = this._userRepository.GetAll().ToList();
+            IEnumerable<User> usersDataBase = this._userRepository.GetAll();
 
-            Assert.AreEqual(2, usersDataBase.Count());
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(userExpected, usersDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);
