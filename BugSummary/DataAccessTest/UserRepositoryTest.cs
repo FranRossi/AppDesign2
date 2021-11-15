@@ -456,6 +456,7 @@ namespace DataAccessTest
 
             using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
             {
+                context.Add(project2);
                 context.Add(user);
                 context.SaveChanges();
             }
@@ -464,6 +465,53 @@ namespace DataAccessTest
 
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(new List<Project> { project1, project3 }, projects);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetProjectsAssignedToAdmin()
+        {
+            Project project1 = new Project()
+            {
+                Id = 1,
+                Name = "Project 1",
+            };
+            Project project2 = new Project()
+            {
+                Id = 2,
+                Name = "Project 2",
+            };
+            Project project3 = new Project()
+            {
+                Id = 3,
+                Name = "Project 3"
+            };
+            User user = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Token = "ATHNEIOARSH233tRASTtrs",
+                Role = RoleType.Admin
+            };
+
+
+            using (BugSummaryContext context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(project1);
+                context.Add(project2);
+                context.Add(project3);
+                context.Add(user);
+                context.SaveChanges();
+            }
+
+            IEnumerable<Project> projects = _userRepository.GetProjects(user.Token);
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(new List<Project> { project1, project2, project3 }, projects);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
