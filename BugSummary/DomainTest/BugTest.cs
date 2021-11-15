@@ -141,6 +141,18 @@ namespace DomainTest
         }
 
         [TestMethod]
+        public void CreateFixingTimeOnActiveBugTest()
+        {
+            Bug newBug = new Bug
+            {
+                State = BugState.Active,
+                FixingTime = 43
+            };
+            Assert.AreEqual(0, newBug.FixingTime);
+        }
+
+
+        [TestMethod]
         public void CreateInvalidFixingTimeTest()
         {
             TestExceptionUtils.Throws<InvalidBugFixingTimeException>(
