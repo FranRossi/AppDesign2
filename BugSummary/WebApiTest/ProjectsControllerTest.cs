@@ -30,7 +30,7 @@ namespace WebApiTest
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             Project receivedProject = null;
             mock.Setup(m => m.Add(It.IsAny<Project>())).Callback((Project project) => receivedProject = project);
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Post(projectToAdd);
 
@@ -57,7 +57,7 @@ namespace WebApiTest
                 receivedId = id;
                 receivedProject = sentProject;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Put(id, projectToUpdate);
 
@@ -79,7 +79,7 @@ namespace WebApiTest
             {
                 receivedId = id;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Delete(id);
 
@@ -101,7 +101,7 @@ namespace WebApiTest
                 receivedUserId = sentUserId;
                 receivedProjectId = sentProjectId;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Post(userId, projectId);
 
@@ -124,7 +124,7 @@ namespace WebApiTest
                 receivedUserId = sentUserId;
                 receivedProjectId = sentProjectId;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Delete(userId, projectId);
 
@@ -148,7 +148,7 @@ namespace WebApiTest
                 receivedCompanyName = sentCompanyName;
                 receivedPath = sentPath;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Post(path, companyName);
 
@@ -185,7 +185,7 @@ namespace WebApiTest
             IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModelList(projects);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.GetAll()).Returns(projects);
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Get();
             OkObjectResult okResult = result as OkObjectResult;
@@ -208,13 +208,13 @@ namespace WebApiTest
                 Name = "Project A",
                 Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
                 Users = new List<User> { new User(), new User(), },
-                Assignments = new List<Assignment>{ new Assignment(), new Assignment()}
+                Assignments = new List<Assignment> { new Assignment(), new Assignment() }
             };
 
             ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.Get(It.IsAny<int>())).Returns(projectExpected);
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Get(projectId);
             OkObjectResult okResult = result as OkObjectResult;

@@ -1,6 +1,7 @@
 ﻿using BusinessLogicInterface;
 using Domain;
 using Domain.DomainUtilities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,9 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("users")]
-
+    [EnableCors("CorsApi")]
     [ExceptionFilter]
+    [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
     public class UsersController : ControllerBase
     {
         private readonly IUserLogic _users;
@@ -22,7 +24,6 @@ namespace WebApi.Controllers
             _users = users;
         }
 
-        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPost]
         public IActionResult Post([FromBody] UserModel model)
         {
@@ -30,7 +31,6 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -38,13 +38,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [AuthorizationWithParameterFilter(new[] { RoleType.Admin, RoleType.Tester, RoleType.Developer })]
-        public IActionResult Get([FromHeader] string token)
-        {
-            IEnumerable<Project> projects = _users.GetProjects(token);
-            return Ok(ProjectModel.ToModelList(projects));
-        }
-
+        [HttpGet]
         public IActionResult Get()
         {
             IEnumerable<User> users = _users.GetAll();

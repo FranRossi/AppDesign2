@@ -52,24 +52,25 @@
                             <div class="card bg-secondary shadow border-0">
                               <div class="card-body px-lg-5 py-lg-5">
                                 <div class="text-center text-muted mb-4">
-                                  <small>Enter user's Id</small>
+                                  <small>Select user</small>
                                 </div>
                                 <form (ngSubmit)="onAddUser(AddUserForm)" #AddUserForm="ngForm" >
-                                  <div class="form-group mb-3">
+                                  <div class="form-group">
                                     <div class="input-group input-group-alternative">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                                      </div>
-                                      <input
-                                        class="form-control"
-                                        placeholder="Id"
-                                        type="number"
+                                      <select
+                                        class="form-control selectpicker"
+                                        data-style="btn btn-link"
                                         ngModel
                                         name="userId"
                                         required
-                                        #id="ngModel">
+                                        type="number"
+                                        #state="ngModel">
+                                        <option value="" disabled selected hidden>User</option>
+                                        <option *ngFor="let user of loadedUsers" [ngValue]="user.id">{{user.firstName}}</option>
+                                      </select>
                                     </div>
-                                    <span class="text-sm" *ngIf="!id.valid && id.touched">Please enter user's Id!</span>
+                                    <span class="text-sm" *ngIf="loadedUsers.length == 0 && !isFetching">There are no users on the system!</span>
+                                    <span class="text-sm" *ngIf="loadedUsers.length > 0 && !state.valid && state.touched">Please select a User!</span>
                                   </div>
                                   <div class="text-center">
                                     <button

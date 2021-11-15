@@ -15,16 +15,26 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("projects")]
     [ExceptionFilter]
-    [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectLogic _projects;
+        private readonly IUserLogic _users;
 
-        public ProjectsController(IProjectLogic projects)
+        public ProjectsController(IProjectLogic projects, IUserLogic users)
         {
             _projects = projects;
+            _users = users;
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin, RoleType.Tester, RoleType.Developer })]
+        [HttpGet("users")]
+        public IActionResult Get([FromHeader] string token)
+        {
+            IEnumerable<Project> projects = _users.GetProjects(token);
+            return Ok(ProjectModel.ToModelList(projects));
+        }
+
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPost]
         public IActionResult Post([FromBody] ProjectAddModel addModel)
         {
@@ -32,6 +42,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProjectAddModel addModel)
         {
@@ -39,6 +50,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -46,6 +58,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPost("{projectId}/users")]
         public IActionResult Post(int projectId, [FromBody] int userId)
         {
@@ -53,6 +66,8 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpDelete("{projectId}/users/{userId}")]
         public IActionResult Delete(int projectId, int userId)
         {
@@ -60,6 +75,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpPost("bugs")]
         public IActionResult Post([FromBody] string path, [FromQuery] string companyName)
         {
@@ -67,13 +83,15 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpGet]
         public IActionResult Get()
         {
             IEnumerable<Project> result = _projects.GetAll();
             return Ok(ProjectModel.ToModelList(result));
         }
-        
+
+        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
