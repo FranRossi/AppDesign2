@@ -28,6 +28,7 @@ export class ProjectEditComponent implements OnInit {
   loadedUsers: UserModel[] = [];
   projectId: string;
   isFetching = false;
+  bugState = 1;
   constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
@@ -179,5 +180,9 @@ export class ProjectEditComponent implements OnInit {
         this.error = e.error;
       }
     });
+  }
+
+  onStateSelectionChanged(state){
+    this.bugState = parseInt(state);
   }
 }

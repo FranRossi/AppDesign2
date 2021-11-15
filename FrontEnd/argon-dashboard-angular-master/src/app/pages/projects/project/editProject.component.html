@@ -163,7 +163,8 @@
                                         name="state"
                                         required
                                         type="number"
-                                        #state="ngModel">
+                                        #state="ngModel"
+                                        (change)="onStateSelectionChanged($event.target.value)">
                                         <option value="" disabled selected hidden>Bug's State</option>
                                         <option [ngValue]="2">Active</option>
                                         <option [ngValue]="1">Fixed</option>
@@ -187,10 +188,12 @@
                                     </div>
                                     <span class="text-sm" *ngIf="!version.valid && version.touched">Please enter bug's version!</span>
                                   </div>
-                                  <div class="form-group mb-3">
+                                  <div *ngIf="bugState != 1" class="form-group mb-3">
                                     <div class="input-group input-group-alternative">
                                       <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                        <span class="input-group-text">
+                                          <i class="fas fa-clock"></i>
+                                        </span>
                                       </div>
                                       <input
                                         class="form-control"
@@ -441,12 +444,12 @@
                 </div>
               </th>
               <td>
-                    <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
-                      <i class="bg-success"></i> Bug fixed
-                    </span>
+                <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
+                  <i class="bg-success"></i> Bug fixed
+                </span>
                 <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
-                      <i class="bg-warning"></i> Bug active
-                    </span>
+                  <i class="bg-warning"></i> Bug active
+                </span>
               </td>
               <td class="text-right">
                 <a class="icon rounded-circle" id="deleteIcon" (click)="open(deleteBug, 'Notification', '')">
