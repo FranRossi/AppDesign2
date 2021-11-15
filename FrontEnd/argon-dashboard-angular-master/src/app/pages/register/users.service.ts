@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import { ProjectModel } from 'src/app/models/projectModel';
 
 @Injectable({providedIn: 'root'})
-export class RegisterService {
+export class UsersService {
   endpoint = environment.webApi_origin + '/users';
   headers: HttpHeaders;
   
@@ -12,8 +13,12 @@ export class RegisterService {
 
   addUser(userCredentials: any) {
     this.setHeader();
-    console.log(userCredentials);
     return this.http.post(this.endpoint, userCredentials, {headers : this.headers});
+  }
+
+  getUserProjects() {
+    this.setHeader();
+    return this.http.get<[ProjectModel]>(this.endpoint, {headers : this.headers});
   }
 
   private setHeader() {

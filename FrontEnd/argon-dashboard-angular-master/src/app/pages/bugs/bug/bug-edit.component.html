@@ -94,19 +94,24 @@
                   name="fixingTime">
               </div>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group">
               <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-folder"></i></span>
-                </div>
-                <input
-                  class="form-control"
-                  placeholder='Project Id: {{bug.projectId}}'
-                  type="number"
+                <select
+                  class="form-control selectpicker"
+                  data-style="btn btn-link"
                   ngModel
-                  name="projectId">
+                  name="projectId"
+                  required
+                  type="number"
+                  #state="ngModel">
+                  <option value="" disabled selected hidden>{{selectedProjectName}}</option>
+                  <option *ngFor="let project of loadedProjects" [ngValue]="project.id" >{{project.name}}</option>
+                </select>
               </div>
+              <span class="text-sm" *ngIf="loadedProjects.length == 0 && !isFetching">User has no projects assigned!</span>
+              <span class="text-sm" *ngIf="loadedProjects.length > 0 && !state.valid && state.touched">Please select a State!</span>
             </div>
+            
             <div class="text-center" *ngIf="role === 'tester'">
               <button
                 type="submit"
