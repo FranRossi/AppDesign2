@@ -154,7 +154,7 @@ namespace WebApiTest
         }
         
         [TestMethod]
-        public void ProjectWithAssignmentsToModelTest()
+        public void ProjectWithAssignmentsToModel()
         {
             Assignment assignment = new Assignment
             {
@@ -166,23 +166,15 @@ namespace WebApiTest
             };
             List<Assignment> assignmentsToModel = new List<Assignment>();
             assignmentsToModel.Add(assignment);
-            AssignmentModel assignmentModel = new AssignmentModel
-            {
-                Id = 1,
-                Name = "Task",
-                Duration = 2,
-                HourlyRate = 25,
-                ProjectId = 1,
-            };
-            IEnumerable<AssignmentModel> models = new List<AssignmentModel>();
-            models = models.Append(assignmentModel);
+
+            IEnumerable<AssignmentModel> assignmentsConverted = AssignmentModel.ToModelList(assignmentsToModel);
             
             Project project = new Project
            {
                Name = "Project A",
                Bugs = new List<Bug>{},
                Users = new List<User> { },
-               Assignments = new List<Assignment>{assignment},
+               Assignments = assignmentsToModel,
            };
             ProjectModel expectedModel = new ProjectModel
             {
@@ -190,8 +182,8 @@ namespace WebApiTest
                 BugCount = 0,
                 Bugs = new List<BugModel>{},
                 Users = new List<UserModel>{},
-                Assignments = models,
-                Cost = 0,
+                Assignments = assignmentsConverted,
+                Cost = 50,
                 Duration = 2
             };
 

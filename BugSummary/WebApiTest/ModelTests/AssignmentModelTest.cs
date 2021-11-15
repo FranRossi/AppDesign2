@@ -167,9 +167,9 @@ namespace WebApiTest
             IEnumerable<AssignmentModel> models = new List<AssignmentModel>();
             models = models.Append(assignmentModel);
 
-            IEnumerable<AssignmentModel> bugsConverted = AssignmentModel.ToModelList(assignmentsToModel);
+            IEnumerable<AssignmentModel> assignmentsConverted = AssignmentModel.ToModelList(assignmentsToModel);
             CompareLogic compareLogic = new CompareLogic();
-            ComparisonResult deepComparisonResult = compareLogic.Compare(models.First(), bugsConverted.First());
+            ComparisonResult deepComparisonResult = compareLogic.Compare(models.First(), assignmentsConverted.First());
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
