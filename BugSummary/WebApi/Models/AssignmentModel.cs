@@ -51,5 +51,15 @@ namespace WebApi.Models
                 ProjectId = assignment.ProjectId
             };
         }
+
+        public static IEnumerable<AssignmentModel> ToModelList(List<Assignment> assignmentsToModel)
+        {
+            List<AssignmentModel> models = new List<AssignmentModel>();
+            foreach (var assignment in assignmentsToModel)
+            {
+                models.Add(ToModel(assignment));
+            }
+            return models;
+        }
     }
 }

@@ -127,7 +127,7 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void ProjectZeroBugCountToEntityTest()
+        public void ProjectZeroBugCountToModelTest()
         {
             IEnumerable<Project> projects = new List<Project>()
             {
@@ -152,5 +152,6 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+        
     }
 }
