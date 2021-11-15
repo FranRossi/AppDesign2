@@ -86,8 +86,13 @@ namespace Domain
             get => _fixingTime;
             set
             {
-                ValidateFixingTime(value);
-                _fixingTime = value;
+                if (State == BugState.Active)
+                    _fixingTime = 0;
+                else
+                {
+                    ValidateFixingTime(value);
+                    _fixingTime = value;
+                }
             }
         }
 
