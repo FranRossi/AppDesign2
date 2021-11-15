@@ -78,6 +78,8 @@ namespace DataAccess
             if (token != null)
             {
                 User userFromDb = Context.Users.Include("Projects").FirstOrDefault(u => u.Token == token);
+                if (userFromDb.Role == RoleType.Admin)
+                    return Context.Projects.ToList();
                 if (userFromDb != null)
                     projects = userFromDb.Projects;
             }
