@@ -153,5 +153,53 @@ namespace WebApiTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
         
+        [TestMethod]
+        public void ProjectWithAssignmentsToModelTest()
+        {
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
+            };
+            List<Assignment> assignmentsToModel = new List<Assignment>();
+            assignmentsToModel.Add(assignment);
+            AssignmentModel assignmentModel = new AssignmentModel
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1,
+            };
+            IEnumerable<AssignmentModel> models = new List<AssignmentModel>();
+            models = models.Append(assignmentModel);
+            
+            Project project = new Project
+           {
+               Name = "Project A",
+               Bugs = new List<Bug>{},
+               Users = new List<User> { },
+               Assignments = new List<Assignment>{assignment},
+           };
+            ProjectModel expectedModel = new ProjectModel
+            {
+                Name = "Project A",
+                BugCount = 0,
+                Bugs = new List<BugModel>{},
+                Users = new List<UserModel>{},
+                Assignments = models,
+                Cost = 0,
+                Duration = 2
+            };
+
+            ProjectModel model = ProjectModel.ToModel(project);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, model);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+        
     }
 }
