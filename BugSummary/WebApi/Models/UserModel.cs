@@ -17,6 +17,7 @@ namespace WebApi.Models
         public string Email { get; set; }
         public RoleType Role { get; set; }
         public int HourlyRate { get; set; }
+        public int FixedBugCount { get; set; }
 
 
         public User ToEntity()
@@ -44,7 +45,7 @@ namespace WebApi.Models
             model.UserName = user.UserName;
             model.Role = user.Role;
             model.HourlyRate = user.HourlyRate;
-
+            model.FixedBugCount = user.GetFixedBugCount();
             return model;
         }
 

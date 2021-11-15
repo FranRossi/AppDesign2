@@ -31,13 +31,6 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            int result = _users.GetFixedBugCount(id);
-            return Ok(result);
-        }
-
         [HttpGet]
         public IActionResult Get()
         {
