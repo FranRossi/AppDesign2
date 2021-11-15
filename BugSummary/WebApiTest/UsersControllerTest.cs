@@ -100,7 +100,7 @@ namespace WebApiTest
             IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModelList(projects);
             Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
             mock.Setup(m => m.GetProjects(It.IsAny<string>())).Returns(projects).Callback((string sentToken) => receivedToken = sentToken);
-            UsersController controller = new UsersController(mock.Object);
+            ProjectsController controller = new ProjectsController(null, mock.Object);
 
             IActionResult result = controller.Get(token);
             OkObjectResult okResult = result as OkObjectResult;

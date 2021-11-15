@@ -53,13 +53,14 @@ export class BugEditComponent implements OnInit {
     this.userService.getUserProjects().subscribe({
       next: (responseData) => {
         this.loadedProjects = responseData;
-        this.getSelectedProjectName();
+        
       },
       error: (e) => {
         this.error = e.error;
       },
       complete: () =>{
         this.isFetching = false;
+        this.getSelectedProjectName();
       }
     });
   }
