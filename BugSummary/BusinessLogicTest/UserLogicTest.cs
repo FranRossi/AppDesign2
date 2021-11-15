@@ -221,5 +221,57 @@ namespace BusinessLogicTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedProjects, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
+
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            User newUser1 = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                HourlyRate = 34,
+            };
+            User newUser2 = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Gutierrez",
+                Password = "juanoto",
+                UserName = "llllllllllll",
+                Email = "hola@gmail.com",
+                Role = RoleType.Admin
+            };
+            User newUser3 = new User
+            {
+                Id = 3,
+                FirstName = "Mario",
+                LastName = "Kempes",
+                Password = "marito24321",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                HourlyRate = 674,
+            };
+            IEnumerable<User> usersExpected = new List<User>()
+            {
+                newUser1, newUser2,newUser3
+            };
+            Mock<IUserRepository> mockBugRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAll()).Returns(usersExpected);
+
+            UserLogic userLogic = new UserLogic(mockBugRepository.Object);
+            IEnumerable<User> userResult = userLogic.GetAll();
+
+
+            mockBugRepository.VerifyAll();
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(usersExpected, userResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
     }
 }
