@@ -2,6 +2,7 @@
 using DataAccessInterface;
 using Domain;
 using System;
+using System.Collections.Generic;
 
 namespace BusinessLogic
 {
@@ -30,6 +31,11 @@ namespace BusinessLogic
         {
             User user = _userRepository.Get(id);
             return user.GetFixedBugCount();
+        }
+
+        public IEnumerable<Project> GetProjects(string token)
+        {
+            return _userRepository.GetProjects(token);
         }
     }
 }

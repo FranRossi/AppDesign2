@@ -21,7 +21,8 @@ namespace WebApi.Models
                 ProjectModel model = new ProjectModel();
                 model.Id = project.Id;
                 model.Name = project.Name;
-                model.BugCount = project.Bugs.Count;
+                if (project.Bugs != null)
+                    model.BugCount = project.Bugs.Count;
                 modelList.Add(model);
             }
             return modelList;

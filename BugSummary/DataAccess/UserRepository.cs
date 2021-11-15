@@ -71,5 +71,19 @@ namespace DataAccess
                 throw new InexistentUserException();
             return result;
         }
+
+        public IEnumerable<Project> GetProjects(string token)
+        {
+            IEnumerable<Project> projects = new List<Project>();
+            if (token != null)
+            {
+                User userFromDb = Context.Users.Include("Projects").FirstOrDefault(u => u.Token == token);
+                if (userFromDb.Role == RoleType.Admin)
+                    return Context.Projects.ToList();
+                if (userFromDb != null)
+                    projects = userFromDb.Projects;
+            }
+            return projects;
+        }
     }
 }
