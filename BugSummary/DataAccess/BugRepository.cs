@@ -50,6 +50,7 @@ namespace DataAccess
                 bugFromDb.ProjectId = updatedBug.ProjectId;
                 bugFromDb.Version = updatedBug.Version;
                 bugFromDb.State = updatedBug.State;
+                bugFromDb.FixingTime = updatedBug.FixingTime;
                 Context.Bugs.Update(bugFromDb);
             }
             else

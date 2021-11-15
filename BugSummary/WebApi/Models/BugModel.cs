@@ -40,7 +40,8 @@ namespace WebApi.Models
                 Description = Description,
                 State = State,
                 Version = Version,
-                ProjectId = ProjectId
+                ProjectId = ProjectId,
+                FixingTime = FixingTime
             };
         }
 
