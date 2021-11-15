@@ -506,7 +506,8 @@
             <tr>
               <th scope="col">Users</th>
               <th scope="col">Role</th>
-              <th scope="col">HourlyRate</th>
+              <th scope="col">Hourly rate</th>
+              <th scope="col">Fixed bug count</th>
               <th scope="col">Disassociate</th>
             </tr>
             </thead>
@@ -530,6 +531,9 @@
               </td>
               <td>
                 ${{ user.hourlyRate }}
+              </td>
+              <td>
+                {{ user.fixedBugCount }}
               </td>
               <td class="text-right">
                 <a class="icon rounded-circle" id="deleteIcon" (click)="open(classic2, 'Notification', '')">

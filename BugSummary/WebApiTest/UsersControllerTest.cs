@@ -55,26 +55,6 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void GetFixedBugCount()
-        {
-            int id = 1;
-            int receivedId = -1;
-            int expectedResult = 3;
-            Mock<IUserLogic> mock = new Mock<IUserLogic>(MockBehavior.Strict);
-            mock.Setup(m => m.GetFixedBugCount(It.IsAny<int>())).Returns(expectedResult).Callback((int sentId) => receivedId = sentId);
-            UsersController controller = new UsersController(mock.Object);
-
-            IActionResult result = controller.Get(id);
-
-            mock.VerifyAll();
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            OkObjectResult createdResult = result as OkObjectResult;
-            int response = (int)createdResult.Value;
-            Assert.AreEqual(id, receivedId);
-            Assert.AreEqual(expectedResult, response);
-        }
-
-        [TestMethod]
         public void GetProjectsAssignedToUser()
         {
             IEnumerable<Project> projects = new List<Project>()

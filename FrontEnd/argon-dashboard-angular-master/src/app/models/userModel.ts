@@ -6,4 +6,5 @@ export interface UserModel {
   email: string;
   role: number;
   hourlyRate: number;
+  fixedBugCount: number;
 }

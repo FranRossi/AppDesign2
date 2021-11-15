@@ -27,12 +27,6 @@ namespace BusinessLogic
             return user;
         }
 
-        public int GetFixedBugCount(int id)
-        {
-            User user = _userRepository.Get(id);
-            return user.GetFixedBugCount();
-        }
-
         public IEnumerable<Project> GetProjects(string token)
         {
             return _userRepository.GetProjects(token);
