@@ -116,6 +116,30 @@ namespace WebApiTest
             );
         }
         
+        [TestMethod]
+        public void AssignmentToModel()
+        {
+            Assignment assignment = new Assignment
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1
+            };
+            AssignmentModel assignmentModel = new AssignmentModel
+            {
+                Id = 1,
+                Name = "Task",
+                Duration = 2,
+                HourlyRate = 25,
+                ProjectId = 1,
+            };
+            AssignmentModel model = AssignmentModel.ToModel(assignment);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(model, assignmentModel);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
     }
 }
