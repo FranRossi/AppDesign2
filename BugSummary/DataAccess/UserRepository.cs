@@ -85,5 +85,10 @@ namespace DataAccess
             }
             return projects;
         }
+
+        public IEnumerable<User> GetAll()
+        {
+            return Context.Users.ToList();
+        }
     }
 }
