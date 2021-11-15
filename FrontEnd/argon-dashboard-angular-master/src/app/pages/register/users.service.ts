@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import { ProjectModel } from 'src/app/models/projectModel';
+import { UserModel } from 'src/app/models/userModel';
 
 @Injectable({providedIn: 'root'})
 export class UsersService {
@@ -20,6 +21,11 @@ export class UsersService {
   getUserProjects() {
     this.setHeader();
     return this.http.get<[ProjectModel]>(this.projectUserEndpoint, {headers : this.headers});
+  }
+
+  getAllUsers() {
+    this.setHeader();
+    return this.http.get<[UserModel]>(this.usersEndpoint, {headers : this.headers});
   }
 
   private setHeader() {

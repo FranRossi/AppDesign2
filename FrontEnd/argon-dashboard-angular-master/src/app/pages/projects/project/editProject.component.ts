@@ -7,6 +7,8 @@ import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
 import {AssignmentModel} from '../../../models/assignmentModel';
+import { UserModel } from 'src/app/models/userModel';
+import { UsersService } from '../../register/users.service';
 
 
 @Component({
@@ -23,14 +25,16 @@ export class ProjectEditComponent implements OnInit {
   successProject = null;
   successAssignment = null;
   project: ProjectModel = null;
+  loadedUsers: UserModel[] = [];
   projectId: string;
   isFetching = false;
-  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal) {
+  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => this.projectId = params['id']);
     this.getProjectById();
+    this.getUsers();
   }
 
   private getProjectById() {
@@ -43,6 +47,21 @@ export class ProjectEditComponent implements OnInit {
       error: (e) => {
         this.isFetching = false;
         this.error = e.status + ' ' + e.statusText;
+      }
+    });
+  }
+
+  private getUsers() {
+    this.isFetching = true;
+    this.userService.getAllUsers().subscribe({
+      next: (responseData) => {
+        this.loadedUsers = responseData;
+      },
+      error: (e) => {
+        this.error = e.error;
+      },
+      complete: () =>{
+        this.isFetching = false;
       }
     });
   }
