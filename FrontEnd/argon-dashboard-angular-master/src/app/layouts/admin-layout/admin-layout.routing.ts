@@ -13,7 +13,7 @@ export const AdminLayoutRoutes: Routes = [
       pathMatch: 'full',
     },
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'bug-readers',   component: BugReadersComponent },
+    { path: 'bug-editor-readers',   component: BugReadersComponent },
     { path: 'projects',         component: ProjectsComponent },
     { path: 'register',         component: RegisterComponent },
     { path: 'projects/:id',         component: ProjectEditComponent}
