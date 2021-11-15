@@ -44,5 +44,11 @@ namespace WebApi.Controllers
             IEnumerable<Project> projects = _users.GetProjects(token);
             return Ok(ProjectModel.ToModelList(projects));
         }
+
+        public IActionResult Get()
+        {
+            IEnumerable<User> users = _users.GetAll();
+            return Ok(UserModel.ToModelList(users));
+        }
     }
 }

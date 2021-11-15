@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
@@ -15,7 +17,7 @@ namespace WebApi.Models
         public string Email { get; set; }
         public RoleType Role { get; set; }
         public int HourlyRate { get; set; }
-        
+
 
         public User ToEntity()
         {
@@ -56,6 +58,24 @@ namespace WebApi.Models
             allFieldsExist &= Role == RoleType.Admin || Role == RoleType.Tester || Role == RoleType.Developer;
             if (!allFieldsExist)
                 throw new UserModelMissingFieldException();
+        }
+
+        public static IEnumerable<UserModel> ToModelList(IEnumerable<User> users)
+        {
+            List<UserModel> modelList = new List<UserModel>();
+            foreach (User user in users)
+            {
+                UserModel model = new UserModel();
+                model.Id = user.Id;
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.Email = user.Email;
+                model.UserName = user.UserName;
+                model.Role = user.Role;
+                model.HourlyRate = user.HourlyRate;
+                modelList.Add(model);
+            }
+            return modelList;
         }
     }
 }
