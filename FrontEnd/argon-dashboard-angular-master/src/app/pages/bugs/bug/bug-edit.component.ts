@@ -53,20 +53,21 @@ export class BugEditComponent implements OnInit {
     this.userService.getUserProjects().subscribe({
       next: (responseData) => {
         this.loadedProjects = responseData;
-        this.getSelectedProjectName();
       },
       error: (e) => {
         this.error = e.error;
       },
-      complete: () =>{
+      complete: () => {
         this.isFetching = false;
+        this.getSelectedProjectName();
       }
     });
   }
 
   private getSelectedProjectName(){
+    console.log(this.isFetching);
     this.loadedProjects.forEach(project => {
-      if(project.id == this.bug.projectId)
+      if (project.id == this.bug.projectId)
         this.selectedProjectName = project.name;
     });
   }
@@ -74,6 +75,7 @@ export class BugEditComponent implements OnInit {
   onEditBug() {
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
+    console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;

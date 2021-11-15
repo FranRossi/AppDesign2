@@ -608,7 +608,8 @@ namespace DataAccessTest
                     Description = "Bug en el servidor",
                     Version = "1.4",
                     State = BugState.Active,
-                    ProjectId = 1
+                    ProjectId = 1,
+                    FixingTime = 23
                 };
                 context.Add(oldBug);
                 context.SaveChanges();
@@ -621,7 +622,8 @@ namespace DataAccessTest
                 Description = "Bug Nuevo",
                 Version = "1.5",
                 State = BugState.Fixed,
-                ProjectId = 2
+                ProjectId = 2,
+                FixingTime = 123
             };
             _bugRepository.Update(testerUser, updatedBug);
             _bugRepository.Save();

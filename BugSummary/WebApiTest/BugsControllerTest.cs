@@ -175,6 +175,7 @@ namespace WebApiTest
                 State = BugState.Active,
                 Version = "2",
                 ProjectId = 1,
+                FixingTime = 123
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
