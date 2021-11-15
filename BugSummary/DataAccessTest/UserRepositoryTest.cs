@@ -515,5 +515,61 @@ namespace DataAccessTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            User newUser1 = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                HourlyRate = 34,
+            };
+            User newUser2 = new User
+            {
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Gutierrez",
+                Password = "juanoto",
+                UserName = "llllllllllll",
+                Email = "hola@gmail.com",
+                Role = RoleType.Admin
+            };
+            User newUser3 = new User
+            {
+                Id = 3,
+                FirstName = "Mario",
+                LastName = "Kempes",
+                Password = "marito24321",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                HourlyRate = 674,
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser1);
+                context.Add(newUser2);
+                context.Add(newUser3);
+                context.SaveChanges();
+
+            }
+            List<User> userExpected = new List<User>();
+            userExpected.Add(newUser1);
+            userExpected.Add(newUser1);
+            userExpected.Add(newUser1);
+
+            List<Project> usersDataBase = this._userRepository.GetAll().ToList();
+
+            Assert.AreEqual(2, usersDataBase.Count());
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(userExpected, usersDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
     }
 }
