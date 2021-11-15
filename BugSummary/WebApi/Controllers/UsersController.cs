@@ -3,6 +3,7 @@ using Domain;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using WebApi.Filters;
 using WebApi.Models;
 
@@ -33,6 +34,12 @@ namespace WebApi.Controllers
         {
             int result = _users.GetFixedBugCount(id);
             return Ok(result);
+        }
+
+        public IActionResult Get([FromHeader] string token)
+        {
+            IEnumerable<Project> projects = _users.GetProjects(token);
+            return Ok(ProjectModel.ToModelList(projects));
         }
     }
 }
