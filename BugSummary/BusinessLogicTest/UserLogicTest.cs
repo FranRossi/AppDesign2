@@ -196,5 +196,30 @@ namespace BusinessLogicTest
                  () => userLogic.GetFixedBugCount(1), "The entered user does not exist."
              );
         }
+
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow("ada2tsdarstda4545523apfd6Idtrsdd")]
+        [DataTestMethod]
+        public void GetProjects(string token)
+        {
+            IEnumerable<Project> expectedProjects = new List<Project>
+            {
+                new Project{Id = 1, Name = "Project 1"},
+                new Project{Id = 2, Name = "Project 2"},
+                new Project{Id = 3, Name = "Project 3"},
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.GetProjects(It.IsAny<string>())).Returns(expectedProjects);
+
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            IEnumerable<Project> result = userLogic.GetProjects(token);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(expectedProjects, result);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedProjects, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
     }
 }
