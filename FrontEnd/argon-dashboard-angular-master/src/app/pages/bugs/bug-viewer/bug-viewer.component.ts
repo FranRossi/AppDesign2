@@ -32,7 +32,7 @@ export class BugViewerComponent implements OnInit {
         this.bug = responseData;
       },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
+        this.error = e.error;
       },
       complete: () =>{
         this.isFetching = false;

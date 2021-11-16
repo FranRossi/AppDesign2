@@ -35,19 +35,20 @@ export class ProjectEditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => this.projectId = params['id']);
     this.getProjectById();
-    this.getUsers();
   }
 
   private getProjectById() {
     this.isFetching = true;
     this.editService.getProjectById(this.projectId).subscribe({
       next: (responseData) => {
-        this.isFetching = false;
         this.project = responseData;
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.status + ' ' + e.statusText;
+        this.error = e.error;
+      },
+      complete: () => {
+        this.getUsers();
       }
     });
   }
@@ -61,15 +62,12 @@ export class ProjectEditComponent implements OnInit {
       error: (e) => {
         this.error = e.error;
       },
-      complete: () =>{
+      complete: () => {
         this.isFetching = false;
       }
     });
   }
 
-  onHandleError() {
-    this.error = null;
-  }
 
   open(content, type, modalDimension) {
     if (type === 'Notification') {
