@@ -33,4 +33,9 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
    });
   }
+
+  logOut() {
+    sessionStorage.removeItem('userToken');
+    sessionStorage.removeItem('userRole');
+  }
 }

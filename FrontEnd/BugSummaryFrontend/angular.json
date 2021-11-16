@@ -24,7 +24,6 @@
             "tsConfig": "src/tsconfig.app.json",
             "allowedCommonJsDependencies": ["chart.js"],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -104,7 +103,6 @@
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ]
           }
