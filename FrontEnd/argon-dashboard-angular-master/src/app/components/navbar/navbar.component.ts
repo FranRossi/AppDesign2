@@ -15,12 +15,17 @@ export class NavbarComponent implements OnInit {
   role = null;
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
-    this.role = sessionStorage.getItem('roleName').toUpperCase();
+  }
+
+  private capitalize (role: string){
+    return role.charAt(0).toUpperCase() + role.slice(1);
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.role = this.capitalize(sessionStorage.getItem('roleName'));
   }
+
   getTitle() {
     var title = this.location.prepareExternalUrl(this.location.path());
     if (title.charAt(0) === '#') {
