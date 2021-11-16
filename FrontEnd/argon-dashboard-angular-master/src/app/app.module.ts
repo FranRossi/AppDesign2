@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -35,7 +35,6 @@ import { ComponentsModule } from './components/components.module';
     DeveloperLayoutComponent
   ],
   providers: [],
-  // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   bootstrap: [AppComponent]
 })
 export class AppModule { }

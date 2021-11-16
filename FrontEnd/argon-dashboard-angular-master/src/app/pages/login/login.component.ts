@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
-    //sessionStorage.clear();
   }
   ngOnDestroy() {
   }
