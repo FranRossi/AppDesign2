@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
 import {BugEditService} from './bug-edit.service';
@@ -22,7 +22,7 @@ export class BugEditComponent implements OnInit {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
   selectedProjectName: string = null;
-  constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
+  constructor(private router: Router,private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
@@ -78,6 +78,7 @@ export class BugEditComponent implements OnInit {
       .subscribe(responseData => {
         this.bug = updatedBug;
         this.editBugForm.resetForm();
+        this.router.navigate(['../..'] , {relativeTo: this.route});
       });
   }
 
