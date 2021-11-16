@@ -103,14 +103,14 @@
                   type="text">
               </div>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-3" *ngIf="bug.fixerName != ''">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-folder"></i></span>
+                  <span class="input-group-text"><i class="ni ni-settings"></i></span>
                 </div>
                 <input
                   [readOnly]="true"
-                  value=' Project: {{bug.fixerName}}'
+                  value=' Fixer: {{bug.fixerName}}'
                   class="form-control"
                   name="fixerName"
                   type="text">
