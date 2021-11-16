@@ -173,6 +173,11 @@ namespace WebApiTest
         [TestMethod]
         public void BugToModel()
         {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug expectedBug = new Bug
             {
                 Id = 1,
@@ -181,6 +186,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                Project = newProject
 
             };
             BugModel bugToCompare = new BugModel
@@ -191,6 +197,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                ProjectName = "Nuevo"
             };
             BugModel model = BugModel.ToModel(expectedBug);
             CompareLogic compareLogic = new CompareLogic();
