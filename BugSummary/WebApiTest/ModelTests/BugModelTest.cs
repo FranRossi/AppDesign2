@@ -186,8 +186,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                Project = newProject
-
+                Project = newProject,
+                Fixer = new User { UserName = "mario" }
             };
             BugModel bugToCompare = new BugModel
             {
@@ -197,7 +197,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                ProjectName = "Nuevo"
+                ProjectName = "Nuevo",
+                FixerName = "mario"
             };
             BugModel model = BugModel.ToModel(expectedBug);
             CompareLogic compareLogic = new CompareLogic();
