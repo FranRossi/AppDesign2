@@ -27,15 +27,14 @@
           </div>
           <form (ngSubmit)="onEditBug()" #f="ngForm" *ngIf="!isFetching && !error">
             <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
+              <div class="input-group input-group-alternative" >
+                <div class="input-group-prepend" >
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
                 <input
                   class="form-control"
-                  placeholder='Name: {{bug.name}}'
+                  value='Name: {{bug.name}}'
                   type="text"
-                  ngModel
                   name="name">
               </div>
             </div>
@@ -61,8 +60,8 @@
                   name="state"
                   type="number"
                   #state = ngModel >
-                  <option *ngIf="bug.state == 2" value="" disabled selected hidden>Bug's State: Active</option>
-                  <option *ngIf="bug.state == 1" value="" disabled selected hidden>Bug's State: Fixed</option>
+                  <option *ngIf="bug.state == 2" value="" disabled selected hidden>State: Active</option>
+                  <option *ngIf="bug.state == 1" value="" disabled selected hidden>State: Fixed</option>
                   <option [ngValue]="2">Active</option>
                   <option [ngValue]="1">Fixed</option>
                 </select>
@@ -103,7 +102,7 @@
                   name="projectId"
                   type="number"
                   #state="ngModel">
-                  <option value="" disabled selected hidden>{{selectedProjectName}}</option>
+                  <option value="" disabled selected hidden>Project: {{selectedProjectName}}</option>
                   <option *ngFor="let project of loadedProjects" [ngValue]="project.id" >{{project.name}}</option>
                 </select>
               </div>

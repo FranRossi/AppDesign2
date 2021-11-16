@@ -1,1 +1,110 @@
-<p>bug-viewer works!</p>
+<div class="header bg-gradient-danger py-7 py-lg-8">
+  <div class="container">
+    <div class="header-body text-center mb-7">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6">
+          <h1 class="text-white">Welcome!</h1>
+          <p class="text-lead text-light">Use these forms to update this bug</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+  <!-- Table -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+            <small>Bug's information</small>
+          </div>
+          <form *ngIf="!isFetching && !error">
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input
+                  [readOnly]="true"
+                  class="form-control"
+                  value='Name: {{bug.name}}'
+                  type="text">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-align-center"></i></span>
+                </div>
+                <input
+                  [readOnly]="true"
+                  class="form-control"
+                  value=' Description: {{bug.description}}'
+                  type="text"
+                  name="description">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <input
+                  [readOnly]="true"
+                  class="form-control"
+                  value=' State: {{bug.state}}'
+                  type="text"
+                  name="state">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-archive-2"></i></span>
+                </div>
+                <input
+                  [readOnly]="true"
+                  class="form-control"
+                  value='Version: {{bug.version}}'
+                  type="text"
+                  name="version">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-archive-2"></i></span>
+                </div>
+                <input
+                  [readOnly]="true"
+                  class="form-control"
+                  value='Version: {{bug.fixingTime}}'
+                  type="text"
+                  name="fixingTime">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <input
+                  [readOnly]="true"
+                  value='Project: {{projectName}}'
+                  class="form-control"
+                  name="projectId"
+                  type="text">
+              </div>
+            </div>
+          </form>
+          <div class="text-center">
+            <div class="alert alert-danger" role="alert" *ngIf="error">
+              {{error}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

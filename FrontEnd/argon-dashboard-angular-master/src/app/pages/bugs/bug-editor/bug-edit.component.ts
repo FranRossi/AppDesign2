@@ -93,16 +93,4 @@ export class BugEditComponent implements OnInit {
     updatedBug.description = updatedBug.description === '' ? this.bug.description : updatedBug.description;
     return updatedBug;
   }
-
-  onHandleError() {
-    this.error = null;
-  }
-
-  open(content, type, modalDimension) {
-    if (type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
-    } else {
-      this.modalService.open(content, { centered: true });
-    }
-  }
 }

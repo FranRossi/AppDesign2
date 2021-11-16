@@ -7,9 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from 'ngx-clipboard';
-import {BugsComponent} from '../../pages/bugs/bugs.component';
-import {BugEditComponent} from '../../pages/bugs/bug-editor/bug-edit.component';
 import {DeveloperLayoutRoutes} from './developer-layout.routing';
+import {BugViewerComponent} from '../../pages/bugs/bug-viewer/bug-viewer.component';
 
 
 @NgModule({
@@ -22,6 +21,7 @@ import {DeveloperLayoutRoutes} from './developer-layout.routing';
     ClipboardModule
   ],
   declarations: [
+    BugViewerComponent
   ]
 })
 export class DeveloperLayoutModule { }

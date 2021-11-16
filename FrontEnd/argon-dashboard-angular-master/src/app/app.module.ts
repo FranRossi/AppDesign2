@@ -14,7 +14,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { BugViewerComponent } from './pages/bugs/bug-viewer/bug-viewer.component';
 
 
 
@@ -33,8 +32,7 @@ import { BugViewerComponent } from './pages/bugs/bug-viewer/bug-viewer.component
     AdminLayoutComponent,
     AuthLayoutComponent,
     TesterLayoutComponent,
-    DeveloperLayoutComponent,
-    BugViewerComponent
+    DeveloperLayoutComponent
   ],
   providers: [],
   // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
