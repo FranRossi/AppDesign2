@@ -61,6 +61,11 @@ namespace WebApiTest
         {
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int bugId = 1;
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug bugOnDataBase = new Bug
             {
                 Id = bugId,
@@ -68,7 +73,8 @@ namespace WebApiTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                ProjectId = 1
+                ProjectId = 1,
+                Project = newProject
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;

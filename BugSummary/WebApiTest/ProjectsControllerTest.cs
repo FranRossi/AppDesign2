@@ -206,7 +206,7 @@ namespace WebApiTest
             {
                 Id = projectId,
                 Name = "Project A",
-                Bugs = new List<Bug> { new Bug(), new Bug(), new Bug() },
+                Bugs = new List<Bug> { new Bug{Project = new Project{Name = "Nuevo"}} },
                 Users = new List<User> { new User(), new User(), },
                 Assignments = new List<Assignment> { new Assignment(), new Assignment() }
             };

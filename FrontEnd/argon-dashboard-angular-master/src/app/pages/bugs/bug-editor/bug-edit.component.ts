@@ -20,7 +20,6 @@ export class BugEditComponent implements OnInit {
   bug: BugModel = null;
   bugId: string;
   isFetching = false;
-  role = null;
   loadedProjects: ProjectModel[] = [];
   selectedProjectName: string = null;
   constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
@@ -29,7 +28,6 @@ export class BugEditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => this.bugId = params['id']);
     this.getBugById();
-    this.role = sessionStorage.getItem('roleName');
   }
 
   private getBugById() {
@@ -92,17 +90,5 @@ export class BugEditComponent implements OnInit {
     updatedBug.fixingTime = updatedBug.fixingTime.toString() === '' ? this.bug.fixingTime : updatedBug.fixingTime;
     updatedBug.description = updatedBug.description === '' ? this.bug.description : updatedBug.description;
     return updatedBug;
-  }
-
-  onHandleError() {
-    this.error = null;
-  }
-
-  open(content, type, modalDimension) {
-    if (type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
-    } else {
-      this.modalService.open(content, { centered: true });
-    }
   }
 }
