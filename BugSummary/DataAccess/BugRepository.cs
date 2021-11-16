@@ -87,7 +87,7 @@ namespace DataAccess
 
         public Bug Get(User user, int bugId)
         {
-            Bug bugFromDb = Context.Bugs.Include("Project").Include("Project").FirstOrDefault(u => u.Id == bugId);
+            Bug bugFromDb = Context.Bugs.Include("Project").Include("Fixer").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == bugFromDb.ProjectId) != null))
