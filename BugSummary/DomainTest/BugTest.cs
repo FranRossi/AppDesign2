@@ -247,5 +247,20 @@ namespace DomainTest
             Assert.AreEqual(23, newBug.GetFixerHourlyRate());
         }
 
+        [TestMethod]
+        public void GetFixedName()
+        {
+            Bug newBug = new Bug { Fixer = new User { UserName = "pepe", Role = RoleType.Developer } };
+
+            Assert.AreEqual("pepe", newBug.GetFixerName());
+        }
+
+        [TestMethod]
+        public void GetInvalidFixedName()
+        {
+            Bug newBug = new Bug();
+
+            Assert.AreEqual("", newBug.GetFixerName());
+        }
     }
 }

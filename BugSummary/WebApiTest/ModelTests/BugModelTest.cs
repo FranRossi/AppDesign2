@@ -186,8 +186,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                Project = newProject
-
+                Project = newProject,
+                Fixer = new User { UserName = "mario", Role = RoleType.Developer }
             };
             BugModel bugToCompare = new BugModel
             {
@@ -197,7 +197,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                ProjectName = "Nuevo"
+                ProjectName = "Nuevo",
+                FixerName = "mario"
             };
             BugModel model = BugModel.ToModel(expectedBug);
             CompareLogic compareLogic = new CompareLogic();
@@ -222,7 +223,6 @@ namespace WebApiTest
                 State = BugState.Active,
                 ProjectId = 1,
                 Project = newProject
-
             };
             List<Bug> bugsToModel = new List<Bug>();
             bugsToModel.Add(expectedBug);
@@ -234,7 +234,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-                ProjectName = "Nuevo"
+                ProjectName = "Nuevo",
+                FixerName = ""
             };
             IEnumerable<BugModel> models = new List<BugModel>();
             models = models.Append(bugModelToCompare);
