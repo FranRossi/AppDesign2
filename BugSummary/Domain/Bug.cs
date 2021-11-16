@@ -145,5 +145,12 @@ namespace Domain
                 return Fixer.HourlyRate;
             return 0;
         }
+
+        public string GetFixerName()
+        {
+            if (Fixer != null)
+                return Fixer.UserName;
+            return "";
+        }
     }
 }

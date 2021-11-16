@@ -59,7 +59,7 @@ namespace WebApi.Models
                 ProjectId = bugEntity.ProjectId,
                 FixingTime = bugEntity.FixingTime,
                 ProjectName = bugEntity.Project.Name,
-                FixerName = bugEntity.Fixer.UserName
+                FixerName = bugEntity.GetFixerName()
             };
         }
 
