@@ -432,7 +432,7 @@
               <tr *ngFor="let bug of project.bugs">
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a  routerLinkActive="active" [routerLink]="['/admin/bugs',bug.id]" class="avatar rounded-circle mr-3">
+                    <a  routerLinkActive="active" [routerLink]="['bugs',bug.id]" class="avatar rounded-circle mr-3">
                       <img alt="Access Bug" src="../assets/img/theme/bootstrap.jpg">
                     </a>
                     <div class="media-body">
