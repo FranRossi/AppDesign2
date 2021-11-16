@@ -12,8 +12,10 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
+  role = null;
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
+    this.role = sessionStorage.getItem('roleName').toUpperCase();
   }
 
   ngOnInit() {
