@@ -53,7 +53,7 @@ namespace DataAccessTest
         [TestMethod]
         public void GetBug()
         {
-            User testerUser = new User
+            User developerUser = new User
             {
                 Id = 2,
                 FirstName = "Juan",
@@ -61,7 +61,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
+                Role = RoleType.Developer,
                 Projects = new List<Project>()
             };
             Bug bug = new Bug
@@ -71,6 +71,7 @@ namespace DataAccessTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
+                Fixer = developerUser
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -80,11 +81,11 @@ namespace DataAccessTest
                     Name = "Semester 2021",
                     Users = new List<User>
                     {
-                        testerUser
+                        developerUser
                     }
                 };
                 context.Projects.Add(projectTester);
-                testerUser.Projects.Add(projectTester);
+                developerUser.Projects.Add(projectTester);
                 bug.ProjectId = 1;
 
                 context.Add(bug);
@@ -92,7 +93,7 @@ namespace DataAccessTest
             }
 
             int bugId = 1;
-            Bug bugDataBase = _bugRepository.Get(testerUser, bugId);
+            Bug bugDataBase = _bugRepository.Get(developerUser, bugId);
 
             Assert.IsNotNull(bugDataBase);
             Assert.AreEqual(0, new BugComparer().Compare(bug, bugDataBase));
@@ -476,8 +477,8 @@ namespace DataAccessTest
             bool matches = criteria.MatchesCriteria(newBug1);
             Assert.IsTrue(matches);
         }
-        
-               [TestMethod]
+
+        [TestMethod]
         public void GetAllBugsFilteredOnlyBugState()
         {
             Bug oldBug = new Bug
