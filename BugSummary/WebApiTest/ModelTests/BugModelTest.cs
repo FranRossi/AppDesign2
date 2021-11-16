@@ -208,6 +208,11 @@ namespace WebApiTest
         [TestMethod]
         public void BugToModelList()
         {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug expectedBug = new Bug
             {
                 Id = 1,
@@ -216,6 +221,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                Project = newProject
 
             };
             List<Bug> bugsToModel = new List<Bug>();
@@ -228,6 +234,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                ProjectName = "Nuevo"
             };
             IEnumerable<BugModel> models = new List<BugModel>();
             models = models.Append(bugModelToCompare);
