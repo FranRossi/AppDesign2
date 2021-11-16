@@ -250,9 +250,9 @@ namespace DomainTest
         [TestMethod]
         public void GetFixedName()
         {
-            Bug newBug = new Bug { Fixer = new User { UserName = "pepe" } };
+            Bug newBug = new Bug { Fixer = new User { UserName = "pepe", Role = RoleType.Developer } };
 
-            Assert.AreEqual("pepe", newBug.GetFixerHourlyRate());
+            Assert.AreEqual("pepe", newBug.GetFixerName());
         }
 
         [TestMethod]
@@ -260,7 +260,7 @@ namespace DomainTest
         {
             Bug newBug = new Bug();
 
-            Assert.AreEqual("", newBug.GetFixerHourlyRate());
+            Assert.AreEqual("", newBug.GetFixerName());
         }
     }
 }
