@@ -20,7 +20,6 @@ export class BugEditComponent implements OnInit {
   bug: BugModel = null;
   bugId: string;
   isFetching = false;
-  role = null;
   loadedProjects: ProjectModel[] = [];
   selectedProjectName: string = null;
   constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
@@ -29,7 +28,6 @@ export class BugEditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => this.bugId = params['id']);
     this.getBugById();
-    this.role = sessionStorage.getItem('roleName');
   }
 
   private getBugById() {

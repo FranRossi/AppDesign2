@@ -8,4 +8,5 @@ export interface BugModel {
   projectId: number;
   id: number;
   fixingTime: number;
+  projectName: string;
 }

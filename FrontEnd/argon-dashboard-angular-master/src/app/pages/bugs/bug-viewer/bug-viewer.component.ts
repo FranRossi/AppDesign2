@@ -36,23 +36,9 @@ export class BugViewerComponent implements OnInit {
       },
       complete: () =>{
         this.isFetching = false;
-        this.getProjectById();
       }
     });
   }
 
-  private getProjectById() {
-    this.isFetching = true;
-    this.editService.getProjectById(this.bug.projectId.toString()).subscribe({
-      next: (responseData) => {
-        this.isFetching = false;
-        this.projectName = responseData.name;
-      },
-      error: (e) => {
-        this.isFetching = false;
-        this.error = e.status + ' ' + e.statusText;
-      }
-    });
-  }
 
 }

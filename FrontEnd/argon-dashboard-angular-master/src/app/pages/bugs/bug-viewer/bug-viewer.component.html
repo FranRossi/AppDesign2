@@ -34,7 +34,7 @@
                 <input
                   [readOnly]="true"
                   class="form-control"
-                  value='Name: {{bug.name}}'
+                  value=' Name: {{bug.name}}'
                   type="text">
               </div>
             </div>
@@ -53,6 +53,9 @@
             </div>
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                </div>
                 <input
                   [readOnly]="true"
                   class="form-control"
@@ -69,7 +72,7 @@
                 <input
                   [readOnly]="true"
                   class="form-control"
-                  value='Version: {{bug.version}}'
+                  value=' Version: {{bug.version}}'
                   type="text"
                   name="version">
               </div>
@@ -77,21 +80,24 @@
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-archive-2"></i></span>
+                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
                 </div>
                 <input
                   [readOnly]="true"
                   class="form-control"
-                  value='Version: {{bug.fixingTime}}'
+                  value=' Fixing Time: {{bug.fixingTime}}'
                   type="text"
                   name="fixingTime">
               </div>
             </div>
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-folder"></i></span>
+                </div>
                 <input
                   [readOnly]="true"
-                  value='Project: {{projectName}}'
+                  value=' Project: {{bug.projectName}}'
                   class="form-control"
                   name="projectId"
                   type="text">
