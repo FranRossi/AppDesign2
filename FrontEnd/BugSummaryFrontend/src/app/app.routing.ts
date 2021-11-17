@@ -52,7 +52,6 @@ const routes: Routes = [
       }
     ]
   }, {
-  // TODO - Hacer una pagina not found
     path: '**',
     component: PageNotFoundComponent,
   }

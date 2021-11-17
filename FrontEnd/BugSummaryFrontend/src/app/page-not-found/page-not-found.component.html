@@ -55,8 +55,10 @@
   </svg>
 
   <p id="errorText">O-o-oh! Page not found.</p>
-  <a (click)="logOut()" routerLinkActive="active" [routerLink]="['/login']" [replaceUrl]="true">
-    Go Back to Login
+<!--  <a routerLinkActive="active" [routerLink]="['']" [replaceUrl]="true">-->
+    <a (click)="onGoBack()">
+
+    Go Back
   </a>
 </main>
 

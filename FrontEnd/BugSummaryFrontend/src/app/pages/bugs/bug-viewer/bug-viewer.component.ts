@@ -4,7 +4,6 @@ import {BugEditService} from '../bug-editor/bug-edit.service';
 import {ActivatedRoute} from '@angular/router';
 import {BugModel} from '../../../models/bugModel';;
 import {EditProjectService} from '../../projects/project/editProject.service';
-import {ProjectModel} from '../../../models/projectModel';
 
 @Component({
   selector: 'app-bug-viewer',
@@ -16,7 +15,6 @@ export class BugViewerComponent implements OnInit {
   bug: BugModel = null;
   bugId: string;
   isFetching = false;
-  projectName: string = null;
   constructor(private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private editService: EditProjectService) {
   }
 
@@ -39,6 +37,5 @@ export class BugViewerComponent implements OnInit {
       }
     });
   }
-
 
 }

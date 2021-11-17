@@ -5,6 +5,7 @@ import { ProjectsComponent } from '../../pages/projects/projects.component';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { BugEditComponent } from 'src/app/pages/bugs/bug-editor/bug-edit.component';
+import {PageNotFoundComponent} from '../../page-not-found/page-not-found.component';
 
 export const AdminLayoutRoutes: Routes = [
     {
@@ -17,5 +18,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'register',         component: RegisterComponent },
     { path: 'projects/:id',         component: ProjectEditComponent},
     { path: 'projects/:id/bugs/:id',         component: BugEditComponent},
+    {
+      path: '**',
+      component: PageNotFoundComponent,
+    }
 
 ];
