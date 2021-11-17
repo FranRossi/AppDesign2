@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
@@ -32,7 +33,8 @@ import { ComponentsModule } from './components/components.module';
     AdminLayoutComponent,
     AuthLayoutComponent,
     TesterLayoutComponent,
-    DeveloperLayoutComponent
+    DeveloperLayoutComponent,
+    PageNotFoundComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

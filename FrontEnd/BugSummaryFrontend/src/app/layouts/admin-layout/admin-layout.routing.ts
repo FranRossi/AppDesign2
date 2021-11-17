@@ -4,7 +4,6 @@ import { BugReadersComponent } from '../../pages/bug-readers/bug-readers.compone
 import { ProjectsComponent } from '../../pages/projects/projects.component';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
 import { RegisterComponent } from '../../pages/register/register.component';
-import {BugViewerComponent} from '../../pages/bugs/bug-viewer/bug-viewer.component';
 import { BugEditComponent } from 'src/app/pages/bugs/bug-editor/bug-edit.component';
 
 export const AdminLayoutRoutes: Routes = [
