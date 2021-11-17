@@ -47,8 +47,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       next: () => {
         this.error = null;
         this.success = 'Project deleted correctly!';
-        this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId); 
-        this.modalService.dismissAll(); 
+        this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId);
+        this.modalService.dismissAll();
       },
       error: (e) => {
         this.success = null;
@@ -65,7 +65,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     const projectName = form.value;
     this.projectService.addProject(projectName).subscribe({
       next: () => {
-        this.getProjects(); 
+        this.getProjects();
         this.error = null;
         this.success = 'Project deleted correctly!';
         this.modalService.dismissAll();
