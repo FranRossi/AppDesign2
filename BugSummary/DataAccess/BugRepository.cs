@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CustomExceptions;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace DataAccess
 {
@@ -37,7 +36,7 @@ namespace DataAccess
 
         public void Update(User user, Bug updatedBug)
         {
-            Project projectFromDb = Context.Projects.FirstOrDefault(u => u.Id == updatedBug.ProjectId);
+            Project projectFromDb = Context.Projects.FirstOrDefault(p => p.Id == updatedBug.ProjectId);
             if (projectFromDb == null)
                 throw new InexistentProjectException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == updatedBug.ProjectId) != null))
@@ -50,6 +49,7 @@ namespace DataAccess
                 bugFromDb.ProjectId = updatedBug.ProjectId;
                 bugFromDb.Version = updatedBug.Version;
                 bugFromDb.State = updatedBug.State;
+                bugFromDb.FixingTime = updatedBug.FixingTime;
                 Context.Bugs.Update(bugFromDb);
             }
             else
@@ -68,7 +68,7 @@ namespace DataAccess
             Context.Bugs.Remove(bugFromDb);
         }
 
-        public void Fix(User user, int bugId)
+        public void Fix(User user, int bugId, int fixingTime)
         {
             Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
@@ -79,13 +79,14 @@ namespace DataAccess
                 throw new UserIsNotAssignedToProjectException();
             bugFromDb.State = BugState.Fixed;
             bugFromDb.FixerId = user.Id;
+            bugFromDb.FixingTime = fixingTime;
             Context.Bugs.Update(bugFromDb);
 
         }
 
         public Bug Get(User user, int bugId)
         {
-            Bug bugFromDb = Context.Bugs.Include("Project").FirstOrDefault(u => u.Id == bugId);
+            Bug bugFromDb = Context.Bugs.Include("Project").Include("Fixer").FirstOrDefault(u => u.Id == bugId);
             if (bugFromDb == null)
                 throw new InexistentBugException();
             if (!(user.Role == RoleType.Admin || user.Projects.Find(p => p.Id == bugFromDb.ProjectId) != null))

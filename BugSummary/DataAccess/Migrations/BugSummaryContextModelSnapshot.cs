@@ -21,6 +21,32 @@ namespace DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Domain.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Duration")
+                        .HasColumnType("float");
+
+                    b.Property<int>("HourlyRate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Assignments");
+                });
+
             modelBuilder.Entity("Domain.Bug", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +58,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("FixerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FixingTime")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -83,6 +112,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("HourlyRate")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -116,6 +148,17 @@ namespace DataAccess.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ProjectUser");
+                });
+
+            modelBuilder.Entity("Domain.Assignment", b =>
+                {
+                    b.HasOne("Domain.Project", "Project")
+                        .WithMany("Assignments")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Domain.Bug", b =>
@@ -152,6 +195,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Project", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("Bugs");
                 });
 

@@ -2,8 +2,8 @@
 using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
-using Domain;
-using FileHandlerFactory;
+using BugReaderImporter;
+using BugReaderImporterInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,11 +27,19 @@ namespace Factory.Factories
             services.AddScoped<IBugLogic, BugLogic>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IBugRepository, BugRepository>();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IAssignmentLogic, AssignmentLogic>();
+
         }
 
         public void AddDbContextService(string connectionString)
         {
             services.AddDbContext<BugSummaryContext>(options => options.UseSqlServer(connectionString));
+        }
+
+        public void AddDbExternalReaderService(string pathToFolder)
+        {
+            services.AddSingleton<IBugReaderImporter>(new BugReaderImporterLogic(pathToFolder));
         }
     }
 }

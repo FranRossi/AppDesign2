@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using ExternalReader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace FileHandlerInterface
 {
     public interface IFileReaderStrategy
     {
-        public IEnumerable<Project> GetProjectFromFile(string path);
+        public IEnumerable<ProjectModel> GetProjectsFromFile(string path);
     }
 }

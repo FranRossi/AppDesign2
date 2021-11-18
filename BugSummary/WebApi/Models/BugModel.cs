@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
+using Utilities.CustomExceptions.WebApi;
 
 namespace WebApi.Models
 {
@@ -14,53 +14,61 @@ namespace WebApi.Models
         public string Version { get; set; }
         public int ProjectId { get; set; }
         public int Id { get; set; }
+        public int FixingTime { get; set; }
+        public string ProjectName { get; set; }
+        public string FixerName { get; set; }
 
         public Bug ToEntity()
         {
             ValidateFields();
-            return new()
+            return new Bug
             {
                 Name = Name,
                 Description = Description,
                 State = State,
                 Version = Version,
-                ProjectId = ProjectId
+                ProjectId = ProjectId,
+                FixingTime = FixingTime
             };
         }
 
         public Bug ToEntityWithID(int id)
         {
             ValidateFields();
-            return new()
+            return new Bug
             {
                 Id = id,
                 Name = Name,
                 Description = Description,
                 State = State,
                 Version = Version,
-                ProjectId = ProjectId
+                ProjectId = ProjectId,
+                FixingTime = FixingTime
             };
         }
 
         public static BugModel ToModel(Bug bugEntity)
         {
-            return new()
+            return new BugModel
             {
                 Id = bugEntity.Id,
                 Name = bugEntity.Name,
                 Description = bugEntity.Description,
                 State = bugEntity.State,
                 Version = bugEntity.Version,
-                ProjectId = bugEntity.ProjectId
+                ProjectId = bugEntity.ProjectId,
+                FixingTime = bugEntity.FixingTime,
+                ProjectName = bugEntity.Project.Name,
+                FixerName = bugEntity.GetFixerName()
             };
         }
 
         public static IEnumerable<BugModel> ToModelList(IEnumerable<Bug> bugsToModel)
         {
-            IEnumerable<BugModel> models = new List<BugModel>();
+            List<BugModel> models = new List<BugModel>();
             foreach (var bug in bugsToModel)
             {
-                models = models.Append(ToModel(bug));
+                models.Add(ToModel(bug));
             }
             return models;
         }

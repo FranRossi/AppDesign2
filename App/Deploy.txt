@@ -1,1 +1,2 @@
 Para poder usar la aplicacion se necesita agregar en el appsettings.json el string de conexion a la base de datos.
+Para poder utilizar importadores a partir de reflection, se necesita agregar los dll correspondientes en el path indicado en el app setting .json (".\\externalReaders\\companies")

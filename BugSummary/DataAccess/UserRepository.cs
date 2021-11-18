@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace DataAccess
 {
@@ -70,6 +70,25 @@ namespace DataAccess
             if (result == null)
                 throw new InexistentUserException();
             return result;
+        }
+
+        public IEnumerable<Project> GetProjects(string token)
+        {
+            IEnumerable<Project> projects = new List<Project>();
+            if (token != null)
+            {
+                User userFromDb = Context.Users.Include("Projects.Bugs").FirstOrDefault(u => u.Token == token);
+                if (userFromDb.Role == RoleType.Admin)
+                    return Context.Projects.Include("Bugs").ToList();
+                if (userFromDb != null)
+                    projects = userFromDb.Projects;
+            }
+            return projects;
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return Context.Users.ToList();
         }
     }
 }

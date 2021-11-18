@@ -1,0 +1,166 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row" *ngIf="role ==='tester'">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Add Bug</h5>
+                  <span class="h2 font-weight-bold mb-0">{{loadedBugs.length}}</span>
+                </div>
+                <div class="col-auto">
+                  <a (click)="open(addBug, 'modal_mini', 'sm')" >
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-plus fa-align-center"></i>
+                      <div class="col-md-4">
+                        <ng-template #addBug let-modal let-c="close" let-d="dismiss" >
+                          <div class="modal-content">
+                            <div class="modal-body p-0">
+                              <div class="card bg-secondary shadow border-0">
+                                <div class="card-body px-lg-5 py-lg-5">
+                                  <div class="text-center text-muted mb-4">
+                                    <small>Enter Bug's Info</small>
+                                  </div>
+                                  <form (ngSubmit)="onCreate(AddBugForm)" #AddBugForm="ngForm" >
+                                    <div class="form-group mb-3">
+                                      <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                        </div>
+                                        <input
+                                          class="form-control"
+                                          placeholder="Name"
+                                          type="text"
+                                          ngModel
+                                          name="name"
+                                          required
+                                          #name="ngModel">
+                                      </div>
+                                      <span class="text-sm" *ngIf="!name.valid && name.touched">Please enter Bug's name!</span>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                      <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="ni ni-align-center"></i></span>
+                                        </div>
+                                        <input
+                                          class="form-control"
+                                          placeholder="Description"
+                                          type="text"
+                                          ngModel
+                                          name="description"
+                                          required
+                                          #description="ngModel">
+                                      </div>
+                                      <span class="text-sm" *ngIf="!description.valid && description.touched">Please enter Bug's description!</span>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group input-group-alternative">
+                                        <select
+                                          class="form-control selectpicker"
+                                          data-style="btn btn-link"
+                                          ngModel
+                                          name="state"
+                                          required
+                                          type="number"
+                                          #state="ngModel">
+                                          <option value="" disabled selected hidden>Bug's State</option>
+                                          <option [ngValue]="2">Active</option>
+                                          <option [ngValue]="1">Fixed</option>
+                                        </select>
+                                      </div>
+                                      <span class="text-sm" *ngIf="!state.valid && state.touched">Please select a State!</span>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                      <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="ni ni-archive-2"></i></span>
+                                        </div>
+                                        <input
+                                          class="form-control"
+                                          placeholder="Version"
+                                          type="text"
+                                          ngModel
+                                          name="version"
+                                          required
+                                          #version="ngModel">
+                                      </div>
+                                      <span class="text-sm" *ngIf="!version.valid && version.touched">Please enter Bug's Version!</span>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                      <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                        </div>
+                                        <input
+                                          class="form-control"
+                                          placeholder="Fixing time"
+                                          type="number"
+                                          ngModel
+                                          name="fixingTime"
+                                          required
+                                          #fixingTime="ngModel">
+                                      </div>
+                                      <span class="text-sm" *ngIf="!fixingTime.valid && fixingTime.touched">Please enter Bug's fixing time!</span>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group input-group-alternative">
+                                        <select
+                                          class="form-control selectpicker"
+                                          data-style="btn btn-link"
+                                          ngModel
+                                          name="projectId"
+                                          required
+                                          type="number"
+                                          #state="ngModel">
+                                          <option value="" disabled selected hidden>Project</option>
+                                          <option *ngFor="let project of loadedProjects"[ngValue]="project.id">{{project.name}}</option>
+                                        </select>
+                                      </div>
+                                      <span class="text-sm" *ngIf="loadedProjects.length == 0 && !isFetching">User has no projects assigned!</span>
+                                      <span class="text-sm" *ngIf="loadedProjects.length > 0 && !state.valid && state.touched">Please select a Project!</span>
+                                    </div>
+                                    <div class="text-center">
+                                      <button
+                                        type="submit"
+                                        class="btn btn-primary my-4"
+                                        [disabled]="!AddBugForm.valid && !error">
+                                        Add Bug
+                                      </button>
+                                    </div>
+                                  </form>
+                                  <div class="text-center">
+                                    <div class="alert alert-danger" role="alert" *ngIf="error">
+                                      {{error}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <app-bugs-table [bugs] = 'loadedBugs' ></app-bugs-table>
+    </div>
+  </div>
+</div>

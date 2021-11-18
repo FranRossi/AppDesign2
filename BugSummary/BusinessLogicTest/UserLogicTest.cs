@@ -8,7 +8,6 @@ using Moq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
-using Utilities.CustomExceptions;
 
 namespace BusinessLogicTest
 {
@@ -132,11 +131,35 @@ namespace BusinessLogicTest
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
 
+        [DataRow("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX")]
+        [DataRow("ada2tsdarstda4545523apfd6Idtrsdd")]
+        [DataTestMethod]
+        public void GetProjects(string token)
+        {
+            IEnumerable<Project> expectedProjects = new List<Project>
+            {
+                new Project{Id = 1, Name = "Project 1"},
+                new Project{Id = 2, Name = "Project 2"},
+                new Project{Id = 3, Name = "Project 3"},
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(m => m.GetProjects(It.IsAny<string>())).Returns(expectedProjects);
+
+
+            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
+            IEnumerable<Project> result = userLogic.GetProjects(token);
+
+            mockUserRepository.VerifyAll();
+            Assert.AreEqual(expectedProjects, result);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedProjects, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
 
         [TestMethod]
-        public void GetFixedBugsUserById()
+        public void GetAllUsers()
         {
-            User expectedUser = new User
+            User newUser1 = new User
             {
                 Id = 1,
                 FirstName = "Pepe",
@@ -145,56 +168,44 @@ namespace BusinessLogicTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
-                FixedBugs = new List<Bug>() { new Bug(), new Bug(), new Bug() }
+                HourlyRate = 34,
             };
-            int expectedResult = 3;
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(expectedUser);
-
-
-            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
-            int result = userLogic.GetFixedBugCount(expectedUser.Id);
-
-            mockUserRepository.VerifyAll();
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
-        public void GetUserFixedBugsByIdNoBugs()
-        {
-            User expectedUser = new User
+            User newUser2 = new User
             {
-                Id = 1,
-                FirstName = "Pepe",
-                LastName = "Perez",
-                Password = "pepe1234",
+                Id = 2,
+                FirstName = "Juan",
+                LastName = "Gutierrez",
+                Password = "juanoto",
+                UserName = "llllllllllll",
+                Email = "hola@gmail.com",
+                Role = RoleType.Admin
+            };
+            User newUser3 = new User
+            {
+                Id = 3,
+                FirstName = "Mario",
+                LastName = "Kempes",
+                Password = "marito24321",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Tester,
-                FixedBugs = new List<Bug>() { }
+                Role = RoleType.Developer,
+                HourlyRate = 674,
             };
-            int expectedResult = 0;
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(expectedUser);
+            IEnumerable<User> usersExpected = new List<User>()
+            {
+                newUser1, newUser2,newUser3
+            };
+            Mock<IUserRepository> mockBugRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAll()).Returns(usersExpected);
+
+            UserLogic userLogic = new UserLogic(mockBugRepository.Object);
+            IEnumerable<User> userResult = userLogic.GetAll();
 
 
-            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
-            int result = userLogic.GetFixedBugCount(expectedUser.Id);
-
-            mockUserRepository.VerifyAll();
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [TestMethod]
-        public void GetInvalidUserById()
-        {
-            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            mockUserRepository.Setup(m => m.Get(It.IsAny<int>())).Throws(new InexistentUserException());
-
-            UserLogic userLogic = new UserLogic(mockUserRepository.Object);
-            TestExceptionUtils.Throws<InexistentUserException>(
-                 () => userLogic.GetFixedBugCount(1), "The entered user does not exist."
-             );
+            mockBugRepository.VerifyAll();
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(usersExpected, userResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utilities.CustomExceptions
+namespace Utilities.CustomExceptions.FileHandler
 {
     public class InvalidCompany2BugFileException : Exception
     {

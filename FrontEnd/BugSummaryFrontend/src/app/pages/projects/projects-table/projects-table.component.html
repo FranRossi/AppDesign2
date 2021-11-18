@@ -1,0 +1,64 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-0">Projects</h3>
+          </div>
+         <!--    TODO - Cambiar a un componente aparte que sea una tabla generica -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Project</th>
+                  <th scope="col">Bugs</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <p *ngIf="!isFetching && loadedProjects.length < 1">
+                There are not projects currently on the system. Please add a new one first.
+              </p>
+              <p *ngIf="isFetching && !error">
+                Loading...
+              </p>
+              <tbody *ngIf="loadedProjects.length >= 1 && !isFetching">
+                <tr *ngFor="let project of loadedProjects">
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <a
+                        class="icon rounded-circle"
+                        routerLinkActive="active" [routerLink]="[project.id]">
+                        <i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                      <div class="media-body">
+                        <span class="mb-0 text-sm">{{ project.name }}</span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>
+                    {{ project.bugCount }}
+                  </td>
+                  <td>
+                    <span *ngIf="project.bugCount == 0 " class="badge badge-dot mr-4">
+                      <i class="bg-success"></i> No bugs
+                    </span>
+                    <span *ngIf="project.bugCount > 0" class="badge badge-dot mr-4">
+                      <i class="bg-warning"></i> Bugs pending
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <div class="alert alert-success" role="alert" *ngIf="success">
+                {{success}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

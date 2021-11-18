@@ -1,17 +1,15 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BusinessLogicInterface;
-using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestUtilities;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 using Utilities.Criterias;
 using WebApi.Controllers;
 using WebApi.Models;
@@ -35,6 +33,7 @@ namespace WebApiTest
                 Description = "ImportanteBug",
                 State = BugState.Active,
                 Version = "2",
+                FixingTime = 0,
                 ProjectId = 1,
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
@@ -60,6 +59,11 @@ namespace WebApiTest
         {
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             int bugId = 1;
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug bugOnDataBase = new Bug
             {
                 Id = bugId,
@@ -67,7 +71,8 @@ namespace WebApiTest
                 Description = "Bug en el servidor",
                 Version = "1.4",
                 State = BugState.Active,
-                ProjectId = 1
+                ProjectId = 1,
+                Project = newProject
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
@@ -122,8 +127,45 @@ namespace WebApiTest
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModels.First(), bugsResult.First());
             Assert.IsTrue(deepComparisonResult.AreEqual);
         }
-
         
+        [TestMethod]
+        public void GetBugsFilteredForUserOnlyBugState()
+        {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug()
+                {
+                    Id = 1,
+                    Name = "Bug2021",
+                    Description = "ImportanteBug",
+                    Project = new Project(),
+                    State = BugState.Active,
+                    Version = "2",
+                    ProjectId = 1,
+                }
+            };
+            IEnumerable<BugModel> expectedModels = BugModel.ToModelList(bugsExpected);
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                State = BugState.Active,
+            };
+            Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.GetAllFiltered(It.IsAny<string>(), It.IsAny<BugSearchCriteria>())).Returns(bugsExpected);
+            BugsController controller = new BugsController(mock.Object);
+
+            IActionResult result = controller.GetAllFiltered(token, criteria);
+            OkObjectResult okResult = result as OkObjectResult;
+            IEnumerable<BugModel> bugsResult = okResult.Value as IEnumerable<BugModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModels.First(), bugsResult.First());
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+
         [TestMethod]
         public void UpdateValidBug()
         {
@@ -137,6 +179,7 @@ namespace WebApiTest
                 State = BugState.Active,
                 Version = "2",
                 ProjectId = 1,
+                FixingTime = 123
             };
             Mock<IBugLogic> mock = new Mock<IBugLogic>(MockBehavior.Strict);
             Bug receivedBug = null;
@@ -184,14 +227,17 @@ namespace WebApiTest
             int receivedBug = -1;
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
             string receivedToken = "";
-            mock.Setup(m => m.Fix(It.IsAny<string>(), It.IsAny<int>())).Callback((string sentToken, int sentBug) =>
+            int fixingTime = 2;
+            int receivedFixingTime = -1;
+            mock.Setup(m => m.Fix(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Callback((string sentToken, int sentBug, int sentFixingTime) =>
             {
                 receivedBug = sentBug;
                 receivedToken = sentToken;
+                receivedFixingTime = sentFixingTime;
             });
             BugsController controller = new BugsController(mock.Object);
 
-            IActionResult result = controller.Patch(token, bug);
+            IActionResult result = controller.Patch(token, bug, fixingTime);
 
             mock.VerifyAll();
             Assert.IsInstanceOfType(result, typeof(OkResult));

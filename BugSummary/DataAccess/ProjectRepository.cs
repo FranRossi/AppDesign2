@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
+
 namespace DataAccess
 {
     public class ProjectRepository : BaseRepository<Project>, IProjectRepository
@@ -24,11 +26,13 @@ namespace DataAccess
 
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.Include("Bugs").ToList();
+            return Context.Projects.Include("Bugs.Fixer").ToList();
         }
 
         public void Update(Project updatedProject)
         {
+            if (Context.Projects.Any(p => p.Name == updatedProject.Name))
+                throw new ProjectNameIsNotUniqueException();
             Project projectFromDB = Context.Projects.FirstOrDefault(p => p.Id == updatedProject.Id);
             if (projectFromDB != null)
             {
@@ -38,7 +42,6 @@ namespace DataAccess
             else
                 throw new InexistentProjectException();
         }
-
 
         public void Delete(int projectId)
         {
@@ -88,6 +91,20 @@ namespace DataAccess
                     Context.Bugs.Add(newBug);
                 }
             }
+        }
+
+        public Project Get(int projectId, string token)
+        {
+            User user = Context.Users.FirstOrDefault(u => u.Token == token);
+            Project project = Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").FirstOrDefault(p => p.Id == projectId);
+            if (user.Role == RoleType.Admin)
+                return project;
+            User UserInProject = project.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (UserInProject != null)
+                return project;
+            else
+                throw new InexistentProjectException();
+
         }
     }
 }

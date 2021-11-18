@@ -1,0 +1,144 @@
+<div class="card bg-secondary shadow">
+  <div class="card-header bg-white border-0">
+    <div class="row align-items-center">
+      <div class="col ">
+        <h3 class="mb-0">Bugs</h3>
+      </div>
+      <div class="col-md-2" *ngIf="role != 'admin'">
+        <a class="btn btn-sm btn-neutral"(click)="open(filterBugsList, 'modal_mini', 'sm')" >
+          Filters
+            <div class="col-md-4">
+              <ng-template #filterBugsList let-modal let-c="close" let-d="dismiss" >
+                <div class="modal-content">
+                  <div class="modal-body p-0">
+                    <div class="card bg-secondary shadow border-0">
+                      <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                          <small>Enter Bug's filters</small>
+                        </div>
+                        <form (ngSubmit)="getBugsFiltered(filterBugsListForm)" #filterBugsListForm="ngForm" >
+                          <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-folder"></i></span>
+                              </div>
+                              <input
+                                class="form-control"
+                                placeholder="Id"
+                                type="number"
+                                ngModel
+                                name="id">
+                            </div>
+                          </div>
+                          <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                              </div>
+                              <input
+                                class="form-control"
+                                placeholder="Name"
+                                type="text"
+                                ngModel
+                                name="name">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                              <select
+                                class="form-control selectpicker"
+                                data-style="btn btn-link"
+                                ngModel
+                                name="state"
+                                type="number">
+                                <option value="" disabled selected hidden>Bug's State</option>
+                                <option [ngValue]="2">Active</option>
+                                <option [ngValue]="1">Fixed</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                              <select
+                                class="form-control selectpicker"
+                                data-style="btn btn-link"
+                                ngModel
+                                name="projectId"
+                                type="number"
+                                #projectIdInput="ngModel">
+                                <option value="" disabled selected hidden>Project</option>
+                                <option *ngFor="let project of loadedProjects" [ngValue]="project.id">{{project.name}}</option>
+                              </select>
+                            </div>
+                            <span class="text-sm" *ngIf="loadedProjects.length == 0 && !isFetching">User has no projects assigned!</span>
+                            <span class="text-sm" *ngIf="loadedProjects.length > 0 && !projectIdInput.valid && projectIdInput.touched">Please select a Project!</span>
+                          </div>
+                          <div class="text-center">
+                            <button
+                              type="submit"
+                              class="btn btn-primary my-4"
+                              [disabled]="!filterBugsListForm.valid && !error">
+                              Filter Bugs
+                            </button>
+                          </div>
+                        </form>
+                        <div class="text-center">
+                          <div class="alert alert-danger" role="alert" *ngIf="error">
+                            {{error}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <div class="alert alert-success" role="alert" *ngIf="successBug">
+      {{successBug}}
+    </div>
+  </div>
+  <!-- Bugs -->
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Bugs</th>
+        <th scope="col">Status</th>
+        <th scope="col">Fixing Time</th>
+      </tr>
+      </thead>
+      <tbody  *ngIf="!isFetching && bugs.length >=1">
+        <tr *ngFor="let bug of bugs">
+          <th scope="row">
+            <div class="media align-items-center">
+              <a  routerLinkActive="active" [routerLink]="['bugs',bug.id]" class="avatar rounded-circle mr-3">
+                <img alt="Access Bug" src="../assets/img/theme/bootstrap.jpg">
+              </a>
+              <div class="media-body">
+                <span class="mb-0 text-sm">{{ bug.name }}</span>
+              </div>
+            </div>
+          </th>
+          <td>
+            <span *ngIf="!isFetching && bug.state == 1 " class="badge badge-dot mr-4">
+              <i class="bg-success"></i> Bug fixed
+            </span>
+            <span *ngIf="!isFetching && bug.state > 1" class="badge badge-dot mr-4">
+              <i class="bg-warning"></i> Bug active
+            </span>
+          </td>
+          <th scope="row">
+            <div class="media-body">
+              <span class="mb-0 text-sm">{{ bug.fixingTime }}</span>
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

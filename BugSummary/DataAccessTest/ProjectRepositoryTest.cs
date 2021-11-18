@@ -11,8 +11,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.CustomExceptions;
+using TestUtilities.Comparers;
+using Utilities.CustomExceptions.DataAccess;
+
 namespace DataAccessTest
 {
 
@@ -98,6 +99,17 @@ namespace DataAccessTest
         [TestMethod]
         public void GetAllProjectsFromRepositoryTest()
         {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                HourlyRate = 34,
+            };
             Bug bug1 = new Bug
             {
                 Name = "Bug1",
@@ -110,50 +122,40 @@ namespace DataAccessTest
                 Name = "Bug2",
                 Description = "Bug en el servidor 22",
                 Version = "1.5",
-                State = BugState.Fixed,
+                State = BugState.Active,
             };
             Bug bug3 = new Bug
             {
                 Name = "Bug3",
                 Description = "Bug en el servidor 232",
                 Version = "3.5",
+                FixingTime = 13,
+                Fixer = newUser,
                 State = BugState.Fixed,
+                ProjectId = 2,
             };
-            using (var context = new BugSummaryContext(this._contextOptions))
-            {
-                context.Add(new Project
-                {
-                    Name = "New Project 2022",
-                    Id = 1,
-                    Bugs = new List<Bug> { bug1, bug2 },
-                    Users = null
-                });
-                context.SaveChanges();
-                context.Add(new Project
-                {
-                    Name = "New Project 2023",
-                    Id = 2,
-                    Bugs = new List<Bug> { bug3 },
-                    Users = null
-                });
-                context.SaveChanges();
-
-            }
-            List<Project> projectsExpected = new List<Project>();
-            projectsExpected.Add(new Project
+            Project project1 = new Project
             {
                 Name = "New Project 2022",
                 Id = 1,
                 Bugs = new List<Bug> { bug1, bug2 },
-                Users = null
-            });
-            projectsExpected.Add(new Project
+            };
+            Project project2 = new Project
             {
                 Name = "New Project 2023",
                 Id = 2,
                 Bugs = new List<Bug> { bug3 },
-                Users = null
-            });
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(project1);
+                context.Add(project2);
+                context.SaveChanges();
+
+            }
+            List<Project> projectsExpected = new List<Project>();
+            projectsExpected.Add(project1);
+            projectsExpected.Add(project2);
 
             List<Project> projectsDataBase = this._projectRepository.GetAll().ToList();
 
@@ -161,6 +163,230 @@ namespace DataAccessTest
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(projectsExpected, projectsDataBase);
             Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetProjectByIdFromRepository()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                HourlyRate = 34,
+                Token = "arstnotart",
+                Projects = new List<Project>()
+            };
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Active,
+            };
+            Bug bug3 = new Bug
+            {
+                Name = "Bug3",
+                Description = "Bug en el servidor 232",
+                Version = "3.5",
+                FixingTime = 13,
+                Fixer = newUser,
+                State = BugState.Fixed,
+            };
+            Assignment assignment1 = new Assignment
+            {
+                Id = 1,
+                Name = "Test domain",
+                Duration = 2,
+                HourlyRate = 25,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Assignment assignment2 = new Assignment
+            {
+                Id = 2,
+                Name = "Create prototypes",
+                Duration = 34,
+                HourlyRate = 32,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = new List<User> { newUser },
+                Assignments = new List<Assignment> { assignment1, assignment2 }
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(project1);
+                context.SaveChanges();
+
+            }
+
+            int projectId = 1;
+            Project projectDataBase = this._projectRepository.Get(projectId, newUser.Token);
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+
+        [TestMethod]
+        public void GetProjectByIdFromRepositoryAdmin()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin,
+                HourlyRate = 34,
+                Token = "arstnotart",
+                Projects = new List<Project>()
+            };
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Active,
+            };
+            Assignment assignment1 = new Assignment
+            {
+                Id = 1,
+                Name = "Test domain",
+                Duration = 2,
+                HourlyRate = 25,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Assignment assignment2 = new Assignment
+            {
+                Id = 2,
+                Name = "Create prototypes",
+                Duration = 34,
+                HourlyRate = 32,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = new List<User>(),
+                Assignments = new List<Assignment> { assignment1, assignment2 }
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.Add(project1);
+                context.SaveChanges();
+
+            }
+
+            int projectId = 1;
+            Project projectDataBase = this._projectRepository.Get(projectId, newUser.Token);
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(project1, projectDataBase);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetProjectByIdFromRepositoryException()
+        {
+            User newUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Tester,
+                HourlyRate = 34,
+                Token = "arstnotart",
+                Projects = new List<Project>()
+            };
+            Bug bug1 = new Bug
+            {
+                Name = "Bug1",
+                Description = "Bug en el servidor",
+                Version = "1.4",
+                State = BugState.Active,
+            };
+            Bug bug2 = new Bug
+            {
+                Name = "Bug2",
+                Description = "Bug en el servidor 22",
+                Version = "1.5",
+                State = BugState.Active,
+            };
+            Assignment assignment1 = new Assignment
+            {
+                Id = 1,
+                Name = "Test domain",
+                Duration = 2,
+                HourlyRate = 25,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Assignment assignment2 = new Assignment
+            {
+                Id = 2,
+                Name = "Create prototypes",
+                Duration = 34,
+                HourlyRate = 32,
+                Project = new Project(),
+                ProjectId = 1
+            };
+            Project project1 = new Project
+            {
+                Name = "New Project 2022",
+                Id = 1,
+                Bugs = new List<Bug> { bug1, bug2 },
+                Users = new List<User>(),
+                Assignments = new List<Assignment> { assignment1, assignment2 }
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newUser);
+                context.Add(project1);
+                context.SaveChanges();
+
+            }
+
+            int projectId = 1;
+
+            TestExceptionUtils.Throws<InexistentProjectException>(
+               () => this._projectRepository.Get(projectId, newUser.Token), "The entered project does not exist."
+            );
         }
 
         [TestMethod]
@@ -173,7 +399,7 @@ namespace DataAccessTest
             Project updatedProject = new Project
             {
                 Id = 1,
-                Name = "Proyect 2344"
+                Name = "Proyect 23423454"
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
@@ -198,11 +424,34 @@ namespace DataAccessTest
         {
             Project updatedProject = new Project
             {
-                Name = "Proyect 2344"
+                Name = "Proyect 234234"
             };
 
             TestExceptionUtils.Throws<InexistentProjectException>(
                () => _projectRepository.Update(updatedProject), "The entered project does not exist."
+            );
+        }
+
+        [TestMethod]
+        public void UpdateAlreadyUsedProjectNameTest()
+        {
+            Project newProject = new Project
+            {
+                Name = "Proyect 2344"
+            };
+            Project updatedProject = new Project
+            {
+                Id = 1,
+                Name = "Proyect 2344"
+            };
+            using (var context = new BugSummaryContext(this._contextOptions))
+            {
+                context.Add(newProject);
+                context.SaveChanges();
+            }
+
+            TestExceptionUtils.Throws<ProjectNameIsNotUniqueException>(
+               () => _projectRepository.Update(updatedProject), "The project name chosen was already taken, please enter a different name."
             );
         }
 

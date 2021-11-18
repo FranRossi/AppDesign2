@@ -9,13 +9,14 @@ namespace Domain
         public const int MaxBugDescriptionLength = 150;
         public const int MaxBugIdLength = 4;
         public const int MaxBugVersionLength = 10;
+
         private string _description;
         private int _id;
-
         private string _name;
         private BugState _state;
         private string _version;
         private User _fixer;
+        private int _fixingTime;
 
         public int Id
         {
@@ -57,7 +58,6 @@ namespace Domain
             }
         }
 
-
         public BugState State
         {
             get => _state;
@@ -80,6 +80,20 @@ namespace Domain
             }
         }
         public int? FixerId { get; set; }
+        public int FixingTime
+        {
+            get => _fixingTime;
+            set
+            {
+                if (State == BugState.Active)
+                    _fixingTime = 0;
+                else
+                {
+                    ValidateFixingTime(value);
+                    _fixingTime = value;
+                }
+            }
+        }
 
 
         private void ValidateName(string nameToValidate)
@@ -118,5 +132,24 @@ namespace Domain
                 throw new InvalidBugSolverRoleException();
         }
 
+        private void ValidateFixingTime(int value)
+        {
+            if (!(value >= 0))
+                throw new InvalidBugFixingTimeException();
+        }
+
+        public int GetFixerHourlyRate()
+        {
+            if (Fixer != null)
+                return Fixer.HourlyRate;
+            return 0;
+        }
+
+        public string GetFixerName()
+        {
+            if (Fixer != null)
+                return Fixer.UserName;
+            return "";
+        }
     }
 }

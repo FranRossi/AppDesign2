@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BusinessLogicInterface;
-using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.Criterias;
-using WebApi.Controllers;
+using Utilities.CustomExceptions.WebApi;
 using WebApi.Models;
 
 namespace WebApiTest
@@ -34,7 +29,6 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-
             };
             BugModel bugToCompare = new BugModel
             {
@@ -179,6 +173,11 @@ namespace WebApiTest
         [TestMethod]
         public void BugToModel()
         {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug expectedBug = new Bug
             {
                 Id = 1,
@@ -187,7 +186,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-
+                Project = newProject,
+                Fixer = new User { UserName = "mario", Role = RoleType.Developer }
             };
             BugModel bugToCompare = new BugModel
             {
@@ -197,6 +197,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                ProjectName = "Nuevo",
+                FixerName = "mario"
             };
             BugModel model = BugModel.ToModel(expectedBug);
             CompareLogic compareLogic = new CompareLogic();
@@ -207,6 +209,11 @@ namespace WebApiTest
         [TestMethod]
         public void BugToModelList()
         {
+            Project newProject = new Project
+            {
+                Id = 1,
+                Name = "Nuevo"
+            };
             Bug expectedBug = new Bug
             {
                 Id = 1,
@@ -215,7 +222,7 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
-
+                Project = newProject
             };
             List<Bug> bugsToModel = new List<Bug>();
             bugsToModel.Add(expectedBug);
@@ -227,6 +234,8 @@ namespace WebApiTest
                 Version = "1.4",
                 State = BugState.Active,
                 ProjectId = 1,
+                ProjectName = "Nuevo",
+                FixerName = ""
             };
             IEnumerable<BugModel> models = new List<BugModel>();
             models = models.Append(bugModelToCompare);

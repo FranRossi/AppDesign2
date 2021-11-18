@@ -1,19 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using BusinessLogicInterface;
-using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.Criterias;
-using WebApi.Controllers;
+using Utilities.CustomExceptions.WebApi;
 using WebApi.Models;
 
 namespace WebApiTest
@@ -28,7 +20,6 @@ namespace WebApiTest
         {
             User expectedUser = new User
             {
-                Id = 0,
                 FirstName = "Pepe",
                 LastName = "Perez",
                 Password = "pepe1234",
@@ -43,6 +34,7 @@ namespace WebApiTest
                 UserName = "pp",
                 Email = "pepe@gmail.com",
                 Role = RoleType.Tester,
+                FixedBugCount = 0
             };
             UserModel model = UserModel.ToModel(expectedUser);
             CompareLogic compareLogic = new CompareLogic();
@@ -78,7 +70,7 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void InvalidModelToEntityNoFirstName()
+        public void InvalidModelToEntityNoId()
         {
             UserModel userToCompare = new UserModel
             {
@@ -89,7 +81,25 @@ namespace WebApiTest
                 Role = RoleType.Admin
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+            );
+        }
+
+        [TestMethod]
+        public void InvalidModelToEntityNoFirstName()
+        {
+            UserModel userToCompare = new UserModel
+            {
+                Id = 1,
+                LastName = "Rodriquez",
+                UserName = "pepito",
+                Password = "pass1.4",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Admin
+            };
+            TestExceptionUtils.Throws<UserModelMissingFieldException>(
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
 
@@ -98,6 +108,7 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
+                Id = 1,
                 FirstName = "Pepe",
                 UserName = "pepito",
                 Password = "pass1.4",
@@ -105,7 +116,8 @@ namespace WebApiTest
                 Role = RoleType.Admin
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
         [TestMethod]
@@ -113,6 +125,7 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
+                Id = 1,
                 FirstName = "Pepe",
                 LastName = "Rodriquez",
                 Password = "pass1.4",
@@ -120,7 +133,8 @@ namespace WebApiTest
                 Role = RoleType.Admin
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
         [TestMethod]
@@ -128,6 +142,7 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
+                Id = 1,
                 FirstName = "Pepe",
                 LastName = "Rodriquez",
                 UserName = "pepito",
@@ -135,7 +150,8 @@ namespace WebApiTest
                 Role = RoleType.Admin
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
         [TestMethod]
@@ -143,6 +159,7 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
+                Id = 1,
                 FirstName = "Pepe",
                 LastName = "Rodriquez",
                 UserName = "pepito",
@@ -150,7 +167,8 @@ namespace WebApiTest
                 Role = RoleType.Admin
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
         [TestMethod]
@@ -158,6 +176,7 @@ namespace WebApiTest
         {
             UserModel userToCompare = new UserModel
             {
+                Id = 1,
                 FirstName = "Pepe",
                 LastName = "Rodriquez",
                 UserName = "pepito",
@@ -165,7 +184,8 @@ namespace WebApiTest
                 Email = "pepe@gmail.com",
             };
             TestExceptionUtils.Throws<UserModelMissingFieldException>(
-                () => userToCompare.ToEntity(), "Missing Fields: Required -> FirstName, LastName, UserName, Password, Email, Role."
+                () => userToCompare.ToEntity(), "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role."
+
             );
         }
 

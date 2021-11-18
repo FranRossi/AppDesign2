@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Utilities.CustomExceptions
+﻿namespace Utilities.CustomExceptions.DataAccess
 {
     public class ProjectNameIsNotUniqueException : DataAccessException
     {
         public ProjectNameIsNotUniqueException()
         {
-            this.messageToDisplay = "The project name chosen was already taken, please enter a different name.";
+            this.MessageToDisplay = "The project name chosen was already taken, please enter a different name.";
         }
     }
 }

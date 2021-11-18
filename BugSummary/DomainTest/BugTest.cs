@@ -130,6 +130,37 @@ namespace DomainTest
             Assert.AreEqual(23, newBug.FixerId);
         }
 
+        [TestMethod]
+        public void CreateFixingTimeTest()
+        {
+            Bug newBug = new Bug
+            {
+                FixingTime = 23
+            };
+            Assert.AreEqual(23, newBug.FixingTime);
+        }
+
+        [TestMethod]
+        public void CreateFixingTimeOnActiveBugTest()
+        {
+            Bug newBug = new Bug
+            {
+                State = BugState.Active,
+                FixingTime = 43
+            };
+            Assert.AreEqual(0, newBug.FixingTime);
+        }
+
+
+        [TestMethod]
+        public void CreateInvalidFixingTimeTest()
+        {
+            TestExceptionUtils.Throws<InvalidBugFixingTimeException>(
+                () => new Bug { FixingTime = -2 }, "Bug fixing time should not be negative."
+            );
+
+        }
+
         [ExpectedException(typeof(BugNameLengthIncorrectException))]
         [TestMethod]
         public void VerifyBugNameLengthIsInCorrect()
@@ -191,6 +222,45 @@ namespace DomainTest
                 State = (BugState)(-1)
             };
 
+        }
+
+        [TestMethod]
+        public void GetInvalidFixeHourlyRate()
+        {
+            Bug newBug = new Bug();
+
+            Assert.AreEqual(0, newBug.GetFixerHourlyRate());
+        }
+
+        [TestMethod]
+        public void GetFixeHourlyRate()
+        {
+            Bug newBug = new Bug
+            {
+                Fixer = new User
+                {
+                    Role = RoleType.Developer,
+                    HourlyRate = 23
+                }
+            };
+
+            Assert.AreEqual(23, newBug.GetFixerHourlyRate());
+        }
+
+        [TestMethod]
+        public void GetFixedName()
+        {
+            Bug newBug = new Bug { Fixer = new User { UserName = "pepe", Role = RoleType.Developer } };
+
+            Assert.AreEqual("pepe", newBug.GetFixerName());
+        }
+
+        [TestMethod]
+        public void GetInvalidFixedName()
+        {
+            Bug newBug = new Bug();
+
+            Assert.AreEqual("", newBug.GetFixerName());
         }
     }
 }

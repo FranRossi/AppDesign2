@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 
@@ -24,6 +25,7 @@ namespace Domain
 
         public List<Bug> Bugs { get; set; }
         public List<User> Users { get; set; }
+        public List<Assignment> Assignments { get; set; }
 
         private void ValidateName(string nameToValidate)
         {
@@ -49,6 +51,30 @@ namespace Domain
         {
             if (Users != null)
                 Users.Remove(newUser);
+        }
+
+        public int CalculateDuration()
+        {
+            int duration = 0;
+            if (Bugs != null)
+                foreach (Bug bug in Bugs)
+                    duration += bug.FixingTime;
+            if (Assignments != null)
+                foreach (Assignment assignment in Assignments)
+                    duration += (int)assignment.Duration;
+            return duration;
+        }
+
+        public int CalculateCost()
+        {
+            int cost = 0;
+            if (Bugs != null)
+                foreach (Bug bug in Bugs)
+                    cost += bug.FixingTime * bug.GetFixerHourlyRate();
+            if (Assignments != null)
+                foreach (Assignment assignment in Assignments)
+                    cost += (int)assignment.Duration * assignment.HourlyRate;
+            return cost;
         }
     }
 }

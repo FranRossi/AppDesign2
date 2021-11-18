@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
-using CustomExceptions;
-using DataAccess;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 using Utilities.Criterias;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace BusinessLogicTest
 {
@@ -75,7 +74,6 @@ namespace BusinessLogicTest
         public void AddBug()
         {
             string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
-            Mock<BugSummaryContext> mockContext = new Mock<BugSummaryContext>(MockBehavior.Strict);
             User testerUser = new User
             {
                 Id = 1,
@@ -172,6 +170,63 @@ namespace BusinessLogicTest
                 State = BugState.Active,
                 ProjectId = 1,
                 Id = 1
+            };
+            Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
+            mockUserRepository.Setup(mr => mr.Save());
+            Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
+            mockBugRepository.Setup(mr => mr.GetAllFiltered(It.IsAny<User>(), It.IsAny<Func<Bug, bool>>())).Returns(bugsExpected);
+
+            BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
+            IEnumerable<Bug> bugsResult = bugLogic.GetAllFiltered(token, criteria);
+
+
+            mockBugRepository.VerifyAll();
+            CollectionAssert.AreEqual((ICollection)bugsExpected, (ICollection)bugsResult, new BugComparer());
+        }
+        
+              [TestMethod]
+        public void GetBugsFilteredForUserOnlyBugState()
+        {
+            string token = "1pojjYCG2Uj8WMXBteJYRqqcJZIS3dNL";
+            User testerUser = new User
+            {
+                Id = 1,
+                FirstName = "Pepe",
+                LastName = "Perez",
+                Password = "pepe1234",
+                UserName = "pp",
+                Email = "pepe@gmail.com",
+                Role = RoleType.Developer,
+                Projects = new List<Project>()
+            };
+            Project projectTester = new Project()
+            {
+                Id = 1,
+                Name = "Semester 2021",
+                Users = new List<User>
+                {
+                    testerUser
+                }
+            };
+            testerUser.Projects.Add(projectTester);
+
+            IEnumerable<Bug> bugsExpected = new List<Bug>()
+            {
+                new Bug()
+                {
+                    Id = 1,
+                    Name = "Bug1",
+                    Description = "ImportanteBug",
+                    Project = projectTester,
+                    State = BugState.Active,
+                    Version = "2",
+                    ProjectId = 1,
+                }
+            };
+            BugSearchCriteria criteria = new BugSearchCriteria()
+            {
+                State = BugState.Active,
             };
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             mockUserRepository.Setup(mr => mr.Get(It.IsAny<string>())).Returns(testerUser);
@@ -295,7 +350,7 @@ namespace BusinessLogicTest
                 () => bugLogic.Delete(token, bugId), "The entered bug does not exist."
             );
         }
-        
+
         [TestMethod]
         public void FixValidBug()
         {
@@ -304,12 +359,15 @@ namespace BusinessLogicTest
             User user = new User { UserName = "Pepe" };
             int receivedId = -1;
             User receivedUser = null;
+            int time = 21;
+            int receivedFixingTime = -1;
             Mock<IBugRepository> mockBugRepository = new Mock<IBugRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Fix(It.IsAny<User>(), It.IsAny<int>()))
-                .Callback((User user, int bug) =>
+            mockBugRepository.Setup(mr => mr.Fix(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Callback((User user, int bug, int fixingTime) =>
                 {
                     receivedUser = user;
                     receivedId = bug;
+                    receivedFixingTime = fixingTime;
                 }); ;
             mockBugRepository.Setup(mr => mr.Save());
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
@@ -317,11 +375,12 @@ namespace BusinessLogicTest
             mockUserRepository.Setup(mr => mr.Save());
 
             BugLogic bugLogic = new BugLogic(mockBugRepository.Object, mockUserRepository.Object);
-            bugLogic.Fix(token, bugId);
+            bugLogic.Fix(token, bugId, time);
 
             mockBugRepository.VerifyAll();
             Assert.AreEqual(bugId, receivedId);
             Assert.AreEqual(user, receivedUser);
+            Assert.AreEqual(time, receivedFixingTime);
         }
     }
 }

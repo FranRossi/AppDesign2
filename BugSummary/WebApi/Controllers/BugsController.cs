@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BusinessLogicInterface;
-using Domain;
+﻿using BusinessLogicInterface;
 using Domain.DomainUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Utilities.Criterias;
@@ -32,7 +29,7 @@ namespace WebApi.Controllers
 
         [HttpPut("{bugId}")]
         [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Admin })]
-        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, int bugId )
+        public IActionResult Put([FromHeader] string token, [FromBody] BugModel bug, int bugId)
         {
             _bugs.Update(token, bug.ToEntityWithID(bugId));
             return Ok();
@@ -56,9 +53,9 @@ namespace WebApi.Controllers
 
         [HttpPatch("{bugId}")]
         [AuthorizationWithParameterFilter(new[] { RoleType.Developer })]
-        public IActionResult Patch([FromHeader] string token, int bugId)
+        public IActionResult Patch([FromHeader] string token, int bugId, [FromBody] int fixingTime)
         {
-            _bugs.Fix(token, bugId);
+            _bugs.Fix(token, bugId, fixingTime);
             return Ok();
         }
 

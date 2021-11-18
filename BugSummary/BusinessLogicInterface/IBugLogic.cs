@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using Domain;
 using Utilities.Criterias;
@@ -12,6 +12,6 @@ namespace BusinessLogicInterface
         IEnumerable<Bug> GetAllFiltered(string token, BugSearchCriteria criteria);
         void Update(string token, Bug updatedBug);
         void Delete(string token, int bugId);
-        void Fix(string token, int bugId);
+        void Fix(string token, int bugId, int fixingTime);
     }
 }

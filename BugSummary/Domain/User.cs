@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
@@ -13,6 +13,7 @@ namespace Domain
         private string _pass;
         private RoleType _role;
         private string _userName;
+        private int _hourlyRate;
 
         public int Id { get; set; }
 
@@ -76,6 +77,21 @@ namespace Domain
             }
         }
 
+        public int HourlyRate
+        {
+            get => _hourlyRate;
+            set
+            {
+                if (_role == RoleType.Admin)
+                    _hourlyRate = 0;
+                else
+                {
+                    ValidateHourlyRate(value);
+                    _hourlyRate = value;
+                }
+            }
+        }
+
         public string Token { get; set; }
         public List<Project> Projects { get; set; }
         public List<Bug> FixedBugs { get; set; }
@@ -86,18 +102,22 @@ namespace Domain
                 throw new UserPropertyIsNullException();
         }
 
-
         private void ValidateEmail(string email)
         {
             if (!Validator.ValidateEmailFormat(email))
                 throw new EmailIsIncorrectException();
         }
 
-
         private void ValidateRole(RoleType value)
         {
             if (!Validator.CorrectRole(value))
                 throw new UserRoleIncorrectException();
+        }
+
+        private void ValidateHourlyRate(int value)
+        {
+            if (!Validator.ValidateGreaterThanZero(value))
+                throw new InvalidUserHourlyRateException();
         }
 
         public int GetFixedBugCount()
@@ -106,5 +126,6 @@ namespace Domain
                 return 0;
             return FixedBugs.Count;
         }
+
     }
 }

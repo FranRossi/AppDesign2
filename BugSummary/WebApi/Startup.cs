@@ -27,6 +27,19 @@ namespace WebApi
             var factory = new ServiceFactory(services);
             factory.AddCustomServices();
             factory.AddDbContextService(Configuration.GetConnectionString("BugDB"));
+            factory.AddDbExternalReaderService(Configuration.GetConnectionString("ExternalReader"));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsApi",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,14 +51,15 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
-
-            app.UseHttpsRedirection();
-
+            //app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("CorsApi");
+            
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
         }
     }
 }

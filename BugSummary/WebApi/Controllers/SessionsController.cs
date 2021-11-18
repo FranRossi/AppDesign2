@@ -1,10 +1,13 @@
 ﻿using BusinessLogicInterface;
+using Domain.DomainUtilities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("sessions")]
     public class SessionsController : ControllerBase
@@ -20,8 +23,10 @@ namespace WebApi.Controllers
         [ExceptionFilter]
         public IActionResult Post([FromBody] LoginModel model)
         {
-            var token = _sessionLogic.Authenticate(model.Username, model.Password);
-            return Ok(token);
+            string token = _sessionLogic.Authenticate(model.Username, model.Password);
+            RoleType role = _sessionLogic.GetRoleByToken(token);
+            AuthorizationModel authModel = AuthorizationModel.ToModel(token, role);
+            return Ok(authModel);
         }
     }
 }

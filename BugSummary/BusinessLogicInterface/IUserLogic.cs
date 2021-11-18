@@ -9,8 +9,12 @@ namespace BusinessLogicInterface
 {
     public interface IUserLogic
     {
-        public void Add(User newUser);
-        public User Get(string token);
-        public int GetFixedBugCount(int id);
+        void Add(User newUser);
+
+        User Get(string token);
+
+        IEnumerable<Project> GetProjects(string token);
+
+        IEnumerable<User> GetAll();
     }
 }

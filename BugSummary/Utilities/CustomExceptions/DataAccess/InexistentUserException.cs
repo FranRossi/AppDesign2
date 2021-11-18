@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Utilities.CustomExceptions
+﻿namespace Utilities.CustomExceptions.DataAccess
 {
     public class InexistentUserException : DataAccessException
     {
         public InexistentUserException()
         {
-            this.messageToDisplay = "The entered user does not exist.";
+            this.MessageToDisplay = "The entered user does not exist.";
         }
     }
 }

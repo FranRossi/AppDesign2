@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities.CustomExceptions;
 using WebApi.Filters;
-using CustomExceptions;
 using System.Xml;
 using System.Diagnostics.CodeAnalysis;
+using ExternalReader;
+using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
+using Utilities.CustomExceptions.FileHandler;
+using Utilities.CustomExceptions.WebApi;
 
 namespace WebApiTest.FiltersTest
 {
@@ -117,6 +120,15 @@ namespace WebApiTest.FiltersTest
             ModelMissingFieldsException exception = new ModelMissingFieldsException();
             TestException(exception, 400);
         }
+
+        [TestMethod]
+        public void ExternalReaderExceptionTest()
+        {
+            ExternalReaderException exception = new ExternalReaderException();
+            TestException(exception, 403);
+        }
+
+
 
         private void TestException(Exception exception, int statusCode)
         {

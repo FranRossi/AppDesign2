@@ -1,5 +1,4 @@
-using Domain;
-using Domain.DomainUtilities;
+using ExternalReader;
 using FileHandler;
 using FileHandlerInterface;
 using KellermanSoftware.CompareNetObjects;
@@ -29,9 +28,9 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<ProjectModel> result = companyReader.GetProjectsFromFile(xmlPath);
 
-            IEnumerable<Project> expectedResult = new List<Project>() { GetFirstProyect() };
+            IEnumerable<ProjectModel> expectedResult = new List<ProjectModel>() { GetFirstProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -46,9 +45,9 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<ProjectModel> result = companyReader.GetProjectsFromFile(xmlPath);
 
-            IEnumerable<Project> expectedResult = new List<Project>() { GetSecondProyect() };
+            IEnumerable<ProjectModel> expectedResult = new List<ProjectModel>() { GetSecondProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -64,9 +63,9 @@ namespace FileHandlerTest
             string xmlPath = path + "TestUtilities\\BugFiles\\" + fileName;
 
             IFileReaderStrategy companyReader = new Company1Reader();
-            IEnumerable<Project> result = companyReader.GetProjectFromFile(xmlPath);
+            IEnumerable<ProjectModel> result = companyReader.GetProjectsFromFile(xmlPath);
 
-            IEnumerable<Project> expectedResult = new List<Project>() { GetThirdProyect() };
+            IEnumerable<ProjectModel> expectedResult = new List<ProjectModel>() { GetThirdProyect() };
             CompareLogic compareLogic = new CompareLogic();
             ComparisonResult deepComparisonResult = compareLogic.Compare(expectedResult, result);
             Assert.IsTrue(deepComparisonResult.AreEqual);
@@ -82,14 +81,14 @@ namespace FileHandlerTest
 
             IFileReaderStrategy companyReader = new Company1Reader();
             TestExceptionUtils.Throws<XmlException>(
-                () => companyReader.GetProjectFromFile(xmlPath),
+                () => companyReader.GetProjectsFromFile(xmlPath),
                 "Unexpected end of file has occurred. The following elements are not closed: Bug, Bugs, Empresa1. Line 16, position 32."
             );
         }
 
-        private Bug GetFirstBug()
+        private BugModel GetFirstBug()
         {
-            return new Bug
+            return new BugModel
             {
                 Name = "Error en el envío de correo",
                 Description = "El error se produce cuando el usuario no tiene un correo asignado",
@@ -98,9 +97,9 @@ namespace FileHandlerTest
             };
         }
 
-        private Bug GetSecondBug()
+        private BugModel GetSecondBug()
         {
-            return new Bug
+            return new BugModel
             {
                 Name = "Error en el envío de correo 2",
                 Description = "El error se produce cuando el usuario no tiene un correo asignado 2",
@@ -109,30 +108,30 @@ namespace FileHandlerTest
             };
         }
 
-        private Project GetFirstProyect()
+        private ProjectModel GetFirstProyect()
         {
-            return new Project
+            return new ProjectModel
             {
                 Name = "Nombre del Proyecto",
-                Bugs = new List<Bug> { GetFirstBug(), GetSecondBug() }
+                Bugs = new List<BugModel> { GetFirstBug(), GetSecondBug() }
             };
         }
 
-        private Project GetSecondProyect()
+        private ProjectModel GetSecondProyect()
         {
-            return new Project
+            return new ProjectModel
             {
                 Name = "Nombre del Proyecto",
-                Bugs = new List<Bug> { GetFirstBug() }
+                Bugs = new List<BugModel> { GetFirstBug() }
             };
         }
 
-        private Project GetThirdProyect()
+        private ProjectModel GetThirdProyect()
         {
-            return new Project
+            return new ProjectModel
             {
                 Name = "Nombre del Proyecto",
-                Bugs = new List<Bug> { }
+                Bugs = new List<BugModel> { }
             };
         }
     }

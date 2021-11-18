@@ -4,10 +4,8 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Utilities.Comparers;
 using WebApi.Controllers;
 using WebApi.Models;
 
@@ -21,7 +19,7 @@ namespace WebApiTest
         [ExcludeFromCodeCoverage]
         public void AddValidProject()
         {
-            ProjectModel projectToAdd = new ProjectModel
+            ProjectAddModel projectToAdd = new ProjectAddModel
             {
                 Name = "New Project 2022"
             };
@@ -32,7 +30,7 @@ namespace WebApiTest
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             Project receivedProject = null;
             mock.Setup(m => m.Add(It.IsAny<Project>())).Callback((Project project) => receivedProject = project);
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Post(projectToAdd);
 
@@ -46,7 +44,7 @@ namespace WebApiTest
         [TestMethod]
         public void UpdateValidProject()
         {
-            ProjectModel projectToUpdate = new ProjectModel
+            ProjectAddModel projectToUpdate = new ProjectAddModel
             {
                 Name = "New Project 2023"
             };
@@ -59,7 +57,7 @@ namespace WebApiTest
                 receivedId = id;
                 receivedProject = sentProject;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Put(id, projectToUpdate);
 
@@ -81,7 +79,7 @@ namespace WebApiTest
             {
                 receivedId = id;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Delete(id);
 
@@ -103,7 +101,7 @@ namespace WebApiTest
                 receivedUserId = sentUserId;
                 receivedProjectId = sentProjectId;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Post(userId, projectId);
 
@@ -126,7 +124,7 @@ namespace WebApiTest
                 receivedUserId = sentUserId;
                 receivedProjectId = sentProjectId;
             });
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Delete(userId, projectId);
 
@@ -137,30 +135,6 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void AddBugsFromFile()
-        {
-            string path = "some path";
-            string receivedPath = "";
-            string companyName = "some company name";
-            string receivedCompanyName = "";
-            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-
-            mock.Setup(m => m.AddBugsFromFile(It.IsAny<string>(), It.IsAny<string>())).Callback((string sentPath, string sentCompanyName) =>
-            {
-                receivedCompanyName = sentCompanyName;
-                receivedPath = sentPath;
-            });
-            ProjectsController controller = new ProjectsController(mock.Object);
-
-            IActionResult result = controller.Post(path, companyName);
-
-            mock.VerifyAll();
-            Assert.IsInstanceOfType(result, typeof(OkResult));
-            Assert.AreEqual(companyName, receivedCompanyName);
-            Assert.AreEqual(path, receivedPath);
-        }
-
-        [TestMethod]
         public void GetBugsForUser()
         {
             IEnumerable<Project> projects = new List<Project>()
@@ -168,27 +142,59 @@ namespace WebApiTest
                 new Project
                     {
                         Name = "Project A",
-                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug(), }
+                        Bugs = new List<Bug> { new Bug(), new Bug(), new Bug()},
+                        Users = new List<User>{}
                     },
                 new Project
                     {
                         Name = "Project B",
-                        Bugs = new List<Bug> {  }
+                        Bugs = new List<Bug> {  },
+                        Users = new List<User>{}
                     },
                 new Project
                     {
                         Name = "Project C",
-                        Bugs = new List<Bug> { new Bug(), new Bug() }
+                        Bugs = new List<Bug> { new Bug(), new Bug() },
+                        Users = new List<User>{}
                     }
             };
-            IEnumerable<ProjectBugCountModel> expectedModel = ProjectBugCountModel.ToModel(projects);
+            IEnumerable<ProjectModel> expectedModel = ProjectModel.ToModelList(projects);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
             mock.Setup(r => r.GetAll()).Returns(projects);
-            ProjectsController controller = new ProjectsController(mock.Object);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
 
             IActionResult result = controller.Get();
             OkObjectResult okResult = result as OkObjectResult;
-            IEnumerable<ProjectBugCountModel> projectResult = okResult.Value as IEnumerable<ProjectBugCountModel>;
+            IEnumerable<ProjectModel> projectResult = okResult.Value as IEnumerable<ProjectModel>;
+
+            mock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedModel, projectResult);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
+        }
+
+        [TestMethod]
+        public void GetProjectById()
+        {
+            int projectId = 1;
+            Project projectExpected = new Project
+            {
+                Id = projectId,
+                Name = "Project A",
+                Bugs = new List<Bug> { new Bug { Project = new Project { Name = "Nuevo" } } },
+                Users = new List<User> { new User(), new User(), },
+                Assignments = new List<Assignment> { new Assignment(), new Assignment() }
+            };
+
+            ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);
+            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
+            mock.Setup(r => r.Get(It.IsAny<int>(), It.IsAny<string>())).Returns(projectExpected);
+            ProjectsController controller = new ProjectsController(mock.Object, null);
+
+            IActionResult result = controller.Get("stthasroiharseiot23", projectId);
+            OkObjectResult okResult = result as OkObjectResult;
+            ProjectModel projectResult = okResult.Value as ProjectModel;
 
             mock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);

@@ -19,5 +19,9 @@ namespace DataAccessInterface
         User Get(int id);
 
         void Save();
+
+        IEnumerable<Project> GetProjects(string token);
+
+        IEnumerable<User> GetAll();
     }
 }
