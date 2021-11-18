@@ -3,7 +3,7 @@ using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
-using ExternalReaderImporter;
+using BugReaderImporter;
 using ExternalReaderImporterInterface;
 using FileHandlerFactory;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,7 @@ namespace Factory.Factories
 
         public void AddDbExternalReaderService(string pathToFolder)
         {
-            services.AddSingleton<IExternalReaderImporter>(new ExternalReaderImporterLogic(pathToFolder));
+            services.AddSingleton<IBugReaderImporter>(new BugReaderImporterLogic(pathToFolder));
         }
     }
 }

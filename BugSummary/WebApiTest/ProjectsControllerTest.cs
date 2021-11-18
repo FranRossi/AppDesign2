@@ -135,30 +135,6 @@ namespace WebApiTest
         }
 
         [TestMethod]
-        public void AddBugsFromFile()
-        {
-            string path = "some path";
-            string receivedPath = "";
-            string companyName = "some company name";
-            string receivedCompanyName = "";
-            Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-
-            mock.Setup(m => m.AddBugsFromFile(It.IsAny<string>(), It.IsAny<string>())).Callback((string sentPath, string sentCompanyName) =>
-            {
-                receivedCompanyName = sentCompanyName;
-                receivedPath = sentPath;
-            });
-            ProjectsController controller = new ProjectsController(mock.Object, null);
-
-            IActionResult result = controller.Post(path, companyName);
-
-            mock.VerifyAll();
-            Assert.IsInstanceOfType(result, typeof(OkResult));
-            Assert.AreEqual(companyName, receivedCompanyName);
-            Assert.AreEqual(path, receivedPath);
-        }
-
-        [TestMethod]
         public void GetBugsForUser()
         {
             IEnumerable<Project> projects = new List<Project>()
@@ -206,7 +182,7 @@ namespace WebApiTest
             {
                 Id = projectId,
                 Name = "Project A",
-                Bugs = new List<Bug> { new Bug{Project = new Project{Name = "Nuevo"}} },
+                Bugs = new List<Bug> { new Bug { Project = new Project { Name = "Nuevo" } } },
                 Users = new List<User> { new User(), new User(), },
                 Assignments = new List<Assignment> { new Assignment(), new Assignment() }
             };

@@ -43,9 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalReader", "ExternalR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalReaderTest", "ExternalReaderTest\ExternalReaderTest.csproj", "{50C97A65-BA51-4C89-BC04-E603B24C35B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalReaderImporterInterface", "ExternalReaderImporterInterface\ExternalReaderImporterInterface.csproj", "{B67137DA-FA9F-4335-8486-57B96E7627D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugReaderImporterInterface", "ExternalReaderImporterInterface\BugReaderImporterInterface.csproj", "{B67137DA-FA9F-4335-8486-57B96E7627D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalReaderImporter", "ExternalReaderImporter\ExternalReaderImporter.csproj", "{658348EA-D573-4E0F-820A-1A86A454C1EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugReaderImporter", "ExternalReaderImporter\BugReaderImporter.csproj", "{658348EA-D573-4E0F-820A-1A86A454C1EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

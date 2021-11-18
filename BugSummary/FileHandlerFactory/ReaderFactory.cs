@@ -10,8 +10,8 @@ namespace FileHandlerFactory
     {
         private static Dictionary<string, IFileReaderStrategy> _commandMap = new Dictionary<string, IFileReaderStrategy>()
         {
-            { "Empresa1", new Company1Reader() },
-            { "Empresa2", new Company2Reader() }
+            { "Company1", new Company1Reader() },
+            { "Company2", new Company2Reader() }
         };
         public virtual IFileReaderStrategy GetStrategy(string companyName)
         {
@@ -23,6 +23,11 @@ namespace FileHandlerFactory
             {
                 throw new CompanyIsNotRegisteredException();
             };
+        }
+
+        public IEnumerable<string> GetCompanyReaderNames()
+        {
+            return new List<string>(_commandMap.Keys);
         }
     }
 }

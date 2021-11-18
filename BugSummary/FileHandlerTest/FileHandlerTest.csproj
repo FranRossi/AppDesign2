@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\ExternalReader\ExternalReader.csproj" />
     <ProjectReference Include="..\FileHandler\FileHandler.csproj" />
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />

@@ -14,14 +14,12 @@ namespace BusinessLogic
     public class ProjectLogic : IProjectLogic
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IExternalReaderImporter _externalReaderImporter;
-        public ReaderFactory readerFactory { private get; set; }
+        private readonly IBugReaderImporter _externalReaderImporter;
 
-        public ProjectLogic(IProjectRepository projectRepository, IExternalReaderImporter externalReaderImporter)
+        public ProjectLogic(IProjectRepository projectRepository, IBugReaderImporter externalReaderImporter)
         {
             _projectRepository = projectRepository;
             _externalReaderImporter = externalReaderImporter;
-            readerFactory = new ReaderFactory();
         }
 
         public void Add(Project newProject)
@@ -52,14 +50,6 @@ namespace BusinessLogic
         public void DissociateUserFromProject(int userId, int projectId)
         {
             _projectRepository.DissociateUserFromProject(userId, projectId);
-            _projectRepository.Save();
-        }
-
-        public void AddBugsFromFile(string path, string companyName)
-        {
-            IFileReaderStrategy readerStrategy = readerFactory.GetStrategy(companyName);
-            IEnumerable<Project> parsedProject = readerStrategy.GetProjectsFromFile(path);
-            _projectRepository.AddBugsFromFile(parsedProject);
             _projectRepository.Save();
         }
 
