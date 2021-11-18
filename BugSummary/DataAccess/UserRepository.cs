@@ -77,9 +77,9 @@ namespace DataAccess
             IEnumerable<Project> projects = new List<Project>();
             if (token != null)
             {
-                User userFromDb = Context.Users.Include("Projects").FirstOrDefault(u => u.Token == token);
+                User userFromDb = Context.Users.Include("Projects.Bugs").FirstOrDefault(u => u.Token == token);
                 if (userFromDb.Role == RoleType.Admin)
-                    return Context.Projects.ToList();
+                    return Context.Projects.Include("Bugs").ToList();
                 if (userFromDb != null)
                     projects = userFromDb.Projects;
             }

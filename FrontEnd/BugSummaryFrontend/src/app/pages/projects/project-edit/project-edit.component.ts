@@ -183,4 +183,9 @@ export class ProjectEditComponent implements OnInit {
   onStateSelectionChanged(state){
     this.bugState = parseInt(state);
   }
+
+  parseRole(role){
+    const roleStringResult = role === 3 ? 'Admin' : (role === 2 ? 'Developer' : 'Tester');
+    return roleStringResult;
+  }
 }
