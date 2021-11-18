@@ -46,9 +46,4 @@ export class BugsService {
     this.bugsFilters = this.bugsFilters.append('State', filters.state.toString());
     this.bugsFilters = this.bugsFilters.append('ProjectId', filters.projectId.toString());
   }
-
-  fixBug(bugId: string, fixingTime: number) {
-    this.setHeader();
-    return this.http.patch(this.endpoint  + `/${bugId}`, fixingTime, {headers: this.headersProject});
-  }
 }

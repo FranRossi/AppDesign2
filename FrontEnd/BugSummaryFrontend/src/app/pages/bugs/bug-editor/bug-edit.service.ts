@@ -25,4 +25,9 @@ export class BugEditService {
     this.setHeader();
     return this.http.get<BugModel>(this.endpoint + bugId, {headers: this.headersProject});
   }
+
+  fixBug(bugId: string, fixingTime: number) {
+    this.setHeader();
+    return this.http.patch(this.endpoint  + `${bugId}`, fixingTime, {headers: this.headersProject});
+  }
 }

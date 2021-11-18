@@ -34,7 +34,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AuthLayoutComponent,
     TesterLayoutComponent,
     DeveloperLayoutComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
