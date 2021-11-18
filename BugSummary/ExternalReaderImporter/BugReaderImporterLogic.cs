@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using Utilities.CustomExceptions;
 
-namespace ExternalReaderImporter
+namespace BugReaderImporter
 {
     public class BugReaderImporterLogic : IBugReaderImporter
     {
@@ -22,21 +22,23 @@ namespace ExternalReaderImporter
 
         public IExternalReader GetExternalReader(string name)
         {
-            IExternalReader provider = null;
-            try
-            {
-                string fullPath = _pathToFolder + name + ".dll";
-                FileInfo dllFile = new FileInfo(fullPath);
-                Assembly assembly = Assembly.LoadFile(dllFile.FullName);
-                foreach (Type type in assembly.GetTypes())
-                    if (typeof(IExternalReader).IsAssignableFrom(type))
-                        provider = (IExternalReader)Activator.CreateInstance(type);
-                return provider;
-            }
-            catch (FileNotFoundException)
-            {
-                throw new InexistentExternalReaderException();
-            }
+            IExternalReader provider = GetInternalReader(name);
+            if (provider == null)
+                try
+                {
+                    string fullPath = _pathToFolder + name + ".dll";
+                    FileInfo dllFile = new FileInfo(fullPath);
+                    Assembly assembly = Assembly.LoadFile(dllFile.FullName);
+                    foreach (Type type in assembly.GetTypes())
+                        if (typeof(IExternalReader).IsAssignableFrom(type))
+                            provider = (IExternalReader)Activator.CreateInstance(type);
+                    return provider;
+                }
+                catch (FileNotFoundException)
+                {
+                    throw new InexistentExternalReaderException();
+                }
+            return provider;
         }
 
         public IEnumerable<Tuple<string, IEnumerable<Parameter>>> GetExternalReadersInfo()
@@ -72,15 +74,24 @@ namespace ExternalReaderImporter
             IEnumerable<string> companyReaderNames = _readerFactory.GetCompanyReaderNames();
             foreach (string companyReaderName in companyReaderNames)
             {
-                Parameter pathParam = new Parameter
-                {
-                    Name = "Path",
-                    Type = ParameterType.String
-                };
-                IEnumerable<Parameter> parameters = new List<Parameter> { pathParam };
+                IExternalReader adaptedBugReader = new BugReaderAdapter(_readerFactory.GetStrategy(companyReaderName));
+                IEnumerable<Parameter> parameters = adaptedBugReader.GetParameters();
                 availableImporters.Add(Tuple.Create(companyReaderName, parameters));
             }
             return availableImporters;
+        }
+
+        private IExternalReader GetInternalReader(string name)
+        {
+            try
+            {
+                IExternalReader adaptedBugReader = new BugReaderAdapter(_readerFactory.GetStrategy(name));
+                return adaptedBugReader;
+            }
+            catch (CompanyIsNotRegisteredException)
+            {
+                return null;
+            }
         }
     }
 }

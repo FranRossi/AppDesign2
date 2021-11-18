@@ -3,7 +3,7 @@ using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
 using Domain;
-using ExternalReaderImporter;
+using BugReaderImporter;
 using ExternalReaderImporterInterface;
 using FileHandlerFactory;
 using Microsoft.EntityFrameworkCore;
