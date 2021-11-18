@@ -110,7 +110,7 @@
                                         type="number"
                                         #state="ngModel">
                                         <option value="" disabled selected hidden>User</option>
-                                        <option *ngFor="let user of loadedUsers" [ngValue]="user.id">{{user.firstName}}</option>
+                                        <option *ngFor="let user of loadedUsers" [ngValue]="user.id">{{user.userName}}</option>
                                       </select>
                                     </div>
                                     <span class="text-sm" *ngIf="loadedUsers.length == 0 && !isFetching">There are no users on the system!</span>
@@ -442,7 +442,7 @@
               <th scope="row">
                 <div class="media align-items-center">
                   <div class="media-body">
-                    <span class="mb-0 text-sm">{{ user.firstName }}</span>
+                    <span class="mb-0 text-sm">{{ user.userName }}</span>
                   </div>
                 </div>
               </th>

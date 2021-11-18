@@ -7,7 +7,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { BugReadersComponent } from '../../pages/bug-readers/bug-readers.component';
-import { ProjectsComponent } from '../../pages/projects/projects.component';
+import { ProjectsAdminComponent } from '../../pages/projects/projects-admin/projects-admin.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
@@ -26,7 +26,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
   ],
   declarations: [
     BugReadersComponent,
-    ProjectsComponent,
+    ProjectsAdminComponent,
     ProjectEditComponent,
     RegisterComponent,
     ProjectsTableComponent
