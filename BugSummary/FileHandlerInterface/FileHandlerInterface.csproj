@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Domain\Domain.csproj" />
+		<ProjectReference Include="..\ExternalReader\ExternalReader.csproj" />
 	</ItemGroup>
 
 </Project>

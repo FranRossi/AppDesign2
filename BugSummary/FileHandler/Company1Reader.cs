@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.DomainUtilities;
+﻿using ExternalReader;
 using FileHandlerInterface;
 using System;
 using System.Collections.Generic;
@@ -12,16 +11,16 @@ namespace FileHandler
 {
     public class Company1Reader : IFileReaderStrategy
     {
-        public IEnumerable<Project> GetProjectsFromFile(string path)
+        public IEnumerable<ProjectModel> GetProjectsFromFile(string path)
         {
             XDocument doc = XDocument.Load(path);
 
-            Project project = new Project
+            ProjectModel ProjectModel = new ProjectModel
             {
                 Name = (string)doc.Descendants("Proyecto").First()
             };
 
-            List<Bug> bugs = doc.Descendants("Bug").Select(x => new Bug
+            List<BugModel> bugs = doc.Descendants("Bug").Select(x => new BugModel
             {
                 Name = (string)x.Element("Nombre"),
                 Description = (string)x.Element("Descripcion"),
@@ -29,8 +28,8 @@ namespace FileHandler
                 State = ((string)x.Element("Estado") == "Activo") ? BugState.Active : BugState.Fixed
             }).ToList();
 
-            project.Bugs = bugs;
-            IEnumerable<Project> result = new List<Project>() { project };
+            ProjectModel.Bugs = bugs;
+            IEnumerable<ProjectModel> result = new List<ProjectModel>() { ProjectModel };
             return result;
         }
     }

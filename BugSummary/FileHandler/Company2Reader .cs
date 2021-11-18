@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.DomainUtilities;
+﻿using ExternalReader;
 using FileHandlerInterface;
 using System;
 using System.Collections.Generic;
@@ -20,11 +19,11 @@ namespace FileHandler
         private const int _versionLength = 10;
         private const int _stateLength = 10;
 
-        public IEnumerable<Project> GetProjectsFromFile(string path)
+        public IEnumerable<ProjectModel> GetProjectsFromFile(string path)
         {
             string rawFile = File.ReadAllText(@path);
             string file = rawFile.Replace("\n", "").Replace("\r", "");
-            List<Project> projects = new List<Project>();
+            List<ProjectModel> projects = new List<ProjectModel>();
             int chunkSize = GetTotalLength();
             if (file.Length % chunkSize != 0)
                 throw new InvalidCompany2BugFileException();
@@ -35,26 +34,28 @@ namespace FileHandler
                 int index = 0;
                 string projectName = entry.Substring(index, _proyectNameLength).TrimEnd();
                 index += _proyectNameLength;
-                Project project = projects.Find(p => p.Name == projectName);
-                if (project == null)
+                ProjectModel ProjectModel = projects.Find(p => p.Name == projectName);
+                if (ProjectModel == null)
                 {
-                    project = new Project
+                    ProjectModel = new ProjectModel
                     {
                         Name = projectName,
-                        Bugs = new List<Bug>()
+                        Bugs = new List<BugModel>()
                     };
-                    projects.Add(project);
+                    projects.Add(ProjectModel);
                 }
                 index += _idLength;
-                Bug bug = new Bug();
-                bug.Name = entry.Substring(index, _nameLength).TrimEnd();
+                BugModel BugModel = new BugModel();
+                BugModel.Name = entry.Substring(index, _nameLength).TrimEnd();
                 index += _nameLength;
-                bug.Description = entry.Substring(index, _descriptionLength).TrimEnd();
+                BugModel.Description = entry.Substring(index, _descriptionLength).TrimEnd();
                 index += _descriptionLength;
-                bug.Version = entry.Substring(index, _versionLength).TrimEnd();
+                BugModel.Version = entry.Substring(index, _versionLength).TrimEnd();
                 index += _versionLength;
-                bug.State = (entry.Substring(index, _stateLength).TrimEnd() == "Activo") ? BugState.Active : BugState.Fixed;
-                project.Bugs.Add(bug);
+                BugModel.State = (entry.Substring(index, _stateLength).TrimEnd() == "Activo") ? BugState.Active : BugState.Fixed;
+                List<BugModel> bugList = (List<BugModel>)ProjectModel.Bugs;
+                bugList.Add(BugModel);
+                ProjectModel.Bugs = bugList;
             }
             return projects;
         }
