@@ -8,6 +8,8 @@ import { UserModel } from 'src/app/models/userModel';
 import {BugCriteriaModel} from '../../../models/bugCriteriaModel';
 import {ErrorHandler} from '../../../utils/errorHandler';
 import {BugsService} from '../bugs.service';
+import {ProjectModel} from '../../../models/projectModel';
+import {UsersService} from '../../register/users.service';
 
 
 @Component({
@@ -19,21 +21,18 @@ import {BugsService} from '../bugs.service';
 export class BugsTableComponent implements OnInit{
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   @Input() bugs: BugModel[] = [];
-  projectNames: string[];
-  bugsWithOutFilter: BugModel[] = [];
+  loadedProjects: ProjectModel[] = [];
   error = null;
   successBug = null;
   loadedUsers: UserModel[] = [];
   projectId: string;
   isFetching = false;
   bugState = 1;
-  constructor (private router: Router, private http: HttpClient, private bugService: BugsService, private route: ActivatedRoute, private modalService: NgbModal) {
+  constructor (private router: Router, private http: HttpClient, private bugService: BugsService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
-    if (this.bugs !== []) {
-      this.bugsWithOutFilter = this.bugs;
-    }
+    this.getProjects();
   }
 
   open(content, type, modalDimension) {
@@ -62,5 +61,23 @@ export class BugsTableComponent implements OnInit{
   onStateSelectionChanged(state){
     this.bugState = parseInt(state);
   }
+
+  private getProjects() {
+    this.isFetching = true;
+    this.userService.getUserProjects().subscribe({
+      next: (responseData) => {
+        this.loadedProjects = responseData;
+        this.modalService.dismissAll();
+      },
+      error: (e) => {
+        this.successBug = null;
+        this.error = ErrorHandler.onHandleError(e);
+      },
+      complete: () =>{
+        this.isFetching = false;
+      }
+    });
+  }
+
 
 }
