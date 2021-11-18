@@ -402,7 +402,7 @@
     <div class="col align-items-center">
       <app-assignments-table [project] = 'project'></app-assignments-table>
     </div>
-    <div class="col align-items-center">
+    <div class="col align-items-center" *ngIf="project != null" >
       <app-bugs-table [bugs] = 'project.bugs'></app-bugs-table>
     </div>
   </div>
