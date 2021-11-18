@@ -276,15 +276,6 @@ namespace DataAccessTest
                 Version = "1.5",
                 State = BugState.Active,
             };
-            Bug bug3 = new Bug
-            {
-                Name = "Bug3",
-                Description = "Bug en el servidor 232",
-                Version = "3.5",
-                FixingTime = 13,
-                Fixer = newUser,
-                State = BugState.Fixed,
-            };
             Assignment assignment1 = new Assignment
             {
                 Id = 1,
@@ -313,6 +304,7 @@ namespace DataAccessTest
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
+                context.Add(newUser);
                 context.Add(project1);
                 context.SaveChanges();
 
@@ -337,7 +329,7 @@ namespace DataAccessTest
                 Password = "pepe1234",
                 UserName = "pp",
                 Email = "pepe@gmail.com",
-                Role = RoleType.Admin,
+                Role = RoleType.Tester,
                 HourlyRate = 34,
                 Token = "arstnotart",
                 Projects = new List<Project>()
@@ -355,15 +347,6 @@ namespace DataAccessTest
                 Description = "Bug en el servidor 22",
                 Version = "1.5",
                 State = BugState.Active,
-            };
-            Bug bug3 = new Bug
-            {
-                Name = "Bug3",
-                Description = "Bug en el servidor 232",
-                Version = "3.5",
-                FixingTime = 13,
-                Fixer = newUser,
-                State = BugState.Fixed,
             };
             Assignment assignment1 = new Assignment
             {
@@ -393,16 +376,16 @@ namespace DataAccessTest
             };
             using (var context = new BugSummaryContext(this._contextOptions))
             {
+                context.Add(newUser);
                 context.Add(project1);
                 context.SaveChanges();
 
             }
 
             int projectId = 1;
-            Project projectDataBase = this._projectRepository.Get(projectId, newUser.Token);
 
             TestExceptionUtils.Throws<InexistentProjectException>(
-               () => _projectLogic.AssignUserToProject(userId, projectId), "The entered project does not exist."
+               () => this._projectRepository.Get(projectId, newUser.Token), "The entered project does not exist."
             );
         }
 

@@ -189,10 +189,10 @@ namespace WebApiTest
 
             ProjectModel expectedModel = ProjectModel.ToModel(projectExpected);
             Mock<IProjectLogic> mock = new Mock<IProjectLogic>(MockBehavior.Strict);
-            mock.Setup(r => r.Get(It.IsAny<int>())).Returns(projectExpected);
+            mock.Setup(r => r.Get(It.IsAny<int>(), It.IsAny<string>())).Returns(projectExpected);
             ProjectsController controller = new ProjectsController(mock.Object, null);
 
-            IActionResult result = controller.Get(projectId);
+            IActionResult result = controller.Get("stthasroiharseiot23", projectId);
             OkObjectResult okResult = result as OkObjectResult;
             ProjectModel projectResult = okResult.Value as ProjectModel;
 

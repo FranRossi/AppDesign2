@@ -498,11 +498,11 @@ namespace BusinessLogicTest
             };
 
             Mock<IProjectRepository> mockBugRepository = new Mock<IProjectRepository>(MockBehavior.Strict);
-            mockBugRepository.Setup(mr => mr.Get(It.IsAny<int>())).Returns(projectExpected);
+            mockBugRepository.Setup(mr => mr.Get(It.IsAny<int>(), It.IsAny<string>())).Returns(projectExpected);
 
             int projectId = 1;
             ProjectLogic projectLogic = new ProjectLogic(mockBugRepository.Object, null);
-            Project projectResult = projectLogic.Get(projectId);
+            Project projectResult = projectLogic.Get(projectId, "satarst");
 
 
             mockBugRepository.VerifyAll();
