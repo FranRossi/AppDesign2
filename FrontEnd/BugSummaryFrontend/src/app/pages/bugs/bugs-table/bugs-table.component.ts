@@ -49,6 +49,7 @@ export class BugsTableComponent implements OnInit{
         this.modalService.dismissAll();
         this.isFetching = false;
         this.bugs = responseData;
+        console.log(this.bugs);
       },
       error: (e) => {
         this.isFetching = false;

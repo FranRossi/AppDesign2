@@ -22,7 +22,7 @@ import {ErrorHandler} from '../../../utils/errorHandler';
 
 export class ProjectEditComponent implements OnInit {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
-  @ViewChild(AssignmentsTableComponent) assingmentsTable:AssignmentsTableComponent;
+  @ViewChild(AssignmentsTableComponent) assingmentsTable: AssignmentsTableComponent;
   error = null;
   successUser = null;
   successBug = null;
@@ -36,12 +36,12 @@ export class ProjectEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isFetching = true;
     this.route.params.subscribe((params) => this.projectId = params['id']);
     this.getProjectById();
   }
 
   private getProjectById() {
-    this.isFetching = true;
     this.editService.getProjectById(this.projectId).subscribe({
       next: (responseData) => {
         this.project = responseData;
@@ -184,7 +184,7 @@ export class ProjectEditComponent implements OnInit {
     this.bugState = parseInt(state);
   }
 
-  parseRole(role){
+  parseRoleForUserTable(role){
     const roleStringResult = role === 3 ? 'Admin' : (role === 2 ? 'Developer' : 'Tester');
     return roleStringResult;
   }
