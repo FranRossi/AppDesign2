@@ -1,6 +1,7 @@
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -55,7 +56,11 @@ namespace FileHandlerFactoryTest
             ReaderFactory factory = new ReaderFactory();
             IEnumerable<string> expectedNames = new List<string> { "Company1", "Company2" };
 
-            Assert.AreEqual(expectedNames, factory.GetCompanyReaderNames());
+            IEnumerable<string> result = factory.GetCompanyReaderNames();
+
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult deepComparisonResult = compareLogic.Compare(expectedNames, result);
+            Assert.IsTrue(deepComparisonResult.AreEqual);
         }
     }
 }
