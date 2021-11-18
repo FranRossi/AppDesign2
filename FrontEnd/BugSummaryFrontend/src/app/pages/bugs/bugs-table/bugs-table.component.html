@@ -64,15 +64,14 @@
                                 data-style="btn btn-link"
                                 ngModel
                                 name="projectId"
-                                required
                                 type="number"
-                                #state="ngModel">
+                                #projectId="ngModel">
                                 <option value="" disabled selected hidden>Project</option>
-                                <option *ngFor="let project of loadedProjects"[ngValue]="project.id">{{project.name}}</option>
+                                <option *ngFor="let project of loadedProjects" [ngValue]="project.id">{{project.name}}</option>
                               </select>
                             </div>
                             <span class="text-sm" *ngIf="loadedProjects.length == 0 && !isFetching">User has no projects assigned!</span>
-                            <span class="text-sm" *ngIf="loadedProjects.length > 0 && !state.valid && state.touched">Please select a Project!</span>
+                            <span class="text-sm" *ngIf="loadedProjects.length > 0 && !projectId.valid && projectId.touched">Please select a Project!</span>
                           </div>
                           <div class="text-center">
                             <button

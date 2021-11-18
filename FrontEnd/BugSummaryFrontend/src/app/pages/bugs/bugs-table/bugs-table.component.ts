@@ -1,13 +1,15 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {ProjectModel} from '../../../models/projectModel';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
-import {AssignmentModel} from '../../../models/assignmentModel';
 import { UserModel } from 'src/app/models/userModel';
-import { EditProjectService } from '../../projects/project-edit/project-edit.service';
+import {BugCriteriaModel} from '../../../models/bugCriteriaModel';
+import {ErrorHandler} from '../../../utils/errorHandler';
+import {BugsService} from '../bugs.service';
+import {ProjectModel} from '../../../models/projectModel';
+import {UsersService} from '../../register/users.service';
 
 
 @Component({
@@ -16,55 +18,42 @@ import { EditProjectService } from '../../projects/project-edit/project-edit.ser
   styleUrls: ['./bugs-table.component.scss']
 })
 
-export class BugsTableComponent {
+export class BugsTableComponent implements OnInit{
   @ViewChild('formEditNameProject') editNameForm: NgForm;
   @Input() bugs: BugModel[] = [];
+  loadedProjects: ProjectModel[] = [];
   error = null;
   successBug = null;
   loadedUsers: UserModel[] = [];
   projectId: string;
   isFetching = false;
   bugState = 1;
-  constructor(private router: Router, private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal) {
+  constructor (private router: Router, private http: HttpClient, private bugService: BugsService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
-
-  private getProjectById() {
-    this.isFetching = true;
-    this.editService.getProjectById(this.projectId).subscribe({
-      next: (responseData) => {
-        console.log(responseData);
-        //this.bugs = responseData.bugs;
-      },
-      error: (e) => {
-        this.isFetching = false;
-        this.error = e.error;
-      },
-    });
+  ngOnInit() {
+    this.getProjects();
   }
 
   open(content, type, modalDimension) {
-    if (type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
-    } else {
       this.modalService.open(content, { centered: true });
-    }
   }
 
-  onAddBug(AddBugForm: NgForm) {
-    const bug: BugModel = AddBugForm.value;
-    bug.id = 1;
-    this.editService.addBugToProject(bug).subscribe({
-      next: () => {
-        this.error = null;
-        this.successBug = "Bug added correctly!";
-        AddBugForm.reset();
+
+  private getBugsFiltered(filterForm: NgForm) {
+    this.isFetching = true;
+    const filters: BugCriteriaModel = filterForm.value;
+    this.bugService.getAllBugsFiltered(filters).subscribe({
+      next: (responseData) => {
+        filterForm.reset();
         this.modalService.dismissAll();
-        this.getProjectById();
+        this.isFetching = false;
+        this.bugs = responseData;
       },
       error: (e) => {
+        this.isFetching = false;
         this.successBug = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -72,4 +61,23 @@ export class BugsTableComponent {
   onStateSelectionChanged(state){
     this.bugState = parseInt(state);
   }
+
+  private getProjects() {
+    this.isFetching = true;
+    this.userService.getUserProjects().subscribe({
+      next: (responseData) => {
+        this.loadedProjects = responseData;
+        this.modalService.dismissAll();
+      },
+      error: (e) => {
+        this.successBug = null;
+        this.error = ErrorHandler.onHandleError(e);
+      },
+      complete: () =>{
+        this.isFetching = false;
+      }
+    });
+  }
+
+
 }

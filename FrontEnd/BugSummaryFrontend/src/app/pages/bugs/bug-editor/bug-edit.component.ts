@@ -8,6 +8,7 @@ import {BugEditService} from './bug-edit.service';
 import { UsersService } from '../../register/users.service';
 import { ProjectModel } from 'src/app/models/projectModel';
 import { EditProjectService } from '../../projects/project-edit/project-edit.service';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 @Component({
   selector: 'app-bug',
@@ -39,7 +40,7 @@ export class BugEditComponent implements OnInit {
         this.getProjects();
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () =>{
         this.isFetching = false;
@@ -56,7 +57,7 @@ export class BugEditComponent implements OnInit {
         this.router.navigate(['../..'] , {relativeTo: this.route});
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -68,7 +69,7 @@ export class BugEditComponent implements OnInit {
         this.loadedProjects = responseData;
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () => {
         this.isFetching = false;
@@ -79,7 +80,7 @@ export class BugEditComponent implements OnInit {
 
   private getSelectedProjectName(){
     this.loadedProjects.forEach(project => {
-      if (project.id == this.bug.projectId)
+      if (project.id === this.bug.projectId)
         this.selectedProjectName = project.name;
     });
   }
@@ -88,10 +89,15 @@ export class BugEditComponent implements OnInit {
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
-      .subscribe(responseData => {
-        this.bug = updatedBug;
-        this.editBugForm.resetForm();
-        this.router.navigate(['../..'] , {relativeTo: this.route});
+      .subscribe({
+          next: (responseData) => {
+            this.bug = updatedBug;
+            this.editBugForm.resetForm();
+            this.router.navigate(['../..'] , {relativeTo: this.route});
+          },
+          error: (e) => {
+            this.error = ErrorHandler.onHandleError(e);
+          }
       });
   }
 
