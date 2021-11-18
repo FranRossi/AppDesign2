@@ -28,11 +28,13 @@ export class BugsTableComponent implements OnInit{
   projectId: string;
   isFetching = false;
   bugState = 1;
+  role: string;
   constructor (private router: Router, private http: HttpClient, private bugService: BugsService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
     this.getProjects();
+    this.role = sessionStorage.getItem('roleName');
   }
 
   open(content, type, modalDimension) {
