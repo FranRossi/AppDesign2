@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProjectModel} from '../../../models/projectModel';
 import {EditProjectService} from '../project-edit/project-edit.service';
@@ -7,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { UserModel } from 'src/app/models/userModel';
 import { UsersService } from '../../register/users.service';
-import { AssignmentsTableComponent } from '../../assignments/assignments-table/assignments-table.component';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 
 @Component({
@@ -18,9 +17,6 @@ import { AssignmentsTableComponent } from '../../assignments/assignments-table/a
 
 export class ProjectVisualizerComponent implements OnInit {
   error = null;
-  successUser = null;
-  successBug = null;
-  successProject = null;
   project: ProjectModel = null;
   loadedUsers: UserModel[] = [];
   projectId: string;
@@ -43,7 +39,7 @@ export class ProjectVisualizerComponent implements OnInit {
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }

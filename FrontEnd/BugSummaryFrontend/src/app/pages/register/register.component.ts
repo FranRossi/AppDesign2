@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {UsersService} from './users.service';
+import {ErrorHandler} from '../../utils/errorHandler';
 
 @Component({
   selector: 'app-register',
@@ -20,12 +21,13 @@ export class RegisterComponent {
     .subscribe({
       next: () => {
         this.error = null;
-        this.success='User correctly registered!'; 
+        this.success = 'User correctly registered!';
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
+
 }

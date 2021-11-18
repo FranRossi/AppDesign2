@@ -4,9 +4,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {BugModel} from '../../models/bugModel';
 import {BugsService} from './bugs.service';
-import {BugCriteriaModel} from '../../models/bugCriteriaModel';
 import { ProjectModel } from 'src/app/models/projectModel';
 import { UsersService } from '../register/users.service';
+import {ErrorHandler} from '../../utils/errorHandler';
 
 @Component({
   selector: 'app-bugs',
@@ -42,7 +42,7 @@ export class BugsComponent implements OnInit {
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () =>{
         this.isFetching = false;
@@ -58,7 +58,7 @@ export class BugsComponent implements OnInit {
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () =>{
         this.isFetching = false;
@@ -66,27 +66,6 @@ export class BugsComponent implements OnInit {
     });
   }
 
-  private getBugsFiltered(filterForm: NgForm) {
-    this.isFetching = true;
-    const filters: BugCriteriaModel = filterForm.value;
-    this.bugService.getAllBugsFiltered(filters).subscribe({
-      next: (responseData) => {
-        filterForm.reset();
-        this.modalService.dismissAll();
-        this.isFetching = false;
-        this.loadedBugs = responseData;
-      },
-      error: (e) => {
-        this.isFetching = false;
-        this.success = null;
-        this.error = e.error;
-      }
-    });
-  }
-
-  onHandleError() {
-    this.error = null;
-  }
 
   onCreate(form: NgForm) {
     const bug: BugModel = form.value;
@@ -101,7 +80,7 @@ export class BugsComponent implements OnInit {
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -113,5 +92,5 @@ export class BugsComponent implements OnInit {
       this.modalService.open(content, { centered: true });
     }
   }
-  
+
 }

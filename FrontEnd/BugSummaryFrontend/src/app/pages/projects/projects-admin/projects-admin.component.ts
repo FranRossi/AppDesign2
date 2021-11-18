@@ -1,19 +1,20 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsTableComponent } from '../projects-table/projects-table.component';
 import { ProjectsService } from '../projects.service';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 
 @Component({
   selector: 'app-projects-admins',
   templateUrl: './projects-admin.component.html',
   styleUrls: ['./projects-admin.component.scss'],
-  
+
 })
 export class ProjectsAdminComponent {
-  success :string 
-  error :string 
+  success: string;
+  error: string;
   @ViewChild(ProjectsTableComponent) projectsTable: ProjectsTableComponent;
   constructor(private modalService: NgbModal, private projectService: ProjectsService) { }
 
@@ -37,7 +38,7 @@ export class ProjectsAdminComponent {
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }

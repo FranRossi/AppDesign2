@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
 import {LoginService} from './login.service';
 import {Router} from '@angular/router';
+import {ErrorHandler} from '../../utils/errorHandler';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loadDashboard();
         },
         error: (e) => {
-          this.error = e.error;
+          this.error = ErrorHandler.onHandleError(e);
         }
     });
   }

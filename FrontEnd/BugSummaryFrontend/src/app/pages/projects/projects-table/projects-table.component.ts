@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProjectListModel } from 'src/app/models/projectListModel';
 import { UsersService } from '../../register/users.service';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 @Component({
   selector: 'app-projects-table',
@@ -33,16 +34,12 @@ export class ProjectsTableComponent implements OnInit {
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
-      complete: () =>{
+      complete: () => {
         this.isFetching = false;
       }
     });
-  }
-
-  onHandleError() {
-    this.error = null;
   }
 
 }

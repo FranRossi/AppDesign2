@@ -11,6 +11,7 @@ import { UserModel } from 'src/app/models/userModel';
 import { UsersService } from '../../register/users.service';
 import { ProjectsService } from '../projects.service';
 import { AssignmentsTableComponent } from '../../assignments/assignments-table/assignments-table.component';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class ProjectEditComponent implements OnInit {
       },
       error: (e) => {
         this.isFetching = false;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () => {
         this.getUsers();
@@ -62,7 +63,7 @@ export class ProjectEditComponent implements OnInit {
         this.loadedUsers = responseData;
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () => {
         this.isFetching = false;
@@ -78,7 +79,7 @@ export class ProjectEditComponent implements OnInit {
         this.router.navigate(['..'] , {relativeTo: this.route});
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -103,7 +104,7 @@ export class ProjectEditComponent implements OnInit {
         },
         error: (e) => {
           this.successProject = null;
-          this.error = e.error;
+          this.error = ErrorHandler.onHandleError(e);
         }
     });
   }
@@ -113,14 +114,14 @@ export class ProjectEditComponent implements OnInit {
     this.editService.addUserToProject(this.project.id, userId).subscribe({
       next: () => {
         this.error = null;
-        this.successUser = "User added correctly!";
+        this.successUser = 'User added correctly!';
         form.reset();
         this.modalService.dismissAll();
         this.getProjectById();
       },
       error: (e) => {
         this.successUser = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -130,13 +131,13 @@ export class ProjectEditComponent implements OnInit {
     this.editService.deleteUserFromProject(projectId, userId).subscribe({
       next: () => {
         this.error = null;
-        this.successUser = "User deleted correctly!";
+        this.successUser = 'User deleted correctly!';
         this.project.users = this.project.users.filter(model => model.id !== userId);
         this.modalService.dismissAll();
       },
       error: (e) => {
         this.successUser = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
     }
     });
   }
@@ -148,14 +149,14 @@ export class ProjectEditComponent implements OnInit {
     this.editService.addBugToProject(bug).subscribe({
       next: () => {
         this.error = null;
-        this.successBug = "Bug added correctly!";
+        this.successBug = 'Bug added correctly!';
         AddBugForm.reset();
         this.modalService.dismissAll();
         this.getProjectById();
       },
       error: (e) => {
         this.successBug = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }
@@ -174,7 +175,7 @@ export class ProjectEditComponent implements OnInit {
       },
       error: (e) => {
         this.assingmentsTable.successAssignment = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
   }

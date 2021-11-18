@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BugReaderService} from './bug-readers.service';
 import {BugReaderInfoModel} from '../../models/bugReaderModel';
-import { ParameterModel } from 'src/app/models/parameterModel';
 import { NgForm } from '@angular/forms';
+import {ErrorHandler} from '../../utils/errorHandler';
 
 @Component({
   selector: 'app-bug-readers',
@@ -41,35 +41,35 @@ export class BugReadersComponent implements OnInit {
       error: (e) => {
           this.isFetching = false;
           this.success = null;
-          this.error = e.error;
+          this.error = ErrorHandler.onHandleError(e);
         }
     });
   }
 
-  onAddBugsFromFile(BugReaderForm: NgForm){
+  onAddBugsFromFile(BugReaderForm: NgForm) {
     const values = BugReaderForm.value;
     this.loadParameterValues(values);
     this.bugReaderService.readBugs(this.loadedBugReader).subscribe({
       next: () => {
         this.error = null;
-        this.success = "Bugs added correctly!"
-        this.cleanForm(BugReaderForm); 
+        this.success = 'Bugs added correctly!';
+        this.cleanForm(BugReaderForm);
       },
       error: (e) => {
         this.success = null;
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       }
     });
-    
+
   }
 
-  private loadParameterValues(values: any){
+  private loadParameterValues(values: any) {
     this.loadedBugReader.parameters.forEach(parameter => {
       parameter.value = values[parameter.name];
     });
   }
 
-  private cleanForm(BugReaderForm: NgForm){
+  private cleanForm(BugReaderForm: NgForm) {
     this.loadedBugReader.parameters.forEach(parameter => {
       parameter.value = null;
     });

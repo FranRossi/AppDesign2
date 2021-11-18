@@ -4,8 +4,8 @@ import {BugEditService} from '../bug-editor/bug-edit.service';
 import {ActivatedRoute} from '@angular/router';
 import {BugModel} from '../../../models/bugModel';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EditProjectService} from '../../projects/project-edit/project-edit.service';
 import { NgForm } from '@angular/forms';
+import {ErrorHandler} from '../../../utils/errorHandler';
 
 @Component({
   selector: 'app-bug-visualizer',
@@ -33,7 +33,7 @@ export class BugViewerComponent implements OnInit {
         this.bug = responseData;
       },
       error: (e) => {
-        this.error = e.error;
+        this.error = ErrorHandler.onHandleError(e);
       },
       complete: () =>{
         this.isFetching = false;
@@ -54,7 +54,7 @@ export class BugViewerComponent implements OnInit {
         },
         error: (e) => {
           this.success = null;
-          this.error = e.error;
+          this.error = ErrorHandler.onHandleError(e);
         }
       });
   }
