@@ -42,7 +42,6 @@ export class BugsTableComponent {
     });
   }
 
-
   open(content, type, modalDimension) {
     if (type === 'Notification') {
       this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
@@ -50,8 +49,6 @@ export class BugsTableComponent {
       this.modalService.open(content, { centered: true });
     }
   }
-
-
 
   onAddBug(AddBugForm: NgForm) {
     const bug: BugModel = AddBugForm.value;
@@ -70,8 +67,7 @@ export class BugsTableComponent {
       }
     });
   }
-
-
+  
   onStateSelectionChanged(state){
     this.bugState = parseInt(state);
   }
