@@ -35,7 +35,7 @@ namespace WebApi
                     builder =>
                     {
                         builder
-                            .WithOrigins("http://localhost:4200")
+                            .AllowAnyOrigin()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     });
@@ -51,9 +51,10 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
+            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsApi");
-            //app.UseHttpsRedirection();
+            
 
             app.UseAuthentication();
             app.UseAuthorization();

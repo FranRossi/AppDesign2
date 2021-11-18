@@ -4,7 +4,8 @@ using System.Linq;
 using DataAccessInterface;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
+
 namespace DataAccess
 {
     public class ProjectRepository : BaseRepository<Project>, IProjectRepository

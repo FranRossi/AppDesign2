@@ -1,13 +1,11 @@
-﻿using System;
-using Utilities.CustomExceptions;
-
-namespace CustomExceptions
+﻿
+namespace Utilities.CustomExceptions.WebApi
 {
     public class AssignmentModelMissingFieldException : ModelMissingFieldsException
     {
         public AssignmentModelMissingFieldException()
         {
-            this.messageToDisplay = "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId.";
+            this.MessageToDisplay = "Missing Fields: Required -> Id, Name, Duration, HourlyRate, ProjectId.";
         }
     }
 }

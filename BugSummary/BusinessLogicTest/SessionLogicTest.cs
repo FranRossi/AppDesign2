@@ -4,8 +4,9 @@ using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Diagnostics.CodeAnalysis;
-using Utilities.Authentication;
+using TestUtilities.Authentication;
 using Utilities.CustomExceptions;
+
 namespace BusinessLogicTest
 {
     [TestClass]

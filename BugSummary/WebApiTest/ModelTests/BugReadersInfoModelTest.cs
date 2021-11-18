@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using CustomExceptions;
 using Domain;
 using ExternalReader;
 using KellermanSoftware.CompareNetObjects;

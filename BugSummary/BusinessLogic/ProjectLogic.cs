@@ -2,7 +2,7 @@
 using DataAccessInterface;
 using Domain;
 using ExternalReader;
-using ExternalReaderImporterInterface;
+using BugReaderImporterInterface;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;

@@ -1,13 +1,10 @@
-﻿using System;
-using Utilities.CustomExceptions;
-
-namespace CustomExceptions
+﻿namespace Utilities.CustomExceptions.WebApi
 {
     public class UserModelMissingFieldException : ModelMissingFieldsException
     {
         public UserModelMissingFieldException()
         {
-            this.messageToDisplay = "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role.";
+            this.MessageToDisplay = "Missing Fields: Required -> Id, FirstName, LastName, UserName, Password, Email, Role.";
 
         }
     }

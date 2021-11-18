@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace Utilities.Comparers
+namespace TestUtilities.Comparers
 {
     public class AssignmentComparer : BaseComparer<Assignment>
     {

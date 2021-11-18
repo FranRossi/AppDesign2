@@ -2,7 +2,7 @@
 using FileHandlerInterface;
 using System;
 using System.Collections.Generic;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.FileHandler;
 
 namespace FileHandlerFactory
 {

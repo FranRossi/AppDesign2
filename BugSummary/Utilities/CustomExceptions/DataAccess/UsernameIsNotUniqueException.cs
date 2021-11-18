@@ -1,12 +1,12 @@
-﻿using System;
+﻿
 
-namespace Utilities.CustomExceptions
+namespace Utilities.CustomExceptions.DataAccess
 {
     public class UsernameIsNotUniqueException : DataAccessException
     {
         public UsernameIsNotUniqueException()
         {
-            this.messageToDisplay = "The username chosen was already taken, please enter a different one.";
+            this.MessageToDisplay = "The username chosen was already taken, please enter a different one.";
         }
     }
 }

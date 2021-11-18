@@ -1,11 +1,11 @@
 ﻿using ExternalReader;
-using ExternalReaderImporterInterface;
+using BugReaderImporterInterface;
 using FileHandlerFactory;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.FileHandler;
 
 namespace BugReaderImporter
 {

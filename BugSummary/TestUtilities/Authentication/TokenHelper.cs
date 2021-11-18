@@ -1,4 +1,4 @@
-﻿namespace Utilities.Authentication
+﻿namespace TestUtilities.Authentication
 {
     public class TokenHelper
     {

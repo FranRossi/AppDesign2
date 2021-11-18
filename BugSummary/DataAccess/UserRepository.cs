@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace DataAccess
 {

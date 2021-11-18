@@ -1,6 +1,6 @@
 using ExternalReader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.FileHandler;
 
 namespace ExternalReaderTest
 {
