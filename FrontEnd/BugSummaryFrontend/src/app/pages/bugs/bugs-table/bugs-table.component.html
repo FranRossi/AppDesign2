@@ -4,7 +4,7 @@
       <div class="col ">
         <h3 class="mb-0">Bugs</h3>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2" *ngIf="role != 'admin'">
         <a class="btn btn-sm btn-neutral"(click)="open(filterBugsList, 'modal_mini', 'sm')" >
           Filters
             <div class="col-md-4">
