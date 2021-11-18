@@ -10,7 +10,7 @@ import {ErrorHandler} from '../../../utils/errorHandler';
 
 
 @Component({
-  selector: 'app-edit-project',
+  selector: 'app-project-visualizer',
   templateUrl: './project-visualizer.component.html',
   styleUrls: ['./project-visualizer.component.scss']
 })
