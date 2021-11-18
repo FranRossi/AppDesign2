@@ -75,13 +75,13 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
-        [HttpPost("bugs")]
-        public IActionResult Post([FromBody] string path, [FromQuery] string companyName)
-        {
-            _projects.AddBugsFromFile(path, companyName);
-            return Ok();
-        }
+        /*        [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
+                [HttpPost("bugs")]
+                public IActionResult Post([FromBody] string path, [FromQuery] string companyName)
+                {
+                    _projects.AddBugsFromFile(path, companyName);
+                    return Ok();
+                }*/
 
         [AuthorizationWithParameterFilter(new[] { RoleType.Admin })]
         [HttpGet]
