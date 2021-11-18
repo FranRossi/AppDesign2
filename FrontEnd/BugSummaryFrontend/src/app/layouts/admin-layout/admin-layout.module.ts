@@ -12,8 +12,7 @@ import { RegisterComponent } from '../../pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
 import { ProjectsTableComponent } from 'src/app/pages/projects/projects-table/projects-table.component';
-import { BugsTableComponent } from 'src/app/pages/bugs/bugs-table/bugs-table.component';
-import { AssignmentsTableComponent } from 'src/app/pages/assignments/assignments-table/assignments-table.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -22,16 +21,15 @@ import { AssignmentsTableComponent } from 'src/app/pages/assignments/assignments
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ComponentsModule
   ],
   declarations: [
     BugReadersComponent,
     ProjectsComponent,
     ProjectEditComponent,
     RegisterComponent,
-    ProjectsTableComponent,
-    BugsTableComponent,
-    AssignmentsTableComponent
+    ProjectsTableComponent
   ]
 })
 

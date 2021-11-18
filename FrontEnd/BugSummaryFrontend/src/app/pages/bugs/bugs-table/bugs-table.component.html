@@ -4,7 +4,7 @@
       <div class="col ">
         <h3 class="mb-0">Bugs</h3>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <a class="btn btn-sm btn-neutral"(click)="open(filterBugsList, 'modal_mini', 'sm')" >
           Filters
             <div class="col-md-4">
@@ -113,8 +113,8 @@
         <th scope="col">Fixing Time</th>
       </tr>
       </thead>
-      <tbody  *ngIf="!isFetching && project.bugs.length >=1">
-        <tr *ngFor="let bug of project.bugs">
+      <tbody  *ngIf="!isFetching && bugs.length >=1">
+        <tr *ngFor="let bug of bugs">
           <th scope="row">
             <div class="media align-items-center">
               <a  routerLinkActive="active" [routerLink]="['bugs',bug.id]" class="avatar rounded-circle mr-3">

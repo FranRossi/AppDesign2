@@ -18,7 +18,7 @@ import { EditProjectService } from '../../projects/project/editProject.service';
 
 export class BugsTableComponent {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
-  @Input() project: ProjectModel = null;
+  @Input() bugs: BugModel[] = [];
   error = null;
   successBug = null;
   loadedUsers: UserModel[] = [];
@@ -33,7 +33,7 @@ export class BugsTableComponent {
     this.isFetching = true;
     this.editService.getProjectById(this.projectId).subscribe({
       next: (responseData) => {
-        this.project = responseData;
+        this.bugs = responseData.bugs;
       },
       error: (e) => {
         this.isFetching = false;
@@ -55,7 +55,6 @@ export class BugsTableComponent {
 
   onAddBug(AddBugForm: NgForm) {
     const bug: BugModel = AddBugForm.value;
-    bug.projectId = this.project.id;
     bug.id = 1;
     this.editService.addBugToProject(bug).subscribe({
       next: () => {

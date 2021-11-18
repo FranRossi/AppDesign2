@@ -6,15 +6,18 @@ import {PageNotFoundComponent} from '../../page-not-found/page-not-found.compone
 
 export const DeveloperLayoutRoutes: Routes = [
   {
-    path: '',
-    redirectTo: 'bugs',
+    path: 'bugs',
+    redirectTo: "",
     pathMatch: 'full',
   },
-  { path: 'bugs',      component: BugsComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: BugsComponent
+  },
   { path: 'bugs/:id',         component: BugViewerComponent},
   {
     path: '**',
     component: PageNotFoundComponent,
   }
-
 ];

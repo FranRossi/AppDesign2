@@ -10,6 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from 'ngx-clipboard';
 import {BugsComponent} from '../../pages/bugs/bugs.component';
 import {BugEditComponent} from '../../pages/bugs/bug-editor/bug-edit.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {BugEditComponent} from '../../pages/bugs/bug-editor/bug-edit.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ComponentsModule
   ],
   declarations: [
     BugsComponent,
