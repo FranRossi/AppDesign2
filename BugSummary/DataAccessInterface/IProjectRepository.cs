@@ -12,7 +12,8 @@ namespace DataAccessInterface
         void Delete(int projectId);
 
         IEnumerable<Project> GetAll();
-        Project Get(int projectId);
+
+        Project Get(int projectId, string token);
 
         void AssignUserToProject(int userId, int projectId);
 

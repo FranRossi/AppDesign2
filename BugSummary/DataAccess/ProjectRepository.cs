@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DataAccessInterface;
 using Domain;
+using Domain.DomainUtilities;
 using Microsoft.EntityFrameworkCore;
 using Utilities.CustomExceptions.DataAccess;
 
@@ -92,9 +93,18 @@ namespace DataAccess
             }
         }
 
-        public Project Get(int projectId)
+        public Project Get(int projectId, string token)
         {
-            return Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").FirstOrDefault(p => p.Id == projectId);
+            User user = Context.Users.FirstOrDefault(u => u.Token == token);
+            Project project = Context.Projects.Include("Bugs.Fixer").Include("Assignments").Include("Users").FirstOrDefault(p => p.Id == projectId);
+            if (user.Role == RoleType.Admin)
+                return project;
+            User UserInProject = project.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (UserInProject != null)
+                return project;
+            else
+                throw new InexistentProjectException();
+
         }
     }
 }
