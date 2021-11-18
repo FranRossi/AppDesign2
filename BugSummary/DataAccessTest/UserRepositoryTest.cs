@@ -429,16 +429,19 @@ namespace DataAccessTest
             {
                 Id = 1,
                 Name = "Project 1",
+                Bugs = new List<Bug>()
             };
             Project project2 = new Project()
             {
                 Id = 2,
                 Name = "Project 2",
+                Bugs = new List<Bug>()
             };
             Project project3 = new Project()
             {
                 Id = 3,
-                Name = "Project 3"
+                Name = "Project 3",
+                Bugs = new List<Bug>()
             };
             User user = new User
             {
@@ -475,16 +478,19 @@ namespace DataAccessTest
             {
                 Id = 1,
                 Name = "Project 1",
+                Bugs = new List<Bug>()
             };
             Project project2 = new Project()
             {
                 Id = 2,
                 Name = "Project 2",
+                Bugs = new List<Bug>(),
             };
             Project project3 = new Project()
             {
                 Id = 3,
-                Name = "Project 3"
+                Name = "Project 3",
+                Bugs = new List<Bug>()
             };
             User user = new User
             {
