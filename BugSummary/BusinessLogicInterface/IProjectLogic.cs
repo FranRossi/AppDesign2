@@ -23,6 +23,6 @@ namespace BusinessLogicInterface
 
         public void AddBugsFromExternalReader(string externalReaderFileName, IEnumerable<Parameter> parameters);
 
-        public Project Get(int projectId);
+        public Project Get(int projectId, string token);
     }
 }

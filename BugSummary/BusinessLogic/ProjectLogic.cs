@@ -99,9 +99,9 @@ namespace BusinessLogic
             return parsedProjects;
         }
 
-        public Project Get(int projectId)
+        public Project Get(int projectId, string token)
         {
-            return _projectRepository.Get(projectId);
+            return _projectRepository.Get(projectId, token);
         }
     }
 }

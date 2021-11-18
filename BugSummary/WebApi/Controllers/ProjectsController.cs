@@ -85,9 +85,9 @@ namespace WebApi.Controllers
 
         [AuthorizationWithParameterFilter(new[] { RoleType.Admin, RoleType.Tester, RoleType.Developer })]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get([FromHeader] string token, int id)
         {
-            Project result = _projects.Get(id);
+            Project result = _projects.Get(id, token);
             return Ok(ProjectModel.ToModel(result));
         }
     }
