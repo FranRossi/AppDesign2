@@ -11,7 +11,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using TestUtilities;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.FileHandler;
 
 namespace FileHandlerTest
 {
@@ -73,7 +73,7 @@ namespace FileHandlerTest
         {
             return new BugModel
             {
-                Name = "Error en el envío de correo",
+                Name = "Error en el envÃ­o de correo",
                 Description = "El error se produce cuando el usuario no tiene un correo asignado",
                 Version = "1.0",
                 State = BugState.Active
@@ -84,7 +84,7 @@ namespace FileHandlerTest
         {
             return new BugModel
             {
-                Name = "Error en el envío de correo 2",
+                Name = "Error en el envÃ­o de correo 2",
                 Description = "El error se produce cuando el usuario no tiene un correo asignado 2",
                 Version = "1.0",
                 State = BugState.Fixed

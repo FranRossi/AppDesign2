@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
-using CustomExceptions;
-using DataAccess;
 using DataAccessInterface;
 using Domain;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestUtilities;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 using Utilities.Criterias;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace BusinessLogicTest
 {

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using CustomExceptions;
 using DataAccess;
 using Domain;
 using Domain.DomainUtilities;
@@ -13,9 +12,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 using Utilities.Criterias;
-using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
 
 namespace DataAccessTest
 {

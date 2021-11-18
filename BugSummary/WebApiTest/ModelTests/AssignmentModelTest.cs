@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using CustomExceptions;
 using Domain;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
+using Utilities.CustomExceptions.WebApi;
 using WebApi.Models;
 
 namespace WebApiTest

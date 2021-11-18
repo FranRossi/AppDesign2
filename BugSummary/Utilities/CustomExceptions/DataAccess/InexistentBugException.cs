@@ -1,13 +1,10 @@
-﻿using System;
-using Utilities.CustomExceptions;
-
-namespace CustomExceptions
+﻿namespace Utilities.CustomExceptions.DataAccess
 {
     public class InexistentBugException : DataAccessException
     {
         public InexistentBugException()
         {
-            this.messageToDisplay = "The entered bug does not exist.";
+            this.MessageToDisplay = "The entered bug does not exist.";
         }
     }
 }

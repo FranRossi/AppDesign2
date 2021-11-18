@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using BusinessLogicInterface;
 using DataAccessInterface;
 using Domain;
-using Utilities.Criterias;
 
 
 namespace BusinessLogic

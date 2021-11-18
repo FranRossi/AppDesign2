@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Utilities.CustomExceptions
+﻿namespace Utilities.CustomExceptions.DataAccess
 {
     public class InexistentProjectException : DataAccessException
     {
         public InexistentProjectException()
         {
-            this.messageToDisplay = "The entered project does not exist.";
+            this.MessageToDisplay = "The entered project does not exist.";
         }
     }
 }

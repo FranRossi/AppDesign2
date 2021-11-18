@@ -1,13 +1,10 @@
-﻿using System;
-using Utilities.CustomExceptions;
-
-namespace CustomExceptions
+﻿namespace Utilities.CustomExceptions.WebApi
 {
     public class BugModelMissingFieldException : ModelMissingFieldsException
     {
         public BugModelMissingFieldException()
         {
-            this.messageToDisplay = "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId.";
+            this.MessageToDisplay = "Missing Fields: Required -> Id, Name, Description, Version, State, ProjectId.";
         }
     }
 }

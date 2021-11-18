@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Utilities.Comparers
+namespace TestUtilities.Comparers
 {
     public abstract class BaseComparer<T> : IComparer where T : class
     {

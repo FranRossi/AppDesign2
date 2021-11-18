@@ -11,8 +11,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.CustomExceptions;
+using TestUtilities.Comparers;
+using Utilities.CustomExceptions.DataAccess;
+
 namespace DataAccessTest
 {
 

@@ -7,7 +7,7 @@ using Domain;
 using Domain.DomainUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 
 namespace BusinessLogicTest
 {

@@ -8,7 +8,6 @@ using Moq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
-using Utilities.CustomExceptions;
 
 namespace BusinessLogicTest
 {

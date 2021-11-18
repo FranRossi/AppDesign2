@@ -1,5 +1,5 @@
-﻿using CustomExceptions;
-using Domain;
+﻿using Domain;
+using Utilities.CustomExceptions.WebApi;
 
 namespace WebApi.Models
 {

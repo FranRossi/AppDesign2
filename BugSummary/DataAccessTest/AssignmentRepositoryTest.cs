@@ -10,7 +10,7 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 
 namespace DataAccessTest
 {

@@ -2,10 +2,8 @@
 using BusinessLogicInterface;
 using DataAccess;
 using DataAccessInterface;
-using Domain;
 using BugReaderImporter;
-using ExternalReaderImporterInterface;
-using FileHandlerFactory;
+using BugReaderImporterInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

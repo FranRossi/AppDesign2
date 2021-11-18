@@ -1,13 +1,10 @@
-﻿using System;
-using Utilities.CustomExceptions;
-
-namespace CustomExceptions
+﻿namespace Utilities.CustomExceptions.WebApi
 {
     public class ProjectModelMissingFieldException : ModelMissingFieldsException
     {
         public ProjectModelMissingFieldException()
         {
-            this.messageToDisplay = "Missing Fields: Required -> Name.";
+            this.MessageToDisplay = "Missing Fields: Required -> Name.";
         }
     }
 }

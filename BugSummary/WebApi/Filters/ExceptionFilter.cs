@@ -2,10 +2,12 @@
 using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Utilities.CustomExceptions;
-using CustomExceptions;
 using System.Xml;
 using ExternalReader;
+using Utilities.CustomExceptions;
+using Utilities.CustomExceptions.DataAccess;
+using Utilities.CustomExceptions.FileHandler;
+using Utilities.CustomExceptions.WebApi;
 
 namespace WebApi.Filters
 {

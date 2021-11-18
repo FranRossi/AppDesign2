@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using CustomExceptions;
 using Domain;
 using Domain.DomainUtilities;
+using Utilities.CustomExceptions.WebApi;
 
 namespace WebApi.Models
 {

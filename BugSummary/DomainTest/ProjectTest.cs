@@ -6,7 +6,7 @@ using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
-using Utilities.Comparers;
+using TestUtilities.Comparers;
 
 namespace DomainTest
 {

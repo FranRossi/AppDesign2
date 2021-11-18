@@ -4,7 +4,7 @@ using Domain;
 using Domain.DomainUtilities;
 using Domain.DomainUtilities.CustomExceptions;
 using ExternalReader;
-using ExternalReaderImporterInterface;
+using BugReaderImporterInterface;
 using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
@@ -16,8 +16,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
-using Utilities.Comparers;
-using Utilities.CustomExceptions;
+using TestUtilities.Comparers;
+using Utilities.CustomExceptions.DataAccess;
 using BugState = Domain.DomainUtilities.BugState;
 
 namespace BusinessLogicTest
