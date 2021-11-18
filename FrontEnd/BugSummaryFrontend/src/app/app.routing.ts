@@ -8,6 +8,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import {TesterLayoutComponent} from './layouts/tester-layout/tester-layout.component';
 import {DeveloperLayoutComponent} from './layouts/developer-layout/developer-layout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {AuthorizationGuard} from './guards/authorization.guard';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
     pathMatch: 'full',
   }, {
     path: 'admin',
+    canActivate: [AuthorizationGuard],
     component: AdminLayoutComponent,
     children: [
       {
@@ -25,6 +27,7 @@ const routes: Routes = [
     ]
   }, {
     path: 'tester',
+    canActivate: [AuthorizationGuard],
     component: TesterLayoutComponent,
     children: [
       {
@@ -34,6 +37,7 @@ const routes: Routes = [
     ]
   }, {
     path: 'developer',
+    canActivate: [AuthorizationGuard],
     component: DeveloperLayoutComponent,
     children: [
       {

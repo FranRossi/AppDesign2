@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuthorizationGuard} from './guards/authorization.guard';
 
 
 
@@ -36,7 +37,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DeveloperLayoutComponent,
     PageNotFoundComponent,
   ],
-  providers: [],
+  providers: [AuthorizationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
