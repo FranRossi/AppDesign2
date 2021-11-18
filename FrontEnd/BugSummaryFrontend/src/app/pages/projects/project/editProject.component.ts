@@ -10,6 +10,7 @@ import {AssignmentModel} from '../../../models/assignmentModel';
 import { UserModel } from 'src/app/models/userModel';
 import { UsersService } from '../../register/users.service';
 import { ProjectsService } from '../projects.service';
+import { AssignmentsTableComponent } from '../../assignments/assignments-table/assignments-table.component';
 
 
 @Component({
@@ -20,11 +21,11 @@ import { ProjectsService } from '../projects.service';
 
 export class ProjectEditComponent implements OnInit {
   @ViewChild('formEditNameProject') editNameForm: NgForm;
+  @ViewChild(AssignmentsTableComponent) assingmentsTable:AssignmentsTableComponent;
   error = null;
   successUser = null;
   successBug = null;
   successProject = null;
-  successAssignment = null;
   project: ProjectModel = null;
   loadedUsers: UserModel[] = [];
   projectId: string;
@@ -166,13 +167,13 @@ export class ProjectEditComponent implements OnInit {
     this.editService.addAssignmentToProject(assignment).subscribe({
       next: () => {
         this.error = null;
-        this.successAssignment = 'Assignment added correctly!';
+        this.assingmentsTable.successAssignment = 'Assignment added correctly!';
         createAssignmentForm.reset();
         this.modalService.dismissAll();
         this.getProjectById();
       },
       error: (e) => {
-        this.successAssignment = null;
+        this.assingmentsTable.successAssignment = null;
         this.error = e.error;
       }
     });

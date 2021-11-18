@@ -14,7 +14,7 @@ import { ProjectsService } from './projects.service';
 export class ProjectsComponent {
   success :string 
   error :string 
-  @ViewChild(ProjectsTableComponent) projectsTable:ProjectsTableComponent;
+  @ViewChild(ProjectsTableComponent) projectsTable: ProjectsTableComponent;
   constructor(private modalService: NgbModal, private projectService: ProjectsService) { }
 
   open(content, type, modalDimension) {
