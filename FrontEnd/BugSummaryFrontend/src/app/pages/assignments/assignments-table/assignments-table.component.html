@@ -1,0 +1,46 @@
+<div class="card bg-secondary shadow">
+  <!-- Assignments -->
+  <div class="card-header bg-white border-0">
+    <div class="row align-items-center">
+      <div class="col-8">
+        <h3 class="mb-0">Assignments</h3>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <div class="alert alert-success" role="alert" *ngIf="successAssignment">
+      {{successAssignment}}
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Duration</th>
+        <th scope="col">HourlyRate</th>
+      </tr>
+      </thead>
+      <p *ngIf="project == null">
+        Loading...
+      </p>
+      <tbody *ngIf="project !=null && project.assignments.length >=1">
+        <tr *ngFor="let assignment of project.assignments">
+          <th scope="row">
+            <div class="media align-items-center">
+              <div class="media-body">
+                <span class="mb-0 text-sm">{{ assignment.name }}</span>
+              </div>
+            </div>
+          </th>
+          <td>
+            {{ assignment.duration }}
+          </td>
+          <td>
+            ${{ assignment.hourlyRate }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -8,7 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from 'ngx-clipboard';
 import {DeveloperLayoutRoutes} from './developer-layout.routing';
-import {BugViewerComponent} from '../../pages/bugs/bug-viewer/bug-viewer.component';
+import {BugViewerComponent} from '../../pages/bugs/bug-visualizer/bug-visualizer.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {BugViewerComponent} from '../../pages/bugs/bug-viewer/bug-viewer.compone
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ComponentsModule
   ],
   declarations: [
     BugViewerComponent

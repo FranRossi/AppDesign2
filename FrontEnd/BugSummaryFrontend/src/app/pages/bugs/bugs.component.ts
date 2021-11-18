@@ -84,21 +84,6 @@ export class BugsComponent implements OnInit {
     });
   }
 
-  onDelete(bugId: number) {
-    this.bugService.deleteBug(bugId).subscribe({
-      next: () => {
-        this.loadedBugs = this.loadedBugs.filter(model => model.id !== bugId);
-        this.modalService.dismissAll();
-        this.error = null;
-        this.success = 'Bug deleted correctly!';
-      },
-      error: (e) => {
-        this.success = null;
-        this.error = e.error;
-      }
-    });
-  }
-
   onHandleError() {
     this.error = null;
   }
@@ -111,8 +96,8 @@ export class BugsComponent implements OnInit {
         form.reset();
         this.modalService.dismissAll();
         this.getBugs();
-        this.error = null;
-        this.success = 'Bug created correctly!';
+          this.error = null;
+          this.success = 'Bug created correctly!';
       },
       error: (e) => {
         this.success = null;
@@ -128,22 +113,5 @@ export class BugsComponent implements OnInit {
       this.modalService.open(content, { centered: true });
     }
   }
-
-  onFixBug(bugId, form: NgForm) {
-    const fixingTime: number = form.value.fixingTime;
-    this.bugService.fixBug(bugId, fixingTime)
-      .subscribe({
-        next: () => {
-          form.reset();
-          this.modalService.dismissAll();
-          this.getBugs();
-          this.error = null;
-          this.success = 'Bug fixed correctly!';
-        },
-        error: (e) => {
-          this.success = null;
-          this.error = e.error;
-        }
-      });
-  }
+  
 }

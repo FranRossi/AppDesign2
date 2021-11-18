@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
 import { BugReadersComponent } from '../../pages/bug-readers/bug-readers.component';
-import { ProjectsComponent } from '../../pages/projects/projects.component';
-import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
+import {ProjectEditComponent} from '../../pages/projects/project-edit/project-edit.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { BugEditComponent } from 'src/app/pages/bugs/bug-editor/bug-edit.component';
 import {PageNotFoundComponent} from '../../page-not-found/page-not-found.component';
+import { ProjectsAdminComponent } from 'src/app/pages/projects/projects-admin/projects-admin.component';
 
 export const AdminLayoutRoutes: Routes = [
     {
@@ -14,7 +14,7 @@ export const AdminLayoutRoutes: Routes = [
       pathMatch: 'full',
     },
     { path: 'bug-editor-readers',   component: BugReadersComponent },
-    { path: 'projects',         component: ProjectsComponent },
+    { path: 'projects',         component: ProjectsAdminComponent },
     { path: 'register',         component: RegisterComponent },
     { path: 'projects/:id',         component: ProjectEditComponent},
     { path: 'projects/:id/bugs/:id',         component: BugEditComponent},

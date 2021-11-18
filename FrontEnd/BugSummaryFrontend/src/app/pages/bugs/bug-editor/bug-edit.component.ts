@@ -7,6 +7,7 @@ import {BugModel} from '../../../models/bugModel';
 import {BugEditService} from './bug-edit.service';
 import { UsersService } from '../../register/users.service';
 import { ProjectModel } from 'src/app/models/projectModel';
+import { EditProjectService } from '../../projects/project-edit/project-edit.service';
 
 @Component({
   selector: 'app-bug',
@@ -22,7 +23,7 @@ export class BugEditComponent implements OnInit {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
   selectedProjectName: string = null;
-  constructor(private router: Router,private http: HttpClient, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
+  constructor(private router: Router, private http: HttpClient, private editService: EditProjectService, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
   }
 
   ngOnInit() {
@@ -38,10 +39,24 @@ export class BugEditComponent implements OnInit {
         this.getProjects();
       },
       error: (e) => {
-        this.error = e.status + ' ' + e.statusText;
+        this.error = e.error;
       },
       complete: () =>{
         this.isFetching = false;
+      }
+    });
+  }
+
+  onDeleteBug( bugId: number) {
+    this.modalService.dismissAll();
+    this.editService.deleteBug(bugId).subscribe({
+      next: () => {
+        this.error = null;
+        this.modalService.dismissAll();
+        this.router.navigate(['../..'] , {relativeTo: this.route});
+      },
+      error: (e) => {
+        this.error = e.error;
       }
     });
   }
@@ -63,7 +78,6 @@ export class BugEditComponent implements OnInit {
   }
 
   private getSelectedProjectName(){
-    console.log(this.isFetching);
     this.loadedProjects.forEach(project => {
       if (project.id == this.bug.projectId)
         this.selectedProjectName = project.name;
@@ -73,13 +87,20 @@ export class BugEditComponent implements OnInit {
   onEditBug() {
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
-    console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;
         this.editBugForm.resetForm();
         this.router.navigate(['../..'] , {relativeTo: this.route});
       });
+  }
+
+  open(content, type, modalDimension) {
+    if (type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+    } else {
+      this.modalService.open(content, { centered: true });
+    }
   }
 
   private updateBugFromForm(updatedBug: BugModel) {
