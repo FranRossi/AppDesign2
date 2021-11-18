@@ -38,6 +38,50 @@
           <div class="card-body">
             <div class="row">
               <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Delete project</h5>
+                <span class="h2 font-weight-bold mb-0"></span>
+              </div>
+              <div class="col-auto">
+                <a (click)="open(classic2, 'Notification', '')" >
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                  <i class="fas fa-minus fa-align-center"></i>
+                  <!--Confirmation-->
+                  <div class="col-md-4">
+                    <ng-template #classic2 let-c="close" let-d="dismiss">
+                      <div class="modal-content bg-gradient-danger">
+                        <div class="modal-header">
+                          <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="py-3 text-center">
+                            <i class="ni ni-bell-55 ni-3x"></i>
+                            <h4 class="heading mt-4">You should read this!</h4>
+                            <p>You are about to delete a project permanently, please confirm this action</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteProject(project.id)">Ok, delete it</button>
+                          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">Add User</h5>
                 <span class="h2 font-weight-bold mb-0"></span>
               </div>
@@ -235,7 +279,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-7">
+      <div class="col-xl-3 col-lg-7">
         <div class="card card-stats mb-4 mb-xl-0">
           <div class="card-body">
             <div class="row">
@@ -352,7 +396,6 @@
   </div>
 </div>
 
-
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <div class="row">
@@ -404,84 +447,7 @@
         </div>
       </div>
       </div>
-    <div class="col align-items-center">
-      <div class="card bg-secondary shadow">
-        <div class="card-header bg-white border-0">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Bugs</h3>
-            </div>
-          </div>
-        </div>
-        <div class="text-center">
-          <div class="alert alert-success" role="alert" *ngIf="successBug">
-            {{successBug}}
-          </div>
-        </div>
-        <!-- Bugs -->
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col">Bugs</th>
-              <th scope="col">Status</th>
-              <th scope="col">Delete bug</th>
-            </tr>
-            </thead>
-            <tbody  *ngIf="!isFetching && project.bugs.length >=1">
-              <tr *ngFor="let bug of project.bugs">
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a  routerLinkActive="active" [routerLink]="['bugs',bug.id]" class="avatar rounded-circle mr-3">
-                      <img alt="Access Bug" src="../assets/img/theme/bootstrap.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">{{ bug.name }}</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
-                    <i class="bg-success"></i> Bug fixed
-                  </span>
-                  <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> Bug active
-                  </span>
-                </td>
-                <td class="text-right">
-                  <a class="icon rounded-circle" id="deleteIcon" (click)="open(deleteBug, 'Notification', '')">
-                    <i class="fas fas fa-minus-circle"></i>
-                    <div class="col-md-4">
-                      <ng-template #deleteBug let-c="close" let-d="dismiss">
-                        <div class="modal-content bg-gradient-danger">
-                          <div class="modal-header">
-                            <h6 class="modal-title" >Your attention is required</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="py-3 text-center">
-                              <i class="ni ni-bell-55 ni-3x"></i>
-                              <h4 class="heading mt-4">You should read this!</h4>
-                              <p>You are about to delete a bug permanently, please confirm this action</p>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal" (click)="onDeleteBug(bug.id)">Ok, delete it</button>
-                            <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal" (click)="c('Close click')">Close</button>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </div>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <app-bugs-table [project] = 'project'></app-bugs-table>
   </div>
 
   <div class="row align-items-center" id="rowUserTable">

@@ -11,6 +11,8 @@ import { ProjectsComponent } from '../../pages/projects/projects.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
+import { ProjectsTableComponent } from 'src/app/pages/projects/projects-table/projects-table.component';
+import { BugsTableComponent } from 'src/app/pages/bugs/bugs-table/bugs-table.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import {ProjectEditComponent} from '../../pages/projects/project/editProject.com
     BugReadersComponent,
     ProjectsComponent,
     ProjectEditComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProjectsTableComponent,
+    BugsTableComponent
   ]
 })
 

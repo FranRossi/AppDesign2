@@ -111,8 +111,8 @@ export class BugsComponent implements OnInit {
         form.reset();
         this.modalService.dismissAll();
         this.getBugs();
-        this.error = null;
-        this.success = 'Bug created correctly!';
+          this.error = null;
+          this.success = 'Bug created correctly!';
       },
       error: (e) => {
         this.success = null;

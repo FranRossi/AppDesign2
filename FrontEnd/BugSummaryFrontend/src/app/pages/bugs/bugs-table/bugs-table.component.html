@@ -1,0 +1,55 @@
+<div class="col align-items-center">
+  <div class="card bg-secondary shadow">
+    <div class="card-header bg-white border-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Bugs</h3>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class="alert alert-success" role="alert" *ngIf="successBug">
+        {{successBug}}
+      </div>
+    </div>
+    <!-- Bugs -->
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Bugs</th>
+          <th scope="col">Status</th>
+          <th scope="col">Fixing Time</th>
+        </tr>
+        </thead>
+        <tbody  *ngIf="!isFetching && project.bugs.length >=1">
+          <tr *ngFor="let bug of project.bugs">
+            <th scope="row">
+              <div class="media align-items-center">
+                <a  routerLinkActive="active" [routerLink]="['bugs',bug.id]" class="avatar rounded-circle mr-3">
+                  <img alt="Access Bug" src="../assets/img/theme/bootstrap.jpg">
+                </a>
+                <div class="media-body">
+                  <span class="mb-0 text-sm">{{ bug.name }}</span>
+                </div>
+              </div>
+            </th>
+            <td>
+              <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
+                <i class="bg-success"></i> Bug fixed
+              </span>
+              <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
+                <i class="bg-warning"></i> Bug active
+              </span>
+            </td>
+            <th scope="row">
+              <div class="media-body">
+                <span class="mb-0 text-sm">{{ bug.fixingTime }}</span>
+              </div>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,73 +1,37 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ProjectsService} from './projects.service';
-import {ProjectListModel} from '../../models/projectListModel';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {NgForm} from '@angular/forms';
+import { ProjectsTableComponent } from './projects-table/projects-table.component';
+import { ProjectsService } from './projects.service';
 
 
 @Component({
   selector: 'app-tables',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
+  
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
-  isFetching = false;
-  loadedProjects: ProjectListModel[] = [];
-  error = null;
-  success = null;
-  constructor(private http: HttpClient, private projectService: ProjectsService, private modalService: NgbModal) { }
+export class ProjectsComponent {
+  success :string 
+  error :string 
+  @ViewChild(ProjectsTableComponent) projectsTable:ProjectsTableComponent;
+  constructor(private modalService: NgbModal, private projectService: ProjectsService) { }
 
-  ngOnInit() {
-    this.getProjects();
-  }
-
-  ngOnDestroy() {
-    this.loadedProjects = [];
-    this.error = null;
-  }
-
-  private getProjects() {
-    this.isFetching = true;
-    this.projectService.getAllProjects().subscribe({
-      next: (responseData) => {
-          this.isFetching = false;
-          this.loadedProjects = responseData;
-        },
-      error: (e) => {
-          this.isFetching = false;
-          this.success = null;
-          this.error = e.error;
-        }
-    });
-  }
-
-  onDelete(projectId: number) {
-    this.projectService.deleteProject(projectId).subscribe({
-      next: () => {
-        this.error = null;
-        this.success = 'Project deleted correctly!';
-        this.loadedProjects = this.loadedProjects.filter(model => model.id !== projectId);
-        this.modalService.dismissAll();
-      },
-      error: (e) => {
-        this.success = null;
-        this.error = e.error;
-      }
-    });
-  }
-
-  onHandleError() {
-    this.error = null;
+  open(content, type, modalDimension) {
+   if (type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
+    } else {
+      this.modalService.open(content, { centered: true });
+    }
   }
 
   onCreate(form: NgForm) {
     const projectName = form.value;
     this.projectService.addProject(projectName).subscribe({
       next: () => {
-        this.getProjects();
+        this.projectsTable.getProjects();
         this.error = null;
-        this.success = 'Project deleted correctly!';
+        this.success = 'Project created correctly!';
         this.modalService.dismissAll();
         form.reset();
       },
@@ -76,14 +40,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         this.error = e.error;
       }
     });
-  }
-
-  open(content, type, modalDimension) {
-   if (type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true });
-    } else {
-      this.modalService.open(content, { centered: true });
-    }
   }
 
 }

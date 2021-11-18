@@ -3,12 +3,13 @@ import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ProjectModel} from '../../../models/projectModel';
 import {EditProjectService} from './editProject.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
 import {AssignmentModel} from '../../../models/assignmentModel';
 import { UserModel } from 'src/app/models/userModel';
 import { UsersService } from '../../register/users.service';
+import { ProjectsService } from '../projects.service';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class ProjectEditComponent implements OnInit {
   projectId: string;
   isFetching = false;
   bugState = 1;
-  constructor(private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
+  constructor(private router: Router, private http: HttpClient, private editService: EditProjectService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService, private projectService: ProjectsService) {
   }
 
   ngOnInit() {
@@ -68,6 +69,18 @@ export class ProjectEditComponent implements OnInit {
     });
   }
 
+  onDeleteProject(projectId: number) {
+    this.projectService.deleteProject(projectId).subscribe({
+      next: () => {
+        this.error = null;
+        this.modalService.dismissAll();
+        this.router.navigate(['..'] , {relativeTo: this.route});
+      },
+      error: (e) => {
+        this.error = e.error;
+      }
+    });
+  }
 
   open(content, type, modalDimension) {
     if (type === 'Notification') {
@@ -91,21 +104,6 @@ export class ProjectEditComponent implements OnInit {
           this.successProject = null;
           this.error = e.error;
         }
-    });
-  }
-
-  onDeleteBug( bugId: number) {
-    this.modalService.dismissAll();
-    this.editService.deleteBug(bugId).subscribe({
-      next: () => {
-        this.error = null;
-        this.successBug = "Bug deleted correctly!";
-        this.project.bugs = this.project.bugs.filter(model => model.id !== bugId);
-      },
-      error: (e) => {
-        this.successBug = null;
-        this.error = e.error;
-      }
     });
   }
 
