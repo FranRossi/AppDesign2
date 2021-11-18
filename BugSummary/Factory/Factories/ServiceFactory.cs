@@ -41,7 +41,7 @@ namespace Factory.Factories
 
         public void AddDbExternalReaderService(string pathToFolder)
         {
-            services.AddSingleton<IExternalReaderImporter>(new ExternalReaderImporterLogic(pathToFolder));
+            services.AddSingleton<IBugReaderImporter>(new BugReaderImporterLogic(pathToFolder));
         }
     }
 }

@@ -392,7 +392,7 @@ namespace BusinessLogicTest
                 tuple1,
                 tuple2
             };
-            Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
+            Mock<IBugReaderImporter> mockImporter = new Mock<IBugReaderImporter>(MockBehavior.Strict);
             mockImporter.Setup(mr => mr.GetExternalReadersInfo()).Returns(mockedResult);
 
 
@@ -434,7 +434,7 @@ namespace BusinessLogicTest
             Mock<IExternalReader> mockExternalReader = new Mock<IExternalReader>(MockBehavior.Strict);
             mockExternalReader.Setup(mr => mr.GetProjectsFromFile(It.IsAny<IEnumerable<Parameter>>())).Returns(new List<ProjectModel> { newProject })
                  .Callback((IEnumerable<Parameter> sentParameters) => { receivedParameters = sentParameters; });
-            Mock<IExternalReaderImporter> mockImporter = new Mock<IExternalReaderImporter>(MockBehavior.Strict);
+            Mock<IBugReaderImporter> mockImporter = new Mock<IBugReaderImporter>(MockBehavior.Strict);
             mockImporter.Setup(mr => mr.GetExternalReader(It.IsAny<string>())).Returns(mockExternalReader.Object)
                  .Callback((string sentPath) => { receivedPath = sentPath; });
             Mock<IProjectRepository> mockUserRepository = new Mock<IProjectRepository>(MockBehavior.Strict);

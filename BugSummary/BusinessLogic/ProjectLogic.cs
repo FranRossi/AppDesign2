@@ -14,14 +14,12 @@ namespace BusinessLogic
     public class ProjectLogic : IProjectLogic
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IExternalReaderImporter _externalReaderImporter;
-        public ReaderFactory readerFactory { private get; set; }
+        private readonly IBugReaderImporter _externalReaderImporter;
 
-        public ProjectLogic(IProjectRepository projectRepository, IExternalReaderImporter externalReaderImporter)
+        public ProjectLogic(IProjectRepository projectRepository, IBugReaderImporter externalReaderImporter)
         {
             _projectRepository = projectRepository;
             _externalReaderImporter = externalReaderImporter;
-            readerFactory = new ReaderFactory();
         }
 
         public void Add(Project newProject)
