@@ -7,7 +7,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
 import {AssignmentModel} from '../../../models/assignmentModel';
 import { UserModel } from 'src/app/models/userModel';
-import { EditProjectService } from '../../projects/project/editProject.service';
+import { EditProjectService } from '../../projects/project-edit/project-edit.service';
 
 
 @Component({
@@ -33,7 +33,8 @@ export class BugsTableComponent {
     this.isFetching = true;
     this.editService.getProjectById(this.projectId).subscribe({
       next: (responseData) => {
-        this.bugs = responseData.bugs;
+        console.log(responseData);
+        //this.bugs = responseData.bugs;
       },
       error: (e) => {
         this.isFetching = false;
@@ -67,7 +68,7 @@ export class BugsTableComponent {
       }
     });
   }
-  
+
   onStateSelectionChanged(state){
     this.bugState = parseInt(state);
   }

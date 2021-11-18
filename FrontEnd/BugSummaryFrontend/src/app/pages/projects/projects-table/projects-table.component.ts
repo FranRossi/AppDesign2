@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProjectListModel } from 'src/app/models/projectListModel';
-import { ProjectsService } from '../projects.service';
+import { UsersService } from '../../register/users.service';
 
 @Component({
   selector: 'app-projects-table',
@@ -14,7 +14,7 @@ export class ProjectsTableComponent implements OnInit {
   loadedProjects: ProjectListModel[] = [];
   error = null;
   success = null;
-  constructor(private http: HttpClient, private projectService: ProjectsService) { }
+  constructor(private http: HttpClient, private userService: UsersService) { }
 
   ngOnInit() {
     this.getProjects();
@@ -27,16 +27,17 @@ export class ProjectsTableComponent implements OnInit {
 
   public getProjects() {
     this.isFetching = true;
-    this.projectService.getAllProjects().subscribe({
+    this.userService.getUserProjects().subscribe({
       next: (responseData) => {
-          this.isFetching = false;
-          this.loadedProjects = responseData;
-        },
+        this.loadedProjects = responseData;
+      },
       error: (e) => {
-          this.isFetching = false;
-          this.success = null;
-          this.error = e.error;
-        }
+        this.success = null;
+        this.error = e.error;
+      },
+      complete: () =>{
+        this.isFetching = false;
+      }
     });
   }
 

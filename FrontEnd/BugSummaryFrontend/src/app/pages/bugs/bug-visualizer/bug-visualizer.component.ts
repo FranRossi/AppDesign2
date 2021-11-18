@@ -4,13 +4,13 @@ import {BugEditService} from '../bug-editor/bug-edit.service';
 import {ActivatedRoute} from '@angular/router';
 import {BugModel} from '../../../models/bugModel';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EditProjectService} from '../../projects/project/editProject.service';
+import {EditProjectService} from '../../projects/project-edit/project-edit.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-bug-viewer',
-  templateUrl: './bug-viewer.component.html',
-  styleUrls: ['./bug-viewer.component.scss']
+  selector: 'app-bug-visualizer',
+  templateUrl: './bug-visualizer.component.html',
+  styleUrls: ['./bug-visualizer.component.scss']
 })
 export class BugViewerComponent implements OnInit {
   error: string = null;

@@ -7,7 +7,7 @@ import {BugModel} from '../../../models/bugModel';
 import {BugEditService} from './bug-edit.service';
 import { UsersService } from '../../register/users.service';
 import { ProjectModel } from 'src/app/models/projectModel';
-import { EditProjectService } from '../../projects/project/editProject.service';
+import { EditProjectService } from '../../projects/project-edit/project-edit.service';
 
 @Component({
   selector: 'app-bug',
@@ -87,7 +87,6 @@ export class BugEditComponent implements OnInit {
   onEditBug() {
     let updatedBug: BugModel = this.editBugForm.value;
     updatedBug = this.updateBugFromForm(updatedBug);
-    console.log(updatedBug);
     this.bugService.editBug(updatedBug, this.bug.id.toString())
       .subscribe(responseData => {
         this.bug = updatedBug;

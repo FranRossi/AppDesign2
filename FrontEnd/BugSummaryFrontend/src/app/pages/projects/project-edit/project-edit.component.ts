@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ProjectModel} from '../../../models/projectModel';
-import {EditProjectService} from './editProject.service';
+import {EditProjectService} from './project-edit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BugModel} from '../../../models/bugModel';
@@ -15,8 +15,8 @@ import { AssignmentsTableComponent } from '../../assignments/assignments-table/a
 
 @Component({
   selector: 'app-edit-project',
-  templateUrl: './editProject.component.html',
-  styleUrls: ['./editProject.component.scss']
+  templateUrl: './project-edit.component.html',
+  styleUrls: ['./project-edit.component.scss']
 })
 
 export class ProjectEditComponent implements OnInit {

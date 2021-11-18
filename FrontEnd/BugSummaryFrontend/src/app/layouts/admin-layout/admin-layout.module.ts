@@ -10,8 +10,7 @@ import { BugReadersComponent } from '../../pages/bug-readers/bug-readers.compone
 import { ProjectsAdminComponent } from '../../pages/projects/projects-admin/projects-admin.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {ProjectEditComponent} from '../../pages/projects/project/editProject.component';
-import { ProjectsTableComponent } from 'src/app/pages/projects/projects-table/projects-table.component';
+import {ProjectEditComponent} from '../../pages/projects/project-edit/project-edit.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -28,8 +27,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     BugReadersComponent,
     ProjectsAdminComponent,
     ProjectEditComponent,
-    RegisterComponent,
-    ProjectsTableComponent
+    RegisterComponent
   ]
 })
 

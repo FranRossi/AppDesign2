@@ -126,10 +126,10 @@
             </div>
           </th>
           <td>
-            <span *ngIf="bug.state == 1 " class="badge badge-dot mr-4">
+            <span *ngIf="!isFetching && bug.state == 1 " class="badge badge-dot mr-4">
               <i class="bg-success"></i> Bug fixed
             </span>
-            <span *ngIf="bug.state > 1" class="badge badge-dot mr-4">
+            <span *ngIf="!isFetching && bug.state > 1" class="badge badge-dot mr-4">
               <i class="bg-warning"></i> Bug active
             </span>
           </td>

@@ -6,7 +6,7 @@ import { ProjectsService } from '../projects.service';
 
 
 @Component({
-  selector: 'app-tables',
+  selector: 'app-projects-admins',
   templateUrl: './projects-admin.component.html',
   styleUrls: ['./projects-admin.component.scss'],
   
