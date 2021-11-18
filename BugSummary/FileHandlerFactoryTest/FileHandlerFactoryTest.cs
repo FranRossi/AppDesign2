@@ -2,6 +2,7 @@ using FileHandler;
 using FileHandlerFactory;
 using FileHandlerInterface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TestUtilities;
 using Utilities.CustomExceptions;
@@ -17,7 +18,7 @@ namespace FileHandlerFactoryTest
         {
             ReaderFactory factory = new ReaderFactory();
             IFileReaderStrategy expectedStrategy = new Company1Reader();
-            string companyName = "Empresa1";
+            string companyName = "Company1";
 
             IFileReaderStrategy strategy = factory.GetStrategy(companyName);
 
@@ -29,7 +30,7 @@ namespace FileHandlerFactoryTest
         {
             ReaderFactory factory = new ReaderFactory();
             IFileReaderStrategy expectedStrategy = new Company2Reader();
-            string companyName = "Empresa2";
+            string companyName = "Company2";
 
             IFileReaderStrategy strategy = factory.GetStrategy(companyName);
 
@@ -46,6 +47,15 @@ namespace FileHandlerFactoryTest
             TestExceptionUtils.Throws<CompanyIsNotRegisteredException>(
                 () => factory.GetStrategy(companyName), "The entered company is not registered on the API."
             );
+        }
+
+        [TestMethod]
+        public void GetCompanyReaderNames()
+        {
+            ReaderFactory factory = new ReaderFactory();
+            IEnumerable<string> expectedNames = new List<string> { "Company1", "Company2" };
+
+            Assert.AreEqual(expectedNames, factory.GetCompanyReaderNames());
         }
     }
 }
