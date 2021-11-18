@@ -73,7 +73,6 @@
                 </a>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -207,8 +206,7 @@
                                         name="state"
                                         required
                                         type="number"
-                                        #state="ngModel"
-                                        (change)="onStateSelectionChanged($event.target.value)">
+                                        #state="ngModel">
                                         <option value="" disabled selected hidden>Bug's State</option>
                                         <option [ngValue]="2">Active</option>
                                         <option [ngValue]="1">Fixed</option>
@@ -353,7 +351,7 @@
                                     <button
                                       type="submit"
                                       class="btn btn-primary my-4"
-                                      *ngIf="!error && !successAssignment"
+                                      *ngIf="!error && !assingmentsTable.successAssignment"
                                       [disabled]="!createAssignmentForm.valid && !error">
                                       Add Assignment to {{project.name}}
                                     </button>
@@ -363,18 +361,13 @@
                                       data-dismiss="modal"
                                       aria-label="Close"
                                       (click)="d('Cross click')"
-                                      *ngIf="successAssignment || error">
+                                      *ngIf="assingmentsTable.successAssignment || error">
                                       <span aria-hidden="true">×</span>
                                     </button>
                                   </div>
                                   <div class="text-center">
                                     <div class="alert alert-danger" role="alert" *ngIf="error">
                                       {{error}}
-                                    </div>
-                                  </div>
-                                  <div class="text-center">
-                                    <div class="alert alert-success" role="alert" *ngIf="successAssignment">
-                                      {{successAssignment}}
                                     </div>
                                   </div>
                                 </form>
@@ -447,7 +440,7 @@
                 </div>
               </th>
               <td>
-                {{ parseRole(user.role) }}
+                {{ parseRoleForUserTable(user.role) }}
               </td>
               <td>
                 ${{ user.hourlyRate }}

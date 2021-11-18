@@ -9,6 +9,7 @@ import { UsersService } from '../../register/users.service';
 import { ProjectModel } from 'src/app/models/projectModel';
 import { EditProjectService } from '../../projects/project-edit/project-edit.service';
 import {ErrorHandler} from '../../../utils/errorHandler';
+import {BugsService} from '../bugs.service';
 
 @Component({
   selector: 'app-bug',
@@ -24,7 +25,9 @@ export class BugEditComponent implements OnInit {
   isFetching = false;
   loadedProjects: ProjectModel[] = [];
   selectedProjectName: string = null;
-  constructor(private router: Router, private http: HttpClient, private editService: EditProjectService, private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal, private userService: UsersService) {
+  constructor(private router: Router, private http: HttpClient, private editService: EditProjectService,
+              private bugService: BugEditService, private route: ActivatedRoute, private modalService: NgbModal,
+              private userService: UsersService, private bugDeleteService: BugsService) {
   }
 
   ngOnInit() {
@@ -50,7 +53,7 @@ export class BugEditComponent implements OnInit {
 
   onDeleteBug( bugId: number) {
     this.modalService.dismissAll();
-    this.editService.deleteBug(bugId).subscribe({
+    this.bugDeleteService.deleteBug(bugId).subscribe({
       next: () => {
         this.error = null;
         this.modalService.dismissAll();

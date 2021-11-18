@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {ProjectModel} from '../../models/projectModel';
 import {environment} from '../../../environments/environment';
 import {BugModel} from '../../models/bugModel';
 import {BugCriteriaModel} from '../../models/bugCriteriaModel';
