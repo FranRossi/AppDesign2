@@ -26,7 +26,7 @@ namespace BugReaderImporter
             if (provider == null)
                 try
                 {
-                    string fullPath = _pathToFolder + name + ".dll";
+                    string fullPath = _pathToFolder + "\\" + name + ".dll";
                     FileInfo dllFile = new FileInfo(fullPath);
                     Assembly assembly = Assembly.LoadFile(dllFile.FullName);
                     foreach (Type type in assembly.GetTypes())

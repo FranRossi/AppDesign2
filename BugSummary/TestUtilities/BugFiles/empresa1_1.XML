@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Empresa1>
-   <Proyecto>Sprint 1</Proyecto>
+   <Proyecto>Nombre del Proyecto</Proyecto>
    <Bugs>
       <Bug>
          <Id>1</Id>
