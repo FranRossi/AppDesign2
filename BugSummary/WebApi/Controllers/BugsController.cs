@@ -60,7 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer })]
+        [AuthorizationWithParameterFilter(new[] { RoleType.Tester, RoleType.Developer , RoleType.Admin})]
         public IActionResult GetAllFiltered([FromHeader] string token, [FromQuery] BugSearchCriteria criteria)
         {
             var bugs = _bugs.GetAllFiltered(token, criteria);
